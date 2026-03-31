@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from aggregator.config import settings
 from aggregator.database import AsyncSessionLocal
 from aggregator.ingestion.base import RawItem
 from aggregator.ingestion.rss import PodcastAdapter, RSSAdapter
@@ -35,6 +36,7 @@ async def ingest_source(source_id: int) -> None:
             return
 
         try:
+            settings.validate_for_source_types({source.source_type.value})
             adapter = adapter_cls({"url": source.url, **source.config})
             raw_items: list[RawItem] = await adapter.fetch()
         except Exception as e:
