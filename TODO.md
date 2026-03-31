@@ -4,7 +4,7 @@
 > This file is a synced summary. Update it alongside any issue changes.
 
 ## In Progress
-_Nothing in progress._
+- [ ] #5 — Build content aggregator app (v1)
 
 ## Open
 - [ ] #2 — Set up project structure
