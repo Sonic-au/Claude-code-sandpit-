@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Content Aggregator{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="filters">
+  <form method="get" action="/" style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+    <select name="topic_id" onchange="this.form.submit()">
+      <option value="">All topics</option>
+      {% for t in topics %}
+        <option value="{{ t.id }}" {% if selected_topic == t.id %}selected{% endif %}>{{ t.name }}</option>
+      {% endfor %}
+    </select>
+    <select name="status" onchange="this.form.submit()">
+      <option value="">All statuses</option>
+      <option value="pending" {% if selected_status == "pending" %}selected{% endif %}>Pending</option>
+      <option value="approved" {% if selected_status == "approved" %}selected{% endif %}>Approved</option>
+      <option value="rejected" {% if selected_status == "rejected" %}selected{% endif %}>Rejected</option>
+    </select>
+    <input type="number" name="min_score" placeholder="Min score (0–1)" step="0.1" min="0" max="1"
+           value="{{ min_score or '' }}" style="width:160px;" onchange="this.form.submit()">
+  </form>
+  <a href="/api/v1/items/export/csv?status=approved" class="btn btn-primary btn-sm">Export CSV</a>
+  <a href="/api/v1/items/export/json?status=approved" class="btn btn-primary btn-sm">Export JSON</a>
+</div>
+
+{% if items %}
+<div>
+  {% for item in items %}
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;">
+      <div style="flex:1;">
+        <a href="{{ item.url }}" target="_blank" style="font-weight:600;color:#1a1a2e;text-decoration:none;">
+          {{ item.title }}
+        </a>
+        <div style="font-size:0.8rem;color:#6b7280;margin-top:0.25rem;">
+          {{ item.source_name }} &middot; {{ item.item_type }}
+          {% if item.author %} &middot; {{ item.author }}{% endif %}
+          {% if item.published_at %} &middot; {{ item.published_at.strftime("%b %d, %Y") }}{% endif %}
+        </div>
+        {% for score in item.scores %}
+        <div style="margin-top:0.5rem;font-size:0.82rem;color:#374151;">
+          <strong>{{ score.topic_name }}</strong>
+          <span class="score-bar" style="width:{{ (score.relevance_score * 60)|int }}px;margin:0 0.4rem;"></span>
+          {{ "%.2f"|format(score.relevance_score) }}
+          {% if score.is_high_quality %}<span class="badge badge-trusted" style="margin-left:0.3rem;">HQ</span>{% endif %}
+          <div style="color:#6b7280;margin-top:0.2rem;">{{ score.summary }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.4rem;min-width:120px;align-items:flex-end;">
+        <span class="badge badge-{{ item.curation_status }}">{{ item.curation_status }}</span>
+        {% if item.curation_status != "approved" %}
+        <form class="inline" method="post" action="/items/{{ item.id }}/curate">
+          <input type="hidden" name="status" value="approved">
+          <button class="btn btn-success btn-sm" type="submit">Approve</button>
+        </form>
+        {% endif %}
+        {% if item.curation_status != "rejected" %}
+        <form class="inline" method="post" action="/items/{{ item.id }}/curate">
+          <input type="hidden" name="status" value="rejected">
+          <button class="btn btn-danger btn-sm" type="submit">Reject</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="empty">No items found. Add some sources to get started.</p>
+{% endif %}
+{% endblock %}
