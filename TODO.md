@@ -7,6 +7,7 @@
 - [ ] #5 — Build content aggregator app (v1)
 
 ## Open
+- [ ] #6 — AWS deployment: ECS/Fargate + RDS + Secrets Manager _(GitHub issue pending auth)_
 - [ ] #2 — Set up project structure
 - [ ] #3 — Define agent workflows
 - [ ] #4 — Add tool integration guides
