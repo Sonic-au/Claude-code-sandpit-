@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domain Finder — AI Startup Names</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f5f5f5; color: #222; }
+
+    header { background: #1a1a2e; color: white; padding: 1.25rem 1.5rem; }
+    header h1 { font-size: 1.3rem; font-weight: 700; }
+    header p { font-size: 0.85rem; color: #9ca3af; margin-top: 0.2rem; }
+
+    .container { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+
+    .card { background: white; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+    label { display: block; font-size: 0.82rem; font-weight: 600; color: #374151; margin-bottom: 0.35rem; }
+    textarea, input[type=text] {
+      width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #d1d5db;
+      border-radius: 6px; font-size: 0.9rem; font-family: inherit;
+      resize: vertical;
+    }
+    textarea:focus, input[type=text]:focus { outline: none; border-color: #4f46e5; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.4rem; border: none; border-radius: 6px;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer;
+      background: #4f46e5; color: white; margin-top: 1rem;
+      transition: background 0.15s;
+    }
+    .btn:hover { background: #4338ca; }
+    .btn:disabled { background: #a5b4fc; cursor: not-allowed; }
+
+    .spinner {
+      display: none; width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.4); border-top-color: white;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Results */
+    .results-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem;
+    }
+    .results-header h2 { font-size: 1.1rem; }
+    .legend { display: flex; gap: 1rem; font-size: 0.78rem; color: #6b7280; }
+    .legend span { display: flex; align-items: center; gap: 0.3rem; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    th { background: #f9fafb; font-weight: 600; color: #6b7280; text-align: left; padding: 0.6rem 0.75rem; border-bottom: 2px solid #e5e7eb; }
+    td { padding: 0.65rem 0.75rem; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+    tr:hover td { background: #fafafa; }
+    tr.has-available td { background: #f0fdf4; }
+    tr.has-available:hover td { background: #dcfce7; }
+
+    .name { font-weight: 700; font-size: 1rem; color: #1a1a2e; letter-spacing: -0.02em; }
+    .meta { font-size: 0.76rem; color: #9ca3af; margin-top: 0.15rem; }
+    .verb { font-style: italic; color: #6b7280; }
+    .origin { color: #9ca3af; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.25rem 0.55rem; border-radius: 5px;
+      font-size: 0.75rem; font-weight: 600; white-space: nowrap;
+      text-decoration: none;
+    }
+    .badge-available { background: #dcfce7; color: #15803d; }
+    .badge-available:hover { background: #bbf7d0; }
+    .badge-taken { background: #fee2e2; color: #dc2626; cursor: default; }
+    .badge-unknown { background: #f3f4f6; color: #9ca3af; cursor: default; }
+
+    .tld-cell { display: flex; flex-direction: column; gap: 0.3rem; min-width: 160px; }
+    .reg-links { display: flex; gap: 0.3rem; margin-top: 0.15rem; }
+    .reg-link { font-size: 0.7rem; color: #4f46e5; text-decoration: none; }
+    .reg-link:hover { text-decoration: underline; }
+
+    .score-dot {
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      background: #4f46e5; margin-right: 0.2rem; vertical-align: middle;
+    }
+
+    .empty { color: #9ca3af; font-style: italic; padding: 1.5rem 0; text-align: center; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Domain Finder</h1>
+  <p>AI-powered domain name generator &amp; availability checker for startups</p>
+</header>
+
+<div class="container">
+
+  <!-- Input form -->
+  <div class="card">
+    <form method="post" action="/check" id="checkForm">
+      <div>
+        <label for="description">Describe your startup <span style="color:#9ca3af;font-weight:400">(the more detail, the better the names)</span></label>
+        <textarea id="description" name="description" rows="3" required
+          placeholder="e.g. Collects information about topics like AI agents and shares the corpus as a daily briefing, podcast, newsletter, or interactive chatbot"
+        >{{ description or "" }}</textarea>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="seeds">Seed name ideas <span style="color:#9ca3af;font-weight:400">(optional — comma separated)</span></label>
+          <input type="text" id="seeds" name="seeds"
+            placeholder="e.g. hive, pulse, brief, mimir"
+            value="{{ seeds or "" }}">
+        </div>
+        <div style="display:flex;align-items:flex-end;">
+          <button type="submit" class="btn" id="submitBtn">
+            <span class="spinner" id="spinner"></span>
+            <span id="btnText">Generate &amp; Check Availability</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Results -->
+  {% if results is defined %}
+  <div class="card" style="padding: 0 0 1rem 0; overflow: hidden;">
+    <div style="padding: 1rem 1.5rem 0.75rem;">
+      <div class="results-header">
+        <h2>{{ results | length }} names generated</h2>
+        <div class="legend">
+          <span><span style="width:10px;height:10px;border-radius:50%;background:#dcfce7;border:1px solid #86efac;display:inline-block;"></span> Available</span>
+          <span><span style="width:10px;height:10px;border-radius:50%;background:#fee2e2;border:1px solid #fca5a5;display:inline-block;"></span> Taken</span>
+          <span><span style="width:10px;height:10px;border-radius:50%;background:#f3f4f6;border:1px solid #e5e7eb;display:inline-block;"></span> Unknown</span>
+        </div>
+      </div>
+    </div>
+
+    {% if results %}
+    <table>
+      <thead>
+        <tr>
+          <th style="width:220px;">Name</th>
+          <th>.ai</th>
+          <th>.io</th>
+          <th>.co</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in results %}
+        <tr class="{{ 'has-available' if r.has_available else '' }}">
+          <td>
+            <div class="name">{{ r.name }}.ai</div>
+            <div class="meta">
+              {% if r.verb %}<div class="verb">"{{ r.verb }}"</div>{% endif %}
+              {% if r.origin %}<div class="origin">{{ r.origin }}</div>{% endif %}
+              {% if r.reasoning %}<div style="margin-top:0.2rem;font-size:0.75rem;color:#6b7280;max-width:220px;">{{ r.reasoning }}</div>{% endif %}
+            </div>
+          </td>
+          {% for tld in tld_list %}
+          {% set info = r.tlds.get(tld, {}) %}
+          {% set status = info.get("status", "unknown") %}
+          <td>
+            <div class="tld-cell">
+              {% if status == "available" %}
+                <a href="{{ info.godaddy }}" target="_blank" class="badge badge-available">✓ Available</a>
+                <div class="reg-links">
+                  <a href="{{ info.godaddy }}" target="_blank" class="reg-link">GoDaddy</a>
+                  <span style="color:#d1d5db;">·</span>
+                  <a href="{{ info.namecheap }}" target="_blank" class="reg-link">Namecheap</a>
+                </div>
+              {% elif status == "taken" %}
+                <span class="badge badge-taken">✗ Taken</span>
+              {% else %}
+                <span class="badge badge-unknown">? Unknown</span>
+              {% endif %}
+            </div>
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="empty">No names generated. Check your API key and try again.</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</div>
+
+<script>
+  document.getElementById("checkForm").addEventListener("submit", function() {
+    const btn = document.getElementById("submitBtn");
+    const spinner = document.getElementById("spinner");
+    const txt = document.getElementById("btnText");
+    btn.disabled = true;
+    spinner.style.display = "block";
+    txt.textContent = "Generating names & checking availability…";
+  });
+</script>
+
+</body>
+</html>
