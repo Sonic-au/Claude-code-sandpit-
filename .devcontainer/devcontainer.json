@@ -1,0 +1,32 @@
+{
+  "name": "Domain Finder",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11-bullseye",
+
+  "remoteEnv": {
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
+  },
+
+  "postCreateCommand": "pip install -e /workspaces/claude-code-sandpit-/domain-finder --quiet",
+
+  "postStartCommand": "bash /workspaces/claude-code-sandpit-/.devcontainer/start-server.sh",
+
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "Domain Finder",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
+      }
+    }
+  }
+}
