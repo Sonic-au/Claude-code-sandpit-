@@ -37,12 +37,16 @@ async def check(
     for name in names:
         tlds = availability.get(name, {})
         has_available = any(v["status"] == "available" for v in tlds.values())
+        m = meta.get(name, {})
         results.append({
             "name": name,
-            "verb": meta.get(name, {}).get("verb", ""),
-            "reasoning": meta.get(name, {}).get("reasoning", ""),
-            "origin": meta.get(name, {}).get("origin", ""),
-            "score": meta.get(name, {}).get("score", 0),
+            "tagline": m.get("tagline", ""),
+            "story": m.get("story", ""),
+            "technique": m.get("technique", ""),
+            "phonetics": m.get("phonetics", ""),
+            "verb": m.get("verb", ""),
+            "origin": m.get("origin", ""),
+            "score": m.get("score", 0),
             "tlds": tlds,
             "has_available": has_available,
         })
