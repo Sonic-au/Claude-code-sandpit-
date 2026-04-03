@@ -3,7 +3,8 @@
   "image": "mcr.microsoft.com/devcontainers/python:3.11-bullseye",
 
   "remoteEnv": {
-    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}",
+    "APP_PASSWORD": "${localEnv:APP_PASSWORD}"
   },
 
   "postCreateCommand": "pip install -e /workspaces/claude-code-sandpit-/domain-finder --quiet",
