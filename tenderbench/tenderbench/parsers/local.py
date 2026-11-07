@@ -164,34 +164,68 @@ class LiteParseMarkdown(LiteParse):
 
 
 class MinerU(Parser):
-    """OpenDataLab MinerU (pipeline backend). Best pipeline tool in OmniDocBench."""
+    """OpenDataLab MinerU, run locally (never `--remote`). Best pipeline tool in OmniDocBench.
+
+    Uses the `mineru-kit parse` CLI (MinerU 3.x) with middle-JSON output, converted per page.
+    Set MINERU_BIN to the mineru-kit binary if it lives in another virtualenv.
+    """
     name = "mineru"
     licence = "AGPL-3.0"
-    notes = "Layout (DocLayout-YOLO), formula and table models; CPU works but is slow."
+    notes = "Layout + OCR + table models (ONNX on CPU); local mode only."
+
+    def __init__(self, tier: str = "basic"):
+        self.tier = tier
+        self.binary = os.environ.get("MINERU_BIN") or which("mineru-kit")
 
     def available(self):
-        return (True, "") if which("mineru") else (False, "pip install -U 'mineru[core]' (then models download on first run)")
+        return (True, "") if self.binary else (False, "pip install -U 'mineru[core]' and set MINERU_BIN to mineru-kit")
 
     def _parse(self, pdf, n_pages):
+        env = {**os.environ, "MINERU_MODEL_SOURCE": os.environ.get("MINERU_MODEL_SOURCE", "huggingface"),
+               "HF_HUB_DISABLE_XET": "1"}
         with tempfile.TemporaryDirectory() as td:
-            subprocess.run(["mineru", "-p", str(pdf), "-o", td, "-b", "pipeline"], check=True,
-                           capture_output=True, timeout=7200)
-            cl = next(Path(td).rglob("*_content_list.json"))
-            items = json.loads(cl.read_text())
-        pages = [[] for _ in range(n_pages)]
-        for it in items:
-            idx = it.get("page_idx", 0)
-            if idx >= n_pages:
-                continue
-            t = it.get("type")
-            if t == "table":
-                pages[idx].append(it.get("table_body", ""))
-            elif t == "text":
-                lvl = it.get("text_level")
-                pages[idx].append(("#" * lvl + " " if lvl else "") + it.get("text", ""))
-            elif t == "equation":
-                pages[idx].append(it.get("text", ""))
-        return ["\n\n".join(p) for p in pages]
+            subprocess.run([self.binary, "parse", str(pdf), "-o", td, "-f", "middle_json", "--tier", self.tier],
+                           check=True, capture_output=True, timeout=7200, env=env)
+            data = json.loads(next(Path(td).rglob("*.json")).read_text())
+        pages = [""] * n_pages
+        for pg in data.get("pages", []):
+            i = pg.get("page_idx", 0)
+            if 0 <= i < n_pages:
+                pages[i] = _mineru_page_md(pg.get("blocks", []))
+        return pages
+
+
+_MINERU_SKIP = {"header", "footer", "page_number", "page_footnote", "image", "image_body", "discarded"}
+
+
+def _mineru_text(content) -> str:
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        return "".join(_mineru_text(c.get("content", "")) if isinstance(c, dict) else str(c) for c in content)
+    return ""
+
+
+def _mineru_page_md(blocks: list[dict]) -> str:
+    parts = []
+    for b in blocks:
+        t = b.get("type", "")
+        if t in _MINERU_SKIP:
+            continue
+        if t == "table":
+            for c in b.get("content", []):
+                if isinstance(c, dict) and c.get("type") == "table_body":
+                    parts.append(_mineru_text(c.get("content", "")))
+                elif isinstance(c, dict) and c.get("type") in ("table_caption", "table_footnote"):
+                    parts.append(_mineru_text(c.get("content", "")))
+        elif t in ("title", "doc_title", "paragraph_title"):
+            parts.append("#" * min(6, int(b.get("level", 1) or 1)) + " " + _mineru_text(b.get("content", "")))
+        elif t == "list":
+            for c in b.get("content", []):
+                parts.append("- " + _mineru_text(c.get("content", "") if isinstance(c, dict) else c))
+        else:
+            parts.append(_mineru_text(b.get("content", "")))
+    return "\n\n".join(p for p in parts if p and p.strip())
 
 
 class Marker(Parser):
