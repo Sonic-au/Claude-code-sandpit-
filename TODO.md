@@ -5,9 +5,10 @@
 
 ## In Progress
 - [ ] #5 — Build content aggregator app (v1)
+- [ ] #6 — TenderBench: evaluation harness for tender and technical document extraction
 
 ## Open
-- [ ] #6 — AWS deployment: ECS/Fargate + RDS + Secrets Manager _(GitHub issue pending auth)_
+- [ ] AWS deployment: ECS/Fargate + RDS + Secrets Manager _(GitHub issue not yet created; the #6 placeholder number is now used by TenderBench)_
 - [ ] #2 — Set up project structure
 - [ ] #3 — Define agent workflows
 - [ ] #4 — Add tool integration guides
