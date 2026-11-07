@@ -1,0 +1,17 @@
+# Install CPU PyTorch first: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+docling>=2.148
+pymupdf4llm>=2.1
+pypdf>=6.0
+pypdfium2>=5.0
+img2pdf
+numpy
+pillow
+pyyaml
+lxml
+apted>=1.0.3
+rapidfuzz>=3.0
+rank_bm25
+sentence-transformers
+fonttools
+pytest
+# Optional: anthropic[bedrock] (Claude on Bedrock Sydney), mineru[core], marker-pdf, unstructured[pdf]
