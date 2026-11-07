@@ -77,7 +77,9 @@ def validate(doc_id: str) -> list[str]:
     for q in _jsonl(gdir / "requirements.jsonl"):
         if q.get("obligation") not in OBL:
             errs.append(f"{doc_id} {q['id']}: bad obligation {q.get('obligation')}")
-        hay = content_text(layer.get(q["page"], ""))
+        # A requirement may start on its page and run onto the next one.
+        nxt = pm[pm.index(q["page"]) + 1] if q["page"] in pm and pm.index(q["page"]) + 1 < len(pm) else None
+        hay = content_text(layer.get(q["page"], "") + " " + (layer.get(nxt, "") if nxt else ""))
         if fuzz.partial_ratio(norm_text(q["text"]), hay) < 88:
             errs.append(f"{doc_id} {q['id']}: requirement text not found on p{q['page']}")
 
