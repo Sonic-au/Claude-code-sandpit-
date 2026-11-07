@@ -20,6 +20,11 @@ def _fmt(x, pct=True, nd=1):
     return f"{x * 100:.{nd}f}" if pct else f"{x:.{nd}f}"
 
 
+def _md(name: str) -> str:
+    """Escape characters that would break a Markdown table cell."""
+    return name.replace("|", "\\|")
+
+
 def summarise(rows: list[dict]) -> dict:
     by_parser = defaultdict(list)
     for r in rows:
@@ -74,7 +79,7 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None) 
     for p in order:
         r = s[p]
         res, lic = meta.get(p, ("?", "?"))
-        L.append(f"| {p} | **{_fmt(r['overall'])}** | {_fmt(r['text_similarity'])} | {_fmt(r['teds'])} | "
+        L.append(f"| {_md(p)} | **{_fmt(r['overall'])}** | {_fmt(r['text_similarity'])} | {_fmt(r['teds'])} | "
                  f"{_fmt(r['teds_struct'])} | {_fmt(r['rules'])} | {_fmt(r['req_f1'])} | {_fmt(r['req_recall_mand'])} | "
                  f"{_fmt(r['recall5'])} | {_fmt(r['scan_text_similarity'])} | {_fmt(r['scan_rules'])} | "
                  f"{_fmt(r['sec_per_page'], pct=False, nd=2)} | {res} | {lic} |")
@@ -94,7 +99,7 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None) 
         a, b, c, d = r.get("A", {}), r.get("B") or {}, (r.get("C") or {}).get("rules_baseline", {}), r.get("D") or {}
         rec = " / ".join(_fmt(d.get(k, {}).get("recall@5")) for k in ("bm25", "dense", "hybrid", "hybrid-ctx"))
         amf = c.get("all_mandatory_found")
-        L.append(f"| {r['doc']} | {r['parser']} | {_fmt(a.get('text_similarity'))} | {_fmt(a.get('teds'))} | "
+        L.append(f"| {r['doc']} | {_md(r['parser'])} | {_fmt(a.get('text_similarity'))} | {_fmt(a.get('teds'))} | "
                  f"{_fmt(b.get('pass_rate'))} | {_fmt(c.get('f1'))} | {_fmt(c.get('recall_mandatory'))} | "
                  f"{'-' if amf is None else ('yes' if amf else 'no')} | {rec} |")
     L.append("")
@@ -112,12 +117,12 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None) 
         L.append("| Parser | " + " | ".join(allc) + " |")
         L.append("|---|" + "---|" * len(allc))
         for p in order:
-            L.append(f"| {p} | " + " | ".join(_fmt(_mean(cats[p].get(k, []))) for k in allc) + " |")
+            L.append(f"| {_md(p)} | " + " | ".join(_fmt(_mean(cats[p].get(k, []))) for k in allc) + " |")
         L.append("")
     errs = [(p, e) for p in order for e in s[p]["errors"]]
     if errs:
         L.append("## Errors")
         L.append("")
         for p, e in errs:
-            L.append(f"- {p}: {e}")
+            L.append(f"- {_md(p)}: {e}")
     (out_dir / "report.md").write_text("\n".join(L) + "\n")

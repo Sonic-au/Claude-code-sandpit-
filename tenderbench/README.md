@@ -102,6 +102,31 @@ export TB_LLM_PROVIDER=openai TB_LLM_BASE_URL=http://localhost:8000/v1 TB_LLM_MO
 `huggingface.co` plus its CDN. LiteParse OCR fetches Tesseract data from GitHub unless `LITEPARSE_CONFIG` points at
 a JSON file with `{"tessdataPath": "<dir with eng.traineddata>"}`.
 
+## First results (7 Nov 2026, local parsers, CPU only)
+
+Full tables: [`results/2026-11-07-local/report.md`](results/2026-11-07-local/report.md).
+
+| Parser | Overall | Table TEDS | Rule tests | Scan text | s/page | Licence |
+|---|---|---|---|---|---|---|
+| MinerU | **85.2** | 80.2 | 95.5 | 99.2 | 2.8 | AGPL-3.0 |
+| Docling | 80.6 | 62.4 | 90.7 | 95.8 | 4.7 | MIT |
+| PyMuPDF4LLM | 78.2 | 53.7 | 90.6 | 84.9 | 1.7 | AGPL-3.0 |
+| LiteParse (Markdown) | 71.7 | 43.4 | 71.1 | 80.3 | 1.1 | Apache-2.0 |
+| pypdf text layer | 60.7 | 0.0 | 57.4 | 0.0 | 0.04 | BSD |
+
+- **Tables decide the ranking.** Text similarity is 94-98% for every layout-aware parser; table structure ranges from
+  43% to 80% TEDS. MinerU kept merged cells best; Docling merged rows on the Docling paper's own multi-row table (35%).
+- **Scans are handled well by MinerU and Docling** (95-99% text similarity on the simulated scan); LiteParse's
+  Tesseract OCR lost most of the form structure (38% of rule tests).
+- **Requirement extraction is limited by the extractor, not the parser.** The rule-based extractor finds 45-48% of
+  mandatory requirements whichever parser feeds it, and no parser/extractor pair found *all* mandatory requirements
+  in any tender. The LLM extractor (not run here: no LLM configured) is the step to test next.
+- **Retrieval is near ceiling** on this small question set (92-95% recall@5 for every parser), so it does not separate
+  parsers yet; it needs harder, cross-document questions.
+- The router (Docling for digital pages, full-page OCR for image-only pages) matched plain Docling, because Docling
+  already OCRs image pages. Evidence so far favours MinerU as the primary parser if its AGPL licence is acceptable,
+  with Docling as the MIT-licensed alternative.
+
 ## Adding your own (private) tenders
 
 1. Add an entry to `corpus/manifest.yaml` (a `file://` URL is not supported; copy the PDF to `data/source/<id>.pdf`

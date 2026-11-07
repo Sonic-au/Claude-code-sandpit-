@@ -1,5 +1,4 @@
 data/
-results/*/scores.json
 __pycache__/
 *.pyc
 .venv/
