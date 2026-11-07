@@ -13,6 +13,7 @@ from .normalize import markdown_to_text
 
 DENSE_MODEL = "BAAI/bge-small-en-v1.5"
 _dense_cache: dict = {}
+_emb_cache: dict = {}
 
 
 @dataclass
@@ -66,7 +67,10 @@ def _rank_dense(query: str, texts: list[str]) -> list[int]:
         _dense_cache[DENSE_MODEL] = SentenceTransformer(DENSE_MODEL, device="cpu")
     model = _dense_cache[DENSE_MODEL]
     q = model.encode(["Represent this sentence for searching relevant passages: " + query], normalize_embeddings=True)
-    d = model.encode(texts, normalize_embeddings=True, batch_size=32)
+    key = hash(tuple(texts))          # chunk embeddings are reused across a document's questions
+    if key not in _emb_cache:
+        _emb_cache[key] = model.encode(texts, normalize_embeddings=True, batch_size=32)
+    d = _emb_cache[key]
     scores = (d @ q.T).ravel()
     return sorted(range(len(texts)), key=lambda i: -scores[i])
 

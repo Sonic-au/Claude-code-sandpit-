@@ -52,10 +52,18 @@ def classify(sentence: str) -> str:
 def extract_rules(pages: list[str], page_map: list[int]) -> list[dict]:
     """Baseline: every sentence/list item with an obligation cue that is not a buyer statement."""
     out = []
+    lead = None   # obligation inherited from a lead-in such as "The Respondent must:"
     for md, page in zip(pages, page_map):
         for u in _units(md):
+            is_item = bool(re.match(r"^\(?([a-z]{1,3}|[ivx]+|\d{1,2})[.)]\s", u, re.I))
+            if lead and is_item and not BUYER.search(u):
+                out.append({"page": page, "text": u, "obligation": classify(u) if CUES.search(u) else lead})
+                continue
+            lead = None
             if not CUES.search(u) or BUYER.search(u):
                 continue
+            if u.rstrip().endswith((":", ":-", "-")) or re.search(r"\b(following|as follows)\b", u, re.I):
+                lead = classify(u)
             out.append({"page": page, "text": u, "obligation": classify(u)})
     return out
 
