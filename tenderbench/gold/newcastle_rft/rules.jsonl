@@ -1,0 +1,25 @@
+{"id": "new-b01", "type": "present", "page": 7, "category": "clause", "text": "If the Tenderer is a Trust or a Trustee of a Trust, then a full copy of the trust deed must be submitted with the tender"}
+{"id": "new-b02", "type": "present", "page": 8, "category": "clause", "text": "A Tenderer shall not directly or indirectly, discuss the tender with an elected member of Council, or canvass support from an employee of Council, at any time"}
+{"id": "new-b03", "type": "present", "page": 9, "category": "clause", "text": "Once submitted, a tender may only be varied to provide further information by way of explanation or clarification or to correct a mistake or anomaly"}
+{"id": "new-b04", "type": "present", "page": 3, "category": "clause", "text": "Responsibility for lodgement of completed tender documents by the deadline lies solely with the Tenderer"}
+{"id": "new-b05", "type": "present", "page": 167, "category": "clause", "text": "The policy shall contain a cross liability clause and a “principal’s clause” and shall have a limit of indemnity of not less than the amount indicated"}
+{"id": "new-b06", "type": "present", "page": 3, "category": "number", "text": "by the deadline, 2pm on Tuesday 31 March 2026"}
+{"id": "new-b07", "type": "present", "page": 7, "category": "number", "text": "60 business days from the Closing Date"}
+{"id": "new-b08", "type": "present", "page": 167, "category": "number", "text": "Death and capital benefits of at least $250,000; and"}
+{"id": "new-b09", "type": "present", "page": 168, "category": "number", "text": "an amount not less than $5,000,000 for any one occurrence"}
+{"id": "new-b10", "type": "present", "page": 9, "category": "number", "text": "For a tender with an estimated value of over $150,000, tenderers are strongly advised to read Part 7"}
+{"id": "new-b11", "type": "table_value", "page": 163, "category": "table", "row": "Additional screw piling (Tarro)", "col": "AMOUNT $", "value": "$/m"}
+{"id": "new-b12", "type": "table_value", "page": 163, "category": "table", "row": "Excavation and Disposal of GSW (Quantity measured in-situ)", "col": "AMOUNT $", "value": "$/m3"}
+{"id": "new-b13", "type": "table_value", "page": 163, "category": "table", "row": "450x450mm", "col": "AMOUNT $", "value": "$/1No."}
+{"id": "new-b14", "type": "table_value", "page": 163, "category": "table", "row": "TOTAL PRICE (inc. GST):", "col": "AMOUNT $", "value": "$"}
+{"id": "new-b15", "type": "order", "page": 159, "category": "form", "before": "Tenderer (full trading name)", "after": "Contact Person"}
+{"id": "new-b16", "type": "present", "page": 170, "category": "form", "text": "Reporting to: Years of relevant experience: Proposed Role in Tender Project:"}
+{"id": "new-b17", "type": "present", "page": 159, "category": "form", "text": "Signature of Authorised Officer of Tenderer who has delegated authority to enter into a contract"}
+{"id": "new-b18", "type": "order", "page": 7, "category": "order", "before": "(a) all parts of this tender document", "after": "(b) all information made available and/or all information obtainable"}
+{"id": "new-b19", "type": "order", "page": 7, "category": "order", "before": "neglect to have examined", "after": "The lodgement of a tender in accordance with these"}
+{"id": "new-b20", "type": "order", "page": 167, "category": "order", "before": "PUBLIC LIABILITY INSURANCE", "after": "MOTOR VEHICLE INSURANCE"}
+{"id": "new-b21", "type": "heading", "page": 7, "category": "heading", "text": "CONDITIONS OF TENDERING"}
+{"id": "new-b22", "type": "heading", "page": 7, "category": "heading", "text": "6. ACKNOWLEDGMENT BY TENDERER"}
+{"id": "new-b23", "type": "heading", "page": 167, "category": "heading", "text": "PUBLIC LIABILITY INSURANCE"}
+{"id": "new-b24", "type": "absent", "page": 8, "category": "header", "text": "Conditions of Tendering (Edition 6; April 2020)"}
+{"id": "new-b25", "type": "absent", "page": 9, "category": "header", "text": "Conditions of Tendering (Edition 6; April 2020)"}

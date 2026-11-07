@@ -79,8 +79,16 @@ def validate(doc_id: str) -> list[str]:
             errs.append(f"{doc_id} {q['id']}: bad obligation {q.get('obligation')}")
         # A requirement may start on its page and run onto the next one.
         nxt = pm[pm.index(q["page"]) + 1] if q["page"] in pm and pm.index(q["page"]) + 1 < len(pm) else None
-        hay = content_text(layer.get(q["page"], "") + " " + (layer.get(nxt, "") if nxt else ""))
-        if fuzz.partial_ratio(norm_text(q["text"]), hay) < 88:
+        here, there = content_text(layer.get(q["page"], "")), content_text(layer.get(nxt, "") if nxt else "")
+        t = norm_text(q["text"])
+        on_page = fuzz.partial_ratio(t, here) >= 88
+        # Running headers/footers interrupt a sentence that crosses the page break, so check the halves.
+        spans = False
+        if there and not on_page:
+            cuts = [i for i, ch in enumerate(t) if ch == " "]
+            spans = any(fuzz.partial_ratio(t[:c], here) >= 88 and fuzz.partial_ratio(t[c + 1:], there) >= 88
+                        for c in cuts)
+        if not (on_page or spans):
             errs.append(f"{doc_id} {q['id']}: requirement text not found on p{q['page']}")
 
     for q in _jsonl(gdir / "questions.jsonl"):
