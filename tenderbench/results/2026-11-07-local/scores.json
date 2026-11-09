@@ -2,6 +2,7 @@
  {
   "doc": "newcastle_rft",
   "kind": "tender",
+  "category": "",
   "parser": "pypdf-text",
   "error": null,
   "seconds": 0.620714223999812,
@@ -52,6 +53,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 118,
     "n_pred": 102,
@@ -59,6 +61,9 @@
     "precision": 0.6666666666666666,
     "recall": 0.576271186440678,
     "f1": 0.6181818181818182,
+    "recall_critical": 0.5365853658536586,
+    "all_critical_found": false,
+    "label_accuracy": 0.7647058823529411,
     "recall_mandatory": 0.5365853658536586,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.7647058823529411,
@@ -138,11 +143,13 @@
     "mrr": 0.7864583333333334,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_rft",
   "kind": "tender",
+  "category": "",
   "parser": "pypdf-text",
   "error": null,
   "seconds": 0.5350860280000234,
@@ -194,6 +201,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 112,
     "n_pred": 77,
@@ -201,6 +209,9 @@
     "precision": 0.6883116883116883,
     "recall": 0.4732142857142857,
     "f1": 0.5608465608465608,
+    "recall_critical": 0.48,
+    "all_critical_found": false,
+    "label_accuracy": 0.6226415094339622,
     "recall_mandatory": 0.48,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6226415094339622,
@@ -289,11 +300,13 @@
     "mrr": 0.7303571428571428,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "centralina_rfp",
   "kind": "tender",
+  "category": "",
   "parser": "pypdf-text",
   "error": null,
   "seconds": 1.027518758000042,
@@ -346,6 +359,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 121,
     "n_pred": 92,
@@ -353,6 +367,9 @@
     "precision": 0.6304347826086957,
     "recall": 0.4793388429752066,
     "f1": 0.5446009389671361,
+    "recall_critical": 0.3389830508474576,
+    "all_critical_found": false,
+    "label_accuracy": 0.5172413793103449,
     "recall_mandatory": 0.3389830508474576,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5172413793103449,
@@ -445,11 +462,13 @@
     "mrr": 0.9166666666666666,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "docling_report",
   "kind": "technical",
+  "category": "",
   "parser": "pypdf-text",
   "error": null,
   "seconds": 0.6391041460001361,
@@ -457,12 +476,12 @@
   "sec_per_page": 0.0710115717777929,
   "cost_usd": 0.0,
   "A": {
-   "text_similarity": 0.9877197000044552,
+   "text_similarity": 0.9877200172759394,
    "teds": 0.0,
    "teds_struct": 0.0,
    "per_page": {
     "1": 0.9684065934065934,
-    "4": 0.9980483044645035,
+    "4": 0.9980492562789564,
     "5": 0.9967042021422686
    },
    "per_table": {
@@ -510,11 +529,13 @@
     "mrr": 1.0,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "pubtabnet_paper",
   "kind": "technical",
+  "category": "",
   "parser": "pypdf-text",
   "error": null,
   "seconds": 0.2203310209999927,
@@ -577,11 +598,13 @@
     "mrr": 0.75,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_scan",
   "kind": "tender",
+  "category": "",
   "parser": "pypdf-text",
   "error": null,
   "seconds": 0.0057474990001082915,
@@ -639,6 +662,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 52,
     "n_pred": 0,
@@ -646,6 +670,9 @@
     "precision": 0.0,
     "recall": 0.0,
     "f1": 0.0,
+    "recall_critical": 0.0,
+    "all_critical_found": false,
+    "label_accuracy": null,
     "recall_mandatory": 0.0,
     "all_mandatory_found": false,
     "obligation_accuracy": null,
@@ -727,11 +754,13 @@
     "mrr": 0.0,
     "n": 4
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "newcastle_rft",
   "kind": "tender",
+  "category": "",
   "parser": "pymupdf4llm",
   "error": null,
   "seconds": 29.643004554999834,
@@ -775,6 +804,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 118,
     "n_pred": 97,
@@ -782,6 +812,9 @@
     "precision": 0.7422680412371134,
     "recall": 0.6101694915254238,
     "f1": 0.6697674418604651,
+    "recall_critical": 0.573170731707317,
+    "all_critical_found": false,
+    "label_accuracy": 0.6944444444444444,
     "recall_mandatory": 0.573170731707317,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6944444444444444,
@@ -857,11 +890,13 @@
     "mrr": 0.75,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_rft",
   "kind": "tender",
+  "category": "",
   "parser": "pymupdf4llm",
   "error": null,
   "seconds": 7.443515070999865,
@@ -869,13 +904,13 @@
   "sec_per_page": 0.43785382770587444,
   "cost_usd": 0.0,
   "A": {
-   "text_similarity": 0.9055761261336679,
+   "text_similarity": 0.905713335391981,
    "teds": 0.6368750669498062,
    "teds_struct": 0.6412136899626114,
    "per_page": {
     "3": 0.936847599164927,
     "12": 0.915954415954416,
-    "15": 0.8586744639376218,
+    "15": 0.8592233009708738,
     "16": 0.910828025477707
    },
    "per_table": {
@@ -907,6 +942,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 112,
     "n_pred": 67,
@@ -914,6 +950,9 @@
     "precision": 0.6417910447761194,
     "recall": 0.38392857142857145,
     "f1": 0.48044692737430167,
+    "recall_critical": 0.4666666666666667,
+    "all_critical_found": false,
+    "label_accuracy": 0.6744186046511628,
     "recall_mandatory": 0.4666666666666667,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6744186046511628,
@@ -994,7 +1033,7 @@
   "D": {
    "bm25": {
     "recall@5": 0.875,
-    "mrr": 0.828125,
+    "mrr": 0.765625,
     "n": 8
    },
    "dense": {
@@ -1012,11 +1051,13 @@
     "mrr": 0.828125,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "centralina_rfp",
   "kind": "tender",
+  "category": "",
   "parser": "pymupdf4llm",
   "error": null,
   "seconds": 7.353827099,
@@ -1062,6 +1103,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 121,
     "n_pred": 92,
@@ -1069,6 +1111,9 @@
     "precision": 0.6413043478260869,
     "recall": 0.48760330578512395,
     "f1": 0.5539906103286385,
+    "recall_critical": 0.3389830508474576,
+    "all_critical_found": false,
+    "label_accuracy": 0.5254237288135594,
     "recall_mandatory": 0.3389830508474576,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5254237288135594,
@@ -1160,11 +1205,13 @@
     "mrr": 0.875,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "docling_report",
   "kind": "technical",
+  "category": "",
   "parser": "pymupdf4llm",
   "error": null,
   "seconds": 17.003958308999927,
@@ -1218,11 +1265,13 @@
     "mrr": 1.0,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "pubtabnet_paper",
   "kind": "technical",
+  "category": "",
   "parser": "pymupdf4llm",
   "error": null,
   "seconds": 10.287785878000022,
@@ -1279,11 +1328,13 @@
     "mrr": 0.8,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_scan",
   "kind": "tender",
+  "category": "",
   "parser": "pymupdf4llm",
   "error": null,
   "seconds": 22.718463017999966,
@@ -1323,6 +1374,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 52,
     "n_pred": 35,
@@ -1330,6 +1382,9 @@
     "precision": 0.6285714285714286,
     "recall": 0.4230769230769231,
     "f1": 0.5057471264367815,
+    "recall_critical": 0.5714285714285714,
+    "all_critical_found": false,
+    "label_accuracy": 0.5,
     "recall_mandatory": 0.5714285714285714,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5,
@@ -1389,11 +1444,13 @@
     "mrr": 1.0,
     "n": 4
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "newcastle_rft",
   "kind": "tender",
+  "category": "",
   "parser": "liteparse",
   "error": null,
   "seconds": 9.27645534699991,
@@ -1450,6 +1507,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 118,
     "n_pred": 89,
@@ -1457,6 +1515,9 @@
     "precision": 0.5842696629213483,
     "recall": 0.4406779661016949,
     "f1": 0.5024154589371981,
+    "recall_critical": 0.4146341463414634,
+    "all_critical_found": false,
+    "label_accuracy": 0.75,
     "recall_mandatory": 0.4146341463414634,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.75,
@@ -1552,11 +1613,13 @@
     "mrr": 0.84375,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_rft",
   "kind": "tender",
+  "category": "",
   "parser": "liteparse",
   "error": null,
   "seconds": 4.114360404999843,
@@ -1610,6 +1673,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 112,
     "n_pred": 91,
@@ -1617,6 +1681,9 @@
     "precision": 0.6483516483516484,
     "recall": 0.5267857142857143,
     "f1": 0.58128078817734,
+    "recall_critical": 0.4666666666666667,
+    "all_critical_found": false,
+    "label_accuracy": 0.576271186440678,
     "recall_mandatory": 0.4666666666666667,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.576271186440678,
@@ -1699,11 +1766,13 @@
     "mrr": 0.6845238095238095,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "centralina_rfp",
   "kind": "tender",
+  "category": "",
   "parser": "liteparse",
   "error": null,
   "seconds": 4.646612468000058,
@@ -1756,6 +1825,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 121,
     "n_pred": 92,
@@ -1763,6 +1833,9 @@
     "precision": 0.6304347826086957,
     "recall": 0.4793388429752066,
     "f1": 0.5446009389671361,
+    "recall_critical": 0.3389830508474576,
+    "all_critical_found": false,
+    "label_accuracy": 0.5172413793103449,
     "recall_mandatory": 0.3389830508474576,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5172413793103449,
@@ -1855,11 +1928,13 @@
     "mrr": 0.9375,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "docling_report",
   "kind": "technical",
+  "category": "",
   "parser": "liteparse",
   "error": null,
   "seconds": 2.671460840000009,
@@ -1921,11 +1996,13 @@
     "mrr": 1.0,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "pubtabnet_paper",
   "kind": "technical",
+  "category": "",
   "parser": "liteparse",
   "error": null,
   "seconds": 2.4609865739998895,
@@ -1993,11 +2070,13 @@
     "mrr": 0.9,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_scan",
   "kind": "tender",
+  "category": "",
   "parser": "liteparse",
   "error": null,
   "seconds": 3.701497295000081,
@@ -2048,6 +2127,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 52,
     "n_pred": 39,
@@ -2055,6 +2135,9 @@
     "precision": 0.5897435897435898,
     "recall": 0.4423076923076923,
     "f1": 0.5054945054945056,
+    "recall_critical": 0.47619047619047616,
+    "all_critical_found": false,
+    "label_accuracy": 0.5217391304347826,
     "recall_mandatory": 0.47619047619047616,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5217391304347826,
@@ -2113,11 +2196,13 @@
     "mrr": 1.0,
     "n": 4
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "newcastle_rft",
   "kind": "tender",
+  "category": "",
   "parser": "liteparse-md",
   "error": null,
   "seconds": 26.941225712000005,
@@ -2165,6 +2250,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 118,
     "n_pred": 102,
@@ -2172,6 +2258,9 @@
     "precision": 0.7058823529411765,
     "recall": 0.6101694915254238,
     "f1": 0.6545454545454547,
+    "recall_critical": 0.573170731707317,
+    "all_critical_found": false,
+    "label_accuracy": 0.6805555555555556,
     "recall_mandatory": 0.573170731707317,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6805555555555556,
@@ -2247,11 +2336,13 @@
     "mrr": 0.7708333333333334,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_rft",
   "kind": "tender",
+  "category": "",
   "parser": "liteparse-md",
   "error": null,
   "seconds": 13.462290107999934,
@@ -2259,12 +2350,12 @@
   "sec_per_page": 0.7918994181176432,
   "cost_usd": 0.0,
   "A": {
-   "text_similarity": 0.8520253241163819,
+   "text_similarity": 0.8582649036018206,
    "teds": 0.4277113547679316,
    "teds_struct": 0.4808683896120229,
    "per_page": {
     "3": 0.9442398737506575,
-    "12": 0.8933797909407666,
+    "12": 0.9183381088825215,
     "15": 0.8391812865497076,
     "16": 0.7313003452243958
    },
@@ -2303,6 +2394,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 112,
     "n_pred": 72,
@@ -2310,6 +2402,9 @@
     "precision": 0.6111111111111112,
     "recall": 0.39285714285714285,
     "f1": 0.4782608695652174,
+    "recall_critical": 0.41333333333333333,
+    "all_critical_found": false,
+    "label_accuracy": 0.6363636363636364,
     "recall_mandatory": 0.41333333333333333,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6363636363636364,
@@ -2394,7 +2489,7 @@
    },
    "dense": {
     "recall@5": 1.0,
-    "mrr": 0.65,
+    "mrr": 0.71875,
     "n": 8
    },
    "hybrid": {
@@ -2407,11 +2502,13 @@
     "mrr": 0.6532738095238095,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "centralina_rfp",
   "kind": "tender",
+  "category": "",
   "parser": "liteparse-md",
   "error": null,
   "seconds": 11.47491897100008,
@@ -2419,12 +2516,12 @@
   "sec_per_page": 0.6374954983888933,
   "cost_usd": 0.0,
   "A": {
-   "text_similarity": 0.9904862174241724,
+   "text_similarity": 0.9905607756642613,
    "teds": 0.672089138610169,
    "teds_struct": 0.688701923076923,
    "per_page": {
     "4": 0.995335486185863,
-    "8": 0.9749235474006116,
+    "8": 0.9752217803609666,
     "13": 0.9955555555555555,
     "18": 0.9961302805546598
    },
@@ -2457,6 +2554,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 121,
     "n_pred": 92,
@@ -2464,6 +2562,9 @@
     "precision": 0.6086956521739131,
     "recall": 0.4628099173553719,
     "f1": 0.5258215962441315,
+    "recall_critical": 0.3220338983050847,
+    "all_critical_found": false,
+    "label_accuracy": 0.5178571428571429,
     "recall_mandatory": 0.3220338983050847,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5178571428571429,
@@ -2558,11 +2659,13 @@
     "mrr": 0.875,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "docling_report",
   "kind": "technical",
+  "category": "",
   "parser": "liteparse-md",
   "error": null,
   "seconds": 5.92375605999996,
@@ -2570,12 +2673,12 @@
   "sec_per_page": 0.6581951177777733,
   "cost_usd": 0.0,
   "A": {
-   "text_similarity": 0.985309697295594,
+   "text_similarity": 0.9856345042869238,
    "teds": 0.2790697674418605,
    "teds_struct": 0.32558139534883723,
    "per_page": {
     "1": 0.9864738805970149,
-    "4": 0.9980502071654886,
+    "4": 0.9990246281394781,
     "5": 0.9714050041242782
    },
    "per_table": {
@@ -2621,11 +2724,13 @@
     "mrr": 1.0,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "pubtabnet_paper",
   "kind": "technical",
+  "category": "",
   "parser": "liteparse-md",
   "error": null,
   "seconds": 4.958101206000038,
@@ -2686,11 +2791,13 @@
     "mrr": 0.9,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_scan",
   "kind": "tender",
+  "category": "",
   "parser": "liteparse-md",
   "error": null,
   "seconds": 9.976275672000156,
@@ -2742,6 +2849,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 52,
     "n_pred": 35,
@@ -2749,6 +2857,9 @@
     "precision": 0.6,
     "recall": 0.40384615384615385,
     "f1": 0.4827586206896552,
+    "recall_critical": 0.47619047619047616,
+    "all_critical_found": false,
+    "label_accuracy": 0.5714285714285714,
     "recall_mandatory": 0.47619047619047616,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5714285714285714,
@@ -2809,11 +2920,13 @@
     "mrr": 1.0,
     "n": 4
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "newcastle_rft",
   "kind": "tender",
+  "category": "",
   "parser": "docling",
   "error": null,
   "seconds": 93.67799567600014,
@@ -2859,6 +2972,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 118,
     "n_pred": 101,
@@ -2866,6 +2980,9 @@
     "precision": 0.7227722772277227,
     "recall": 0.6186440677966102,
     "f1": 0.6666666666666667,
+    "recall_critical": 0.5853658536585366,
+    "all_critical_found": false,
+    "label_accuracy": 0.6986301369863014,
     "recall_mandatory": 0.5853658536585366,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6986301369863014,
@@ -2940,11 +3057,13 @@
     "mrr": 0.8125,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_rft",
   "kind": "tender",
+  "category": "",
   "parser": "docling",
   "error": null,
   "seconds": 26.498267398000053,
@@ -2990,6 +3109,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 112,
     "n_pred": 68,
@@ -2997,6 +3117,9 @@
     "precision": 0.7647058823529411,
     "recall": 0.4642857142857143,
     "f1": 0.5777777777777777,
+    "recall_critical": 0.5066666666666667,
+    "all_critical_found": false,
+    "label_accuracy": 0.6538461538461539,
     "recall_mandatory": 0.5066666666666667,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6538461538461539,
@@ -3086,11 +3209,13 @@
     "mrr": 0.8095238095238095,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "centralina_rfp",
   "kind": "tender",
+  "category": "",
   "parser": "docling",
   "error": null,
   "seconds": 34.31108801100004,
@@ -3131,6 +3256,7 @@
    "failed": []
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 121,
     "n_pred": 92,
@@ -3138,6 +3264,9 @@
     "precision": 0.6521739130434783,
     "recall": 0.49586776859504134,
     "f1": 0.563380281690141,
+    "recall_critical": 0.3559322033898305,
+    "all_critical_found": false,
+    "label_accuracy": 0.5333333333333333,
     "recall_mandatory": 0.3559322033898305,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5333333333333333,
@@ -3228,11 +3357,13 @@
     "mrr": 0.8125,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "docling_report",
   "kind": "technical",
+  "category": "",
   "parser": "docling",
   "error": null,
   "seconds": 27.480858539999872,
@@ -3286,11 +3417,13 @@
     "mrr": 1.0,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "pubtabnet_paper",
   "kind": "technical",
+  "category": "",
   "parser": "docling",
   "error": null,
   "seconds": 18.571422568000116,
@@ -3348,11 +3481,13 @@
     "mrr": 0.8666666666666666,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_scan",
   "kind": "tender",
+  "category": "",
   "parser": "docling",
   "error": null,
   "seconds": 74.14032052700009,
@@ -3392,6 +3527,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 52,
     "n_pred": 26,
@@ -3399,6 +3535,9 @@
     "precision": 0.8076923076923077,
     "recall": 0.40384615384615385,
     "f1": 0.5384615384615384,
+    "recall_critical": 0.5238095238095238,
+    "all_critical_found": false,
+    "label_accuracy": 0.42857142857142855,
     "recall_mandatory": 0.5238095238095238,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.42857142857142855,
@@ -3459,11 +3598,13 @@
     "mrr": 1.0,
     "n": 4
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "newcastle_rft",
   "kind": "tender",
+  "category": "",
   "parser": "mineru",
   "error": null,
   "seconds": 30.420628626000052,
@@ -3506,6 +3647,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 118,
     "n_pred": 103,
@@ -3513,6 +3655,9 @@
     "precision": 0.7281553398058253,
     "recall": 0.635593220338983,
     "f1": 0.6787330316742081,
+    "recall_critical": 0.6097560975609756,
+    "all_critical_found": false,
+    "label_accuracy": 0.68,
     "recall_mandatory": 0.6097560975609756,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.68,
@@ -3585,11 +3730,13 @@
     "mrr": 0.8958333333333334,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_rft",
   "kind": "tender",
+  "category": "",
   "parser": "mineru",
   "error": null,
   "seconds": 22.735628711000118,
@@ -3630,6 +3777,7 @@
    "failed": []
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 112,
     "n_pred": 60,
@@ -3637,6 +3785,9 @@
     "precision": 0.7166666666666667,
     "recall": 0.38392857142857145,
     "f1": 0.5,
+    "recall_critical": 0.4533333333333333,
+    "all_critical_found": false,
+    "label_accuracy": 0.6976744186046512,
     "recall_mandatory": 0.4533333333333333,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6976744186046512,
@@ -3735,11 +3886,13 @@
     "mrr": 0.7928571428571428,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "centralina_rfp",
   "kind": "tender",
+  "category": "",
   "parser": "mineru",
   "error": null,
   "seconds": 22.399074694999854,
@@ -3782,6 +3935,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 121,
     "n_pred": 90,
@@ -3789,6 +3943,9 @@
     "precision": 0.6555555555555556,
     "recall": 0.48760330578512395,
     "f1": 0.5592417061611373,
+    "recall_critical": 0.3559322033898305,
+    "all_critical_found": false,
+    "label_accuracy": 0.5084745762711864,
     "recall_mandatory": 0.3559322033898305,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5084745762711864,
@@ -3880,11 +4037,13 @@
     "mrr": 0.875,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "docling_report",
   "kind": "technical",
+  "category": "",
   "parser": "mineru",
   "error": null,
   "seconds": 19.820444511000005,
@@ -3892,12 +4051,12 @@
   "sec_per_page": 2.202271612333334,
   "cost_usd": 0.0,
   "A": {
-   "text_similarity": 0.983360008023752,
+   "text_similarity": 0.9833601666594941,
    "teds": 0.22868726500737435,
    "teds_struct": 0.627906976744186,
    "per_page": {
     "1": 0.9810009267840594,
-    "4": 0.9990241522322517,
+    "4": 0.9990246281394781,
     "5": 0.970054945054945
    },
    "per_table": {
@@ -3941,11 +4100,13 @@
     "mrr": 1.0,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "pubtabnet_paper",
   "kind": "technical",
+  "category": "",
   "parser": "mineru",
   "error": null,
   "seconds": 34.126083793999896,
@@ -3953,13 +4114,13 @@
   "sec_per_page": 5.687680632333316,
   "cost_usd": 0.0,
   "A": {
-   "text_similarity": 0.9521778905953474,
+   "text_similarity": 0.9523036767588694,
    "teds": 0.9542500095481562,
    "teds_struct": 0.9705882352941176,
    "per_page": {
     "1": 0.972276454509957,
     "3": 0.9908609908609909,
-    "6": 0.8933962264150943
+    "6": 0.8937735849056604
    },
    "per_table": {
     "ptn-t1": 0.9965753424657534,
@@ -4000,11 +4161,13 @@
     "mrr": 0.8,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_scan",
   "kind": "tender",
+  "category": "",
   "parser": "mineru",
   "error": null,
   "seconds": 25.34011708800017,
@@ -4042,6 +4205,7 @@
    "failed": []
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 52,
     "n_pred": 13,
@@ -4049,6 +4213,9 @@
     "precision": 0.9230769230769231,
     "recall": 0.23076923076923078,
     "f1": 0.36923076923076925,
+    "recall_critical": 0.47619047619047616,
+    "all_critical_found": false,
+    "label_accuracy": 0.5833333333333334,
     "recall_mandatory": 0.47619047619047616,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5833333333333334,
@@ -4118,11 +4285,13 @@
     "mrr": 1.0,
     "n": 4
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "newcastle_rft",
   "kind": "tender",
+  "category": "",
   "parser": "router[docling|docling-forceocr]",
   "error": null,
   "seconds": 86.57770979799989,
@@ -4168,6 +4337,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 118,
     "n_pred": 101,
@@ -4175,6 +4345,9 @@
     "precision": 0.7227722772277227,
     "recall": 0.6186440677966102,
     "f1": 0.6666666666666667,
+    "recall_critical": 0.5853658536585366,
+    "all_critical_found": false,
+    "label_accuracy": 0.6986301369863014,
     "recall_mandatory": 0.5853658536585366,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6986301369863014,
@@ -4249,11 +4422,13 @@
     "mrr": 0.8125,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_rft",
   "kind": "tender",
+  "category": "",
   "parser": "router[docling|docling-forceocr]",
   "error": null,
   "seconds": 23.71398160300032,
@@ -4299,6 +4474,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 112,
     "n_pred": 68,
@@ -4306,6 +4482,9 @@
     "precision": 0.7647058823529411,
     "recall": 0.4642857142857143,
     "f1": 0.5777777777777777,
+    "recall_critical": 0.5066666666666667,
+    "all_critical_found": false,
+    "label_accuracy": 0.6538461538461539,
     "recall_mandatory": 0.5066666666666667,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.6538461538461539,
@@ -4395,11 +4574,13 @@
     "mrr": 0.8095238095238095,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "centralina_rfp",
   "kind": "tender",
+  "category": "",
   "parser": "router[docling|docling-forceocr]",
   "error": null,
   "seconds": 33.282033051000326,
@@ -4440,6 +4621,7 @@
    "failed": []
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 121,
     "n_pred": 92,
@@ -4447,6 +4629,9 @@
     "precision": 0.6521739130434783,
     "recall": 0.49586776859504134,
     "f1": 0.563380281690141,
+    "recall_critical": 0.3559322033898305,
+    "all_critical_found": false,
+    "label_accuracy": 0.5333333333333333,
     "recall_mandatory": 0.3559322033898305,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.5333333333333333,
@@ -4537,11 +4722,13 @@
     "mrr": 0.8125,
     "n": 8
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "docling_report",
   "kind": "technical",
+  "category": "",
   "parser": "router[docling|docling-forceocr]",
   "error": null,
   "seconds": 23.911624440000196,
@@ -4595,11 +4782,13 @@
     "mrr": 1.0,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "pubtabnet_paper",
   "kind": "technical",
+  "category": "",
   "parser": "router[docling|docling-forceocr]",
   "error": null,
   "seconds": 16.25281654399987,
@@ -4657,11 +4846,13 @@
     "mrr": 0.8666666666666666,
     "n": 5
    }
-  }
+  },
+  "corpus": "tenders"
  },
  {
   "doc": "narembeen_scan",
   "kind": "tender",
+  "category": "",
   "parser": "router[docling|docling-forceocr]",
   "error": null,
   "seconds": 24.300744373999805,
@@ -4701,6 +4892,7 @@
    ]
   },
   "C": {
+   "task": "requirements",
    "rules_baseline": {
     "n_gold": 52,
     "n_pred": 27,
@@ -4708,6 +4900,9 @@
     "precision": 0.8148148148148148,
     "recall": 0.4230769230769231,
     "f1": 0.5569620253164557,
+    "recall_critical": 0.47619047619047616,
+    "all_critical_found": false,
+    "label_accuracy": 0.36363636363636365,
     "recall_mandatory": 0.47619047619047616,
     "all_mandatory_found": false,
     "obligation_accuracy": 0.36363636363636365,
@@ -4767,6 +4962,7 @@
     "mrr": 1.0,
     "n": 4
    }
-  }
+  },
+  "corpus": "tenders"
  }
 ]

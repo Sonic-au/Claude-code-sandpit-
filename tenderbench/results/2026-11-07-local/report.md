@@ -1,6 +1,8 @@
 # TenderBench results
 
-Scores are percentages (higher is better) on the digital documents; the scan columns use the simulated scan. **Overall** is the mean of text similarity, TEDS, rule pass rate, requirement F1 (rule-based extractor) and evidence recall@5 (hybrid + context).
+Corpus: tenders
+
+Scores are percentages (higher is better) on the digital documents; the scan columns use the simulated scan. **Overall** is the mean of text similarity, TEDS, rule pass rate, Req F1 (rule-based extractor) and evidence recall@5 (hybrid + context). 
 
 | Parser | Overall | Text sim | Table TEDS | TEDS-S | Rule tests | Req F1 | Mand. recall | Recall@5 | Scan text | Scan rules | s/page | Residency | Licence |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -8,7 +10,7 @@ Scores are percentages (higher is better) on the digital documents; the scan col
 | docling | **80.6** | 94.6 | 62.4 | 73.5 | 90.7 | 60.3 | 48.3 | 95.0 | 95.8 | 95.2 | 4.70 | local | MIT (models: Apache-2.0 / CDLA) |
 | router[docling\|docling-forceocr] | **80.6** | 94.6 | 62.4 | 73.5 | 90.7 | 60.3 | 48.3 | 95.0 | 95.2 | 95.2 | 3.07 | local | mix (see component parsers) |
 | pymupdf4llm | **78.2** | 94.9 | 53.7 | 66.3 | 90.6 | 56.8 | 46.0 | 95.0 | 84.9 | 95.2 | 1.70 | local | AGPL-3.0 (commercial licence from Artifex) |
-| liteparse-md | **71.7** | 93.9 | 43.4 | 49.2 | 71.1 | 55.3 | 43.6 | 95.0 | 80.3 | 38.1 | 1.06 | local | Apache-2.0 |
+| liteparse-md | **71.8** | 94.0 | 43.4 | 49.2 | 71.1 | 55.3 | 43.6 | 95.0 | 80.3 | 38.1 | 1.06 | local | Apache-2.0 |
 | pypdf-text | **60.7** | 95.9 | 0.0 | 0.0 | 57.4 | 57.5 | 45.2 | 92.5 | 0.0 | 9.5 | 0.04 | local | BSD-3-Clause |
 | liteparse | **53.3** | 77.5 | 0.0 | 0.0 | 42.5 | 54.3 | 40.7 | 92.5 | 87.4 | 42.9 | 0.41 | local | Apache-2.0 |
 
@@ -20,21 +22,21 @@ No LLM was configured, so the LLM requirement extractor and answer scoring were 
 |---|---|---|---|---|---|---|---|---|
 | centralina_rfp | docling | 94.2 | 61.2 | 100.0 | 56.3 | 35.6 | no | 100.0 / 87.5 / 87.5 / 100.0 |
 | centralina_rfp | liteparse | 92.0 | 0.0 | 56.0 | 54.5 | 33.9 | no | 100.0 / 87.5 / 100.0 / 100.0 |
-| centralina_rfp | liteparse-md | 99.0 | 67.2 | 84.0 | 52.6 | 32.2 | no | 100.0 / 87.5 / 87.5 / 100.0 |
+| centralina_rfp | liteparse-md | 99.1 | 67.2 | 84.0 | 52.6 | 32.2 | no | 100.0 / 87.5 / 87.5 / 100.0 |
 | centralina_rfp | mineru | 97.1 | 87.3 | 96.0 | 55.9 | 35.6 | no | 100.0 / 87.5 / 87.5 / 100.0 |
 | centralina_rfp | pymupdf4llm | 97.1 | 69.4 | 84.0 | 55.4 | 33.9 | no | 100.0 / 87.5 / 87.5 / 100.0 |
 | centralina_rfp | pypdf-text | 98.9 | 0.0 | 56.0 | 54.5 | 33.9 | no | 87.5 / 87.5 / 100.0 / 100.0 |
 | centralina_rfp | router[docling\|docling-forceocr] | 94.2 | 61.2 | 100.0 | 56.3 | 35.6 | no | 100.0 / 87.5 / 87.5 / 100.0 |
 | docling_report | docling | 93.7 | 35.2 | 100.0 | - | - | - | 100.0 / 100.0 / 100.0 / 100.0 |
 | docling_report | liteparse | 98.2 | 0.0 | 50.0 | - | - | - | 100.0 / 100.0 / 100.0 / 100.0 |
-| docling_report | liteparse-md | 98.5 | 27.9 | 71.4 | - | - | - | 100.0 / 100.0 / 100.0 / 100.0 |
+| docling_report | liteparse-md | 98.6 | 27.9 | 71.4 | - | - | - | 100.0 / 100.0 / 100.0 / 100.0 |
 | docling_report | mineru | 98.3 | 22.9 | 85.7 | - | - | - | 100.0 / 100.0 / 100.0 / 100.0 |
 | docling_report | pymupdf4llm | 98.5 | 21.3 | 100.0 | - | - | - | 100.0 / 100.0 / 100.0 / 100.0 |
 | docling_report | pypdf-text | 98.8 | 0.0 | 57.1 | - | - | - | 100.0 / 100.0 / 100.0 / 100.0 |
 | docling_report | router[docling\|docling-forceocr] | 93.7 | 35.2 | 100.0 | - | - | - | 100.0 / 100.0 / 100.0 / 100.0 |
 | narembeen_rft | docling | 98.9 | 88.6 | 84.0 | 57.8 | 50.7 | no | 87.5 / 100.0 / 100.0 / 87.5 |
 | narembeen_rft | liteparse | 89.3 | 0.0 | 52.0 | 58.1 | 46.7 | no | 87.5 / 75.0 / 87.5 / 62.5 |
-| narembeen_rft | liteparse-md | 85.2 | 42.8 | 60.0 | 47.8 | 41.3 | no | 87.5 / 100.0 / 100.0 / 87.5 |
+| narembeen_rft | liteparse-md | 85.8 | 42.8 | 60.0 | 47.8 | 41.3 | no | 87.5 / 100.0 / 100.0 / 87.5 |
 | narembeen_rft | mineru | 99.8 | 99.6 | 100.0 | 50.0 | 45.3 | no | 87.5 / 100.0 / 100.0 / 87.5 |
 | narembeen_rft | pymupdf4llm | 90.6 | 63.7 | 84.0 | 48.0 | 46.7 | no | 87.5 / 100.0 / 100.0 / 87.5 |
 | narembeen_rft | pypdf-text | 91.5 | 0.0 | 60.0 | 56.1 | 48.0 | no | 87.5 / 75.0 / 100.0 / 87.5 |

@@ -1,11 +1,13 @@
 # TenderBench
 
-An evaluation harness for choosing how to ingest **tender (RFT/RFP) and technical documents** into a bid
-knowledge base. It scores document parsers, and the extraction and retrieval steps built on them, on the
-things a bid team needs: verbatim clauses, tables and returnable forms, a complete compliance matrix, and
-answers that cite the right page.
+An evaluation harness for choosing how to ingest **technical manuals** into a knowledge base that answers
+**technician questions** with page citations. It scores document parsers, and the extraction and retrieval steps
+built on them, on what a technician relies on: procedure steps in order, warnings kept with their step, spec and
+torque tables, values with their units, exact part numbers and commands, and answers that cite the right page.
 
-Tracking issue: #6. Background research: the *Bid Knowledge Base* doc (document ingestion and understanding).
+It started as a tender (RFT/RFP) bench for bid responses; that corpus is kept and runs with `--corpus tenders`.
+
+Tracking issues: #6 (harness), #7 (technical manuals). Background research: the *Bid Knowledge Base* doc.
 
 ## Why another benchmark
 
@@ -26,7 +28,7 @@ TenderBench borrows one method from each and applies it to public tenders and te
 |---|---|---|
 | **A. Parse fidelity** | Text similarity on transcribed pages; table TEDS and TEDS-S | Normalised edit distance and TEDS ([OmniDocBench](https://arxiv.org/abs/2412.07626), [PubTabNet](https://arxiv.org/abs/1911.10683)) |
 | **B. Rule tests** | Pass rate on checks: clause verbatim, table cell, reading order, headings, form labels, numbers, running headers absent | Deterministic unit tests ([ParseBench](https://arxiv.org/abs/2604.08538), olmOCR-Bench) |
-| **C. Requirement extraction** | Compliance-matrix precision / recall / F1, mandatory recall, *all mandatory found*, obligation and page accuracy | Field-level, strict scoring ([RealDocBench](https://arxiv.org/abs/2606.07401)) |
+| **C. Extraction** | Manuals: every WARNING/CAUTION/NOTE notice, warning recall, *all warnings found*. Tenders: compliance-matrix F1, mandatory recall, *all mandatory found* | Field-level, strict scoring ([RealDocBench](https://arxiv.org/abs/2606.07401)) |
 | **D. Retrieval and answers** | Evidence recall@5 and MRR for BM25, dense, hybrid and hybrid + heading context; with an LLM: answer accuracy, citation accuracy, abstention on unanswerable questions | RAG evaluation practice (RAGAS-style context recall, faithfulness) |
 
 Every score is also reported per document, with seconds per page, cost per 1,000 pages, data residency and licence.
@@ -36,7 +38,20 @@ quality flows through to the compliance matrix and to answers.
 
 ## Corpus
 
-Public documents only (`corpus/manifest.yaml`); PDFs are downloaded and checksum-verified, not committed.
+Public documents only; PDFs are downloaded and checksum-verified, not committed. Two manifests:
+
+**`corpus/manuals.yaml` (default)**
+
+| Id | Document | Kind | Pages used | Why |
+|---|---|---|---|---|
+| `xylem_empa` | Xylem e-MPA/MPR/MPD pump instruction manual IM309 | Equipment O&M | 11 | Safety notices, coupling torque table, commissioning steps, troubleshooting tables |
+| `postgresql_backup` | PostgreSQL 17 manual, ch. 25 Backup and Restore | Software | 7 of 3,100 | Commands and code blocks, WAL archiving, recovery procedure |
+| `ti_lm317` | TI LM317 regulator datasheet | Specification | 9 | Min/typ/max spec tables with conditions and footnotes, pin functions |
+| `faa_ac43` | FAA AC 43.13-1B ch. 7 (hardware, safetying, cables) | Aviation | 8 of 646 | Large grouped-header torque table, CAUTION boxes, AN/MS part numbers |
+| `army_tm_tqg` | US Army TM 9-6115-639-13 (3 kW generator) | Defence | 11 of 304 | Warning summary, PMCS and troubleshooting tables, start-up procedures |
+| `army_tm_scan` | Army TM pages as a simulated scan | Defence | 4 | OCR path, scored against the digital version's gold |
+
+**`corpus/tenders.yaml`** (`--corpus tenders`)
 
 | Id | Document | Pages used | Why |
 |---|---|---|---|
@@ -102,7 +117,34 @@ export TB_LLM_PROVIDER=openai TB_LLM_BASE_URL=http://localhost:8000/v1 TB_LLM_MO
 `huggingface.co` plus its CDN. LiteParse OCR fetches Tesseract data from GitHub unless `LITEPARSE_CONFIG` points at
 a JSON file with `{"tessdataPath": "<dir with eng.traineddata>"}`.
 
-## First results (7 Nov 2026, local parsers, CPU only)
+## Results: technical manuals (9 Nov 2026, local parsers, CPU only)
+
+Full tables: [`results/2026-11-09-manuals/report.md`](results/2026-11-09-manuals/report.md).
+
+| Parser | Overall | Table TEDS | Rule tests | Warning recall | Scan text | s/page | Licence |
+|---|---|---|---|---|---|---|---|
+| Docling | **80.5** | 75.1 | 95.2 | 90.9 | 92.3 | 4.7 | MIT |
+| PyMuPDF4LLM | 77.5 | 68.6 | 83.6 | 90.9 | 90.2 | 1.1 | AGPL-3.0 |
+| MinerU | 77.1 | 67.1 | 92.4 | 90.9 | 91.2 | 3.9 | AGPL-3.0 |
+| LiteParse (Markdown) | 69.8 | 43.3 | 78.5 | 77.3 | 76.9 | 0.8 | Apache-2.0 |
+| pypdf text layer | 54.9 | 0.0 | 65.0 | 35.3 | 0.0 | 0.02 | BSD |
+
+- **Docling leads on manuals**, the reverse of the tender result. It kept the FAA's large grouped-header torque
+  table (95% TEDS against 43% for MinerU) and passed every procedure-order, safety and part-number check.
+- **MinerU is best on simpler tables** (Xylem torque and troubleshooting tables, 99.8% TEDS) but weakest on
+  value-with-unit checks (79%), so no single parser wins every manual.
+- **Procedure steps, warnings and part numbers survive** in every layout-aware parser (96-100% of checks).
+  Running headers are the difference: PyMuPDF4LLM and LiteParse leave them in the text.
+- **Warnings:** the rule-based extractor finds 91% of warnings from Docling, MinerU or PyMuPDF4LLM output, but
+  no parser/extractor pair found every warning in the Army manual. Safety F1 is low (40-45%) because the baseline
+  also picks up hazard definitions and misses notes printed as footnotes.
+- **The simulated scan costs structure, not words:** text similarity stays at 90-93%, but rule pass rates drop to
+  64-79%, mostly table cells.
+- **The datasheet is hardest for text** (66-83% text similarity for every parser): dense two-column spec tables
+  with conditions and footnotes.
+- **Retrieval is at ceiling again** (95-100% recall@5); harder technician questions are needed to separate parsers.
+
+## Results: tenders (7 Nov 2026, re-scored 9 Nov)
 
 Full tables: [`results/2026-11-07-local/report.md`](results/2026-11-07-local/report.md).
 
@@ -127,11 +169,11 @@ Full tables: [`results/2026-11-07-local/report.md`](results/2026-11-07-local/rep
   already OCRs image pages. Evidence so far favours MinerU as the primary parser if its AGPL licence is acceptable,
   with Docling as the MIT-licensed alternative.
 
-## Adding your own (private) tenders
+## Adding your own (private) documents
 
-1. Add an entry to `corpus/manifest.yaml` (a `file://` URL is not supported; copy the PDF to `data/source/<id>.pdf`
+1. Add an entry to a corpus manifest (`corpus/manuals.yaml`, or a new `corpus/<name>.yaml` run with `--corpus <name>`) (a `file://` URL is not supported; copy the PDF to `data/source/<id>.pdf`
    and omit `url`; keep `sha256`).
-2. Annotate `gold/<id>/` per `gold/ANNOTATION.md`. Your past compliance matrix is a ready-made `requirements.jsonl`.
+2. Annotate `gold/<id>/` per `gold/ANNOTATION.md`. For manuals, your own technicians' common questions make the best `questions.jsonl`; for tenders, a past compliance matrix is a ready-made `requirements.jsonl`.
 3. Keep private gold and PDFs out of git (`.gitignore` already excludes `data/`; put private gold in a separate repo).
 
 ## Running the general benchmarks too
@@ -143,7 +185,7 @@ For a general-quality check alongside TenderBench, run candidates through the of
 
 ## Limitations
 
-- Small corpus (six documents, ~70 pages): differences of a few points are within noise. Add your own tenders.
+- Small corpora (six manuals ~50 pages; six tender documents ~70 pages): differences of a few points are within noise. Add your own documents.
 - Requirement gold depends on annotator judgement about what counts as one requirement; the matcher is lenient
   (fuzzy, one-to-one) but splitting conventions still matter.
 - The scan is simulated; real scans (skew, stamps, handwriting, signatures) are harder.

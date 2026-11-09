@@ -1,6 +1,6 @@
 {
  "pypdf-text": {
-  "text_similarity": 0.9587028247989897,
+  "text_similarity": 0.9587028882532866,
   "teds": 0.0,
   "teds_struct": 0.0,
   "rules": 0.5742857142857143,
@@ -13,10 +13,10 @@
   "sec_per_page": 0.03977204958802128,
   "cost_per_1k_pages": 0.0,
   "errors": [],
-  "overall": 0.6065063290166418
+  "overall": 0.6065063417075012
  },
  "pymupdf4llm": {
-  "text_similarity": 0.9491786040960035,
+  "text_similarity": 0.949206045947666,
   "teds": 0.5365761727948877,
   "teds_struct": 0.6627860790117918,
   "rules": 0.9057142857142857,
@@ -29,7 +29,7 @@
   "sec_per_page": 1.702161710830605,
   "cost_per_1k_pages": 0.0,
   "errors": [],
-  "overall": 0.7819074778252624
+  "overall": 0.7819129661955949
  },
  "liteparse": {
   "text_similarity": 0.7746311982662686,
@@ -48,7 +48,7 @@
   "overall": 0.5333936711063176
  },
  "liteparse-md": {
-  "text_similarity": 0.9386235217427583,
+  "text_similarity": 0.9399513106861296,
   "teds": 0.4341463953143852,
   "teds_struct": 0.49236908709332106,
   "rules": 0.7114285714285714,
@@ -61,7 +61,7 @@
   "sec_per_page": 1.062122426902946,
   "cost_per_1k_pages": 0.0,
   "errors": [],
-  "overall": 0.7174148923874633
+  "overall": 0.7176804501761375
  },
  "docling": {
   "text_similarity": 0.9459496718011839,
@@ -80,7 +80,7 @@
   "overall": 0.8060201284924506
  },
  "mineru": {
-  "text_similarity": 0.9753786594813496,
+  "text_similarity": 0.9754038484412024,
   "teds": 0.802160469597309,
   "teds_struct": 0.8922482964266465,
   "rules": 0.9554285714285713,
@@ -93,7 +93,7 @@
   "sec_per_page": 2.787188327309044,
   "cost_per_1k_pages": 0.0,
   "errors": [],
-  "overall": 0.8524585226238024
+  "overall": 0.8524635604157729
  },
  "router[docling|docling-forceocr]": {
   "text_similarity": 0.9459496718011839,
