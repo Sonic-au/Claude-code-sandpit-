@@ -50,7 +50,10 @@ def markdown_to_text(md: str) -> str:
     s = re.sub(r"^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$", " ", s, flags=re.M)  # table rules
     s = s.replace("|", " ")
     s = re.sub(r"^\s{0,3}#{1,6}\s*", "", s, flags=re.M)              # headings
-    s = re.sub(r"(\*\*|__|\*|_|`|~~)", "", s)                        # emphasis / code / strike marks
+    s = re.sub(r"\\([\\`*_{}\[\]()#+\-.!|<>])", r"\1", s)           # Markdown escapes (Docling writes pg\_wal)
+    s = re.sub(r"(\*\*|\*|`|~~)", "", s)                             # emphasis / code / strike marks
+    # Underscores: strip only emphasis (_word_, __word__), keep identifiers such as pg_wal or archive_command.
+    s = re.sub(r"(?<![A-Za-z0-9])_+|_+(?![A-Za-z0-9])", "", s)
     s = _BULLETS.sub("", s)
     return s
 

@@ -1,0 +1,22 @@
+{"id": "faa-b01", "type": "steps", "page": 318, "category": "step_order", "steps": ["Calibrate the torque wrench at least once a year", "Be sure the bolt and nut threads are clean and dry", "Run the nut down to near contact with the washer or bearing surface"]}
+{"id": "faa-b02", "type": "steps", "page": 319, "category": "step_order", "steps": ["Add the friction drag torque to the desired torque", "Apply a smooth even pull when applying torque pressure", "When installing a castle nut, start alignment with the cotter pin hole", "When torque is applied to bolt heads or capscrews", "If special adapters are used which will change the effective length of the torque wrench"]}
+{"id": "faa-b03", "type": "steps", "page": 330, "category": "step_order", "steps": ["Grip the wire in the jaws of the wire twister", "Pull the knob, and the spiral rod spins and twists the wire", "Squeeze handles together to release wire"]}
+{"id": "faa-b04", "type": "near", "page": 330, "category": "safety", "a": "Excessive twisting of the wire will weaken the wire", "b": "Grip the wire in the jaws of the wire twister", "window": 80}
+{"id": "faa-b05", "type": "present", "page": 321, "category": "safety", "text": "Caution must be exercised in the use of close-tolerance bolts for all critical applications"}
+{"id": "faa-b06", "type": "near", "page": 321, "category": "safety", "a": "Recommended torque values (inch-pounds)", "b": "THE FOLLOWING TORQUE VALUES ARE DERIVED FROM OIL FREE CADMIUM PLATED THREADS", "window": 80}
+{"id": "faa-b07", "type": "present", "page": 328, "category": "safety", "text": "Care should be taken not to confuse steel with aluminum wire"}
+{"id": "faa-b08", "type": "near", "page": 319, "category": "safety", "a": "When installing a castle nut", "b": "Do not exceed the maximum torque plus the friction drag", "window": 160}
+{"id": "faa-b09", "type": "near", "page": 328, "category": "spec", "a": ".032 inch minimum diameter wire", "b": "hole diameter larger than .045 inch", "window": 80}
+{"id": "faa-b10", "type": "near", "page": 330, "category": "spec", "a": "leave at least four to six complete turns", "b": "(1/2 to 5/8 inch long)", "window": 60}
+{"id": "faa-b11", "type": "near", "page": 318, "category": "spec", "a": "Calibrate the torque wrench", "b": "at least once a year", "window": 40}
+{"id": "faa-b12", "type": "table_value", "page": 321, "category": "table", "row": "1/4-28", "col": "Tension type nuts", "value": "50-70"}
+{"id": "faa-b13", "type": "table_value", "page": 321, "category": "table", "row": "3/8-16", "col": "Shear type nuts", "value": "95-100"}
+{"id": "faa-b14", "type": "table_value", "page": 324, "category": "table", "row": "5/8 - 11", "col": "MINIMUM PREVAILING TORQUE", "value": "20 inch-pounds"}
+{"id": "faa-b15", "type": "table_value", "page": 337, "category": "table", "row": "3/16", "col": "MIL-W-83420 COMP B", "value": "3,700"}
+{"id": "faa-b16", "type": "present", "page": 319, "category": "part_number", "text": "superseded by MS20073, for fine thread bolts and MS20074 for coarse thread bolts"}
+{"id": "faa-b17", "type": "present", "page": 322, "category": "part_number", "text": "NAS6204-6X for a 1/4 inch bolt with a 1/64 inch larger diameter"}
+{"id": "faa-b18", "type": "present", "page": 321, "category": "part_number", "text": "drilled hex head close-tolerance titanium alloy bolts (NAS673 through NAS678)"}
+{"id": "faa-b19", "type": "heading", "page": 328, "category": "heading", "text": "SECTION 7. SAFETYING"}
+{"id": "faa-b20", "type": "heading", "page": 321, "category": "heading", "text": "7-44. CLOSE-TOLERANCE BOLTS."}
+{"id": "faa-b21", "type": "absent", "page": 322, "category": "header", "text": "AC 43.13-1B 9/8/98"}
+{"id": "faa-b22", "type": "absent", "page": 330, "category": "header", "text": "Par 7-124 Page 7-21"}

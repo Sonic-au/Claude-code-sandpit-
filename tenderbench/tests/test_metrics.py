@@ -101,3 +101,9 @@ def test_extract_safety_baseline():
     kinds = sorted(i["kind"] for i in items)
     assert kinds == ["caution", "note", "warning"]
     assert any("15 seconds" in i["text"] for i in items)
+
+
+def test_identifiers_keep_underscores():
+    assert "pg_wal" in content_text("Copy the pg\\_wal directory")
+    assert "archive_command" in content_text("Set `archive_command` and _restart_ the server")
+    assert "restart" in content_text("_restart_") and "_" not in content_text("_restart_")
