@@ -1,0 +1,3958 @@
+[
+ {
+  "doc": "xylem_empa",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "pypdf-text",
+  "error": null,
+  "seconds": 0.20463394500001186,
+  "pages": 11,
+  "sec_per_page": 0.018603085909091988,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9482188729678821,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "26": 0.9438521677327647,
+    "31": 0.9280276816608997,
+    "34": 0.9727767695099818
+   },
+   "per_table": {
+    "xyl-t1": 0.0,
+    "xyl-t2": 0.0,
+    "xyl-t3": 0.0,
+    "xyl-t4": 0.0,
+    "xyl-t5": 0.0,
+    "xyl-t6": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.6190476190476191,
+   "n": 21,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.0,
+    "part_number": 1.0,
+    "heading": 0.0,
+    "header": 0.0
+   },
+   "failed": [
+    "xyl-b13",
+    "xyl-b14",
+    "xyl-b15",
+    "xyl-b16",
+    "xyl-b18",
+    "xyl-b19",
+    "xyl-b20",
+    "xyl-b21"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 24,
+    "n_pred": 16,
+    "matched": 3,
+    "precision": 0.1875,
+    "recall": 0.125,
+    "f1": 0.15,
+    "recall_critical": 0.058823529411764705,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.058823529411764705,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s03",
+     "xyl-s04",
+     "xyl-s06",
+     "xyl-s07",
+     "xyl-s08",
+     "xyl-s09",
+     "xyl-s10",
+     "xyl-s11",
+     "xyl-s12",
+     "xyl-s13",
+     "xyl-s14",
+     "xyl-s15",
+     "xyl-s16",
+     "xyl-s17",
+     "xyl-s18",
+     "xyl-s19",
+     "xyl-s20",
+     "xyl-s21",
+     "xyl-s22",
+     "xyl-s23",
+     "xyl-s24"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "postgresql_backup",
+  "kind": "manual",
+  "category": "software",
+  "parser": "pypdf-text",
+  "error": null,
+  "seconds": 0.10462516199999072,
+  "pages": 7,
+  "sec_per_page": 0.01494645171428439,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.995909174844389,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {
+    "823": 0.9987797437461867,
+    "829": 0.9947500570645971,
+    "833": 0.9941977237223834
+   },
+   "per_table": {}
+  },
+  "B": {
+   "pass_rate": 0.8181818181818182,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "part_number": 1.0,
+    "heading": 0.0,
+    "header": 0.0
+   },
+   "failed": [
+    "pg-b19",
+    "pg-b20",
+    "pg-b21",
+    "pg-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "pg-s01"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "manual",
+  "category": "specification",
+  "parser": "pypdf-text",
+  "error": null,
+  "seconds": 0.5535213720000343,
+  "pages": 9,
+  "sec_per_page": 0.061502374666670474,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.8304725676369072,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "5": 0.6528497409326425,
+    "6": 0.8986889153754469,
+    "8": 0.9398790466026326
+   },
+   "per_table": {
+    "ti-t1": 0.0,
+    "ti-t2": 0.0,
+    "ti-t3": 0.0,
+    "ti-t4": 0.0,
+    "ti-t5": 0.0,
+    "ti-t6": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.5238095238095238,
+   "n": 21,
+   "by_category": {
+    "spec": 1.0,
+    "table": 0.0,
+    "part_number": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "heading": 0.0,
+    "header": 0.0
+   },
+   "failed": [
+    "ti-b07",
+    "ti-b08",
+    "ti-b09",
+    "ti-b10",
+    "ti-b11",
+    "ti-b12",
+    "ti-b18",
+    "ti-b19",
+    "ti-b20",
+    "ti-b21"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 3,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "ti-s01",
+     "ti-s02",
+     "ti-s03"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.71875,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 0.75,
+    "mrr": 0.6979166666666666,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 0.875,
+    "mrr": 0.7416666666666667,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.7291666666666666,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "faa_ac43",
+  "kind": "manual",
+  "category": "aviation",
+  "parser": "pypdf-text",
+  "error": null,
+  "seconds": 0.23342255599999362,
+  "pages": 8,
+  "sec_per_page": 0.029177819499999202,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9819446700978854,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "321": 0.9820336391437309,
+    "324": 0.9791804362194316,
+    "328": 0.9846199349304939
+   },
+   "per_table": {
+    "faa-t1": 0.0,
+    "faa-t2": 0.0,
+    "faa-t3": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.6363636363636364,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.0,
+    "part_number": 1.0,
+    "heading": 0.0,
+    "header": 0.0
+   },
+   "failed": [
+    "faa-b12",
+    "faa-b13",
+    "faa-b14",
+    "faa-b15",
+    "faa-b19",
+    "faa-b20",
+    "faa-b21",
+    "faa-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 9,
+    "n_pred": 10,
+    "matched": 4,
+    "precision": 0.4,
+    "recall": 0.4444444444444444,
+    "f1": 0.4210526315789474,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "faa-s01",
+     "faa-s03",
+     "faa-s06",
+     "faa-s08",
+     "faa-s09"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.7708333333333334,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_tqg",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "pypdf-text",
+  "error": null,
+  "seconds": 0.19250881800002162,
+  "pages": 11,
+  "sec_per_page": 0.017500801636365602,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9411972929373552,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "55": 0.9302848575712144,
+    "69": 0.9496626881162429,
+    "78": 0.9436443331246086
+   },
+   "per_table": {
+    "tm-t1": 0.0,
+    "tm-t2": 0.0,
+    "tm-t3": 0.0,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.6538461538461539,
+   "n": 26,
+   "by_category": {
+    "header": 0.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.0,
+    "part_number": 1.0,
+    "heading": 0.0
+   },
+   "failed": [
+    "tm-b01",
+    "tm-b02",
+    "tm-b03",
+    "tm-b19",
+    "tm-b20",
+    "tm-b21",
+    "tm-b22",
+    "tm-b25",
+    "tm-b26"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 14,
+    "n_pred": 12,
+    "matched": 10,
+    "precision": 0.8333333333333334,
+    "recall": 0.7142857142857143,
+    "f1": 0.7692307692307692,
+    "recall_critical": 0.6363636363636364,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.6363636363636364,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "tm-s01",
+     "tm-s02",
+     "tm-s06",
+     "tm-s07"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.9,
+    "mrr": 0.7666666666666667,
+    "n": 10
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.8533333333333333,
+    "n": 10
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.85,
+    "n": 10
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9,
+    "n": 10
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_scan",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "pypdf-text",
+  "error": null,
+  "seconds": 0.004159340000001066,
+  "pages": 4,
+  "sec_per_page": 0.0010398350000002665,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.0,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "55": 0.0,
+    "69": 0.0,
+    "78": 0.0
+   },
+   "per_table": {
+    "tm-t3": 0.0,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.14285714285714285,
+   "n": 14,
+   "by_category": {
+    "header": 1.0,
+    "step_order": 0.0,
+    "safety": 0.0,
+    "spec": 0.0,
+    "table": 0.0,
+    "part_number": 0.0,
+    "heading": 0.0
+   },
+   "failed": [
+    "tm-b04",
+    "tm-b05",
+    "tm-b08",
+    "tm-b09",
+    "tm-b18",
+    "tm-b19",
+    "tm-b20",
+    "tm-b21",
+    "tm-b22",
+    "tm-b24",
+    "tm-b25",
+    "tm-b26"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "tm-s13"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.0,
+    "mrr": 0.0,
+    "n": 6
+   },
+   "dense": {
+    "recall@5": 0.0,
+    "mrr": 0.0,
+    "n": 6
+   },
+   "hybrid": {
+    "recall@5": 0.0,
+    "mrr": 0.0,
+    "n": 6
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.0,
+    "mrr": 0.0,
+    "n": 6
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "xylem_empa",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "pymupdf4llm",
+  "error": null,
+  "seconds": 15.392934384,
+  "pages": 11,
+  "sec_per_page": 1.3993576712727274,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9144225690738396,
+   "teds": 0.8856954407099398,
+   "teds_struct": 0.8919403367262019,
+   "per_page": {
+    "26": 0.8683844011142061,
+    "31": 0.9280276816608997,
+    "34": 0.9468556244464128
+   },
+   "per_table": {
+    "xyl-t1": 0.937007874015748,
+    "xyl-t2": 0.38313008130081305,
+    "xyl-t3": 1.0,
+    "xyl-t4": 0.9973791705484291,
+    "xyl-t5": 0.9966555183946488,
+    "xyl-t6": 1.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.9047619047619048,
+   "n": 21,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 0.0
+   },
+   "failed": [
+    "xyl-b20",
+    "xyl-b21"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 24,
+    "n_pred": 16,
+    "matched": 8,
+    "precision": 0.5,
+    "recall": 0.3333333333333333,
+    "f1": 0.4,
+    "recall_critical": 0.17647058823529413,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.17647058823529413,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s07",
+     "xyl-s08",
+     "xyl-s09",
+     "xyl-s10",
+     "xyl-s11",
+     "xyl-s12",
+     "xyl-s13",
+     "xyl-s14",
+     "xyl-s15",
+     "xyl-s18",
+     "xyl-s19",
+     "xyl-s20",
+     "xyl-s21",
+     "xyl-s22",
+     "xyl-s23",
+     "xyl-s24"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "postgresql_backup",
+  "kind": "manual",
+  "category": "software",
+  "parser": "pymupdf4llm",
+  "error": null,
+  "seconds": 1.4266018419999682,
+  "pages": 7,
+  "sec_per_page": 0.2038002631428526,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.994458192007437,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {
+    "823": 0.9975624619134674,
+    "829": 0.993389560063825,
+    "833": 0.9924225540450189
+   },
+   "per_table": {}
+  },
+  "B": {
+   "pass_rate": 0.9090909090909091,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 0.0
+   },
+   "failed": [
+    "pg-b21",
+    "pg-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "pg-s01"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.875,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "manual",
+  "category": "specification",
+  "parser": "pymupdf4llm",
+  "error": null,
+  "seconds": 7.764953837000007,
+  "pages": 9,
+  "sec_per_page": 0.8627726485555564,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.7281524130139158,
+   "teds": 0.7628936736861457,
+   "teds_struct": 0.7935590025685421,
+   "per_page": {
+    "5": 0.5692108667529108,
+    "6": 0.8572278405710887,
+    "8": 0.7580185317177477
+   },
+   "per_table": {
+    "ti-t1": 0.812054367201426,
+    "ti-t2": 0.8918032786885246,
+    "ti-t3": 0.75,
+    "ti-t4": 0.707857142857143,
+    "ti-t5": 0.9262672811059908,
+    "ti-t6": 0.4893799722637897
+   }
+  },
+  "B": {
+   "pass_rate": 0.9523809523809523,
+   "n": 21,
+   "by_category": {
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "heading": 1.0,
+    "header": 0.5
+   },
+   "failed": [
+    "ti-b20"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 3,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "ti-s01",
+     "ti-s02",
+     "ti-s03"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.7333333333333333,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 0.875,
+    "mrr": 0.628125,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 0.875,
+    "mrr": 0.7333333333333333,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.78125,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "faa_ac43",
+  "kind": "manual",
+  "category": "aviation",
+  "parser": "pymupdf4llm",
+  "error": null,
+  "seconds": 4.215365462999898,
+  "pages": 8,
+  "sec_per_page": 0.5269206828749873,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9437429915332838,
+   "teds": 0.8974355334299201,
+   "teds_struct": 0.9154120300375931,
+   "per_page": {
+    "321": 0.8668954996186118,
+    "324": 0.9762064343163539,
+    "328": 0.9881270406648858
+   },
+   "per_table": {
+    "faa-t1": 0.8090624574226796,
+    "faa-t2": 0.9027855229347767,
+    "faa-t3": 0.9804586199323041
+   }
+  },
+  "B": {
+   "pass_rate": 0.6818181818181818,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 0.8,
+    "spec": 1.0,
+    "table": 0.25,
+    "part_number": 1.0,
+    "heading": 0.5,
+    "header": 0.0
+   },
+   "failed": [
+    "faa-b06",
+    "faa-b12",
+    "faa-b13",
+    "faa-b14",
+    "faa-b19",
+    "faa-b21",
+    "faa-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 9,
+    "n_pred": 8,
+    "matched": 7,
+    "precision": 0.875,
+    "recall": 0.7777777777777778,
+    "f1": 0.823529411764706,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "faa-s04",
+     "faa-s06"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.825,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.8541666666666666,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.8541666666666666,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_tqg",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "pymupdf4llm",
+  "error": null,
+  "seconds": 3.270801338999945,
+  "pages": 11,
+  "sec_per_page": 0.2973455762727223,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9182169382397752,
+   "teds": 0.1967454306328185,
+   "teds_struct": 0.2,
+   "per_page": {
+    "55": 0.8588235294117648,
+    "69": 0.9521829521829521,
+    "78": 0.9436443331246086
+   },
+   "per_table": {
+    "tm-t1": 0.0,
+    "tm-t2": 0.0,
+    "tm-t3": 0.9837271531640924,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.7307692307692307,
+   "n": 26,
+   "by_category": {
+    "header": 0.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 0.6,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b01",
+    "tm-b02",
+    "tm-b03",
+    "tm-b14",
+    "tm-b17",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 14,
+    "n_pred": 12,
+    "matched": 7,
+    "precision": 0.5833333333333334,
+    "recall": 0.5,
+    "f1": 0.5384615384615384,
+    "recall_critical": 0.5454545454545454,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.5454545454545454,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "tm-s01",
+     "tm-s02",
+     "tm-s06",
+     "tm-s07",
+     "tm-s10",
+     "tm-s11",
+     "tm-s13"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.8166666666666667,
+    "n": 10
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_scan",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "pymupdf4llm",
+  "error": null,
+  "seconds": 12.566502060999937,
+  "pages": 4,
+  "sec_per_page": 3.1416255152499843,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9021693901234302,
+   "teds": 0.26847853288332296,
+   "teds_struct": 0.26881720430107525,
+   "per_page": {
+    "55": 0.8572418572418572,
+    "69": 0.9062838569880823,
+    "78": 0.9429824561403509
+   },
+   "per_table": {
+    "tm-t3": 0.8054355986499689,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.6428571428571429,
+   "n": 14,
+   "by_category": {
+    "header": 0.0,
+    "step_order": 0.5,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b01",
+    "tm-b02",
+    "tm-b04",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": []
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 6
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.75,
+    "n": 6
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "xylem_empa",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "liteparse",
+  "error": null,
+  "seconds": 5.324481821999939,
+  "pages": 11,
+  "sec_per_page": 0.4840438019999944,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.8796517272021847,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "26": 0.8772919605077574,
+    "31": 0.9280276816608997,
+    "34": 0.8336355394378967
+   },
+   "per_table": {
+    "xyl-t1": 0.0,
+    "xyl-t2": 0.0,
+    "xyl-t3": 0.0,
+    "xyl-t4": 0.0,
+    "xyl-t5": 0.0,
+    "xyl-t6": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.6190476190476191,
+   "n": 21,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.0,
+    "part_number": 1.0,
+    "heading": 0.0,
+    "header": 0.0
+   },
+   "failed": [
+    "xyl-b13",
+    "xyl-b14",
+    "xyl-b15",
+    "xyl-b16",
+    "xyl-b18",
+    "xyl-b19",
+    "xyl-b20",
+    "xyl-b21"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 24,
+    "n_pred": 16,
+    "matched": 7,
+    "precision": 0.4375,
+    "recall": 0.2916666666666667,
+    "f1": 0.35000000000000003,
+    "recall_critical": 0.23529411764705882,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.23529411764705882,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s04",
+     "xyl-s07",
+     "xyl-s08",
+     "xyl-s10",
+     "xyl-s11",
+     "xyl-s12",
+     "xyl-s13",
+     "xyl-s14",
+     "xyl-s15",
+     "xyl-s17",
+     "xyl-s18",
+     "xyl-s19",
+     "xyl-s20",
+     "xyl-s21",
+     "xyl-s22",
+     "xyl-s23",
+     "xyl-s24"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.875,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "postgresql_backup",
+  "kind": "manual",
+  "category": "software",
+  "parser": "liteparse",
+  "error": null,
+  "seconds": 0.11955973100009487,
+  "pages": 7,
+  "sec_per_page": 0.017079961571442124,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.995909174844389,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {
+    "823": 0.9987797437461867,
+    "829": 0.9947500570645971,
+    "833": 0.9941977237223834
+   },
+   "per_table": {}
+  },
+  "B": {
+   "pass_rate": 0.8181818181818182,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "part_number": 1.0,
+    "heading": 0.0,
+    "header": 0.0
+   },
+   "failed": [
+    "pg-b19",
+    "pg-b20",
+    "pg-b21",
+    "pg-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "pg-s01"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "manual",
+  "category": "specification",
+  "parser": "liteparse",
+  "error": null,
+  "seconds": 5.231904808000081,
+  "pages": 9,
+  "sec_per_page": 0.5813227564444534,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.7156388339757047,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "5": 0.5257214554579674,
+    "6": 0.8414562536699941,
+    "8": 0.7797387927991528
+   },
+   "per_table": {
+    "ti-t1": 0.0,
+    "ti-t2": 0.0,
+    "ti-t3": 0.0,
+    "ti-t4": 0.0,
+    "ti-t5": 0.0,
+    "ti-t6": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.5238095238095238,
+   "n": 21,
+   "by_category": {
+    "spec": 1.0,
+    "table": 0.0,
+    "part_number": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "heading": 0.0,
+    "header": 0.0
+   },
+   "failed": [
+    "ti-b07",
+    "ti-b08",
+    "ti-b09",
+    "ti-b10",
+    "ti-b11",
+    "ti-b12",
+    "ti-b18",
+    "ti-b19",
+    "ti-b20",
+    "ti-b21"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 3,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "ti-s01",
+     "ti-s02",
+     "ti-s03"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.7958333333333333,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 0.75,
+    "mrr": 0.7261904761904762,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.7541666666666667,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.6979166666666666,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "faa_ac43",
+  "kind": "manual",
+  "category": "aviation",
+  "parser": "liteparse",
+  "error": null,
+  "seconds": 2.0407737360000056,
+  "pages": 8,
+  "sec_per_page": 0.2550967170000007,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.41035113552458363,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "321": 0.6468117602138221,
+    "324": 0.3024100363156157,
+    "328": 0.2818316100443131
+   },
+   "per_table": {
+    "faa-t1": 0.0,
+    "faa-t2": 0.0,
+    "faa-t3": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.045454545454545456,
+   "n": 22,
+   "by_category": {
+    "step_order": 0.0,
+    "safety": 0.2,
+    "spec": 0.0,
+    "table": 0.0,
+    "part_number": 0.0,
+    "heading": 0.0,
+    "header": 0.0
+   },
+   "failed": [
+    "faa-b01",
+    "faa-b02",
+    "faa-b03",
+    "faa-b04",
+    "faa-b05",
+    "faa-b07",
+    "faa-b08",
+    "faa-b09",
+    "faa-b10",
+    "faa-b11",
+    "faa-b12",
+    "faa-b13",
+    "faa-b14",
+    "faa-b15",
+    "faa-b16",
+    "faa-b17",
+    "faa-b18",
+    "faa-b19",
+    "faa-b20",
+    "faa-b21",
+    "faa-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 9,
+    "n_pred": 4,
+    "matched": 1,
+    "precision": 0.25,
+    "recall": 0.1111111111111111,
+    "f1": 0.15384615384615383,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "faa-s01",
+     "faa-s02",
+     "faa-s03",
+     "faa-s05",
+     "faa-s06",
+     "faa-s07",
+     "faa-s08",
+     "faa-s09"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.8303571428571429,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.8541666666666666,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_tqg",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "liteparse",
+  "error": null,
+  "seconds": 3.0187037529999543,
+  "pages": 11,
+  "sec_per_page": 0.27442761390908676,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.8070982563642962,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "55": 0.5255172413793103,
+    "69": 0.9521331945889698,
+    "78": 0.9436443331246086
+   },
+   "per_table": {
+    "tm-t1": 0.0,
+    "tm-t2": 0.0,
+    "tm-t3": 0.0,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.6153846153846154,
+   "n": 26,
+   "by_category": {
+    "header": 0.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 0.8,
+    "table": 0.0,
+    "part_number": 1.0,
+    "heading": 0.0
+   },
+   "failed": [
+    "tm-b01",
+    "tm-b02",
+    "tm-b03",
+    "tm-b17",
+    "tm-b19",
+    "tm-b20",
+    "tm-b21",
+    "tm-b22",
+    "tm-b25",
+    "tm-b26"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 14,
+    "n_pred": 12,
+    "matched": 10,
+    "precision": 0.8333333333333334,
+    "recall": 0.7142857142857143,
+    "f1": 0.7692307692307692,
+    "recall_critical": 0.6363636363636364,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.6363636363636364,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "tm-s01",
+     "tm-s02",
+     "tm-s06",
+     "tm-s07"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.9,
+    "mrr": 0.7142857142857143,
+    "n": 10
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9,
+    "n": 10
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.85,
+    "n": 10
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.85,
+    "n": 10
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_scan",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "liteparse",
+  "error": null,
+  "seconds": 2.981981006000069,
+  "pages": 4,
+  "sec_per_page": 0.7454952515000173,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.785228702947113,
+   "teds": 0.0,
+   "teds_struct": 0.0,
+   "per_page": {
+    "55": 0.5253648366921473,
+    "69": 0.9495054659031754,
+    "78": 0.8808158062460165
+   },
+   "per_table": {
+    "tm-t3": 0.0,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.42857142857142855,
+   "n": 14,
+   "by_category": {
+    "header": 0.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.0,
+    "part_number": 1.0,
+    "heading": 0.0
+   },
+   "failed": [
+    "tm-b01",
+    "tm-b02",
+    "tm-b19",
+    "tm-b20",
+    "tm-b21",
+    "tm-b22",
+    "tm-b25",
+    "tm-b26"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": []
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "xylem_empa",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "liteparse-md",
+  "error": null,
+  "seconds": 8.406183435999992,
+  "pages": 11,
+  "sec_per_page": 0.7641984941818175,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.7510649849684171,
+   "teds": 0.3766469550783276,
+   "teds_struct": 0.41785714285714287,
+   "per_page": {
+    "26": 0.9069111424541608,
+    "31": 0.9280276816608997,
+    "34": 0.41825613079019075
+   },
+   "per_table": {
+    "xyl-t1": 0.9592864923747276,
+    "xyl-t2": 0.30059523809523814,
+    "xyl-t3": 1.0,
+    "xyl-t4": 0.0,
+    "xyl-t5": 0.0,
+    "xyl-t6": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.7619047619047619,
+   "n": 21,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 0.5,
+    "header": 0.0
+   },
+   "failed": [
+    "xyl-b14",
+    "xyl-b16",
+    "xyl-b18",
+    "xyl-b20",
+    "xyl-b21"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 24,
+    "n_pred": 16,
+    "matched": 8,
+    "precision": 0.5,
+    "recall": 0.3333333333333333,
+    "f1": 0.4,
+    "recall_critical": 0.17647058823529413,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.17647058823529413,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s07",
+     "xyl-s08",
+     "xyl-s09",
+     "xyl-s10",
+     "xyl-s11",
+     "xyl-s12",
+     "xyl-s13",
+     "xyl-s14",
+     "xyl-s15",
+     "xyl-s18",
+     "xyl-s19",
+     "xyl-s20",
+     "xyl-s21",
+     "xyl-s22",
+     "xyl-s23",
+     "xyl-s24"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.8541666666666666,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "postgresql_backup",
+  "kind": "manual",
+  "category": "software",
+  "parser": "liteparse-md",
+  "error": null,
+  "seconds": 0.5265980359999958,
+  "pages": 7,
+  "sec_per_page": 0.07522829085714225,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9969150407807023,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {
+    "823": 1.0,
+    "829": 0.9956591272561115,
+    "833": 0.995085995085995
+   },
+   "per_table": {}
+  },
+  "B": {
+   "pass_rate": 0.9090909090909091,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 0.0
+   },
+   "failed": [
+    "pg-b21",
+    "pg-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "pg-s01"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.875,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.875,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "manual",
+  "category": "specification",
+  "parser": "liteparse-md",
+  "error": null,
+  "seconds": 13.883133236000049,
+  "pages": 9,
+  "sec_per_page": 1.5425703595555609,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.6594810520130017,
+   "teds": 0.4656459718130626,
+   "teds_struct": 0.55509408446206,
+   "per_page": {
+    "5": 0.2748571428571429,
+    "6": 0.9203821656050956,
+    "8": 0.7832038475767665
+   },
+   "per_table": {
+    "ti-t1": 0.3972676107480029,
+    "ti-t2": 0.37675153826618457,
+    "ti-t3": 0.291652280806189,
+    "ti-t4": 0.7085714285714286,
+    "ti-t5": 0.9308755760368663,
+    "ti-t6": 0.08875739644970415
+   }
+  },
+  "B": {
+   "pass_rate": 0.8571428571428571,
+   "n": 21,
+   "by_category": {
+    "spec": 1.0,
+    "table": 0.5,
+    "part_number": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": [
+    "ti-b07",
+    "ti-b08",
+    "ti-b10"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 3,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "ti-s01",
+     "ti-s02",
+     "ti-s03"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.7991071428571429,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 0.75,
+    "mrr": 0.6984126984126984,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 0.875,
+    "mrr": 0.734375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.74375,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "faa_ac43",
+  "kind": "manual",
+  "category": "aviation",
+  "parser": "liteparse-md",
+  "error": null,
+  "seconds": 2.912404434999985,
+  "pages": 8,
+  "sec_per_page": 0.3640505543749981,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9615476474342634,
+   "teds": 0.702544545082645,
+   "teds_struct": 0.7632494384715063,
+   "per_page": {
+    "321": 0.9409735530854734,
+    "324": 0.9561286001339585,
+    "328": 0.9875407890833581
+   },
+   "per_table": {
+    "faa-t1": 0.5011834319526627,
+    "faa-t2": 0.9402985074626866,
+    "faa-t3": 0.6661516958325855
+   }
+  },
+  "B": {
+   "pass_rate": 0.8181818181818182,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 0.5,
+    "header": 0.5
+   },
+   "failed": [
+    "faa-b12",
+    "faa-b13",
+    "faa-b20",
+    "faa-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 9,
+    "n_pred": 9,
+    "matched": 8,
+    "precision": 0.8888888888888888,
+    "recall": 0.8888888888888888,
+    "f1": 0.8888888888888888,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "faa-s06"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.8055555555555556,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.90625,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.8541666666666666,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_tqg",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "liteparse-md",
+  "error": null,
+  "seconds": 7.980908375000013,
+  "pages": 11,
+  "sec_per_page": 0.7255371250000011,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.8848699110221911,
+   "teds": 0.18675241606330556,
+   "teds_struct": 0.18686238532110092,
+   "per_page": {
+    "55": 0.7582872928176796,
+    "69": 0.952678107124285,
+    "78": 0.9436443331246086
+   },
+   "per_table": {
+    "tm-t1": 0.0,
+    "tm-t2": 0.17431192660550454,
+    "tm-t3": 0.7594501537110233,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.5769230769230769,
+   "n": 26,
+   "by_category": {
+    "header": 0.0,
+    "step_order": 1.0,
+    "safety": 0.8333333333333334,
+    "spec": 0.6,
+    "table": 0.25,
+    "part_number": 1.0,
+    "heading": 0.0
+   },
+   "failed": [
+    "tm-b01",
+    "tm-b02",
+    "tm-b03",
+    "tm-b12",
+    "tm-b14",
+    "tm-b15",
+    "tm-b20",
+    "tm-b21",
+    "tm-b22",
+    "tm-b25",
+    "tm-b26"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 14,
+    "n_pred": 12,
+    "matched": 7,
+    "precision": 0.5833333333333334,
+    "recall": 0.5,
+    "f1": 0.5384615384615384,
+    "recall_critical": 0.5454545454545454,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.5454545454545454,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "tm-s01",
+     "tm-s02",
+     "tm-s03",
+     "tm-s06",
+     "tm-s07",
+     "tm-s11",
+     "tm-s13"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.8833333333333334,
+    "n": 10
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 10
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_scan",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "liteparse-md",
+  "error": null,
+  "seconds": 5.61741634200007,
+  "pages": 4,
+  "sec_per_page": 1.4043540855000174,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.7686567581792244,
+   "teds": 0.0852155104141918,
+   "teds_struct": 0.13333333333333333,
+   "per_page": {
+    "55": 0.6,
+    "69": 0.8219677251431546,
+    "78": 0.8840025493945188
+   },
+   "per_table": {
+    "tm-t3": 0.2556465312425754,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.21428571428571427,
+   "n": 14,
+   "by_category": {
+    "header": 0.0,
+    "step_order": 0.0,
+    "safety": 0.5,
+    "spec": 1.0,
+    "table": 0.0,
+    "part_number": 1.0,
+    "heading": 0.0
+   },
+   "failed": [
+    "tm-b01",
+    "tm-b02",
+    "tm-b04",
+    "tm-b05",
+    "tm-b08",
+    "tm-b19",
+    "tm-b20",
+    "tm-b21",
+    "tm-b22",
+    "tm-b25",
+    "tm-b26"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "tm-s13"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.8055555555555555,
+    "n": 6
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.8333333333333334,
+    "n": 6
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.8333333333333334,
+    "n": 6
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "xylem_empa",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 108.610484079,
+  "pages": 11,
+  "sec_per_page": 9.873680370818182,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9737458115777695,
+   "teds": 0.9621655387972169,
+   "teds_struct": 0.9805555555555555,
+   "per_page": {
+    "26": 0.9332844574780059,
+    "31": 0.9912087912087912,
+    "34": 0.9967441860465116
+   },
+   "per_table": {
+    "xyl-t1": 0.8154700854700855,
+    "xyl-t2": 0.9674938922463675,
+    "xyl-t3": 1.0,
+    "xyl-t4": 0.9964395114771054,
+    "xyl-t5": 0.9935897435897436,
+    "xyl-t6": 1.0
+   }
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 21,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 24,
+    "n_pred": 16,
+    "matched": 8,
+    "precision": 0.5,
+    "recall": 0.3333333333333333,
+    "f1": 0.4,
+    "recall_critical": 0.17647058823529413,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.17647058823529413,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s07",
+     "xyl-s08",
+     "xyl-s09",
+     "xyl-s10",
+     "xyl-s11",
+     "xyl-s12",
+     "xyl-s13",
+     "xyl-s14",
+     "xyl-s15",
+     "xyl-s18",
+     "xyl-s19",
+     "xyl-s20",
+     "xyl-s21",
+     "xyl-s22",
+     "xyl-s23",
+     "xyl-s24"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "postgresql_backup",
+  "kind": "manual",
+  "category": "software",
+  "parser": "docling",
+  "error": null,
+  "seconds": 6.597639748999995,
+  "pages": 7,
+  "sec_per_page": 0.9425199641428564,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.999775684163302,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {
+    "823": 1.0,
+    "829": 1.0,
+    "833": 0.9993270524899058
+   },
+   "per_table": {}
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "pg-s01"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.875,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "manual",
+  "category": "specification",
+  "parser": "docling",
+  "error": null,
+  "seconds": 49.00083687799997,
+  "pages": 9,
+  "sec_per_page": 5.444537430888886,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.7314097431899557,
+   "teds": 0.8909887405014586,
+   "teds_struct": 0.9095091112379864,
+   "per_page": {
+    "5": 0.8472222222222222,
+    "6": 0.6580447172292854,
+    "8": 0.6889622901183594
+   },
+   "per_table": {
+    "ti-t1": 0.9869949494949495,
+    "ti-t2": 0.9981900452488688,
+    "ti-t3": 0.90625,
+    "ti-t4": 0.9633333333333334,
+    "ti-t5": 0.9308755760368663,
+    "ti-t6": 0.5602885388947336
+   }
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 21,
+   "by_category": {
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 3,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "ti-s01",
+     "ti-s02",
+     "ti-s03"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.7326388888888888,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 0.75,
+    "mrr": 0.6916666666666667,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 0.875,
+    "mrr": 0.7395833333333334,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.80625,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "faa_ac43",
+  "kind": "manual",
+  "category": "aviation",
+  "parser": "docling",
+  "error": null,
+  "seconds": 27.49421747400004,
+  "pages": 8,
+  "sec_per_page": 3.436777184250005,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9440284848298911,
+   "teds": 0.9540969877061803,
+   "teds_struct": 0.9745041283502823,
+   "per_page": {
+    "321": 0.8653846153846154,
+    "324": 0.9952972791400739,
+    "328": 0.971403559964984
+   },
+   "per_table": {
+    "faa-t1": 0.8802291652672696,
+    "faa-t2": 1.0,
+    "faa-t3": 0.9820617978512716
+   }
+  },
+  "B": {
+   "pass_rate": 0.9545454545454546,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.75,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": [
+    "faa-b13"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 9,
+    "n_pred": 10,
+    "matched": 7,
+    "precision": 0.7,
+    "recall": 0.7777777777777778,
+    "f1": 0.7368421052631577,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 0.8571428571428571,
+    "missed": [
+     "faa-s01",
+     "faa-s04"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.84375,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_tqg",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "docling",
+  "error": null,
+  "seconds": 14.292365165999968,
+  "pages": 11,
+  "sec_per_page": 1.2993059241818152,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9370359710688024,
+   "teds": 0.19657976129912655,
+   "teds_struct": 0.2,
+   "per_page": {
+    "55": 0.8570441988950276,
+    "69": 0.9945414847161572,
+    "78": 0.9595222295952223
+   },
+   "per_table": {
+    "tm-t1": 0.0,
+    "tm-t2": 0.0,
+    "tm-t3": 0.9828988064956328,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.8076923076923077,
+   "n": 26,
+   "by_category": {
+    "header": 0.6666666666666666,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 0.6,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b03",
+    "tm-b14",
+    "tm-b16",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 14,
+    "n_pred": 12,
+    "matched": 8,
+    "precision": 0.6666666666666666,
+    "recall": 0.5714285714285714,
+    "f1": 0.6153846153846153,
+    "recall_critical": 0.5454545454545454,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.5454545454545454,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "tm-s01",
+     "tm-s02",
+     "tm-s06",
+     "tm-s07",
+     "tm-s10",
+     "tm-s11"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.8833333333333334,
+    "n": 10
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 10
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_scan",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "docling",
+  "error": null,
+  "seconds": 29.749451582999995,
+  "pages": 4,
+  "sec_per_page": 7.437362895749999,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9228571546243063,
+   "teds": 0.3277131296499969,
+   "teds_struct": 0.3333333333333333,
+   "per_page": {
+    "55": 0.8600278551532033,
+    "69": 0.9317685589519651,
+    "78": 0.9767750497677505
+   },
+   "per_table": {
+    "tm-t3": 0.9831393889499906,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.7857142857142857,
+   "n": 14,
+   "by_category": {
+    "header": 1.0,
+    "step_order": 0.5,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b04",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": []
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "xylem_empa",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "mineru",
+  "error": null,
+  "seconds": 69.57336885500001,
+  "pages": 11,
+  "sec_per_page": 6.324851714090911,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9785660736310713,
+   "teds": 0.997945519209552,
+   "teds_struct": 1.0,
+   "per_page": {
+    "26": 0.9743401759530792,
+    "31": 0.9912087912087912,
+    "34": 0.9701492537313433
+   },
+   "per_table": {
+    "xyl-t1": 1.0,
+    "xyl-t2": 0.9966326530612245,
+    "xyl-t3": 1.0,
+    "xyl-t4": 0.9942455904012157,
+    "xyl-t5": 0.9967948717948718,
+    "xyl-t6": 1.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.9047619047619048,
+   "n": 21,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 0.5,
+    "table": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": [
+    "xyl-b09",
+    "xyl-b10"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 24,
+    "n_pred": 16,
+    "matched": 7,
+    "precision": 0.4375,
+    "recall": 0.2916666666666667,
+    "f1": 0.35000000000000003,
+    "recall_critical": 0.17647058823529413,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.17647058823529413,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s07",
+     "xyl-s08",
+     "xyl-s09",
+     "xyl-s10",
+     "xyl-s11",
+     "xyl-s12",
+     "xyl-s13",
+     "xyl-s14",
+     "xyl-s15",
+     "xyl-s17",
+     "xyl-s18",
+     "xyl-s19",
+     "xyl-s20",
+     "xyl-s21",
+     "xyl-s22",
+     "xyl-s23",
+     "xyl-s24"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "postgresql_backup",
+  "kind": "manual",
+  "category": "software",
+  "parser": "mineru",
+  "error": null,
+  "seconds": 11.977487149000012,
+  "pages": 7,
+  "sec_per_page": 1.7110695927142874,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9998504225562784,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {
+    "823": 1.0,
+    "829": 1.0,
+    "833": 0.9995512676688355
+   },
+   "per_table": {}
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "pg-s01"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.875,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "manual",
+  "category": "specification",
+  "parser": "mineru",
+  "error": null,
+  "seconds": 55.00378843500005,
+  "pages": 9,
+  "sec_per_page": 6.111532048333339,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.7184804777590433,
+   "teds": 0.8322066164190033,
+   "teds_struct": 0.9139973701512164,
+   "per_page": {
+    "5": 0.6646825396825398,
+    "6": 0.9921363040629095,
+    "8": 0.4986225895316805
+   },
+   "per_table": {
+    "ti-t1": 0.9826086956521739,
+    "ti-t2": 0.9981900452488688,
+    "ti-t3": 0.967741935483871,
+    "ti-t4": 0.7085714285714286,
+    "ti-t5": 0.7485714285714286,
+    "ti-t6": 0.5875561649862489
+   }
+  },
+  "B": {
+   "pass_rate": 0.9523809523809523,
+   "n": 21,
+   "by_category": {
+    "spec": 0.8333333333333334,
+    "table": 1.0,
+    "part_number": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": [
+    "ti-b06"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 3,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "ti-s01",
+     "ti-s02",
+     "ti-s03"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.6770833333333334,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 0.875,
+    "mrr": 0.7125,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 0.875,
+    "mrr": 0.7333333333333333,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.625,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "faa_ac43",
+  "kind": "manual",
+  "category": "aviation",
+  "parser": "mineru",
+  "error": null,
+  "seconds": 18.632361649000018,
+  "pages": 8,
+  "sec_per_page": 2.329045206125002,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9416210625856202,
+   "teds": 0.4288174342390338,
+   "teds_struct": 0.4630264022976574,
+   "per_page": {
+    "321": 0.8261376896149358,
+    "324": 0.9993259184361307,
+    "328": 0.9993995797057941
+   },
+   "per_table": {
+    "faa-t1": 0.19360874168566478,
+    "faa-t2": 1.0,
+    "faa-t3": 0.09284356103143654
+   }
+  },
+  "B": {
+   "pass_rate": 0.9545454545454546,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "heading": 0.5,
+    "header": 1.0
+   },
+   "failed": [
+    "faa-b20"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 9,
+    "n_pred": 8,
+    "matched": 7,
+    "precision": 0.875,
+    "recall": 0.7777777777777778,
+    "f1": 0.823529411764706,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "faa-s04",
+     "faa-s06"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.7846153846153846,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.8166666666666667,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.875,
+    "mrr": 0.8263888888888888,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_tqg",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "mineru",
+  "error": null,
+  "seconds": 21.133982950000018,
+  "pages": 11,
+  "sec_per_page": 1.921271177272729,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.8579102874026323,
+   "teds": 0.42601285638178393,
+   "teds_struct": 0.491935999647138,
+   "per_page": {
+    "55": 0.5737308622078969,
+    "69": 1.0,
+    "78": 1.0
+   },
+   "per_table": {
+    "tm-t1": 0.0,
+    "tm-t2": 0.9177700772221645,
+    "tm-t3": 0.8612704702409719,
+    "tm-t4": 0.1515133305290146,
+    "tm-t5": 0.19951040391676866
+   }
+  },
+  "B": {
+   "pass_rate": 0.8076923076923077,
+   "n": 26,
+   "by_category": {
+    "header": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 0.6,
+    "table": 0.25,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b14",
+    "tm-b15",
+    "tm-b20",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 14,
+    "n_pred": 12,
+    "matched": 10,
+    "precision": 0.8333333333333334,
+    "recall": 0.7142857142857143,
+    "f1": 0.7692307692307692,
+    "recall_critical": 0.6363636363636364,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.6363636363636364,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "tm-s01",
+     "tm-s02",
+     "tm-s06",
+     "tm-s07"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.9,
+    "mrr": 0.7904761904761906,
+    "n": 10
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.8699999999999999,
+    "n": 10
+   },
+   "hybrid": {
+    "recall@5": 0.9,
+    "mrr": 0.8642857142857142,
+    "n": 10
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.9,
+    "mrr": 0.86,
+    "n": 10
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_scan",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "mineru",
+  "error": null,
+  "seconds": 19.637590908999982,
+  "pages": 4,
+  "sec_per_page": 4.909397727249996,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.912245606503653,
+   "teds": 0.1893171861200831,
+   "teds_struct": 0.3019415844673243,
+   "per_page": {
+    "55": 0.7389202256244964,
+    "69": 0.9978165938864629,
+    "78": 1.0
+   },
+   "per_table": {
+    "tm-t3": 0.28646467404842746,
+    "tm-t4": 0.13212209302325573,
+    "tm-t5": 0.14936479128856617
+   }
+  },
+  "B": {
+   "pass_rate": 0.7142857142857143,
+   "n": 14,
+   "by_category": {
+    "header": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.0,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b19",
+    "tm-b20",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": []
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 6
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "xylem_empa",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "router[docling|docling-forceocr]",
+  "error": null,
+  "seconds": 33.131079295999825,
+  "pages": 11,
+  "sec_per_page": 3.0119162996363475,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9737458115777695,
+   "teds": 0.9621655387972169,
+   "teds_struct": 0.9805555555555555,
+   "per_page": {
+    "26": 0.9332844574780059,
+    "31": 0.9912087912087912,
+    "34": 0.9967441860465116
+   },
+   "per_table": {
+    "xyl-t1": 0.8154700854700855,
+    "xyl-t2": 0.9674938922463675,
+    "xyl-t3": 1.0,
+    "xyl-t4": 0.9964395114771054,
+    "xyl-t5": 0.9935897435897436,
+    "xyl-t6": 1.0
+   }
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 21,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 24,
+    "n_pred": 16,
+    "matched": 8,
+    "precision": 0.5,
+    "recall": 0.3333333333333333,
+    "f1": 0.4,
+    "recall_critical": 0.17647058823529413,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.17647058823529413,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s07",
+     "xyl-s08",
+     "xyl-s09",
+     "xyl-s10",
+     "xyl-s11",
+     "xyl-s12",
+     "xyl-s13",
+     "xyl-s14",
+     "xyl-s15",
+     "xyl-s18",
+     "xyl-s19",
+     "xyl-s20",
+     "xyl-s21",
+     "xyl-s22",
+     "xyl-s23",
+     "xyl-s24"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "postgresql_backup",
+  "kind": "manual",
+  "category": "software",
+  "parser": "router[docling|docling-forceocr]",
+  "error": null,
+  "seconds": 6.701226864999853,
+  "pages": 7,
+  "sec_per_page": 0.9573181235714076,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.999775684163302,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {
+    "823": 1.0,
+    "829": 1.0,
+    "833": 0.9993270524899058
+   },
+   "per_table": {}
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "pg-s01"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.875,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "manual",
+  "category": "specification",
+  "parser": "router[docling|docling-forceocr]",
+  "error": null,
+  "seconds": 47.209743948000096,
+  "pages": 9,
+  "sec_per_page": 5.245527105333344,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.7314097431899557,
+   "teds": 0.8909887405014586,
+   "teds_struct": 0.9095091112379864,
+   "per_page": {
+    "5": 0.8472222222222222,
+    "6": 0.6580447172292854,
+    "8": 0.6889622901183594
+   },
+   "per_table": {
+    "ti-t1": 0.9869949494949495,
+    "ti-t2": 0.9981900452488688,
+    "ti-t3": 0.90625,
+    "ti-t4": 0.9633333333333334,
+    "ti-t5": 0.9308755760368663,
+    "ti-t6": 0.5602885388947336
+   }
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 21,
+   "by_category": {
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 3,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "ti-s01",
+     "ti-s02",
+     "ti-s03"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.875,
+    "mrr": 0.7326388888888888,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 0.75,
+    "mrr": 0.6916666666666667,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 0.875,
+    "mrr": 0.7395833333333334,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.80625,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "faa_ac43",
+  "kind": "manual",
+  "category": "aviation",
+  "parser": "router[docling|docling-forceocr]",
+  "error": null,
+  "seconds": 23.93726351700002,
+  "pages": 8,
+  "sec_per_page": 2.9921579396250024,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9440284848298911,
+   "teds": 0.9540969877061803,
+   "teds_struct": 0.9745041283502823,
+   "per_page": {
+    "321": 0.8653846153846154,
+    "324": 0.9952972791400739,
+    "328": 0.971403559964984
+   },
+   "per_table": {
+    "faa-t1": 0.8802291652672696,
+    "faa-t2": 1.0,
+    "faa-t3": 0.9820617978512716
+   }
+  },
+  "B": {
+   "pass_rate": 0.9545454545454546,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.75,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": [
+    "faa-b13"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 9,
+    "n_pred": 10,
+    "matched": 7,
+    "precision": 0.7,
+    "recall": 0.7777777777777778,
+    "f1": 0.7368421052631577,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 0.8571428571428571,
+    "missed": [
+     "faa-s01",
+     "faa-s04"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.84375,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_tqg",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "router[docling|docling-forceocr]",
+  "error": null,
+  "seconds": 14.634998377000102,
+  "pages": 11,
+  "sec_per_page": 1.3304543979091001,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9370359710688024,
+   "teds": 0.19657976129912655,
+   "teds_struct": 0.2,
+   "per_page": {
+    "55": 0.8570441988950276,
+    "69": 0.9945414847161572,
+    "78": 0.9595222295952223
+   },
+   "per_table": {
+    "tm-t1": 0.0,
+    "tm-t2": 0.0,
+    "tm-t3": 0.9828988064956328,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.8076923076923077,
+   "n": 26,
+   "by_category": {
+    "header": 0.6666666666666666,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 0.6,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b03",
+    "tm-b14",
+    "tm-b16",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 14,
+    "n_pred": 12,
+    "matched": 8,
+    "precision": 0.6666666666666666,
+    "recall": 0.5714285714285714,
+    "f1": 0.6153846153846153,
+    "recall_critical": 0.5454545454545454,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.5454545454545454,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "tm-s01",
+     "tm-s02",
+     "tm-s06",
+     "tm-s07",
+     "tm-s10",
+     "tm-s11"
+    ]
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.8833333333333334,
+    "n": 10
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 10
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_scan",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "router[docling|docling-forceocr]",
+  "error": null,
+  "seconds": 16.075142196000115,
+  "pages": 4,
+  "sec_per_page": 4.018785549000029,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.929753921363591,
+   "teds": 0.32781955327493084,
+   "teds_struct": 0.3333333333333333,
+   "per_page": {
+    "55": 0.8616133518776078,
+    "69": 0.9508733624454149,
+    "78": 0.9767750497677505
+   },
+   "per_table": {
+    "tm-t3": 0.9834586598247925,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.7857142857142857,
+   "n": 14,
+   "by_category": {
+    "header": 1.0,
+    "step_order": 0.5,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b04",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": []
+   },
+   "task": "safety"
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   }
+  },
+  "corpus": "manuals"
+ }
+]

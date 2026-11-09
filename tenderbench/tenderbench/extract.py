@@ -108,41 +108,76 @@ def extract_llm(llm, pages: list[str], page_map: list[int], title: str) -> list[
 
 # ---------------------------------------------------------------- manuals: safety notices
 
-SIGNAL = re.compile(r"^\s*(?:[#*_>\s]*)?(DANGER|WARNING|CAUTION|NOTICE|NOTE|IMPORTANT)\b\s*[:!.-]?\s*", re.I)
+SIGNAL = re.compile(r"^(DANGER|WARNING|CAUTION|NOTICE|NOTE|IMPORTANT|[A-Z][a-z]+ Hazard)\b\s*[:!.-]?\s*", re.I)
 SIGNAL_KIND = {"danger": "danger", "warning": "warning", "caution": "caution", "notice": "caution",
                "note": "note", "important": "note"}
+_LIST = re.compile(r"^\s*(?:[-*+\u2022\u25aa\uf0b7]|\(?[a-z0-9]{1,3}[.)])\s+", re.I)
+_HEADING = re.compile(r"^\s{0,3}#{1,6}\s+")
+
+
+def _clean(line: str) -> str:
+    return " ".join(markdown_to_text(line).split())
+
+
+def _signal(line: str):
+    """(kind, rest-of-line) if the line opens a safety notice, else None."""
+    txt = _clean(_HEADING.sub("", line))
+    m = SIGNAL.match(txt)
+    # A real notice uses the signal word in capitals ("WARNING") or as a label ("Note:", "Electrical Hazard:");
+    # "Note that the pump..." in running text is not a notice.
+    if not m or not (m.group(1).isupper() or m.group(0).rstrip().endswith(":")):
+        return None
+    word = m.group(1).lower()
+    kind = SIGNAL_KIND.get(word, "warning" if word.endswith("hazard") else None)
+    return (kind, txt[m.end():].strip()) if kind else None
 
 
 def extract_safety(pages: list[str], page_map: list[int]) -> list[dict]:
-    """Baseline: a signal word (WARNING, CAUTION, NOTE...) starts a notice; the text up to the next
-    blank line, heading or signal word is its body. Bulleted bodies give one item per bullet."""
+    """Baseline: a signal word (WARNING, CAUTION, NOTE, 'Electrical Hazard:'...) opens a notice. Its body is the
+    rest of the line, then either the bulleted items that follow (one notice per bullet, across blank lines)
+    or the next paragraph. A heading or another signal word ends it. Works on Markdown lines so list and
+    heading structure from the parser is used."""
     out = []
     for md, page in zip(pages, page_map):
-        lines = markdown_to_text(md).splitlines()
+        lines = (md or "").splitlines()
         i = 0
         while i < len(lines):
-            m = SIGNAL.match(lines[i])
-            # A real notice uses the signal word in capitals ("WARNING") or as a label ("Note:");
-            # "Note that the pump..." in running text is not a notice.
-            if not m or not (m.group(1).isupper() or m.group(0).rstrip().endswith(":")):
+            sig = _signal(lines[i])
+            if not sig:
                 i += 1
                 continue
-            kind = SIGNAL_KIND[m.group(1).lower()]
-            body = [lines[i][m.end():].strip()]
+            kind, first = sig
+            items = [first] if first else []
             i += 1
-            while i < len(lines) and lines[i].strip() and not SIGNAL.match(lines[i]):
-                body.append(lines[i].strip())
+            in_list = False
+            while i < len(lines):
+                raw = lines[i]
+                if not raw.strip():
+                    i += 1
+                    continue
+                if _signal(raw):
+                    break
+                if _HEADING.match(raw):
+                    if not items:          # military style: WARNING / KEEP AWAY FROM LIVE CIRCUITS / body
+                        i += 1
+                        continue
+                    break
+                cleaned = _clean(raw)
+                if items and not in_list and cleaned.isupper() and len(cleaned) > 12:
+                    items.append(cleaned)  # follow-on capitalised warning lines ("THE BEST DEFENSE IS ...")
+                    i += 1
+                    continue
+                if _LIST.match(raw):
+                    in_list = True
+                    items.append(_clean(_LIST.sub("", raw)))
+                    i += 1
+                    continue
+                if in_list or items:      # a plain paragraph after the body ends the notice
+                    break
+                items.append(_clean(raw))  # signal word alone on its line: the next paragraph is the body
                 i += 1
-            if not any(body) and i < len(lines):
-                # signal word alone on its line: the body follows after a blank line
-                while i < len(lines) and not lines[i].strip():
-                    i += 1
-                while i < len(lines) and lines[i].strip() and not SIGNAL.match(lines[i]):
-                    body.append(lines[i].strip())
-                    i += 1
-            text = " ".join(b for b in body if b)
-            parts = [p.strip(" ;") for p in re.split(r"\s*[\u2022\u25aa\uf0b7]\s*|\s+-\s+(?=[A-Z])", text) if p.strip(" ;")]
-            for p in (parts if len(parts) > 1 else [text]):
-                if len(p) >= 12:
-                    out.append({"page": page, "text": p, "kind": kind})
+            for t in items:
+                for part in [p.strip(" ;") for p in re.split(r"\s*[\u2022\u25aa\uf0b7]\s+", t) if p.strip(" ;")]:
+                    if len(part) >= 12:
+                        out.append({"page": page, "text": part, "kind": kind})
     return out
