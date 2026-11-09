@@ -76,6 +76,10 @@ def validate(doc_id: str) -> list[str]:
             ok = check_rule({**r, "type": "present"}, layer_result)
             if not ok:
                 errs.append(f"{doc_id} {r['id']}: text not found on PDF text layer p{pg}")
+        elif r["type"] in ("steps", "near", "order") and not check_rule(r, layer_result):
+            # The text layer's reading order is unreliable, so this is a prompt to look, not a failure.
+            print(f"  warning: {doc_id} {r['id']}: {r['type']} does not hold on the PDF text layer p{pg} "
+                  "(check against the page image)")
 
     items = [(q, "obligation", OBL) for q in _jsonl(gdir / "requirements.jsonl")] + \
             [(q, "kind", KINDS) for q in _jsonl(gdir / "safety.jsonl")]
