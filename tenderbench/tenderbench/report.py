@@ -41,7 +41,8 @@ def summarise(rows: list[dict]) -> dict:
             "teds_struct": g(lambda r: r.get("A", {}).get("teds_struct"), digital),
             "rules": g(lambda r: (r.get("B") or {}).get("pass_rate"), digital),
             "req_f1": g(lambda r: (r.get("C") or {}).get("rules_baseline", {}).get("f1"), digital),
-            "req_recall_mand": g(lambda r: (r.get("C") or {}).get("rules_baseline", {}).get("recall_mandatory"), digital),
+            "req_recall_mand": g(lambda r: (r.get("C") or {}).get("rules_baseline", {}).get(
+                "recall_critical", (r.get("C") or {}).get("rules_baseline", {}).get("recall_mandatory")), digital),
             "req_f1_llm": g(lambda r: (r.get("C") or {}).get("llm", {}).get("f1"), digital),
             "recall5": g(lambda r: (r.get("D") or {}).get("hybrid-ctx", {}).get("recall@5"), digital),
             "scan_text_similarity": g(lambda r: r.get("A", {}).get("text_similarity"), scan) if scan else None,
@@ -69,11 +70,18 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None) 
             pass
     order = sorted(s, key=lambda p: -(s[p]["overall"] or 0))
     L = ["# TenderBench results", ""]
+    corpus = sorted({r.get("corpus") for r in rows if r.get("corpus")})
+    if corpus:
+        L += [f"Corpus: {', '.join(corpus)}", ""]
+    task = next(((r.get("C") or {}).get("task") for r in rows if (r.get("C") or {}).get("task")), "requirements")
+    xname, cname = (("Safety F1", "Warning recall") if task == "safety" else ("Req F1", "Mand. recall"))
     L.append("Scores are percentages (higher is better) on the digital documents; the scan columns use the "
-             "simulated scan. **Overall** is the mean of text similarity, TEDS, rule pass rate, requirement F1 "
-             "(rule-based extractor) and evidence recall@5 (hybrid + context).")
+             f"simulated scan. **Overall** is the mean of text similarity, TEDS, rule pass rate, {xname} "
+             "(rule-based extractor) and evidence recall@5 (hybrid + context). "
+             + ("Safety F1 scores extraction of WARNING/CAUTION/NOTE notices; warning recall counts warnings and "
+                "dangers only." if task == "safety" else ""))
     L.append("")
-    L.append("| Parser | Overall | Text sim | Table TEDS | TEDS-S | Rule tests | Req F1 | Mand. recall | Recall@5 | "
+    L.append(f"| Parser | Overall | Text sim | Table TEDS | TEDS-S | Rule tests | {xname} | {cname} | Recall@5 | "
              "Scan text | Scan rules | s/page | Residency | Licence |")
     L.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     for p in order:
@@ -93,14 +101,16 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None) 
     # Per-document detail
     L.append("## Per document")
     L.append("")
-    L.append("| Document | Parser | Text sim | TEDS | Rules | Req F1 | Mand. recall | All mand. found | Recall@5 bm25 / dense / hybrid / hybrid-ctx |")
+    allname = "All warnings found" if task == "safety" else "All mand. found"
+    L.append(f"| Document | Parser | Text sim | TEDS | Rules | {xname} | {cname} | {allname} | "
+             "Recall@5 bm25 / dense / hybrid / hybrid-ctx |")
     L.append("|---|---|---|---|---|---|---|---|---|")
     for r in sorted(rows, key=lambda r: (r["doc"], r["parser"])):
         a, b, c, d = r.get("A", {}), r.get("B") or {}, (r.get("C") or {}).get("rules_baseline", {}), r.get("D") or {}
         rec = " / ".join(_fmt(d.get(k, {}).get("recall@5")) for k in ("bm25", "dense", "hybrid", "hybrid-ctx"))
-        amf = c.get("all_mandatory_found")
+        amf = c.get("all_critical_found", c.get("all_mandatory_found"))
         L.append(f"| {r['doc']} | {_md(r['parser'])} | {_fmt(a.get('text_similarity'))} | {_fmt(a.get('teds'))} | "
-                 f"{_fmt(b.get('pass_rate'))} | {_fmt(c.get('f1'))} | {_fmt(c.get('recall_mandatory'))} | "
+                 f"{_fmt(b.get('pass_rate'))} | {_fmt(c.get('f1'))} | {_fmt(c.get('recall_critical', c.get('recall_mandatory')))} | "
                  f"{'-' if amf is None else ('yes' if amf else 'no')} | {rec} |")
     L.append("")
     # Rule categories

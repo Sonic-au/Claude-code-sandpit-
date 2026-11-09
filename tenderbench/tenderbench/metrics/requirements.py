@@ -45,20 +45,28 @@ def match(preds: list[dict], gold: list[dict], threshold: float = MATCH_THRESHOL
     return out
 
 
-def score_requirements(preds: list[dict], gold: list[dict]) -> dict:
+def score_requirements(preds: list[dict], gold: list[dict], label: str = "obligation",
+                       critical: tuple[str, ...] = ("mandatory",)) -> dict:
+    """Score extracted items against gold. `label` is the class field (obligation for tender
+    requirements, kind for manual safety notices); `critical` classes get their own recall and the
+    strict all-found check (mandatory requirements; warnings and dangers)."""
     m = match(preds, gold)
     tp = len(m)
     prec = tp / len(preds) if preds else 0.0
     rec = tp / len(gold) if gold else None
     f1 = (2 * prec * rec / (prec + rec)) if (rec and prec + rec) else 0.0
-    mand = [j for j, g in enumerate(gold) if g.get("obligation") == "mandatory"]
+    mand = [j for j, g in enumerate(gold) if g.get(label) in critical]
     matched_g = {j for _, j, _ in m}
     mand_found = sum(1 for j in mand if j in matched_g)
-    obl_ok = sum(1 for i, j, _ in m if preds[i].get("obligation") == gold[j].get("obligation"))
+    obl_ok = sum(1 for i, j, _ in m if preds[i].get(label) == gold[j].get(label))
     page_ok = sum(1 for i, j, _ in m if preds[i].get("page") == gold[j].get("page"))
     return {
         "n_gold": len(gold), "n_pred": len(preds), "matched": tp,
         "precision": prec, "recall": rec, "f1": f1,
+        "recall_critical": (mand_found / len(mand)) if mand else None,
+        "all_critical_found": (mand_found == len(mand)) if mand else None,
+        "label_accuracy": (obl_ok / tp) if tp else None,
+        # tender-era names kept for existing results
         "recall_mandatory": (mand_found / len(mand)) if mand else None,
         "all_mandatory_found": (mand_found == len(mand)) if mand else None,
         "obligation_accuracy": (obl_ok / tp) if tp else None,

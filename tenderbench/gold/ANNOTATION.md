@@ -87,3 +87,49 @@ Every requirement the document places on the tenderer / respondent / contractor,
 - Mix types: `table`, `number`, `procedure`, `definition`, `cross-reference`, `form`.
 - Include 1-2 `answerable: false` questions per document: plausible, but the document does not answer them
   (check the full text to be sure).
+
+## Technical manuals (`corpus/manuals.yaml`)
+
+The use case is a **technician asking a question** ("what torque for a 1/4-28 bolt?", "what do I check if the
+engine cranks but won't start?") and needing the right answer with the page to check. Tracks A and B work as
+above; the differences are:
+
+### Track B: extra rule categories and types for manuals
+
+| Category | Checks | Typical type |
+|---|---|---|
+| `step_order` | A procedure's steps survive complete and in order | `steps` |
+| `safety` | A WARNING/CAUTION survives verbatim, and stays next to the step it governs | `present`, `near` |
+| `spec` | A value keeps its unit and its parameter (e.g. "37 V" next to "Input voltage") | `near`, `present` |
+| `table` | Spec, torque or troubleshooting table cells | `table_value` |
+| `part_number` | Part numbers, model codes, fault codes and command names survive exactly (`AN310`, `pg_dump -Fc`) | `present` |
+| `heading`, `header`, `order` | As for tenders | |
+
+```json
+{"id": "xyl-b07", "type": "steps", "page": 31, "category": "step_order", "steps": ["Locate the arrows on the adaptor", "Start the pump", "Stop the pump"]}
+{"id": "xyl-b08", "type": "near", "page": 32, "category": "safety", "a": "Disconnect and lock out electrical power", "b": "before installing or servicing", "window": 120}
+{"id": "ti-b03", "type": "near", "page": 6, "category": "spec", "a": "Input-to-output differential voltage", "b": "40", "window": 120}
+```
+
+`near` windows count characters of normalised text; keep them tight (60-200) so the rule tests adjacency.
+
+### Track C for manuals: safety notices (`safety.jsonl`) instead of requirements
+
+Every safety notice on the bench pages: one item per distinct statement (split bulleted notices into one item
+per bullet).
+
+```json
+{"id": "xyl-s01", "page": 32, "kind": "warning", "text": "Disconnect and lock out electrical power before installing or servicing the unit."}
+```
+
+- `kind`: `danger`, `warning`, `caution` (includes NOTICE), `note` (includes IMPORTANT). Use the signal word printed
+  on the page.
+- `text`: the notice body verbatim, without the signal word.
+- Warnings and dangers are the critical class: the report's "all warnings found" check requires every one.
+
+### Track D for manuals: technician questions
+
+8-10 per manual, phrased as a technician would ask, short exact answers (a value with unit, a part number, a step,
+a remedy), evidence pages listed. Mix types: `spec` (table/spec lookup), `procedure` (what to do / which step comes
+next), `troubleshooting` (symptom to cause or remedy), `safety` (what precaution), `part_number`, `definition`, and
+1-2 `unanswerable` ones the bench pages do not answer.

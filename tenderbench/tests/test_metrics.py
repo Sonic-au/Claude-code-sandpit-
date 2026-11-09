@@ -79,3 +79,25 @@ def test_retrieval_and_answers():
 
 def test_content_text_handles_html_tables():
     assert "price 50%" in content_text("<table><tr><td>Price</td><td>50%</td></tr></table>")
+
+
+def test_steps_and_near_rules():
+    md = ("WARNING Disconnect power before servicing.\n\n1. Remove the cover.\n2. Check the seal.\n3. Refit the cover.\n\n"
+          "| Coupling size | Torque |\n|---|---|\n| 5 | 120 in-lb |\n")
+    r = result([md], [32])
+    assert check_rule({"type": "steps", "steps": ["Remove the cover", "Check the seal", "Refit the cover"]}, r)
+    assert not check_rule({"type": "steps", "steps": ["Check the seal", "Remove the cover"]}, r)
+    assert check_rule({"type": "near", "a": "Disconnect power before servicing", "b": "Remove the cover", "window": 80}, r)
+    assert not check_rule({"type": "near", "a": "Disconnect power", "b": "120 in-lb", "window": 20}, r)
+
+
+def test_extract_safety_baseline():
+    from tenderbench.extract import extract_safety
+    md = ("WARNING: Disconnect and lock out electrical power before servicing.\n\n"
+          "Note that the pump is heavy.\n\n"
+          "CAUTION\n\nDo not crank engine for more than 15 seconds.\n\n"
+          "NOTE: Check the oil level daily.\n")
+    items = extract_safety([md], [7])
+    kinds = sorted(i["kind"] for i in items)
+    assert kinds == ["caution", "note", "warning"]
+    assert any("15 seconds" in i["text"] for i in items)

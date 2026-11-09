@@ -104,3 +104,45 @@ def extract_llm(llm, pages: list[str], page_map: list[int], title: str) -> list[
             if isinstance(it, dict) and it.get("text"):
                 out.append({"page": page, "text": it["text"], "obligation": it.get("obligation", "mandatory")})
     return out
+
+
+# ---------------------------------------------------------------- manuals: safety notices
+
+SIGNAL = re.compile(r"^\s*(?:[#*_>\s]*)?(DANGER|WARNING|CAUTION|NOTICE|NOTE|IMPORTANT)\b\s*[:!.-]?\s*", re.I)
+SIGNAL_KIND = {"danger": "danger", "warning": "warning", "caution": "caution", "notice": "caution",
+               "note": "note", "important": "note"}
+
+
+def extract_safety(pages: list[str], page_map: list[int]) -> list[dict]:
+    """Baseline: a signal word (WARNING, CAUTION, NOTE...) starts a notice; the text up to the next
+    blank line, heading or signal word is its body. Bulleted bodies give one item per bullet."""
+    out = []
+    for md, page in zip(pages, page_map):
+        lines = markdown_to_text(md).splitlines()
+        i = 0
+        while i < len(lines):
+            m = SIGNAL.match(lines[i])
+            # A real notice uses the signal word in capitals ("WARNING") or as a label ("Note:");
+            # "Note that the pump..." in running text is not a notice.
+            if not m or not (m.group(1).isupper() or m.group(0).rstrip().endswith(":")):
+                i += 1
+                continue
+            kind = SIGNAL_KIND[m.group(1).lower()]
+            body = [lines[i][m.end():].strip()]
+            i += 1
+            while i < len(lines) and lines[i].strip() and not SIGNAL.match(lines[i]):
+                body.append(lines[i].strip())
+                i += 1
+            if not any(body) and i < len(lines):
+                # signal word alone on its line: the body follows after a blank line
+                while i < len(lines) and not lines[i].strip():
+                    i += 1
+                while i < len(lines) and lines[i].strip() and not SIGNAL.match(lines[i]):
+                    body.append(lines[i].strip())
+                    i += 1
+            text = " ".join(b for b in body if b)
+            parts = [p.strip(" ;") for p in re.split(r"\s*[\u2022\u25aa\uf0b7]\s*|\s+-\s+(?=[A-Z])", text) if p.strip(" ;")]
+            for p in (parts if len(parts) > 1 else [text]):
+                if len(p) >= 12:
+                    out.append({"page": page, "text": p, "kind": kind})
+    return out

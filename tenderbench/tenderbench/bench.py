@@ -52,6 +52,7 @@ def load_gold(doc: Document) -> dict:
         "tables": [t for t in _jsonl(gdir / "tables.jsonl") if keep(t)],
         "rules": rules,
         "requirements": [r for r in _jsonl(gdir / "requirements.jsonl") if keep(r)],
+        "safety": [r for r in _jsonl(gdir / "safety.jsonl") if keep(r)],
         "questions": [q for q in _jsonl(GOLD / "questions.jsonl")
                       if q["doc"] == doc.gold_id and all(e["page"] in pages_in for e in q.get("evidence", []))],
     }
@@ -105,9 +106,13 @@ def track_a(result: ParseResult, gold: dict) -> dict:
 
 
 def track_c(result: ParseResult, gold: dict, doc: Document, llm=None) -> dict:
+    if gold.get("safety"):          # manuals: safety-notice extraction, warnings/dangers are critical
+        preds = extract.extract_safety(result.pages, result.page_map)
+        return {"rules_baseline": score_requirements(preds, gold["safety"], label="kind",
+                                                     critical=("warning", "danger")), "task": "safety"}
     if not gold["requirements"]:
         return {}
-    out = {}
+    out = {"task": "requirements"}
     preds = extract.extract_rules(result.pages, result.page_map)
     out["rules_baseline"] = score_requirements(preds, gold["requirements"])
     if llm is not None:
@@ -159,7 +164,7 @@ def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
 
 def score(result: ParseResult, doc: Document, llm=None, tracks="ABCD") -> dict:
     gold = load_gold(doc)
-    s = {"doc": doc.id, "kind": doc.kind, "parser": result.parser, "error": result.error,
+    s = {"doc": doc.id, "kind": doc.kind, "category": doc.category, "parser": result.parser, "error": result.error,
          "seconds": result.seconds, "pages": len(result.page_map),
          "sec_per_page": result.seconds / max(1, len(result.page_map)), "cost_usd": result.cost_usd}
     if "A" in tracks:
@@ -176,8 +181,11 @@ def score(result: ParseResult, doc: Document, llm=None, tracks="ABCD") -> dict:
 # ------------------------------------------------------------------ orchestration
 
 def run(parsers: list[str], doc_ids: list[str] | None = None, allow_offshore: bool = False, force: bool = False,
-        tracks: str = "ABCD", use_llm: bool = True, out_dir: Path | None = None, log=print) -> Path:
-    docs = [d for d in load_manifest() if not doc_ids or d.id in doc_ids]
+        tracks: str = "ABCD", use_llm: bool = True, out_dir: Path | None = None, log=print,
+        corpus: str | None = None) -> Path:
+    from .corpus import manifest_path
+    mpath = manifest_path(corpus)
+    docs = [d for d in load_manifest(mpath) if not doc_ids or d.id in doc_ids]
     llm = get_llm() if use_llm else None
     if llm and llm.residency == "offshore":
         log(f"note: LLM {llm.label} is offshore; only public documents are in this corpus.")
@@ -186,7 +194,9 @@ def run(parsers: list[str], doc_ids: list[str] | None = None, allow_offshore: bo
         log(f"parser {name}")
         for r in run_parser(name, docs, allow_offshore, force, log):
             d = next(x for x in docs if x.id == r.doc_id)
-            rows.append(score(r, d, llm, tracks))
+            row = score(r, d, llm, tracks)
+            row["corpus"] = mpath.stem
+            rows.append(row)
     out_dir = out_dir or (ROOT / "results" / time.strftime("%Y%m%d-%H%M%S"))
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "scores.json").write_text(json.dumps(rows, indent=1, default=str))

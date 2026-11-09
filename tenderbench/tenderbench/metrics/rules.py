@@ -7,6 +7,9 @@ Rule types (fields in gold/<doc>/rules.jsonl):
   table_value cell at (row containing `row`, column headed   {page, row, col, value}
               `col`) must equal `value`
   heading     text must be marked up as a heading            {text, page?}
+  steps       procedure steps all present, in this order     {steps: [..], page?}
+  near        `a` and `b` both present within `window` chars  {a, b, window?, page?}
+              (a parameter and its value/unit, a warning and the step it governs)
 Each rule also has `id`, `type`, `category` (e.g. clause, table, form, order, ocr, header).
 """
 from __future__ import annotations
@@ -58,7 +61,36 @@ def check_rule(rule: dict, result) -> bool:
         return False
     if t == "table_value":
         return _table_value(rule, scope_md, thr)
+    if t == "steps":
+        hay = content_text(scope_md)
+        pos = -1
+        for step in rule["steps"]:
+            i = _find(norm_text(step), hay[pos + 1:], thr)
+            if i is None:
+                return False
+            pos = pos + 1 + i
+        return True
+    if t == "near":
+        hay = content_text(scope_md)
+        a, b = norm_text(rule["a"]), norm_text(rule["b"])
+        win = int(rule.get("window", 200))
+        starts_a = _all_starts(a, hay, thr)
+        starts_b = _all_starts(b, hay, thr)
+        return any(abs(i - j) <= win for i in starts_a for j in starts_b)
     raise ValueError(f"unknown rule type {t}")
+
+
+def _all_starts(needle: str, hay: str, thr: float) -> list[int]:
+    """Every place `needle` occurs (exact), or the best fuzzy place if it never occurs exactly."""
+    out, i = [], hay.find(needle)
+    while i >= 0:
+        out.append(i)
+        i = hay.find(needle, i + 1)
+    if not out:
+        j = _find(needle, hay, thr)
+        if j is not None:
+            out.append(j)
+    return out
 
 
 def _table_value(rule: dict, md: str, thr: float) -> bool:

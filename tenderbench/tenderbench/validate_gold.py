@@ -22,8 +22,10 @@ from .normalize import content_text, norm_text
 from .parsers.base import ParseResult
 
 REQ = {"rules": {"id", "type", "category"}, "requirements": {"id", "page", "text", "obligation"},
+       "safety": {"id", "page", "text", "kind"},
        "tables": {"id", "page", "html"}, "questions": {"id", "doc", "question", "answer", "evidence", "answerable"}}
 OBL = {"mandatory", "evaluated", "administrative", "informational"}
+KINDS = {"danger", "warning", "caution", "note"}
 
 
 def validate(doc_id: str) -> list[str]:
@@ -39,7 +41,7 @@ def validate(doc_id: str) -> list[str]:
         if (gdir / "pages").exists() else {}
     tables = _jsonl(gdir / "tables.jsonl")
 
-    for kind in ("rules", "requirements", "tables", "questions"):
+    for kind in ("rules", "requirements", "safety", "tables", "questions"):
         for i, item in enumerate(_jsonl(gdir / f"{kind}.jsonl")):
             missing = REQ[kind] - set(item)
             if missing:
@@ -48,7 +50,8 @@ def validate(doc_id: str) -> list[str]:
             if pg is not None and pg not in pm:
                 errs.append(f"{doc_id} {item.get('id')}: page {pg} not in bench pages")
 
-    ids = [x.get("id") for k in ("rules", "requirements", "tables", "questions") for x in _jsonl(gdir / f"{k}.jsonl")]
+    ids = [x.get("id") for k in ("rules", "requirements", "safety", "tables", "questions")
+           for x in _jsonl(gdir / f"{k}.jsonl")]
     dup = {i for i in ids if ids.count(i) > 1}
     if dup:
         errs.append(f"{doc_id} duplicate ids: {sorted(dup)}")
@@ -74,9 +77,11 @@ def validate(doc_id: str) -> list[str]:
             if not ok:
                 errs.append(f"{doc_id} {r['id']}: text not found on PDF text layer p{pg}")
 
-    for q in _jsonl(gdir / "requirements.jsonl"):
-        if q.get("obligation") not in OBL:
-            errs.append(f"{doc_id} {q['id']}: bad obligation {q.get('obligation')}")
+    items = [(q, "obligation", OBL) for q in _jsonl(gdir / "requirements.jsonl")] + \
+            [(q, "kind", KINDS) for q in _jsonl(gdir / "safety.jsonl")]
+    for q, field, allowed in items:
+        if q.get(field) not in allowed:
+            errs.append(f"{doc_id} {q['id']}: bad {field} {q.get(field)}")
         # A requirement may start on its page and run onto the next one.
         nxt = pm[pm.index(q["page"]) + 1] if q["page"] in pm and pm.index(q["page"]) + 1 < len(pm) else None
         here, there = content_text(layer.get(q["page"], "")), content_text(layer.get(nxt, "") if nxt else "")
@@ -102,16 +107,17 @@ def validate(doc_id: str) -> list[str]:
 
 
 def merge_questions() -> int:
-    """Concatenate gold/<doc>/questions.jsonl into gold/questions.jsonl."""
+    """Concatenate every document's gold/<doc>/questions.jsonl (all corpora) into gold/questions.jsonl."""
+    from .corpus import CORPORA
     lines = []
-    for d in load_manifest():
+    for d in [d for p in sorted(CORPORA.glob("*.yaml")) for d in load_manifest(p)]:
         lines += [json.dumps(q, ensure_ascii=False) for q in _jsonl(GOLD / d.id / "questions.jsonl")]
     (GOLD / "questions.jsonl").write_text("\n".join(lines) + "\n")
     return len(lines)
 
 
 def main(argv=None):
-    ids = (argv if argv is not None else sys.argv[1:]) or [d.id for d in load_manifest()]
+    ids = (argv if argv is not None else sys.argv[1:]) or [d.id for d in load_manifest()]  # default corpus
     all_errs = []
     for i in ids:
         e = validate(i)

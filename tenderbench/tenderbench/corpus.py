@@ -16,8 +16,19 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
-MANIFEST = ROOT / "corpus" / "manifest.yaml"
+CORPORA = ROOT / "corpus"
+DEFAULT_CORPUS = "manuals"
 DATA = ROOT / "data"
+
+
+def manifest_path(corpus: str | None = None) -> Path:
+    """Corpus manifest: TB_CORPUS env var or argument (`manuals` by default, `tenders` for the bid corpus)."""
+    import os
+    name = corpus or os.environ.get("TB_CORPUS") or DEFAULT_CORPUS
+    p = CORPORA / f"{name}.yaml"
+    if not p.exists():
+        raise FileNotFoundError(f"no corpus manifest {p}; available: {[x.stem for x in CORPORA.glob('*.yaml')]}")
+    return p
 USER_AGENT = "TenderBench/0.1 (document-parsing research; +https://github.com/Sonic-au/Claude-code-sandpit-)"
 
 
@@ -32,6 +43,7 @@ class Document:
     derived_from: str | None = None
     transform: dict | None = None
     publisher: str = ""
+    category: str = ""
     notes: str = ""
     extra: dict = field(default_factory=dict)
 
@@ -56,10 +68,11 @@ class Document:
         return json.loads(self.page_map_path.read_text())
 
 
-def load_manifest(path: Path = MANIFEST) -> list[Document]:
-    raw = yaml.safe_load(path.read_text())
+def load_manifest(path: Path | None = None) -> list[Document]:
+    raw = yaml.safe_load((path or manifest_path()).read_text())
     docs = []
-    known = {"id", "title", "kind", "pages", "url", "sha256", "derived_from", "transform", "publisher", "notes"}
+    known = {"id", "title", "kind", "pages", "url", "sha256", "derived_from", "transform", "publisher", "category",
+             "notes"}
     for d in raw["documents"]:
         docs.append(Document(**{k: v for k, v in d.items() if k in known},
                              extra={k: v for k, v in d.items() if k not in known}))
@@ -67,9 +80,10 @@ def load_manifest(path: Path = MANIFEST) -> list[Document]:
 
 
 def get_document(doc_id: str) -> Document:
-    for d in load_manifest():
-        if d.id == doc_id:
-            return d
+    for p in sorted(CORPORA.glob("*.yaml")):
+        for d in load_manifest(p):
+            if d.id == doc_id:
+                return d
     raise KeyError(f"unknown document id: {doc_id}")
 
 
@@ -84,7 +98,7 @@ def _sha256(path: Path) -> str:
 def fetch(doc: Document, force: bool = False) -> Path:
     """Download a source document (once) and verify its checksum."""
     if doc.derived_from:
-        return get_document(doc.derived_from).source_pdf
+        return fetch(get_document(doc.derived_from), force)
     dest = doc.source_pdf
     dest.parent.mkdir(parents=True, exist_ok=True)
     if force or not dest.exists():
@@ -118,11 +132,19 @@ def build(doc: Document) -> Path:
     if doc.transform and doc.transform.get("type") == "scan":
         _build_scan(src, pages, doc.bench_pdf, doc.transform)
     else:
-        writer = pypdf.PdfWriter()
-        for p in pages:
-            writer.add_page(reader.pages[p - 1])
-        with doc.bench_pdf.open("wb") as f:
-            writer.write(f)
+        try:
+            writer = pypdf.PdfWriter()
+            for p in pages:
+                writer.add_page(reader.pages[p - 1])
+            with doc.bench_pdf.open("wb") as f:
+                writer.write(f)
+        except RecursionError:
+            # Very large manuals (e.g. PostgreSQL's 3,100 pages) have link annotations that point all over
+            # the document; pypdf follows them while copying. pdfium imports the pages without that.
+            import pypdfium2 as pdfium
+            out = pdfium.PdfDocument.new()
+            out.import_pages(pdfium.PdfDocument(str(src)), [p - 1 for p in pages])
+            out.save(str(doc.bench_pdf))
     doc.page_map_path.write_text(json.dumps(pages))
     return doc.bench_pdf
 
