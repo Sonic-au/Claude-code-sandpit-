@@ -1,0 +1,21 @@
+{"id": "ti-b01", "type": "near", "page": 6, "category": "spec", "a": "Input-to-output differential voltage", "b": "40", "window": 60}
+{"id": "ti-b02", "type": "near", "page": 1, "category": "spec", "a": "Output current:", "b": "1.5A", "window": 30}
+{"id": "ti-b03", "type": "near", "page": 8, "category": "spec", "a": "Adjustment pin current", "b": "50", "window": 80}
+{"id": "ti-b04", "type": "near", "page": 23, "category": "spec", "a": "use an input bypass capacitor", "b": "0.1μF or greater", "window": 100}
+{"id": "ti-b05", "type": "near", "page": 13, "category": "spec", "a": "A 3V headroom is recommended", "b": "to support maximum current and lowest temperature", "window": 60}
+{"id": "ti-b06", "type": "near", "page": 23, "category": "spec", "a": "rated maximum junction temperature", "b": "125°C", "window": 60}
+{"id": "ti-b07", "type": "table_value", "page": 8, "category": "table", "row": "Thermal regulation", "col": "MAX", "value": "0.07"}
+{"id": "ti-b08", "type": "table_value", "page": 8, "category": "table", "row": "Minimum load current", "col": "MAX", "value": "10"}
+{"id": "ti-b09", "type": "table_value", "page": 6, "category": "table", "row": "Output current", "col": "MAX", "value": "1.5"}
+{"id": "ti-b10", "type": "table_value", "page": 4, "category": "table", "row": "TO-220 (NDE)", "col": "LM317A", "value": "23.3"}
+{"id": "ti-b11", "type": "table_value", "page": 5, "category": "table", "row": "ADJUST", "col": "SOT-223", "value": "1"}
+{"id": "ti-b12", "type": "table_value", "page": 1, "category": "table", "row": "KTT (TO-263, 3)", "col": "PACKAGE SIZE", "value": "10.16mm × 15.24mm"}
+{"id": "ti-b13", "type": "present", "page": 1, "category": "part_number", "text": "3-pin, TO-220 (KCS, KCT), legacy chip"}
+{"id": "ti-b14", "type": "present", "page": 24, "category": "part_number", "text": "See the AN-1028 Maximum Power Enhancement Techniques for Power Packages application note"}
+{"id": "ti-b15", "type": "present", "page": 6, "category": "part_number", "text": "Human body model (HBM), per ANSI/ESDA/JEDEC JS-001"}
+{"id": "ti-b16", "type": "steps", "page": 23, "category": "step_order", "steps": ["Equation 9 calculates the power dissipated by the regulator", "Equation 10 calculates the next parameter, which is the maximum allowable temperature rise", "Equation 11 calculates the maximum allowable value for the junction-to-ambient thermal resistance"]}
+{"id": "ti-b17", "type": "present", "page": 6, "category": "safety", "text": "Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device."}
+{"id": "ti-b18", "type": "heading", "page": 8, "category": "heading", "text": "6.6 Electrical Characteristics"}
+{"id": "ti-b19", "type": "heading", "page": 6, "category": "heading", "text": "6.1 Absolute Maximum Ratings"}
+{"id": "ti-b20", "type": "absent", "page": 5, "category": "header", "text": "SLVS044Z – SEPTEMBER 1997 – REVISED APRIL 2025"}
+{"id": "ti-b21", "type": "absent", "page": 8, "category": "header", "text": "Submit Document Feedback Copyright © 2025 Texas Instruments Incorporated"}
