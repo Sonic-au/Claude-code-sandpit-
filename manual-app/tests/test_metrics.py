@@ -146,3 +146,64 @@ def test_session_provider_queues_then_reads_back(tmp_path, monkeypatch):
     assert task["key"] == key and task["prompt"] == "What is X?"
     (tmp_path / "session_llm" / "responses.jsonl").write_text(json.dumps({"key": key, "response": "42"}) + "\n")
     assert LLM("session", "s", "session").complete("What is X?") == "42"
+
+
+class _FakeJev:
+    """Stands in for the Jev API: returns fixed probabilities and records the request body."""
+    model = "jev-test"
+
+    def __init__(self, probs):
+        from manual_app.judge import Jev
+        self._jev, self.probs, self.bodies = Jev(model="jev-test"), probs, []
+        self.usage = self._jev.usage
+
+    def grade(self, question, gold, answer, title):
+        from manual_app.judge import parse_response
+        self.bodies.append(self._jev.request_body(question, gold, answer, title))
+        return parse_response({"answers": {"verdict": {"type": "choice", "probabilities": self.probs}}})
+
+
+class _FakeClaude:
+    def __init__(self, verdict):
+        self.verdict, self.calls = verdict, 0
+
+    def complete_json(self, prompt, schema, system="", max_tokens=0):
+        self.calls += 1
+        return {"verdict": self.verdict}
+
+
+def test_jev_request_follows_the_typed_choice_format():
+    from manual_app.judge import JEV_CRITERIA, Jev
+    body = Jev(model="jev-1.13.0").request_body("Q?", "2,000 pounds", "2,000 lbs [1]", "FAA AC 43")
+    assert body["model"] == "jev-1.13.0"
+    assert body["state"]["reference_answer"] == "2,000 pounds" and body["state"]["candidate_answer"] == "2,000 lbs [1]"
+    v = body["questions"]["verdict"]
+    assert v["type"] == "choice" and set(v["criteria"]) == set(JEV_CRITERIA) == {"correct", "partial", "incorrect"}
+
+
+def test_parse_response_takes_top_probability_as_confidence():
+    from manual_app.judge import parse_response
+    verdict, q, _ = parse_response({"answers": {"verdict": {"choice": "correct", "confidence": 0.5,
+                                                            "probabilities": {"correct": 0.7, "partial": 0.2,
+                                                                              "incorrect": 0.1}}}})
+    assert verdict == "correct" and q == 0.7
+
+
+def test_cascade_accepts_confident_jev_and_escalates_the_rest():
+    from manual_app.judge import Grader, summarise, threshold_sweep
+    claude = _FakeClaude("partial")
+    sure = Grader(claude, "cascade", _FakeJev({"correct": 0.95, "partial": 0.04, "incorrect": 0.01}), tau=0.9)
+    r1 = sure.grade("Q?", "gold", "answer", "doc")
+    assert r1["final"] == "correct" and r1["by"] == "jev" and claude.calls == 0
+    unsure = Grader(claude, "cascade", _FakeJev({"correct": 0.6, "partial": 0.3, "incorrect": 0.1}), tau=0.9)
+    r2 = unsure.grade("Q?", "gold", "answer", "doc")
+    assert r2["final"] == "partial" and r2["by"] == "claude" and claude.calls == 1
+    assert sure.grade("Q?", "gold", "NOT FOUND", "doc") == {"final": "incorrect", "by": "rule"}
+    s = summarise([r1, r2], 2)
+    assert s["judged_accuracy"] == 0.5 and s["escalated"] == 0.5 and s["jev_claude_agreement"] == 0.0
+    cmp = Grader(claude, "compare", _FakeJev({"correct": 0.95, "partial": 0.04, "incorrect": 0.01}), tau=0.9)
+    r3 = cmp.grade("Q?", "gold", "answer", "doc")
+    assert r3["final"] == "correct" and r3["claude"] == "partial"
+    sweep = {row["threshold"]: row for row in threshold_sweep([r2, r3])}
+    assert sweep[1.01]["escalated"] == 1.0 and sweep[1.01]["agrees_with_claude"] == 1.0
+    assert sweep[0.5]["escalated"] == 0.0

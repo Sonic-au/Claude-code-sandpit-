@@ -104,19 +104,38 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, 
                      + (f", {llm_info['pending']} still pending (session provider: answer them and run again)"
                         if llm_info.get("pending") else "")
                      + f"; data residency: {llm_info.get('residency')}.")
+            j = llm_info.get("judge")
+            if j:
+                L.append(f"Answers graded by `{j['label']}`: {j.get('calls', 0)} Jev calls, "
+                         f"{j.get('input_tokens', 0):,} input tokens, about US${j.get('cost_usd', 0):.4f}, "
+                         f"{j.get('errors', 0)} errors; Jev is hosted offshore (public documents only).")
         L.append("")
         llm_rows = [r for r in rows if (r.get("C") or {}).get("llm") or (r.get("D") or {}).get("answers")]
         if llm_rows:
+            jcols = any("jev_graded" in ((r.get("D") or {}).get("answers") or {}) for r in llm_rows)
             L.append("| Document | Parser | LLM extraction F1 | LLM critical recall | All critical found | "
-                     "Answers judged correct | Answer strict | Answer lenient | Citation accuracy | Abstention accuracy |")
-            L.append("|---|---|---|---|---|---|---|---|---|---|")
+                     "Answers judged correct | Answer strict | Answer lenient | Citation accuracy | Abstention accuracy |"
+                     + (" Escalated to Claude | Jev-Claude agreement |" if jcols else ""))
+            L.append("|---|---|---|---|---|---|---|---|---|---|" + ("---|---|" if jcols else ""))
             for r in sorted(llm_rows, key=lambda r: (r["doc"], r["parser"])):
                 c = (r.get("C") or {}).get("llm", {})
                 a = (r.get("D") or {}).get("answers", {})
                 acf = c.get("all_critical_found")
                 L.append(f"| {r['doc']} | {_md(r['parser'])} | {_fmt(c.get('f1'))} | {_fmt(c.get('recall_critical'))} | "
                          f"{'-' if acf is None else ('yes' if acf else 'no')} | {_fmt(a.get('judged_accuracy'))} | {_fmt(a.get('accuracy'))} | {_fmt(a.get('lenient_accuracy'))} | "
-                         f"{_fmt(a.get('citation_accuracy'))} | {_fmt(a.get('abstention_accuracy'))} |")
+                         f"{_fmt(a.get('citation_accuracy'))} | {_fmt(a.get('abstention_accuracy'))} |"
+                         + (f" {_fmt(a.get('escalated'))} | {_fmt(a.get('jev_claude_agreement'))} |" if jcols else ""))
+        sweep = ((llm_info or {}).get("judge") or {}).get("threshold_sweep")
+        if sweep:
+            L.append("")
+            L.append(f"Cascade threshold sweep (answers graded by both Jev and Claude, n={sweep[0]['n']}): with each "
+                     "confidence threshold, the share of answers escalated to Claude and how often the cascade's "
+                     "grade matches Claude grading everything.")
+            L.append("")
+            L.append("| Threshold | Escalated | Agrees with Claude |")
+            L.append("|---|---|---|")
+            for row in sweep:
+                L.append(f"| {row['threshold']:g} | {_fmt(row['escalated'])} | {_fmt(row['agrees_with_claude'])} |")
     else:
         L.append("**Independent checks** are rules generated from vendor websites (HTML manual, product spec page) "
                  "and TechManualQA-700 answer snippets, not from our own annotation (`python -m manual_app vendor`).")

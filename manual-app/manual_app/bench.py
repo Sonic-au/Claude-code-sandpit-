@@ -134,7 +134,7 @@ ANSWER_STRATEGY = os.environ.get("TB_ANSWER_STRATEGY", "hybrid-rerank")   # retr
 
 
 def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
-            strategies=("bm25", "dense", "hybrid", "hybrid-ctx", "hybrid-rerank"), k: int = 5) -> dict:
+            strategies=("bm25", "dense", "hybrid", "hybrid-ctx", "hybrid-rerank"), k: int = 5, grader=None) -> dict:
     qs = gold["questions"]
     if not qs:
         return {}
@@ -154,8 +154,10 @@ def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
                       "n": len(rec)}
     if llm is not None:
         correct, lenient, f1s, cite_ok, abstain_ok, n_ans, n_un = 0, 0, [], 0, 0, 0, 0
+        from .judge import Grader, JevError, summarise
         from .llm import LLMRefusal
-        refused, verdicts = 0, []
+        grader = grader or Grader(llm)
+        refused, grades = 0, []
         for q in qs:
             top = retrieve.search(q["question"], chunks, ANSWER_STRATEGY, doc.title)[:k]
             try:
@@ -170,27 +172,25 @@ def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
                 lenient += ok or answer_coverage(ans, q["answer"]) >= 0.7
                 f1s.append(token_f1(ans, q["answer"]))
                 cite_ok += bool(set(cited) & {e["page"] for e in q["evidence"]})
-                if ans:
-                    try:
-                        verdicts.append(retrieve.judge(llm, q["question"], q["answer"], ans, doc.title))
-                    except LLMRefusal:
-                        pass
+                try:
+                    grades.append({"id": q.get("id"), "question": q["question"], "reference": q["answer"], "answer": ans,
+                                   **grader.grade(q["question"], q["answer"], ans, doc.title)})
+                except (LLMRefusal, JevError):
+                    pass
             else:
                 n_un += 1
                 abstain_ok += "not found" in ans.lower()
-        judged = len(verdicts) == n_ans and n_ans > 0     # only report once every answer has a grade
-        out["answers"] = {"model": llm.label, "retrieval": ANSWER_STRATEGY,
+        out["answers"] = {"model": llm.label, "retrieval": ANSWER_STRATEGY, "grader": grader.label,
                           "accuracy": correct / n_ans if n_ans else None,
                           "lenient_accuracy": lenient / n_ans if n_ans else None,
-                          "judged_accuracy": verdicts.count("correct") / n_ans if judged else None,
-                          "judged_partial": verdicts.count("partial") / n_ans if judged else None,
+                          **summarise(grades, n_ans), "grades": grades,
                           "token_f1": statistics.fmean(f1s) if f1s else None,
                           "citation_accuracy": cite_ok / n_ans if n_ans else None,
                           "abstention_accuracy": abstain_ok / n_un if n_un else None, "refused": refused}
     return out
 
 
-def score(result: ParseResult, doc: Document, llm=None, tracks="ABCD") -> dict:
+def score(result: ParseResult, doc: Document, llm=None, tracks="ABCD", grader=None) -> dict:
     gold = load_gold(doc)
     s = {"doc": doc.id, "kind": doc.kind, "category": doc.category, "parser": result.parser, "error": result.error,
          "seconds": result.seconds, "pages": len(result.page_map),
@@ -204,7 +204,7 @@ def score(result: ParseResult, doc: Document, llm=None, tracks="ABCD") -> dict:
     if "C" in tracks:
         s["C"] = track_c(result, gold, doc, llm)
     if "D" in tracks:
-        s["D"] = track_d(result, gold, doc, llm)
+        s["D"] = track_d(result, gold, doc, llm, grader=grader)
     return s
 
 
@@ -219,12 +219,18 @@ def run(parsers: list[str], doc_ids: list[str] | None = None, allow_offshore: bo
     llm = get_llm() if use_llm else None
     if llm and llm.residency == "offshore":
         log(f"note: LLM {llm.label} is offshore; only public documents are in this corpus.")
+    grader = None
+    if llm and "D" in tracks:
+        from .judge import Grader
+        grader = Grader(llm)
+        if grader.jev:
+            log(f"note: answers graded by {grader.label}; Jev is a hosted offshore service (public documents only).")
     rows = []
     for name in parsers:
         log(f"parser {name}")
         for r in run_parser(name, docs, allow_offshore, force, log):
             d = next(x for x in docs if x.id == r.doc_id)
-            row = score(r, d, llm, tracks)
+            row = score(r, d, llm, tracks, grader)
             row["corpus"] = mpath.stem
             rows.append(row)
     out_dir = out_dir or (ROOT / "results" / time.strftime("%Y%m%d-%H%M%S"))
@@ -234,6 +240,11 @@ def run(parsers: list[str], doc_ids: list[str] | None = None, allow_offshore: bo
     llm_info = None
     if llm:
         llm_info = {"label": llm.label, "residency": llm.residency, **llm.usage, "cost_usd": llm.cost_usd}
+        if grader and grader.jev:
+            from .judge import threshold_sweep
+            llm_info["judge"] = {"label": grader.label, **grader.jev.usage, "cost_usd": grader.jev.cost_usd,
+                                 "threshold_sweep": threshold_sweep(
+                                     [g for r in rows for g in ((r.get("D") or {}).get("answers") or {}).get("grades", [])])}
         (out_dir / "llm_usage.json").write_text(json.dumps(llm_info, indent=1))
     write_report(rows, out_dir, llm_label=llm.label if llm else None, llm_info=llm_info)
     log(f"wrote {out_dir}")

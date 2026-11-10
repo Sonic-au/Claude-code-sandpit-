@@ -155,6 +155,31 @@ TB_LLM_PROVIDER=session python -m manual_app run --parsers docling   # scores; r
 
 Answers are graded in a later pass, so expect three runs. Responses are cached by prompt hash, so re-scoring is free.
 
+**Answer graders.** `TB_JUDGE` chooses who grades answers against the gold answer:
+
+| `TB_JUDGE` | Grader |
+|---|---|
+| `claude` (default) | Claude grades every answer. |
+| `jev` | [TypeSafe Jev](https://arxiv.org/abs/2609.26550) grades every answer: a typed decision model that returns a probability for each label (correct / partial / incorrect) and no text. Its top probability is the confidence. |
+| `cascade` | Jev grades first. Grades with confidence at or above `TB_JEV_THRESHOLD` (default 0.9) are final; the rest go to Claude ("accept when confident, escalate when unsure"). |
+| `compare` | Jev and Claude both grade everything. The report shows their agreement and a threshold sweep (escalation rate and agreement with Claude at each threshold); run it once to choose the threshold. |
+
+Jev settings: `TB_JEV_URL` (default `https://api.typesafe.ai/v1/systemone`), `TB_JEV_MODEL` (default `jev-1.13.0`;
+it is pinned because a threshold is tuned to one build) and `TB_JEV_API_KEY` (bearer token; in a cloud session
+save it as a network secret instead). Jev is a hosted, offshore service, priced at US$0.042 per million input tokens
+in the paper (check current pricing), so send it public documents only. Access was invite-only (waitlist) in
+September 2026. Grading never stops a run: when Jev fails, that answer is left ungraded and judged accuracy is
+not reported for its document.
+
+Using a different model family to grade avoids Claude grading Claude. To check either grader against a person:
+
+```bash
+python scripts/spot_check.py export results/<run> 20   # blind CSV: fill the `human` column
+python scripts/spot_check.py score results/<run>/spot_check.csv
+```
+
+The sample takes Jev-Claude disagreements first, then low-confidence Jev grades, then random answers.
+
 The report adds an LLM table (extraction F1, critical recall, all-critical-found, answer accuracy (judged, strict and
 lenient), citation accuracy, abstention) and a usage line with token counts and estimated cost (`llm_usage.json`).
 
