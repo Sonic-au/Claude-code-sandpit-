@@ -141,6 +141,26 @@
     "pg-b22"
    ]
   },
+  "V": {
+   "pass_rate": 0.6666666666666666,
+   "n": 24,
+   "by_category": {
+    "vendor_heading": 0.0,
+    "vendor_code": 0.875,
+    "vendor_notice": 1.0,
+    "vendor_order": 1.0
+   },
+   "failed": [
+    "pgv-v001",
+    "pgv-v002",
+    "pgv-v004",
+    "pgv-v009",
+    "pgv-v013",
+    "pgv-v016",
+    "pgv-v018",
+    "pgv-v024"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 1,
@@ -239,6 +259,14 @@
     "ti-b21"
    ]
   },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 7,
+   "by_category": {
+    "vendor_spec": 1.0
+   },
+   "failed": []
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 3,
@@ -264,24 +292,24 @@
   },
   "D": {
    "bm25": {
-    "recall@5": 0.875,
-    "mrr": 0.71875,
-    "n": 8
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6492063492063491,
+    "n": 15
    },
    "dense": {
-    "recall@5": 0.75,
-    "mrr": 0.6979166666666666,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.7373015873015873,
+    "n": 15
    },
    "hybrid": {
-    "recall@5": 0.875,
-    "mrr": 0.7416666666666667,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.6644444444444445,
+    "n": 15
    },
    "hybrid-ctx": {
     "recall@5": 1.0,
-    "mrr": 0.7291666666666666,
-    "n": 8
+    "mrr": 0.6744444444444445,
+    "n": 15
    }
   },
   "corpus": "manuals"
@@ -721,6 +749,20 @@
     "pg-b22"
    ]
   },
+  "V": {
+   "pass_rate": 0.9166666666666666,
+   "n": 24,
+   "by_category": {
+    "vendor_heading": 1.0,
+    "vendor_code": 0.875,
+    "vendor_notice": 1.0,
+    "vendor_order": 1.0
+   },
+   "failed": [
+    "pgv-v016",
+    "pgv-v018"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 1,
@@ -810,6 +852,17 @@
     "ti-b20"
    ]
   },
+  "V": {
+   "pass_rate": 0.7142857142857143,
+   "n": 7,
+   "by_category": {
+    "vendor_spec": 0.7142857142857143
+   },
+   "failed": [
+    "tiv-v002",
+    "tiv-v010"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 3,
@@ -835,24 +888,24 @@
   },
   "D": {
    "bm25": {
-    "recall@5": 0.875,
-    "mrr": 0.7333333333333333,
-    "n": 8
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6007407407407407,
+    "n": 15
    },
    "dense": {
-    "recall@5": 0.875,
-    "mrr": 0.628125,
-    "n": 8
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.6316666666666666,
+    "n": 15
    },
    "hybrid": {
-    "recall@5": 0.875,
-    "mrr": 0.7333333333333333,
-    "n": 8
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7133333333333333,
+    "n": 15
    },
    "hybrid-ctx": {
     "recall@5": 1.0,
-    "mrr": 0.78125,
-    "n": 8
+    "mrr": 0.6888888888888889,
+    "n": 15
    }
   },
   "corpus": "manuals"
@@ -1275,6 +1328,26 @@
     "pg-b22"
    ]
   },
+  "V": {
+   "pass_rate": 0.6666666666666666,
+   "n": 24,
+   "by_category": {
+    "vendor_heading": 0.0,
+    "vendor_code": 0.875,
+    "vendor_notice": 1.0,
+    "vendor_order": 1.0
+   },
+   "failed": [
+    "pgv-v001",
+    "pgv-v002",
+    "pgv-v004",
+    "pgv-v009",
+    "pgv-v013",
+    "pgv-v016",
+    "pgv-v018",
+    "pgv-v024"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 1,
@@ -1373,6 +1446,20 @@
     "ti-b21"
    ]
   },
+  "V": {
+   "pass_rate": 0.2857142857142857,
+   "n": 7,
+   "by_category": {
+    "vendor_spec": 0.2857142857142857
+   },
+   "failed": [
+    "tiv-v002",
+    "tiv-v003",
+    "tiv-v004",
+    "tiv-v005",
+    "tiv-v013"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 3,
@@ -1398,24 +1485,24 @@
   },
   "D": {
    "bm25": {
-    "recall@5": 0.875,
-    "mrr": 0.7958333333333333,
-    "n": 8
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6788888888888889,
+    "n": 15
    },
    "dense": {
-    "recall@5": 0.75,
-    "mrr": 0.7261904761904762,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.7523809523809525,
+    "n": 15
    },
    "hybrid": {
-    "recall@5": 1.0,
-    "mrr": 0.7541666666666667,
-    "n": 8
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7100000000000001,
+    "n": 15
    },
    "hybrid-ctx": {
-    "recall@5": 1.0,
-    "mrr": 0.6979166666666666,
-    "n": 8
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.625,
+    "n": 15
    }
   },
   "corpus": "manuals"
@@ -1866,6 +1953,20 @@
     "pg-b22"
    ]
   },
+  "V": {
+   "pass_rate": 0.9166666666666666,
+   "n": 24,
+   "by_category": {
+    "vendor_heading": 1.0,
+    "vendor_code": 0.875,
+    "vendor_notice": 1.0,
+    "vendor_order": 1.0
+   },
+   "failed": [
+    "pgv-v016",
+    "pgv-v018"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 1,
@@ -1957,6 +2058,18 @@
     "ti-b10"
    ]
   },
+  "V": {
+   "pass_rate": 0.5714285714285714,
+   "n": 7,
+   "by_category": {
+    "vendor_spec": 0.5714285714285714
+   },
+   "failed": [
+    "tiv-v002",
+    "tiv-v010",
+    "tiv-v013"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 3,
@@ -1982,24 +2095,24 @@
   },
   "D": {
    "bm25": {
-    "recall@5": 0.875,
-    "mrr": 0.7991071428571429,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.6646031746031745,
+    "n": 15
    },
    "dense": {
-    "recall@5": 0.75,
-    "mrr": 0.6984126984126984,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.6291534391534391,
+    "n": 15
    },
    "hybrid": {
-    "recall@5": 0.875,
-    "mrr": 0.734375,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.6974867724867725,
+    "n": 15
    },
    "hybrid-ctx": {
-    "recall@5": 1.0,
-    "mrr": 0.74375,
-    "n": 8
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.6011111111111112,
+    "n": 15
    }
   },
   "corpus": "manuals"
@@ -2416,6 +2529,20 @@
    },
    "failed": []
   },
+  "V": {
+   "pass_rate": 0.9166666666666666,
+   "n": 24,
+   "by_category": {
+    "vendor_heading": 1.0,
+    "vendor_code": 0.875,
+    "vendor_notice": 1.0,
+    "vendor_order": 1.0
+   },
+   "failed": [
+    "pgv-v016",
+    "pgv-v018"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 1,
@@ -2503,6 +2630,16 @@
    },
    "failed": []
   },
+  "V": {
+   "pass_rate": 0.8571428571428571,
+   "n": 7,
+   "by_category": {
+    "vendor_spec": 0.8571428571428571
+   },
+   "failed": [
+    "tiv-v005"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 3,
@@ -2528,24 +2665,24 @@
   },
   "D": {
    "bm25": {
-    "recall@5": 0.875,
-    "mrr": 0.7326388888888888,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.5814814814814814,
+    "n": 15
    },
    "dense": {
-    "recall@5": 0.75,
-    "mrr": 0.6916666666666667,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.6417460317460317,
+    "n": 15
    },
    "hybrid": {
-    "recall@5": 0.875,
-    "mrr": 0.7395833333333334,
-    "n": 8
+    "recall@5": 0.7333333333333333,
+    "mrr": 0.69,
+    "n": 15
    },
    "hybrid-ctx": {
-    "recall@5": 1.0,
-    "mrr": 0.80625,
-    "n": 8
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6077777777777779,
+    "n": 15
    }
   },
   "corpus": "manuals"
@@ -2941,6 +3078,20 @@
    },
    "failed": []
   },
+  "V": {
+   "pass_rate": 0.9166666666666666,
+   "n": 24,
+   "by_category": {
+    "vendor_heading": 1.0,
+    "vendor_code": 0.875,
+    "vendor_notice": 1.0,
+    "vendor_order": 1.0
+   },
+   "failed": [
+    "pgv-v016",
+    "pgv-v018"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 1,
@@ -3030,6 +3181,18 @@
     "ti-b06"
    ]
   },
+  "V": {
+   "pass_rate": 0.5714285714285714,
+   "n": 7,
+   "by_category": {
+    "vendor_spec": 0.5714285714285714
+   },
+   "failed": [
+    "tiv-v002",
+    "tiv-v005",
+    "tiv-v010"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 3,
@@ -3055,24 +3218,24 @@
   },
   "D": {
    "bm25": {
-    "recall@5": 0.875,
-    "mrr": 0.6770833333333334,
-    "n": 8
+    "recall@5": 0.7333333333333333,
+    "mrr": 0.646980056980057,
+    "n": 15
    },
    "dense": {
-    "recall@5": 0.875,
-    "mrr": 0.7125,
-    "n": 8
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7411111111111112,
+    "n": 15
    },
    "hybrid": {
-    "recall@5": 0.875,
-    "mrr": 0.7333333333333333,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.6873015873015873,
+    "n": 15
    },
    "hybrid-ctx": {
-    "recall@5": 1.0,
-    "mrr": 0.625,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.5984126984126984,
+    "n": 15
    }
   },
   "corpus": "manuals"
@@ -3467,6 +3630,20 @@
    },
    "failed": []
   },
+  "V": {
+   "pass_rate": 0.9166666666666666,
+   "n": 24,
+   "by_category": {
+    "vendor_heading": 1.0,
+    "vendor_code": 0.875,
+    "vendor_notice": 1.0,
+    "vendor_order": 1.0
+   },
+   "failed": [
+    "pgv-v016",
+    "pgv-v018"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 1,
@@ -3554,6 +3731,16 @@
    },
    "failed": []
   },
+  "V": {
+   "pass_rate": 0.8571428571428571,
+   "n": 7,
+   "by_category": {
+    "vendor_spec": 0.8571428571428571
+   },
+   "failed": [
+    "tiv-v005"
+   ]
+  },
   "C": {
    "rules_baseline": {
     "n_gold": 3,
@@ -3579,24 +3766,24 @@
   },
   "D": {
    "bm25": {
-    "recall@5": 0.875,
-    "mrr": 0.7326388888888888,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.5814814814814814,
+    "n": 15
    },
    "dense": {
-    "recall@5": 0.75,
-    "mrr": 0.6916666666666667,
-    "n": 8
+    "recall@5": 0.8,
+    "mrr": 0.6417460317460317,
+    "n": 15
    },
    "hybrid": {
-    "recall@5": 0.875,
-    "mrr": 0.7395833333333334,
-    "n": 8
+    "recall@5": 0.7333333333333333,
+    "mrr": 0.69,
+    "n": 15
    },
    "hybrid-ctx": {
-    "recall@5": 1.0,
-    "mrr": 0.80625,
-    "n": 8
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6077777777777779,
+    "n": 15
    }
   },
   "corpus": "manuals"

@@ -107,3 +107,8 @@ def test_identifiers_keep_underscores():
     assert "pg_wal" in content_text("Copy the pg\\_wal directory")
     assert "archive_command" in content_text("Set `archive_command` and _restart_ the server")
     assert "restart" in content_text("_restart_") and "_" not in content_text("_restart_")
+
+
+def test_shell_pipes_in_rules():
+    r = result(["or:\n\n```\ncat filename.gz | gunzip | psql dbname\n```\n"], [825])
+    assert check_rule({"type": "present", "text": "cat filename.gz | gunzip | psql dbname", "page": 825}, r)

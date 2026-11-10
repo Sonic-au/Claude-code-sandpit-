@@ -23,6 +23,13 @@ from ..normalize import content_text, extract_tables, norm_text, table_grid
 DEFAULT_THRESHOLD = 90.0
 
 
+def _needle(text: str) -> str:
+    """Normalise rule text exactly as parser output is normalised (content_text), so characters that
+    the Markdown cleanup removes from output (table pipes, emphasis stars) cannot make a rule unpassable,
+    e.g. the shell pipe in `cat filename.gz | gunzip | psql dbname`."""
+    return content_text(text)
+
+
 def _scope(result, rule) -> str:
     return result.page(rule["page"]) if rule.get("page") else result.full_markdown
 
@@ -45,12 +52,12 @@ def check_rule(rule: dict, result) -> bool:
     thr = float(rule.get("threshold", DEFAULT_THRESHOLD))
     scope_md = _scope(result, rule)
     if t in ("present", "absent"):
-        found = _find(norm_text(rule["text"]), content_text(scope_md), thr) is not None
+        found = _find(_needle(rule["text"]), content_text(scope_md), thr) is not None
         return found if t == "present" else not found
     if t == "order":
         hay = content_text(scope_md)
-        a = _find(norm_text(rule["before"]), hay, thr)
-        b = _find(norm_text(rule["after"]), hay, thr)
+        a = _find(_needle(rule["before"]), hay, thr)
+        b = _find(_needle(rule["after"]), hay, thr)
         return a is not None and b is not None and a < b
     if t == "heading":
         target = norm_text(rule["text"])
@@ -65,14 +72,14 @@ def check_rule(rule: dict, result) -> bool:
         hay = content_text(scope_md)
         pos = -1
         for step in rule["steps"]:
-            i = _find(norm_text(step), hay[pos + 1:], thr)
+            i = _find(_needle(step), hay[pos + 1:], thr)
             if i is None:
                 return False
             pos = pos + 1 + i
         return True
     if t == "near":
         hay = content_text(scope_md)
-        a, b = norm_text(rule["a"]), norm_text(rule["b"])
+        a, b = _needle(rule["a"]), _needle(rule["b"])
         win = int(rule.get("window", 200))
         starts_a = _all_starts(a, hay, thr)
         starts_b = _all_starts(b, hay, thr)
