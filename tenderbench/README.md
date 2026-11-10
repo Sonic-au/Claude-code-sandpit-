@@ -87,6 +87,29 @@ Gold annotations (`gold/`) were made from page images, never from a parser's out
 GPU in that environment); smoke-test one document before a full run. Offshore parsers are skipped unless
 `--allow-offshore` is passed, and should only ever see public documents.
 
+## No-cost setup (current default)
+
+Everything below runs with free, open-source software on a CPU: no API keys, no paid services, no data leaving
+the machine. LLM steps are skipped automatically when no Anthropic credential is set.
+
+```bash
+cd tenderbench
+scripts/setup.sh                          # one-time install (parsers, models, scoring libraries)
+. scripts/env.sh && scripts/run_all.sh    # fetch, build independent gold, parse with seven parsers, score
+python -m tenderbench run --parsers docling --no-llm   # just the recommended parser
+```
+
+| Parser | Licence | Notes |
+|---|---|---|
+| **Docling** (recommended start) | MIT | Best on manuals, large tables; safe for commercial use |
+| LiteParse | Apache-2.0 | Light and fast, weaker on tables and scans |
+| MinerU | AGPL-3.0 | Best on tenders and simpler tables; AGPL obligations if offered as a service |
+| PyMuPDF4LLM | AGPL-3.0 | Fastest good option; AGPL (commercial licence from Artifex) |
+
+Retrieval uses the free BGE-small embedding model on CPU. Without an LLM you keep parsing, table, step-order,
+warning and part-number checks, rule-based extraction, and page-cited retrieval; you give up generated answers and
+Claude extraction, which switch on later just by setting `ANTHROPIC_API_KEY`.
+
 ## Running it
 
 ```bash
