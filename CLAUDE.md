@@ -48,6 +48,14 @@ I am a general-purpose assistant for both code and knowledge work — software d
 - **Slack / Notion / Jira**: these tools are in active use — flag when a task may have side effects in these systems before acting
 - When uncertain whether an action touches a shared system, ask first
 
+## Task Tracking
+- **Source of truth**: GitHub Issues at `sonic-au/claude-code-sandpit-`
+- **TODO.md**: A synced summary in the repo — keep it up to date alongside issue changes
+- **New task**: Create a GitHub Issue → add to TODO.md → commit
+- **Starting a task**: Move to "In Progress" in TODO.md → commit
+- **Completing a task**: Close the GitHub Issue → move to "Done" in TODO.md → commit
+- **Session start**: Read TODO.md and list open GitHub Issues to resume context
+
 ## General Guardrails
 - Never take irreversible actions (deleting files, force-pushing, closing issues) without explicit confirmation
 - Never expose or log secrets or credentials

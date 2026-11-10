@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Content Aggregator{% endblock %}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f5f5f5; color: #222; }
+    nav { background: #1a1a2e; color: white; padding: 0.75rem 1.5rem; display: flex; align-items: center; gap: 2rem; }
+    nav a { color: #ccc; text-decoration: none; font-size: 0.9rem; }
+    nav a:hover, nav a.active { color: white; }
+    nav .brand { font-weight: 700; font-size: 1.1rem; color: white; margin-right: 1rem; }
+    .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+    h2 { font-size: 1.2rem; margin-bottom: 1rem; }
+    .card { background: white; border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+    .badge-pending { background: #fef9c3; color: #854d0e; }
+    .badge-approved { background: #dcfce7; color: #166534; }
+    .badge-rejected { background: #fee2e2; color: #991b1b; }
+    .badge-trusted { background: #dbeafe; color: #1e40af; }
+    .btn { display: inline-block; padding: 0.4rem 0.9rem; border-radius: 5px; border: none; cursor: pointer; font-size: 0.85rem; font-weight: 500; text-decoration: none; }
+    .btn-primary { background: #4f46e5; color: white; }
+    .btn-success { background: #16a34a; color: white; }
+    .btn-danger { background: #dc2626; color: white; }
+    .btn-sm { padding: 0.25rem 0.6rem; font-size: 0.78rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid #e5e7eb; font-size: 0.875rem; }
+    th { background: #f9fafb; font-weight: 600; color: #6b7280; }
+    .score-bar { display: inline-block; height: 6px; border-radius: 3px; background: #4f46e5; vertical-align: middle; }
+    .filters { display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; align-items: center; }
+    .filters select, .filters input { padding: 0.4rem 0.6rem; border: 1px solid #d1d5db; border-radius: 5px; font-size: 0.85rem; }
+    form.inline { display: inline; }
+    .flash { padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; background: #dcfce7; color: #166534; }
+    .empty { color: #9ca3af; font-style: italic; padding: 1rem 0; }
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="brand">Aggregator</span>
+    <a href="/" {% if request.url.path == "/" %}class="active"{% endif %}>Dashboard</a>
+    <a href="/sources" {% if "/sources" in request.url.path %}class="active"{% endif %}>Sources</a>
+    <a href="/topics" {% if "/topics" in request.url.path %}class="active"{% endif %}>Topics</a>
+  </nav>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+[
+ {
+  "doc": "tmqa_makita_drill",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 140.93213727099987,
+  "pages": 20,
+  "sec_per_page": 7.046606863549994,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 28,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7633974358974359,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9444444444444444,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.8944444444444444,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 30
+   },
+   "hybrid-rerank": {
+    "recall@5": 1.0,
+    "mrr": 0.9444444444444444,
+    "n": 30
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "accuracy": 0.43333333333333335,
+    "lenient_accuracy": 1.0,
+    "judged_accuracy": 0.9666666666666667,
+    "judged_partial": 0.03333333333333333,
+    "token_f1": 0.4225446699843887,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_prusa_mk4",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 351.300275241,
+  "pages": 66,
+  "sec_per_page": 5.322731443045455,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 30,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.8,
+    "mrr": 0.6449603174603175,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9,
+    "mrr": 0.6698809523809524,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7108730158730159,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7751070226070226,
+    "n": 30
+   },
+   "hybrid-rerank": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7830555555555556,
+    "n": 30
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "accuracy": 0.36666666666666664,
+    "lenient_accuracy": 0.9,
+    "judged_accuracy": 0.9333333333333333,
+    "judged_partial": 0.03333333333333333,
+    "token_f1": 0.32770472150917623,
+    "citation_accuracy": 0.9333333333333333,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_dji_mavic_pro",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 535.2453940900002,
+  "pages": 64,
+  "sec_per_page": 8.363209282656253,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 0.9259259259259259,
+   "n": 27,
+   "by_category": {
+    "tmqa_snippet": 0.9259259259259259
+   },
+   "failed": [
+    "tdj-060-snip",
+    "tdj-126-snip"
+   ]
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.7198550360315067,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9,
+    "mrr": 0.7712467779134446,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.7533363823998499,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7811141601776277,
+    "n": 30
+   },
+   "hybrid-rerank": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.810871212121212,
+    "n": 30
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "accuracy": 0.2,
+    "lenient_accuracy": 0.8333333333333334,
+    "judged_accuracy": 0.9333333333333333,
+    "judged_partial": 0.03333333333333333,
+    "token_f1": 0.40671264708010874,
+    "citation_accuracy": 0.9,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "techmanualqa"
+ }
+]

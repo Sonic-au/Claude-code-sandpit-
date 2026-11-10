@@ -1,0 +1,14 @@
+{"id": "doc-b01", "type": "present", "page": 1, "category": "clause", "text": "Docling is designed as a simple, self-contained python library with permissive license, running entirely locally on commodity hardware"}
+{"id": "doc-b02", "type": "present", "page": 4, "category": "number", "text": "Typical tables require between 2 and 6 seconds to be processed on a standard CPU"}
+{"id": "doc-b03", "type": "present", "page": 4, "category": "number", "text": "feeds a high-resolution page image (216 dpi) to the OCR engine"}
+{"id": "doc-b04", "type": "present", "page": 3, "category": "number", "text": "The Docling pipeline feeds page images at 72 dpi resolution"}
+{"id": "doc-b05", "type": "present", "page": 4, "category": "clause", "text": "While it is faster and more memory efficient than the default docling-parse backend, it will come at the expense of worse quality results"}
+{"id": "doc-b06", "type": "present", "page": 7, "category": "clause", "text": "Text content inside figures is currently dropped, the caption is retained and linked to the figure in the JSON representation"}
+{"id": "doc-b07", "type": "table_value", "page": 5, "category": "table", "row": "Apple M3 Max", "col": "TTS", "value": "103 s"}
+{"id": "doc-b08", "type": "table_value", "page": 5, "category": "table", "row": "Intel(R) Xeon", "col": "Mem", "value": "6.16 GB"}
+{"id": "doc-b09", "type": "table_value", "page": 5, "category": "table", "row": "Intel(R) Xeon", "col": "Pages/s", "value": "1.57"}
+{"id": "doc-b10", "type": "order", "page": 5, "category": "order", "before": "Apple M3 Max", "after": "Intel(R) Xeon E5-2690"}
+{"id": "doc-b11", "type": "order", "page": 4, "category": "order", "before": "We are actively seeking collaboration from the open-source community", "after": "In the final pipeline stage, Docling assembles all prediction results"}
+{"id": "doc-b12", "type": "heading", "page": 1, "category": "heading", "text": "1 Introduction"}
+{"id": "doc-b13", "type": "heading", "page": 4, "category": "heading", "text": "3.4 Extensibility"}
+{"id": "doc-b14", "type": "heading", "page": 5, "category": "heading", "text": "6 Future work and contributions"}

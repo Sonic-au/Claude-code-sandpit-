@@ -1,0 +1,123 @@
+[
+ {
+  "doc": "postgresql_backup",
+  "kind": "html_manual",
+  "rules": 24,
+  "sources": [
+   {
+    "url": "https://www.postgresql.org/docs/17/backup.html",
+    "fetched_at": "2026-11-10T09:57:36Z",
+    "sha256": "2e6c993d06d4acc9b5163919234eb8e38f3a02ab964431b90fdc9c9b770bb80d",
+    "bytes": 17297
+   },
+   {
+    "url": "https://www.postgresql.org/docs/17/backup-dump.html",
+    "fetched_at": "2026-11-10T09:57:36Z",
+    "sha256": "703410d65f63554c68c925d11a1d81531d30d3bf521c833137e5f7a3a6879c33",
+    "bytes": 29816
+   },
+   {
+    "url": "https://www.postgresql.org/docs/17/continuous-archiving.html",
+    "fetched_at": "2026-11-10T09:57:37Z",
+    "sha256": "226888392409000197c8a817d4d5f7b6ef68a3ca9479d899b2840eb3ed4e885a",
+    "bytes": 75080
+   }
+  ]
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "spec_page",
+  "parameters": 13,
+  "rules": 7,
+  "questions": 7,
+  "mismatches": [
+   {
+    "parameter": "Noise",
+    "unit": "µVrms",
+    "website_value": "38",
+    "status": "not stated in the manual in this form",
+    "pages": []
+   },
+   {
+    "parameter": "PSRR at 100 KHz",
+    "unit": "dB",
+    "website_value": "38",
+    "status": "not stated in the manual in this form",
+    "pages": []
+   },
+   {
+    "parameter": "Iq (typ)",
+    "unit": "mA",
+    "website_value": "5",
+    "status": "not stated in the manual in this form",
+    "pages": []
+   },
+   {
+    "parameter": "Thermal resistance θJA",
+    "unit": "°C/W",
+    "website_value": "24",
+    "status": "not stated in the manual in this form",
+    "pages": []
+   },
+   {
+    "parameter": "Accuracy",
+    "unit": "%",
+    "website_value": "5",
+    "status": "not stated in the manual in this form",
+    "pages": []
+   },
+   {
+    "parameter": "Dropout voltage (Vdo) (typ)",
+    "unit": "mV",
+    "website_value": "2000",
+    "status": "not stated in the manual in this form",
+    "pages": []
+   }
+  ],
+  "source": {
+   "url": "https://www.ti.com/product/LM317",
+   "fetched_at": "2026-11-10T10:00:43Z",
+   "sha256": "c84bb1b05386285cf443679b3aa6d6051c3ff0c28072f1f76f6d6dee1cb1144b",
+   "bytes": 358600
+  }
+ },
+ {
+  "doc": "tmqa_makita_drill",
+  "kind": "techmanualqa",
+  "questions": 35,
+  "answerable": 30,
+  "snippets_verified_on_page": 28,
+  "source": {
+   "url": "https://zenodo.org/api/records/17410809/files/TechManualQA_700.zip/content",
+   "fetched_at": "2026-11-10T09:57:42Z",
+   "sha256": "1d02da895c84eceb1f3ac87aafa64f32af7d0373d9869730a0049ef9e4c22e17",
+   "bytes": 167389
+  }
+ },
+ {
+  "doc": "tmqa_prusa_mk4",
+  "kind": "techmanualqa",
+  "questions": 35,
+  "answerable": 30,
+  "snippets_verified_on_page": 30,
+  "source": {
+   "url": "https://zenodo.org/api/records/17410809/files/TechManualQA_700.zip/content",
+   "fetched_at": "2026-11-10T09:57:42Z",
+   "sha256": "1d02da895c84eceb1f3ac87aafa64f32af7d0373d9869730a0049ef9e4c22e17",
+   "bytes": 167389
+  }
+ },
+ {
+  "doc": "tmqa_dji_mavic_pro",
+  "kind": "techmanualqa",
+  "questions": 35,
+  "answerable": 30,
+  "snippets_verified_on_page": 27,
+  "source": {
+   "url": "https://zenodo.org/api/records/17410809/files/TechManualQA_700.zip/content",
+   "fetched_at": "2026-11-10T09:57:42Z",
+   "sha256": "1d02da895c84eceb1f3ac87aafa64f32af7d0373d9869730a0049ef9e4c22e17",
+   "bytes": 167389
+  }
+ }
+]

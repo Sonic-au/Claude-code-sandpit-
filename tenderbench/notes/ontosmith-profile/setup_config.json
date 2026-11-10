@@ -1,0 +1,27 @@
+{
+ "family": "tenders",
+ "profile_hash": "sha256:57ebb0a46d5997fa",
+ "triple_threshold": 0.25,
+ "review_band": [
+  0.25,
+  0.5
+ ],
+ "er_threshold": 0.4,
+ "embed_model": "openai/text-embedding-3-large",
+ "chunk_window_chars": 1000,
+ "chunk_min_chars": 100,
+ "route_baseline": "arm_c",
+ "er_auto_merge": "form_variants_only",
+ "er_alias_sources": "text_attested_only",
+ "batch_cost_cap_usd": 10.0,
+ "provider_sort": "throughput",
+ "corpus_scope": {
+  "family": "tenders",
+  "registry_namespace": "tenders",
+  "cross_corpus_links": "reviewed_edges_only"
+ },
+ "c1_whitelist": null,
+ "c1_whitelist_note": "per-corpus: derive from the relation census of the first batch (playbook Part B #6); setup does not invent it",
+ "redaction_markers_observed": [],
+ "role_word_rules_from_profile": []
+}

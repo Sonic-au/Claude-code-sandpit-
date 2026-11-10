@@ -1,0 +1,11 @@
+[project]
+name = "tenderbench"
+version = "0.1.0"
+description = "Evaluation harness for tender and technical document parsing, extraction and retrieval"
+requires-python = ">=3.11"
+
+[tool.setuptools]
+packages = ["tenderbench", "tenderbench.parsers", "tenderbench.metrics"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

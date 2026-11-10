@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Sources — Content Aggregator{% endblock %}
+{% block content %}
+<h1>Sources</h1>
+
+<div class="card">
+  <h2>Add Source</h2>
+  <form method="post" action="/sources" style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:flex-end;">
+    <div>
+      <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.25rem;">Name</label>
+      <input type="text" name="name" required style="padding:0.4rem;border:1px solid #d1d5db;border-radius:5px;font-size:0.85rem;width:200px;">
+    </div>
+    <div>
+      <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.25rem;">Type</label>
+      <select name="source_type" style="padding:0.4rem;border:1px solid #d1d5db;border-radius:5px;font-size:0.85rem;">
+        <option value="rss">RSS / Website</option>
+        <option value="podcast">Podcast</option>
+        <option value="reddit">Reddit</option>
+        <option value="twitter">Twitter/X</option>
+        <option value="youtube">YouTube</option>
+        <option value="newsletter">Newsletter</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.25rem;">URL / Feed</label>
+      <input type="url" name="url" style="padding:0.4rem;border:1px solid #d1d5db;border-radius:5px;font-size:0.85rem;width:280px;">
+    </div>
+    <div>
+      <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.25rem;">Poll (mins)</label>
+      <input type="number" name="poll_interval_minutes" value="60" min="5"
+             style="padding:0.4rem;border:1px solid #d1d5db;border-radius:5px;font-size:0.85rem;width:80px;">
+    </div>
+    <button type="submit" class="btn btn-primary">Add Source</button>
+  </form>
+</div>
+
+{% if sources %}
+<div class="card" style="padding:0;">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th><th>Type</th><th>URL</th><th>Poll</th><th>Last Fetch</th><th>Status</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for s in sources %}
+    <tr>
+      <td><strong>{{ s.name }}</strong>{% if s.is_trusted %} <span class="badge badge-trusted">Trusted</span>{% endif %}</td>
+      <td>{{ s.source_type }}</td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+        <a href="{{ s.url }}" target="_blank">{{ s.url }}</a>
+      </td>
+      <td>{{ s.poll_interval_minutes }}m</td>
+      <td>{{ s.last_fetched_at.strftime("%b %d %H:%M") if s.last_fetched_at else "Never" }}</td>
+      <td>
+        {% if s.is_blocked %}<span class="badge badge-rejected">Blocked</span>
+        {% elif not s.is_active %}<span class="badge badge-pending">Inactive</span>
+        {% else %}<span class="badge badge-approved">Active</span>{% endif %}
+        {% if s.fetch_error %}<div style="color:#dc2626;font-size:0.75rem;margin-top:0.2rem;" title="{{ s.fetch_error }}">Error</div>{% endif %}
+      </td>
+      <td style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+        <form class="inline" method="post" action="/sources/{{ s.id }}/fetch">
+          <button class="btn btn-primary btn-sm" type="submit">Fetch now</button>
+        </form>
+        <form class="inline" method="post" action="/sources/{{ s.id }}/toggle">
+          <button class="btn btn-sm" type="submit" style="background:#e5e7eb;">
+            {{ "Disable" if s.is_active else "Enable" }}
+          </button>
+        </form>
+        <form class="inline" method="post" action="/sources/{{ s.id }}/delete">
+          <button class="btn btn-danger btn-sm" type="submit"
+                  onclick="return confirm('Delete this source?')">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="empty">No sources yet. Add one above.</p>
+{% endif %}
+{% endblock %}

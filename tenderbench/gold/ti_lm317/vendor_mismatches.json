@@ -1,0 +1,53 @@
+{
+ "source": {
+  "url": "https://www.ti.com/product/LM317",
+  "fetched_at": "2026-11-10T10:00:43Z",
+  "sha256": "c84bb1b05386285cf443679b3aa6d6051c3ff0c28072f1f76f6d6dee1cb1144b",
+  "bytes": 358600
+ },
+ "parameters_on_page": 13,
+ "mismatches": [
+  {
+   "parameter": "Noise",
+   "unit": "µVrms",
+   "website_value": "38",
+   "status": "not stated in the manual in this form",
+   "pages": []
+  },
+  {
+   "parameter": "PSRR at 100 KHz",
+   "unit": "dB",
+   "website_value": "38",
+   "status": "not stated in the manual in this form",
+   "pages": []
+  },
+  {
+   "parameter": "Iq (typ)",
+   "unit": "mA",
+   "website_value": "5",
+   "status": "not stated in the manual in this form",
+   "pages": []
+  },
+  {
+   "parameter": "Thermal resistance θJA",
+   "unit": "°C/W",
+   "website_value": "24",
+   "status": "not stated in the manual in this form",
+   "pages": []
+  },
+  {
+   "parameter": "Accuracy",
+   "unit": "%",
+   "website_value": "5",
+   "status": "not stated in the manual in this form",
+   "pages": []
+  },
+  {
+   "parameter": "Dropout voltage (Vdo) (typ)",
+   "unit": "mV",
+   "website_value": "2000",
+   "status": "not stated in the manual in this form",
+   "pages": []
+  }
+ ]
+}

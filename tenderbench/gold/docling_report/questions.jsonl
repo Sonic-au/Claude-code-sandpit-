@@ -1,0 +1,6 @@
+{"id": "doc-q01", "doc": "docling_report", "question": "With the pypdfium backend on the Apple M3 Max and 16 threads, what throughput in pages per second did Docling reach?", "answer": "2.45", "evidence": [{"page": 5}], "answerable": true, "type": "table"}
+{"id": "doc-q02", "doc": "docling_report", "question": "What peak memory did the native backend use on the Intel Xeon E5-2690 system?", "answer": "6.16 GB", "evidence": [{"page": 5}], "answerable": true, "type": "table"}
+{"id": "doc-q03", "doc": "docling_report", "question": "How many pages does the standard test set used for the performance measurements contain?", "answer": "225", "evidence": [{"page": 4}, {"page": 5}], "answerable": true, "type": "number"}
+{"id": "doc-q04", "doc": "docling_report", "question": "At what resolution is the page image sent to the OCR engine by default?", "answer": "216 dpi", "evidence": [{"page": 4}], "answerable": true, "type": "number"}
+{"id": "doc-q05", "doc": "docling_report", "question": "Which object-detection architecture is the layout analysis model derived from?", "answer": "RT-DETR", "evidence": [{"page": 3}], "answerable": true, "type": "definition"}
+{"id": "doc-q06", "doc": "docling_report", "question": "What TEDS score does TableFormer achieve when run inside Docling?", "answer": "", "evidence": [], "answerable": false, "type": "unanswerable"}

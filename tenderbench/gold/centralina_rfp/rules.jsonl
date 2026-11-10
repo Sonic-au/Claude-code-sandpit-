@@ -1,0 +1,25 @@
+{"id": "cen-b01", "type": "present", "page": 4, "category": "clause", "text": "Question submittals must include a reference to the applicable RFP section"}
+{"id": "cen-b02", "type": "present", "page": 8, "category": "clause", "text": "A withdrawal request shall be on Respondent’s letterhead and signed by an official of the Respondent authorized to make such request"}
+{"id": "cen-b03", "type": "present", "page": 10, "category": "clause", "text": "Note that Centralina is unable to accept unlimited reimbursable expenses. Any proposed reimbursable expenses must be capped in the price proposal"}
+{"id": "cen-b04", "type": "present", "page": 7, "category": "clause", "text": "Prices proposal cannot be altered or modified as part of a clarification"}
+{"id": "cen-b05", "type": "present", "page": 8, "category": "number", "text": "Proposals are limited to 20 pages maximum, with an additional two (2) pages maximum for the cover letter"}
+{"id": "cen-b06", "type": "present", "page": 7, "category": "number", "text": "40% Response to project goals and scope"}
+{"id": "cen-b07", "type": "present", "page": 10, "category": "number", "text": "the Respondent shall notify Centralina within thirty (30) days of any occurrence or condition"}
+{"id": "cen-b08", "type": "present", "page": 16, "category": "number", "text": "Respondent shall notify the Contract Lead within 15 days of any material change to any of the representations made herein"}
+{"id": "cen-b09", "type": "table_value", "page": 4, "category": "table", "row": "Submit Written Questions", "col": "Date and Time", "value": "May 11, 2026"}
+{"id": "cen-b10", "type": "table_value", "page": 4, "category": "table", "row": "Finalists Notified", "col": "Date and Time", "value": "May 25, 2026"}
+{"id": "cen-b11", "type": "table_value", "page": 18, "category": "table", "row": "Bitwarden", "col": "MSP Expectations", "value": "Support, User onboarding and offboarding provisioning"}
+{"id": "cen-b12", "type": "table_value", "page": 18, "category": "table", "row": "Palo Alto PA-440", "col": "Subcategory", "value": "Network – Firewall"}
+{"id": "cen-b13", "type": "table_value", "page": 18, "category": "table", "row": "HP Design JeT Z6 Plotter", "col": "MSP Expectations", "value": "Device Support: Duncan-Parnell, internal IT"}
+{"id": "cen-b14", "type": "order", "page": 13, "category": "form", "before": "Total - Services and Deliverables", "after": "Total - Full Proposal"}
+{"id": "cen-b15", "type": "present", "page": 16, "category": "form", "text": "If any one or more of the foregoing boxes is NOT checked, Respondent shall explain the reason in the space below"}
+{"id": "cen-b16", "type": "present", "page": 14, "category": "form", "text": "E-mail addresses must be valid. Failure to provide a valid email may subject the Respondent’s proposal to rejection"}
+{"id": "cen-b17", "type": "order", "page": 4, "category": "order", "before": "Submit Proposals", "after": "Finalists Notified"}
+{"id": "cen-b18", "type": "order", "page": 8, "category": "order", "before": "Hard Copy: Proposal and all attachments shall be received at the address indicated", "after": "IMPORTANT NOTE: It is the responsibility of the Respondent"}
+{"id": "cen-b19", "type": "order", "page": 18, "category": "order", "before": "50 Employees", "after": "Tier 1, Tier 2, and Tier 3 general support"}
+{"id": "cen-b20", "type": "heading", "page": 4, "category": "heading", "text": "2.2 RFP SCHEDULE"}
+{"id": "cen-b21", "type": "heading", "page": 8, "category": "heading", "text": "4.2 PROPOSAL CONTENTS"}
+{"id": "cen-b22", "type": "heading", "page": 13, "category": "heading", "text": "ATTACHMENT A: PRICING PROPOSAL"}
+{"id": "cen-b23", "type": "heading", "page": 18, "category": "heading", "text": "ATTACHMENT F: IT Environmental Details"}
+{"id": "cen-b24", "type": "absent", "page": 4, "category": "header", "text": "Page 4 of 20"}
+{"id": "cen-b25", "type": "absent", "page": 11, "category": "header", "text": "Page 11 of 20"}

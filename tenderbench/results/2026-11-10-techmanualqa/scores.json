@@ -1,0 +1,919 @@
+[
+ {
+  "doc": "tmqa_makita_drill",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "pypdf-text",
+  "error": null,
+  "seconds": 1.2305335180000156,
+  "pages": 20,
+  "sec_per_page": 0.061526675900000785,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 28,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9666666666666667,
+    "mrr": 0.8325925925925926,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9277777777777777,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9416666666666667,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9566666666666667,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_prusa_mk4",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "pypdf-text",
+  "error": null,
+  "seconds": 47.91668411699993,
+  "pages": 66,
+  "sec_per_page": 0.7260103654090899,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 30,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9,
+    "mrr": 0.7610317460317461,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.8,
+    "mrr": 0.6600396825396826,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7563888888888889,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.767910052910053,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_dji_mavic_pro",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "pypdf-text",
+  "error": null,
+  "seconds": 42.04917978699996,
+  "pages": 64,
+  "sec_per_page": 0.6570184341718743,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 27,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9,
+    "mrr": 0.7598292448292449,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.7666666666666667,
+    "mrr": 0.7311499611499612,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.9,
+    "mrr": 0.747113763379748,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.9,
+    "mrr": 0.7448809523809524,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_makita_drill",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "pymupdf4llm",
+  "error": null,
+  "seconds": 17.461007593999966,
+  "pages": 20,
+  "sec_per_page": 0.8730503796999983,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 0.9642857142857143,
+   "n": 28,
+   "by_category": {
+    "tmqa_snippet": 0.9642857142857143
+   },
+   "failed": [
+    "tmk-002-snip"
+   ]
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.8164052287581699,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9277777777777777,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.861111111111111,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9111111111111111,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_prusa_mk4",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "pymupdf4llm",
+  "error": null,
+  "seconds": 84.13641869800006,
+  "pages": 66,
+  "sec_per_page": 1.2747942226969706,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 30,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.7666666666666667,
+    "mrr": 0.6187144629249892,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7059920634920634,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.6945117845117845,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.7281878306878308,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_dji_mavic_pro",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "pymupdf4llm",
+  "error": null,
+  "seconds": 113.447385758,
+  "pages": 64,
+  "sec_per_page": 1.77261540246875,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 27,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7444444444444444,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.8,
+    "mrr": 0.7175941487706193,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.9666666666666667,
+    "mrr": 0.7583333333333333,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7923148148148148,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_makita_drill",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "liteparse",
+  "error": null,
+  "seconds": 15.998058151999885,
+  "pages": 20,
+  "sec_per_page": 0.7999029075999943,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 0.75,
+   "n": 28,
+   "by_category": {
+    "tmqa_snippet": 0.75
+   },
+   "failed": [
+    "tmk-007-snip",
+    "tmk-047-snip",
+    "tmk-091-snip",
+    "tmk-093-snip",
+    "tmk-124-snip",
+    "tmk-129-snip",
+    "tmk-131-snip"
+   ]
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9666666666666667,
+    "mrr": 0.8197619047619047,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9666666666666667,
+    "mrr": 0.8564814814814814,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.861111111111111,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9416666666666667,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_prusa_mk4",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "liteparse",
+  "error": null,
+  "seconds": 21.670287264999843,
+  "pages": 66,
+  "sec_per_page": 0.32833768583333095,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 0.9666666666666667,
+   "n": 30,
+   "by_category": {
+    "tmqa_snippet": 0.9666666666666667
+   },
+   "failed": [
+    "tpr-076-snip"
+   ]
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9666666666666667,
+    "mrr": 0.7236507936507937,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9,
+    "mrr": 0.6728703703703703,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7583721833721834,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7255555555555555,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_dji_mavic_pro",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "liteparse",
+  "error": null,
+  "seconds": 13.521797733000085,
+  "pages": 64,
+  "sec_per_page": 0.21127808957812633,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 27,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7797168803418804,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.8,
+    "mrr": 0.7240457690457691,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.9,
+    "mrr": 0.7745621237000547,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7824603174603175,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_makita_drill",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "liteparse-md",
+  "error": null,
+  "seconds": 38.116022058,
+  "pages": 20,
+  "sec_per_page": 1.9058011029,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 28,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.8415514592933948,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.961111111111111,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.9666666666666667,
+    "mrr": 0.8642063492063492,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9149999999999999,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_prusa_mk4",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "liteparse-md",
+  "error": null,
+  "seconds": 73.31667418000006,
+  "pages": 66,
+  "sec_per_page": 1.1108586996969707,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 30,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6479310966810967,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6592755991285403,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.9,
+    "mrr": 0.6862148962148962,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.9,
+    "mrr": 0.729021164021164,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_dji_mavic_pro",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "liteparse-md",
+  "error": null,
+  "seconds": 44.585543814000175,
+  "pages": 64,
+  "sec_per_page": 0.6966491220937527,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 27,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7996153846153846,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.8,
+    "mrr": 0.7408232181761593,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.8152777777777778,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.9,
+    "mrr": 0.8378654970760234,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_makita_drill",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 140.93213727099987,
+  "pages": 20,
+  "sec_per_page": 7.046606863549994,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 28,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7633974358974359,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9444444444444444,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.8944444444444444,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_prusa_mk4",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 351.300275241,
+  "pages": 66,
+  "sec_per_page": 5.322731443045455,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 30,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.8,
+    "mrr": 0.6449603174603175,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9,
+    "mrr": 0.6698809523809524,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7108730158730159,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7751070226070226,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_dji_mavic_pro",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 535.2453940900002,
+  "pages": 64,
+  "sec_per_page": 8.363209282656253,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 0.9259259259259259,
+   "n": 27,
+   "by_category": {
+    "tmqa_snippet": 0.9259259259259259
+   },
+   "failed": [
+    "tdj-060-snip",
+    "tdj-126-snip"
+   ]
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.7198550360315067,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9,
+    "mrr": 0.7712467779134446,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.7533363823998499,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7811141601776277,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_makita_drill",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "mineru",
+  "error": null,
+  "seconds": 83.15430206599967,
+  "pages": 20,
+  "sec_per_page": 4.157715103299983,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 0.9642857142857143,
+   "n": 28,
+   "by_category": {
+    "tmqa_snippet": 0.9642857142857143
+   },
+   "failed": [
+    "tmk-064-snip"
+   ]
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9666666666666667,
+    "mrr": 0.7644444444444445,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9444444444444444,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.8861111111111111,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.888888888888889,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_prusa_mk4",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "mineru",
+  "error": null,
+  "seconds": 86.49417998799981,
+  "pages": 66,
+  "sec_per_page": 1.3105178786060578,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 30,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.642420634920635,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9,
+    "mrr": 0.7018253968253968,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6946043771043772,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7574074074074074,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_dji_mavic_pro",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "mineru",
+  "error": null,
+  "seconds": 117.22872185599999,
+  "pages": 64,
+  "sec_per_page": 1.8316987789999999,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 27,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.768037037037037,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.8,
+    "mrr": 0.744640768588137,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.8036699507389162,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.9,
+    "mrr": 0.7965579710144927,
+    "n": 30
+   }
+  },
+  "corpus": "techmanualqa"
+ }
+]
