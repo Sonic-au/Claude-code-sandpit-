@@ -33,6 +33,11 @@ def main(argv=None):
     p.add_argument("--out", default="", help="results directory")
     p.add_argument("--corpus", default="", help="corpus manifest name (default: manuals; or tenders)")
 
+    g = sub.add_parser("graph", help="build the knowledge graph for a corpus (rules plus LLM page extraction)")
+    g.add_argument("--corpus", default="hvac")
+    g.add_argument("--parser", default="docling")
+    g.add_argument("--no-llm", action="store_true", help="rules only: manuals, refrigerants and safety notices")
+
     a = ap.parse_args(argv)
     if a.cmd == "fetch":
         for d in corpus.load_manifest(corpus.manifest_path(a.corpus or None)):
@@ -52,6 +57,15 @@ def main(argv=None):
         bench.run([x for x in a.parsers.split(",") if x], [x for x in a.docs.split(",") if x] or None,
                   allow_offshore=a.allow_offshore, force=a.force, tracks=a.tracks, use_llm=not a.no_llm,
                   out_dir=Path(a.out) if a.out else None, corpus=a.corpus or None)
+    elif a.cmd == "graph":
+        from . import graph
+        from .llm import get_llm
+        gr = graph.build(a.corpus, a.parser, None if a.no_llm else get_llm())
+        print(json.dumps({**gr.stats(), "pending_llm_tasks": gr.meta.get("pending_llm_tasks", 0)}))
+        if gr.meta.get("pending_llm_tasks"):
+            print("LLM tasks are pending: answer them (scripts/session_tool.py) and run this again.")
+        else:
+            print(f"wrote {gr.save()}")
     return 0
 
 

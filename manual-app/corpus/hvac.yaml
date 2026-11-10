@@ -1,0 +1,40 @@
+# HVAC corpus: four related manuals from three makers, used to build and test the knowledge graph
+# (shared components, refrigerant, procedures and faults across manuals). Public documents only.
+# Source PDFs are NOT committed; `python -m manual_app fetch --corpus hvac` downloads them.
+
+documents:
+  - id: hvac_daikin_ftxs_indoor
+    title: "Daikin FTXS20-50G2V1B R410A Split Series indoor unit - Installation Manual 3P207052-1A"
+    publisher: Daikin
+    kind: manual
+    category: hvac
+    url: https://www.daikin.co.uk/content/dam/document-library/installation-manuals/ac/split/ftxs-g/FTXS20-50G2V1B_IM_3P207052-1A_EN_Installation%20manuals_English.pdf
+    sha256: 7d3a7c596b290d855f6bf77eedc0ccb2dbeb636a5bb1c11186de1bfcf420ff47
+    pages: all
+
+  - id: hvac_daikin_rxs_outdoor
+    title: "Daikin RXS/RKS20-35G2V1B R410A Split Series outdoor unit - Installation Manual 3P203824-2B"
+    publisher: Daikin
+    kind: manual
+    category: hvac
+    url: https://www.daikin.it/content/dam/document-library/installation-manuals/ac/split/rks-g/RKXS20-35G_3P203824-2B_Installation%20manuals_English.pdf
+    sha256: 9def3dc452cfd83bad17711632d85bd1d90d3f1d22d98448c97958af540afa9c
+    pages: all
+
+  - id: hvac_bard_wallmount
+    title: "Bard Single Package Wall-Mount Heat Pumps - Installation Instructions Manual 2100-468E"
+    publisher: Bard Manufacturing
+    kind: manual
+    category: hvac
+    url: https://www.bardwallmount.com/files/2100-468(E).pdf
+    sha256: 29272ca7dde150aefec69ba71c130ff13c28ddd31e07430d44dc11efc3539b32
+    pages: all
+
+  - id: hvac_rheem_heatpump
+    title: "Rheem 13 and 14.5 SEER Series Heat Pumps (R-410A, 1.5-5 tons) - Installation Instructions"
+    publisher: Rheem (copy hosted by InspectApedia)
+    kind: manual
+    category: hvac
+    url: https://inspectapedia.com/aircond/Rheem_Heat_Pump_Manual_RHEEM13PJL.pdf
+    sha256: 92920e313062b5369be29328a71bd201b0aee2a3d9941790bace7bcdc6c6d59d
+    pages: all
