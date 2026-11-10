@@ -144,6 +144,35 @@ Full tables: [`results/2026-11-09-manuals/report.md`](results/2026-11-09-manuals
   with conditions and footnotes.
 - **Retrieval is at ceiling again** (95-100% recall@5); harder technician questions are needed to separate parsers.
 
+## Independent gold: vendor websites and TechManualQA-700 (10 Nov 2026)
+
+`python -m tenderbench vendor` builds gold that does not come from our annotators (`corpus/vendor_sources.yaml`,
+`tenderbench/vendor.py`); vendor pages are snapshotted with URL, date and SHA-256. The report shows it as
+**Independent checks**.
+
+| Source | What it gives | Size |
+|---|---|---|
+| PostgreSQL HTML manual (vendor's own source) | Commands, headings, notices and heading order, mapped to PDF pages | 24 checks |
+| TI LM317 product page | Spec values located in the datasheet, plus technician questions | 7 checks, 7 questions |
+| [TechManualQA-700](https://zenodo.org/records/17410809) (CC BY 4.0) | External questions over vendor manuals (`--corpus techmanualqa`): Makita drill, Prusa MK4S, DJI Mavic Pro | 105 questions, 85 snippet checks |
+
+- **The independent checks confirm the ranking from our own gold** on the manuals corpus: Docling 92.9%,
+  PyMuPDF4LLM 85.7%, MinerU 78.6%.
+- **The vendor website and the manual disagree.** Six of TI's 13 product-page parameters are not stated in the
+  datasheet in that form (noise in µVrms, PSRR at 100 kHz, a single 24 °C/W θJA, 2000 mV dropout, quiescent current,
+  accuracy); see `gold/ti_lm317/vendor_mismatches.json`. A knowledge base answering from the manual would give a
+  technician a different answer from the website.
+- **TechManualQA does not separate parsers:** every parser keeps 91-100% of the answer snippets and finds the evidence
+  page for 91-96% of questions (hybrid + heading context, recall@5), with the plain PDF text layer as good as any.
+  Its answers are text snippets extracted from text layers, so it tests retrieval and answering, not structure;
+  table, order and safety checks from our own gold are what tell parsers apart.
+- **Bias to note:** TechManualQA snippets and the TI spec checks are anchored to PDF text layers, which favours
+  text-layer extraction (pypdf scores 87.5% on independent checks while failing every table check).
+- **Vendor links rot:** two of five chosen TechManualQA manuals (DeWalt, Hilti) were 404 at the dataset's URLs.
+  Six TechManualQA answers have defects (parser artefacts, abridged procedures); see `notes/techmanualqa.md`.
+
+Full tables: [`results/2026-11-10-techmanualqa/report.md`](results/2026-11-10-techmanualqa/report.md).
+
 ## Results: tenders (7 Nov 2026, re-scored 9 Nov)
 
 Full tables: [`results/2026-11-07-local/report.md`](results/2026-11-07-local/report.md).

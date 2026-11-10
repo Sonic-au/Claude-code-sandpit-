@@ -6,13 +6,13 @@ Scores are percentages (higher is better) on the digital documents; the scan col
 
 | Parser | Overall | Text sim | Table TEDS | TEDS-S | Rule tests | Safety F1 | Warning recall | Recall@5 | Independent checks | Scan text | Scan rules | s/page | Residency | Licence |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| docling | **79.9** | 91.7 | 75.1 | 76.6 | 95.2 | 40.3 | 90.9 | 97.3 | 88.7 | 92.3 | 78.6 | 4.74 | local | MIT (models: Apache-2.0 / CDLA) |
-| router[docling\|docling-forceocr] | **79.9** | 91.7 | 75.1 | 76.6 | 95.2 | 40.3 | 90.9 | 97.3 | 88.7 | 93.0 | 78.6 | 2.93 | local | mix (see component parsers) |
-| pymupdf4llm | **77.5** | 90.0 | 68.6 | 70.0 | 83.6 | 45.2 | 90.9 | 100.0 | 81.5 | 90.2 | 64.3 | 1.07 | local | AGPL-3.0 (commercial licence from Artifex) |
-| mineru | **76.3** | 89.9 | 67.1 | 71.7 | 92.4 | 40.3 | 90.9 | 91.5 | 74.4 | 91.2 | 71.4 | 3.88 | local | AGPL-3.0 |
-| liteparse-md | **69.6** | 85.1 | 43.3 | 48.1 | 78.5 | 42.3 | 77.3 | 98.7 | 74.4 | 76.9 | 21.4 | 0.81 | local | Apache-2.0 |
-| pypdf-text | **54.9** | 94.0 | 0.0 | 0.0 | 65.0 | 15.7 | 35.3 | 100.0 | 83.3 | 0.0 | 14.3 | 0.02 | local | BSD-3-Clause |
-| liteparse | **48.9** | 76.2 | 0.0 | 0.0 | 52.4 | 18.4 | 35.3 | 97.3 | 47.6 | 78.5 | 42.9 | 0.39 | local | Apache-2.0 |
+| docling | **79.9** | 91.7 | 75.1 | 76.6 | 95.2 | 40.3 | 90.9 | 97.3 | 92.9 | 92.3 | 78.6 | 4.74 | local | MIT (models: Apache-2.0 / CDLA) |
+| router[docling\|docling-forceocr] | **79.9** | 91.7 | 75.1 | 76.6 | 95.2 | 40.3 | 90.9 | 97.3 | 92.9 | 93.0 | 78.6 | 2.93 | local | mix (see component parsers) |
+| pymupdf4llm | **77.5** | 90.0 | 68.6 | 70.0 | 83.6 | 45.2 | 90.9 | 100.0 | 85.7 | 90.2 | 64.3 | 1.07 | local | AGPL-3.0 (commercial licence from Artifex) |
+| mineru | **76.3** | 89.9 | 67.1 | 71.7 | 92.4 | 40.3 | 90.9 | 91.5 | 78.6 | 91.2 | 71.4 | 3.88 | local | AGPL-3.0 |
+| liteparse-md | **69.6** | 85.1 | 43.3 | 48.1 | 78.5 | 42.3 | 77.3 | 98.7 | 78.6 | 76.9 | 21.4 | 0.81 | local | Apache-2.0 |
+| pypdf-text | **54.9** | 94.0 | 0.0 | 0.0 | 65.0 | 15.7 | 35.3 | 100.0 | 87.5 | 0.0 | 14.3 | 0.02 | local | BSD-3-Clause |
+| liteparse | **48.9** | 76.2 | 0.0 | 0.0 | 52.4 | 18.4 | 35.3 | 97.3 | 51.8 | 78.5 | 42.9 | 0.39 | local | Apache-2.0 |
 
 **Independent checks** are rules generated from vendor websites (HTML manual, product spec page) and TechManualQA-700 answer snippets, not from our own annotation (`python -m tenderbench vendor`).
 

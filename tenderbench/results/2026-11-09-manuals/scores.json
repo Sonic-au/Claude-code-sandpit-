@@ -142,11 +142,11 @@
    ]
   },
   "V": {
-   "pass_rate": 0.6666666666666666,
+   "pass_rate": 0.75,
    "n": 24,
    "by_category": {
     "vendor_heading": 0.0,
-    "vendor_code": 0.875,
+    "vendor_code": 1.0,
     "vendor_notice": 1.0,
     "vendor_order": 1.0
    },
@@ -156,8 +156,6 @@
     "pgv-v004",
     "pgv-v009",
     "pgv-v013",
-    "pgv-v016",
-    "pgv-v018",
     "pgv-v024"
    ]
   },
@@ -750,18 +748,15 @@
    ]
   },
   "V": {
-   "pass_rate": 0.9166666666666666,
+   "pass_rate": 1.0,
    "n": 24,
    "by_category": {
     "vendor_heading": 1.0,
-    "vendor_code": 0.875,
+    "vendor_code": 1.0,
     "vendor_notice": 1.0,
     "vendor_order": 1.0
    },
-   "failed": [
-    "pgv-v016",
-    "pgv-v018"
-   ]
+   "failed": []
   },
   "C": {
    "rules_baseline": {
@@ -1329,11 +1324,11 @@
    ]
   },
   "V": {
-   "pass_rate": 0.6666666666666666,
+   "pass_rate": 0.75,
    "n": 24,
    "by_category": {
     "vendor_heading": 0.0,
-    "vendor_code": 0.875,
+    "vendor_code": 1.0,
     "vendor_notice": 1.0,
     "vendor_order": 1.0
    },
@@ -1343,8 +1338,6 @@
     "pgv-v004",
     "pgv-v009",
     "pgv-v013",
-    "pgv-v016",
-    "pgv-v018",
     "pgv-v024"
    ]
   },
@@ -1954,18 +1947,15 @@
    ]
   },
   "V": {
-   "pass_rate": 0.9166666666666666,
+   "pass_rate": 1.0,
    "n": 24,
    "by_category": {
     "vendor_heading": 1.0,
-    "vendor_code": 0.875,
+    "vendor_code": 1.0,
     "vendor_notice": 1.0,
     "vendor_order": 1.0
    },
-   "failed": [
-    "pgv-v016",
-    "pgv-v018"
-   ]
+   "failed": []
   },
   "C": {
    "rules_baseline": {
@@ -2530,18 +2520,15 @@
    "failed": []
   },
   "V": {
-   "pass_rate": 0.9166666666666666,
+   "pass_rate": 1.0,
    "n": 24,
    "by_category": {
     "vendor_heading": 1.0,
-    "vendor_code": 0.875,
+    "vendor_code": 1.0,
     "vendor_notice": 1.0,
     "vendor_order": 1.0
    },
-   "failed": [
-    "pgv-v016",
-    "pgv-v018"
-   ]
+   "failed": []
   },
   "C": {
    "rules_baseline": {
@@ -3079,18 +3066,15 @@
    "failed": []
   },
   "V": {
-   "pass_rate": 0.9166666666666666,
+   "pass_rate": 1.0,
    "n": 24,
    "by_category": {
     "vendor_heading": 1.0,
-    "vendor_code": 0.875,
+    "vendor_code": 1.0,
     "vendor_notice": 1.0,
     "vendor_order": 1.0
    },
-   "failed": [
-    "pgv-v016",
-    "pgv-v018"
-   ]
+   "failed": []
   },
   "C": {
    "rules_baseline": {
@@ -3631,18 +3615,15 @@
    "failed": []
   },
   "V": {
-   "pass_rate": 0.9166666666666666,
+   "pass_rate": 1.0,
    "n": 24,
    "by_category": {
     "vendor_heading": 1.0,
-    "vendor_code": 0.875,
+    "vendor_code": 1.0,
     "vendor_notice": 1.0,
     "vendor_order": 1.0
    },
-   "failed": [
-    "pgv-v016",
-    "pgv-v018"
-   ]
+   "failed": []
   },
   "C": {
    "rules_baseline": {
