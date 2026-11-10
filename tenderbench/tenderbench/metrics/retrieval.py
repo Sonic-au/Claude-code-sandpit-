@@ -36,6 +36,13 @@ def token_f1(pred: str, gold: str) -> float:
     return 2 * p * r / (p + r)
 
 
+def answer_coverage(pred: str, gold: str) -> float:
+    """Share of the gold answer's numbers and key words that appear in the prediction (fair to long answers)."""
+    p = norm_text(pred)
+    toks = [t for t in re.findall(r"[\w%$.]+", norm_text(gold)) if len(t) > 2 or any(c.isdigit() for c in t)]
+    return sum(t in p for t in toks) / len(toks) if toks else 0.0
+
+
 def contains_answer(pred: str, gold: str) -> bool:
     """Lenient check: every number and key word of a short gold answer appears in the prediction."""
     p = norm_text(pred)

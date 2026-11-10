@@ -15,7 +15,7 @@ from pathlib import Path
 from . import extract, retrieve
 from .corpus import DATA, ROOT, Document, build, load_manifest
 from .llm import get_llm
-from .metrics import (best_teds, contains_answer, recall_at_k, reciprocal_rank, score_requirements,
+from .metrics import (answer_coverage, best_teds, contains_answer, recall_at_k, reciprocal_rank, score_requirements,
                       score_rules, text_similarity, token_f1)
 from .normalize import extract_tables
 from .parsers import ParseResult, get_parser
@@ -149,7 +149,7 @@ def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
         out[strat] = {"recall@5": statistics.fmean(rec) if rec else None, "mrr": statistics.fmean(mrr) if mrr else None,
                       "n": len(rec)}
     if llm is not None:
-        correct, f1s, cite_ok, abstain_ok, n_ans, n_un = 0, [], 0, 0, 0, 0
+        correct, lenient, f1s, cite_ok, abstain_ok, n_ans, n_un = 0, 0, [], 0, 0, 0, 0
         from .llm import LLMRefusal
         refused = 0
         for q in qs:
@@ -163,12 +163,14 @@ def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
                 n_ans += 1
                 ok = contains_answer(ans, q["answer"])
                 correct += ok
+                lenient += ok or answer_coverage(ans, q["answer"]) >= 0.7
                 f1s.append(token_f1(ans, q["answer"]))
                 cite_ok += bool(set(cited) & {e["page"] for e in q["evidence"]})
             else:
                 n_un += 1
                 abstain_ok += "not found" in ans.lower()
         out["answers"] = {"model": llm.label, "accuracy": correct / n_ans if n_ans else None,
+                          "lenient_accuracy": lenient / n_ans if n_ans else None,
                           "token_f1": statistics.fmean(f1s) if f1s else None,
                           "citation_accuracy": cite_ok / n_ans if n_ans else None,
                           "abstention_accuracy": abstain_ok / n_un if n_un else None, "refused": refused}

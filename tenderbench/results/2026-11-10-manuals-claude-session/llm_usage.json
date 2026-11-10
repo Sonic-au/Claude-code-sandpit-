@@ -1,0 +1,9 @@
+{
+ "label": "session:claude-code-session (effort session)",
+ "residency": "offshore (Claude Code session)",
+ "calls": 113,
+ "input_tokens": 0,
+ "output_tokens": 0,
+ "refusals": 0,
+ "cost_usd": null
+}

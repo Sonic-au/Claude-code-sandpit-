@@ -108,14 +108,14 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, 
         llm_rows = [r for r in rows if (r.get("C") or {}).get("llm") or (r.get("D") or {}).get("answers")]
         if llm_rows:
             L.append("| Document | Parser | LLM extraction F1 | LLM critical recall | All critical found | "
-                     "Answer accuracy | Citation accuracy | Abstention accuracy |")
-            L.append("|---|---|---|---|---|---|---|---|")
+                     "Answer accuracy | Lenient accuracy | Citation accuracy | Abstention accuracy |")
+            L.append("|---|---|---|---|---|---|---|---|---|")
             for r in sorted(llm_rows, key=lambda r: (r["doc"], r["parser"])):
                 c = (r.get("C") or {}).get("llm", {})
                 a = (r.get("D") or {}).get("answers", {})
                 acf = c.get("all_critical_found")
                 L.append(f"| {r['doc']} | {_md(r['parser'])} | {_fmt(c.get('f1'))} | {_fmt(c.get('recall_critical'))} | "
-                         f"{'-' if acf is None else ('yes' if acf else 'no')} | {_fmt(a.get('accuracy'))} | "
+                         f"{'-' if acf is None else ('yes' if acf else 'no')} | {_fmt(a.get('accuracy'))} | {_fmt(a.get('lenient_accuracy'))} | "
                          f"{_fmt(a.get('citation_accuracy'))} | {_fmt(a.get('abstention_accuracy'))} |")
     else:
         L.append("**Independent checks** are rules generated from vendor websites (HTML manual, product spec page) "

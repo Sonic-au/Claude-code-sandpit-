@@ -1,0 +1,707 @@
+[
+ {
+  "doc": "xylem_empa",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 108.610484079,
+  "pages": 11,
+  "sec_per_page": 9.873680370818182,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9737458115777695,
+   "teds": 0.9621655387972169,
+   "teds_struct": 0.9805555555555555,
+   "per_page": {
+    "26": 0.9332844574780059,
+    "31": 0.9912087912087912,
+    "34": 0.9967441860465116
+   },
+   "per_table": {
+    "xyl-t1": 0.8154700854700855,
+    "xyl-t2": 0.9674938922463675,
+    "xyl-t3": 1.0,
+    "xyl-t4": 0.9964395114771054,
+    "xyl-t5": 0.9935897435897436,
+    "xyl-t6": 1.0
+   }
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 21,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 24,
+    "n_pred": 28,
+    "matched": 22,
+    "precision": 0.7857142857142857,
+    "recall": 0.9166666666666666,
+    "f1": 0.8461538461538461,
+    "recall_critical": 1.0,
+    "all_critical_found": true,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 1.0,
+    "all_mandatory_found": true,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s17",
+     "xyl-s18"
+    ]
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 24,
+    "n_pred": 23,
+    "matched": 23,
+    "precision": 1.0,
+    "recall": 0.9583333333333334,
+    "f1": 0.9787234042553191,
+    "recall_critical": 1.0,
+    "all_critical_found": true,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 1.0,
+    "all_mandatory_found": true,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s18"
+    ],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "accuracy": 0.875,
+    "lenient_accuracy": 1.0,
+    "token_f1": 0.6592969422911283,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "postgresql_backup",
+  "kind": "manual",
+  "category": "software",
+  "parser": "docling",
+  "error": null,
+  "seconds": 6.597639748999995,
+  "pages": 7,
+  "sec_per_page": 0.9425199641428564,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.999775684163302,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {
+    "823": 1.0,
+    "829": 1.0,
+    "833": 0.9993270524899058
+   },
+   "per_table": {}
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 24,
+   "by_category": {
+    "vendor_heading": 1.0,
+    "vendor_code": 1.0,
+    "vendor_notice": 1.0,
+    "vendor_order": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "pg-s01"
+    ]
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.875,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "accuracy": 1.0,
+    "lenient_accuracy": 1.0,
+    "token_f1": 0.4177392052392052,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "manual",
+  "category": "specification",
+  "parser": "docling",
+  "error": null,
+  "seconds": 49.00083687799997,
+  "pages": 9,
+  "sec_per_page": 5.444537430888886,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.7314097431899557,
+   "teds": 0.8909887405014586,
+   "teds_struct": 0.9095091112379864,
+   "per_page": {
+    "5": 0.8472222222222222,
+    "6": 0.6580447172292854,
+    "8": 0.6889622901183594
+   },
+   "per_table": {
+    "ti-t1": 0.9869949494949495,
+    "ti-t2": 0.9981900452488688,
+    "ti-t3": 0.90625,
+    "ti-t4": 0.9633333333333334,
+    "ti-t5": 0.9308755760368663,
+    "ti-t6": 0.5602885388947336
+   }
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 21,
+   "by_category": {
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "V": {
+   "pass_rate": 0.8571428571428571,
+   "n": 7,
+   "by_category": {
+    "vendor_spec": 0.8571428571428571
+   },
+   "failed": [
+    "tiv-v005"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 3,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "ti-s01",
+     "ti-s02",
+     "ti-s03"
+    ]
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 3,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "ti-s01",
+     "ti-s02",
+     "ti-s03"
+    ],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 0.8,
+    "mrr": 0.5814814814814814,
+    "n": 15
+   },
+   "dense": {
+    "recall@5": 0.8,
+    "mrr": 0.6417460317460317,
+    "n": 15
+   },
+   "hybrid": {
+    "recall@5": 0.7333333333333333,
+    "mrr": 0.69,
+    "n": 15
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6077777777777779,
+    "n": 15
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "accuracy": 0.6666666666666666,
+    "lenient_accuracy": 0.6666666666666666,
+    "token_f1": 0.2509898554016201,
+    "citation_accuracy": 0.6666666666666666,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "faa_ac43",
+  "kind": "manual",
+  "category": "aviation",
+  "parser": "docling",
+  "error": null,
+  "seconds": 27.49421747400004,
+  "pages": 8,
+  "sec_per_page": 3.436777184250005,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9440284848298911,
+   "teds": 0.9540969877061803,
+   "teds_struct": 0.9745041283502823,
+   "per_page": {
+    "321": 0.8653846153846154,
+    "324": 0.9952972791400739,
+    "328": 0.971403559964984
+   },
+   "per_table": {
+    "faa-t1": 0.8802291652672696,
+    "faa-t2": 1.0,
+    "faa-t3": 0.9820617978512716
+   }
+  },
+  "B": {
+   "pass_rate": 0.9545454545454546,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.75,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": [
+    "faa-b13"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 9,
+    "n_pred": 23,
+    "matched": 8,
+    "precision": 0.34782608695652173,
+    "recall": 0.8888888888888888,
+    "f1": 0.5,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 0.875,
+    "missed": [
+     "faa-s04"
+    ]
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 9,
+    "n_pred": 10,
+    "matched": 9,
+    "precision": 0.9,
+    "recall": 1.0,
+    "f1": 0.9473684210526316,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 0.8888888888888888,
+    "missed": [],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.84375,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "accuracy": 0.875,
+    "lenient_accuracy": 0.875,
+    "token_f1": 0.5462987012987013,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_tqg",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "docling",
+  "error": null,
+  "seconds": 14.292365165999968,
+  "pages": 11,
+  "sec_per_page": 1.2993059241818152,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9370359710688024,
+   "teds": 0.19657976129912655,
+   "teds_struct": 0.2,
+   "per_page": {
+    "55": 0.8570441988950276,
+    "69": 0.9945414847161572,
+    "78": 0.9595222295952223
+   },
+   "per_table": {
+    "tm-t1": 0.0,
+    "tm-t2": 0.0,
+    "tm-t3": 0.9828988064956328,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.8076923076923077,
+   "n": 26,
+   "by_category": {
+    "header": 0.6666666666666666,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 0.6,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b03",
+    "tm-b14",
+    "tm-b16",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 14,
+    "n_pred": 22,
+    "matched": 12,
+    "precision": 0.5454545454545454,
+    "recall": 0.8571428571428571,
+    "f1": 0.6666666666666665,
+    "recall_critical": 0.8181818181818182,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.8181818181818182,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "tm-s06",
+     "tm-s07"
+    ]
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 14,
+    "n_pred": 14,
+    "matched": 14,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": 1.0,
+    "all_critical_found": true,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 1.0,
+    "all_mandatory_found": true,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.8833333333333334,
+    "n": 10
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 10
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "accuracy": 0.9,
+    "lenient_accuracy": 0.9,
+    "token_f1": 0.4722273805957018,
+    "citation_accuracy": 0.9,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_scan",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "docling",
+  "error": null,
+  "seconds": 29.749451582999995,
+  "pages": 4,
+  "sec_per_page": 7.437362895749999,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9228571546243063,
+   "teds": 0.3277131296499969,
+   "teds_struct": 0.3333333333333333,
+   "per_page": {
+    "55": 0.8600278551532033,
+    "69": 0.9317685589519651,
+    "78": 0.9767750497677505
+   },
+   "per_table": {
+    "tm-t3": 0.9831393889499906,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.7857142857142857,
+   "n": 14,
+   "by_category": {
+    "header": 1.0,
+    "step_order": 0.5,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b04",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 3,
+    "matched": 1,
+    "precision": 0.3333333333333333,
+    "recall": 1.0,
+    "f1": 0.5,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": []
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "accuracy": 1.0,
+    "lenient_accuracy": 1.0,
+    "token_f1": 0.42067019400352734,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ }
+]

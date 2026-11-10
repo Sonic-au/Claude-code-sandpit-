@@ -141,8 +141,13 @@ export TB_LLM_EFFORT=high                          # optional: low | medium | hi
 python -m tenderbench run --parsers docling,mineru,pymupdf4llm
 ```
 
-The report adds an LLM table (extraction F1, critical recall, all-critical-found, answer and citation accuracy,
-abstention) and a usage line with token counts and estimated cost (`llm_usage.json`).
+**On a Claude subscription (no API bill):** `TB_LLM_PROVIDER=session` writes each LLM task to
+`data/session_llm/tasks.jsonl` instead of calling an API. Answer them inside a Claude Code session, write
+`{"key", "response"}` lines to `responses.jsonl` beside it, then run again to score. Answers are cached by
+prompt hash, so later re-scoring costs nothing.
+
+The report adds an LLM table (extraction F1, critical recall, all-critical-found, answer accuracy (strict and
+lenient), citation accuracy, abstention) and a usage line with token counts and estimated cost (`llm_usage.json`).
 
 **Network notes.** Docling downloads models from Hugging Face; behind a proxy set `HF_HUB_DISABLE_XET=1` and allow
 `huggingface.co` plus its CDN. LiteParse OCR fetches Tesseract data from GitHub unless `LITEPARSE_CONFIG` points at
@@ -203,6 +208,33 @@ Full tables: [`results/2026-11-09-manuals/report.md`](results/2026-11-09-manuals
   Six TechManualQA answers have defects (parser artefacts, abridged procedures); see `notes/techmanualqa.md`.
 
 Full tables: [`results/2026-11-10-techmanualqa/report.md`](results/2026-11-10-techmanualqa/report.md).
+
+## Results: Claude LLM steps on manuals (10 Nov 2026, Docling, Claude Code session)
+
+Run with `TB_LLM_PROVIDER=session`: 218 LLM tasks were answered by Claude in a Claude Code session. **Strict**
+accuracy needs every number and key word of the gold answer. **Lenient** accuracy accepts answers with at least 70%
+of them, which is fairer to TechManualQA's long verbatim answers.
+
+| Document | Safety F1 (LLM) | Safety F1 (rules) | Answer strict | Answer lenient | Citations | Abstention |
+|---|---|---|---|---|---|---|
+| xylem_empa | 97.9 | 84.6 | 87.5 | 100.0 | 100.0 | 100.0 |
+| army_tm_tqg | 100.0 | 66.7 | 90.0 | 90.0 | 90.0 | 100.0 |
+| army_tm_scan | 100.0 | 50.0 | 100.0 | 100.0 | 100.0 | 100.0 |
+| faa_ac43 | 94.7 | 50.0 | 87.5 | 87.5 | 100.0 | 100.0 |
+| postgresql_backup | 100.0 | 0.0 | 100.0 | 100.0 | 100.0 | 100.0 |
+| ti_lm317 | 0.0 | 0.0 | 66.7 | 66.7 | 66.7 | 100.0 |
+| tmqa_makita_drill | - | - | 40.0 | 76.7 | 100.0 | 100.0 |
+| tmqa_prusa_mk4 | - | - | 40.0 | 73.3 | 86.7 | 100.0 |
+| tmqa_dji_mavic_pro | - | - | 10.0 | 60.0 | 86.7 | 100.0 |
+
+- Claude found every warning on Xylem and the Army TM. The rule baseline averaged 42% F1 (0-85%).
+- TI LM317 safety F1 is 0 because its gold "notes" are datasheet footnotes, not safety notices.
+- Most wrong answers are retrieval misses: Claude answered "NOT FOUND" when the top-5 chunks lacked the fact (for
+  example, LM317 maximum input voltage). Better retrieval, not a stronger model, is the next lever.
+- The answer prompt still says "tender" for manuals. Fixing it changes the task keys, so it needs a fresh session.
+
+Full tables: [`results/2026-11-10-manuals-claude-session/report.md`](results/2026-11-10-manuals-claude-session/report.md),
+[`results/2026-11-10-techmanualqa-claude-session/report.md`](results/2026-11-10-techmanualqa-claude-session/report.md).
 
 ## Results: tenders (7 Nov 2026, re-scored 9 Nov)
 
