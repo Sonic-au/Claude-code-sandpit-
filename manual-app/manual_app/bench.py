@@ -2,7 +2,7 @@
 
 Track A  parse fidelity   text similarity on gold pages; TEDS / TEDS-S on gold tables
 Track B  rule tests       pass rate of deterministic checks (clauses, tables, forms, order, OCR)
-Track C  requirements     compliance-matrix F1, mandatory recall, all-mandatory-found
+Track C  safety notices   extraction F1, warning recall, all-warnings-found
 Track D  retrieval / QA   evidence recall@5, MRR; answer accuracy and abstention if an LLM is set
 """
 from __future__ import annotations
@@ -52,7 +52,6 @@ def load_gold(doc: Document) -> dict:
         "pages": gold_pages,
         "tables": [t for t in _jsonl(gdir / "tables.jsonl") if keep(t)],
         "rules": rules,
-        "requirements": [r for r in _jsonl(gdir / "requirements.jsonl") if keep(r)],
         "safety": [r for r in _jsonl(gdir / "safety.jsonl") if keep(r)],
         # Independent gold: vendor HTML/spec pages and TechManualQA snippets (see vendor.py).
         "vendor_rules": [r for r in _jsonl(gdir / "vendor_rules.jsonl") if keep(r)],
@@ -118,16 +117,7 @@ def track_c(result: ParseResult, gold: dict, doc: Document, llm=None) -> dict:
             out["llm"] = score_requirements(preds, gold["safety"], label="kind", critical=("warning", "danger"))
             out["llm"]["model"] = llm.label
         return out
-    if not gold["requirements"]:
-        return {}
-    out = {"task": "requirements"}
-    preds = extract.extract_rules(result.pages, result.page_map)
-    out["rules_baseline"] = score_requirements(preds, gold["requirements"])
-    if llm is not None:
-        preds = extract.extract_llm(llm, result.pages, result.page_map, doc.title)
-        out["llm"] = score_requirements(preds, gold["requirements"])
-        out["llm"]["model"] = llm.label
-    return out
+    return {}
 
 
 ANSWER_STRATEGY = os.environ.get("TB_ANSWER_STRATEGY", "hybrid-rerank")   # retrieval used for the answer step

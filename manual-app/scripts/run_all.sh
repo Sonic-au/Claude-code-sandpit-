@@ -15,11 +15,10 @@ else
   TAG=claude
 fi
 
-for c in manuals techmanualqa tenders; do python -m manual_app fetch --corpus "$c"; done
+for c in manuals techmanualqa hvac; do python -m manual_app fetch --corpus "$c"; done
 python -m manual_app vendor
 python -m manual_app.validate_gold || echo "validator reported issues (see above); continuing"
 
 python -m manual_app run --corpus manuals      --parsers "$ALL" --out "results/$DATE-manuals-$TAG"
 python -m manual_app run --corpus techmanualqa --parsers "${ALL%,router}" --out "results/$DATE-techmanualqa-$TAG"
-python -m manual_app run --corpus tenders      --parsers "$ALL" --out "results/$DATE-tenders-$TAG"
 echo "Reports: results/$DATE-*-$TAG/report.md"

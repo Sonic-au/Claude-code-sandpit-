@@ -2,29 +2,28 @@
 
 **Let AI handle your manuals.** *The right answer, on the right page.*
 
-`manual-app` (formerly TenderBench). Run it with `python -m manual_app`.
+Run it with `python -m manual_app`.
 
 An evaluation harness for choosing how to ingest **technical manuals** into a knowledge base that answers
 **technician questions** with page citations. It scores document parsers, and the extraction and retrieval steps
 built on them, on what a technician relies on: procedure steps in order, warnings kept with their step, spec and
 torque tables, values with their units, exact part numbers and commands, and answers that cite the right page.
 
-It started as a tender (RFT/RFP) bench for bid responses; that corpus is kept and runs with `--corpus tenders`.
-
-Tracking issues: #6 (harness), #7 (technical manuals). Background research: the *Bid Knowledge Base* doc.
+Alongside the bench: a workbench for inspecting pages, reviewing answers and adding labelled questions, and a
+knowledge graph that links related manuals.
 
 ## Why another benchmark
 
-Existing benchmarks measure parsing in general, not tenders:
+Existing benchmarks measure parsing in general, not technical manuals:
 
-| Benchmark | What it gives us | Gap for tenders |
+| Benchmark | What it gives us | Gap for manuals |
 |---|---|---|
-| [OmniDocBench](https://arxiv.org/abs/2412.07626) (CVPR 2025) | Page-level edit distance, TEDS, reading order | Academic/textbook/newspaper pages; no tenders, no requirements |
-| [ParseBench](https://arxiv.org/abs/2604.08538) (LlamaIndex) | Rule-based tests on enterprise pages | Vendor-run; no compliance-matrix task |
-| [RealDocBench](https://arxiv.org/abs/2606.07401) (Extend) | Field-level accuracy, strict per-question scoring | Regulated forms, not tenders |
+| [OmniDocBench](https://arxiv.org/abs/2412.07626) (CVPR 2025) | Page-level edit distance, TEDS, reading order | Academic/textbook/newspaper pages; no manuals, no safety notices |
+| [ParseBench](https://arxiv.org/abs/2604.08538) (LlamaIndex) | Rule-based tests on enterprise pages | Vendor-run; no technician questions |
+| [RealDocBench](https://arxiv.org/abs/2606.07401) (Extend) | Field-level accuracy, strict per-question scoring | Regulated forms, not manuals |
 | olmOCR-Bench (in [olmOCR](https://arxiv.org/abs/2502.18443)) | Cheap deterministic unit tests | Mostly academic PDFs |
 
-Manual Handling borrows one method from each and applies it to public tenders and technical papers.
+Manual Handling borrows one method from each and applies it to public technical manuals.
 
 ## Tracks
 
@@ -32,17 +31,18 @@ Manual Handling borrows one method from each and applies it to public tenders an
 |---|---|---|
 | **A. Parse fidelity** | Text similarity on transcribed pages; table TEDS and TEDS-S | Normalised edit distance and TEDS ([OmniDocBench](https://arxiv.org/abs/2412.07626), [PubTabNet](https://arxiv.org/abs/1911.10683)) |
 | **B. Rule tests** | Pass rate on checks: clause verbatim, table cell, reading order, headings, form labels, numbers, running headers absent | Deterministic unit tests ([ParseBench](https://arxiv.org/abs/2604.08538), olmOCR-Bench) |
-| **C. Extraction** | Manuals: every WARNING/CAUTION/NOTE notice, warning recall, *all warnings found*. Tenders: compliance-matrix F1, mandatory recall, *all mandatory found* | Field-level, strict scoring ([RealDocBench](https://arxiv.org/abs/2606.07401)) |
+| **C. Extraction** | Every WARNING/CAUTION/NOTE notice, warning recall, *all warnings found* | Field-level, strict scoring ([RealDocBench](https://arxiv.org/abs/2606.07401)) |
 | **D. Retrieval and answers** | Evidence recall@5 and MRR for BM25, dense, hybrid, hybrid + heading context and hybrid + reranker; with an LLM: answer accuracy (LLM-judged, strict, lenient), citation accuracy, abstention on unanswerable questions | RAG evaluation practice (RAGAS-style context recall, faithfulness) |
 
 Every score is also reported per document, with seconds per page, cost per 1,000 pages, data residency and licence.
 
 Tracks C and D run the **same** extractor and retriever over each parser's output, so they show how parsing
-quality flows through to the compliance matrix and to answers.
+quality flows through to the warnings found and to answers.
 
 ## Corpus
 
-Public documents only; PDFs are downloaded and checksum-verified, not committed. Two manifests:
+Public documents only; PDFs are downloaded and checksum-verified, not committed. Three manifests: `manuals` (below), `techmanualqa` (three consumer manuals from
+TechManualQA-700) and `hvac` (four HVAC manuals for the knowledge graph).
 
 **`corpus/manuals.yaml` (default)**
 
@@ -54,17 +54,6 @@ Public documents only; PDFs are downloaded and checksum-verified, not committed.
 | `faa_ac43` | FAA AC 43.13-1B ch. 7 (hardware, safetying, cables) | Aviation | 8 of 646 | Large grouped-header torque table, CAUTION boxes, AN/MS part numbers |
 | `army_tm_tqg` | US Army TM 9-6115-639-13 (3 kW generator) | Defence | 11 of 304 | Warning summary, PMCS and troubleshooting tables, start-up procedures |
 | `army_tm_scan` | Army TM pages as a simulated scan | Defence | 4 | OCR path, scored against the digital version's gold |
-
-**`corpus/tenders.yaml`** (`--corpus tenders`)
-
-| Id | Document | Pages used | Why |
-|---|---|---|---|
-| `newcastle_rft` | City of Newcastle (NSW) construction RFT 2026/062T | 15 of 212 | Criteria, two-column conditions of tendering, price schedules and returnable forms |
-| `narembeen_rft` | Shire of Narembeen (WA) waste services RFT 2026-02 | 17 | WA local-government template, criteria tables, forms |
-| `centralina_rfp` | Centralina Regional Council (NC, USA) IT managed services RFP | 18 | IT scope, tasks, attachments, environment table |
-| `docling_report` | Docling Technical Report (arXiv) | 9 | Technical paper with performance table |
-| `pubtabnet_paper` | PubTabNet / TEDS paper (arXiv) | 6 | Two-column paper, equations, result tables |
-| `narembeen_scan` | Narembeen Part 4 forms as a simulated scan | 6 | OCR path; gold shared with the digital version, so OCR is scored against exact truth |
 
 Gold annotations (`gold/`) were made from page images, never from a parser's output, following
 [`gold/ANNOTATION.md`](gold/ANNOTATION.md), and checked with `python -m manual_app.validate_gold`.
@@ -107,7 +96,7 @@ python -m manual_app run --parsers docling --no-llm   # just the recommended par
 |---|---|---|
 | **Docling** (recommended start) | MIT | Best on manuals, large tables; safe for commercial use |
 | LiteParse | Apache-2.0 | Light and fast, weaker on tables and scans |
-| MinerU | AGPL-3.0 | Best on tenders and simpler tables; AGPL obligations if offered as a service |
+| MinerU | AGPL-3.0 | Strong on simpler tables; AGPL obligations if offered as a service |
 | PyMuPDF4LLM | AGPL-3.0 | Fastest good option; AGPL (commercial licence from Artifex) |
 
 Retrieval uses the free BGE-small embedding model on CPU. Without an LLM you keep parsing, table, step-order,
@@ -132,7 +121,7 @@ python -m pytest -q tests
 Results land in `results/<timestamp>/` as `report.md`, `summary.json` and `scores.json`. Parser outputs are cached
 in `data/outputs/` (use `--force` to re-parse).
 
-**LLM steps** run on **Claude** by default: requirement extraction (tenders), safety-notice extraction (manuals)
+**LLM steps** run on **Claude** by default: safety-notice extraction
 and answering each question with page citations (scored for accuracy, citations and abstention). They use Claude
 Opus 5.5 (`claude-opus-5-5`, effort `medium`) through the official `anthropic` SDK, with structured outputs for
 extraction and server-side refusal fallback on the Claude API. They run when an Anthropic credential is present
@@ -191,7 +180,8 @@ a JSON file with `{"tessdataPath": "<dir with eng.traineddata>"}`.
 
 ## Results: technical manuals (9 Nov 2026, local parsers, CPU only)
 
-Full tables: [`results/2026-11-09-manuals/report.md`](results/2026-11-09-manuals/report.md).
+The 9 Nov run's folder was superseded; the same parsers were re-run on 10 Nov:
+[`results/2026-11-10-manuals-free/report.md`](results/2026-11-10-manuals-free/report.md).
 
 | Parser | Overall | Table TEDS | Rule tests | Warning recall | Scan text | s/page | Licence |
 |---|---|---|---|---|---|---|---|
@@ -201,7 +191,7 @@ Full tables: [`results/2026-11-09-manuals/report.md`](results/2026-11-09-manuals
 | LiteParse (Markdown) | 69.8 | 43.3 | 78.5 | 77.3 | 76.9 | 0.8 | Apache-2.0 |
 | pypdf text layer | 54.9 | 0.0 | 65.0 | 35.3 | 0.0 | 0.02 | BSD |
 
-- **Docling leads on manuals**, the reverse of the tender result. It kept the FAA's large grouped-header torque
+- **Docling leads on manuals.** It kept the FAA's large grouped-header torque
   table (95% TEDS against 43% for MinerU) and passed every procedure-order, safety and part-number check.
 - **MinerU is best on simpler tables** (Xylem torque and troubleshooting tables, 99.8% TEDS) but weakest on
   value-with-unit checks (79%), so no single parser wins every manual.
@@ -243,7 +233,7 @@ Full tables: [`results/2026-11-09-manuals/report.md`](results/2026-11-09-manuals
 - **Vendor links rot:** two of five chosen TechManualQA manuals (DeWalt, Hilti) were 404 at the dataset's URLs.
   Six TechManualQA answers have defects (parser artefacts, abridged procedures); see `notes/techmanualqa.md`.
 
-Full tables: [`results/2026-11-10-techmanualqa/report.md`](results/2026-11-10-techmanualqa/report.md).
+Full tables: [`results/2026-11-10-techmanualqa-free/report.md`](results/2026-11-10-techmanualqa-free/report.md).
 
 ## Results: Claude LLM steps on manuals (11 Nov 2026, Docling, Claude Code session)
 
@@ -280,7 +270,6 @@ Answers use `hybrid-rerank` retrieval (top 5 chunks). Three answer scores are re
 
 Full tables: [`results/2026-11-11-manuals-claude-session/report.md`](results/2026-11-11-manuals-claude-session/report.md),
 [`results/2026-11-11-techmanualqa-claude-session/report.md`](results/2026-11-11-techmanualqa-claude-session/report.md).
-The 10 Nov run (before the judge and reranker) is in `results/2026-11-10-*-claude-session/`.
 
 ## Results: Jev vs Claude as answer graders (10 Nov 2026, Docling, `TB_JUDGE=compare`)
 
@@ -307,31 +296,6 @@ on the manuals and TechManualQA documents. Jev cost about US$0.004 for all 141.
 
 Full tables: [`results/2026-11-10-manuals-jev-compare/report.md`](results/2026-11-10-manuals-jev-compare/report.md),
 [`results/2026-11-10-techmanualqa-jev-compare/report.md`](results/2026-11-10-techmanualqa-jev-compare/report.md).
-
-## Results: tenders (7 Nov 2026, re-scored 9 Nov)
-
-Full tables: [`results/2026-11-07-local/report.md`](results/2026-11-07-local/report.md).
-
-| Parser | Overall | Table TEDS | Rule tests | Scan text | s/page | Licence |
-|---|---|---|---|---|---|---|
-| MinerU | **85.2** | 80.2 | 95.5 | 99.2 | 2.8 | AGPL-3.0 |
-| Docling | 80.6 | 62.4 | 90.7 | 95.8 | 4.7 | MIT |
-| PyMuPDF4LLM | 78.2 | 53.7 | 90.6 | 84.9 | 1.7 | AGPL-3.0 |
-| LiteParse (Markdown) | 71.7 | 43.4 | 71.1 | 80.3 | 1.1 | Apache-2.0 |
-| pypdf text layer | 60.7 | 0.0 | 57.4 | 0.0 | 0.04 | BSD |
-
-- **Tables decide the ranking.** Text similarity is 94-98% for every layout-aware parser; table structure ranges from
-  43% to 80% TEDS. MinerU kept merged cells best; Docling merged rows on the Docling paper's own multi-row table (35%).
-- **Scans are handled well by MinerU and Docling** (95-99% text similarity on the simulated scan); LiteParse's
-  Tesseract OCR lost most of the form structure (38% of rule tests).
-- **Requirement extraction is limited by the extractor, not the parser.** The rule-based extractor finds 45-48% of
-  mandatory requirements whichever parser feeds it, and no parser/extractor pair found *all* mandatory requirements
-  in any tender. The LLM extractor (not run here: no LLM configured) is the step to test next.
-- **Retrieval is near ceiling** on this small question set (92-95% recall@5 for every parser), so it does not separate
-  parsers yet; it needs harder, cross-document questions.
-- The router (Docling for digital pages, full-page OCR for image-only pages) matched plain Docling, because Docling
-  already OCRs image pages. Evidence so far favours MinerU as the primary parser if its AGPL licence is acceptable,
-  with Docling as the MIT-licensed alternative.
 
 ## Workbench: inspect manuals, review answers, add labelled questions
 
@@ -392,7 +356,7 @@ Results: [`results/2026-11-10-hvac-graph/graph_eval.json`](results/2026-11-10-hv
 
 1. Add an entry to a corpus manifest (`corpus/manuals.yaml`, or a new `corpus/<name>.yaml` run with `--corpus <name>`) (a `file://` URL is not supported; copy the PDF to `data/source/<id>.pdf`
    and omit `url`; keep `sha256`).
-2. Annotate `gold/<id>/` per `gold/ANNOTATION.md`. For manuals, your own technicians' common questions make the best `questions.jsonl`; for tenders, a past compliance matrix is a ready-made `requirements.jsonl`.
+2. Annotate `gold/<id>/` per `gold/ANNOTATION.md`. For manuals, your own technicians' common questions make the best `questions.jsonl`.
 3. Keep private gold and PDFs out of git (`.gitignore` already excludes `data/`; put private gold in a separate repo).
 
 ## Running the general benchmarks too
@@ -404,8 +368,8 @@ For a general-quality check alongside Manual Handling, run candidates through th
 
 ## Limitations
 
-- Small corpora (six manuals ~50 pages; six tender documents ~70 pages): differences of a few points are within noise. Add your own documents.
-- Requirement gold depends on annotator judgement about what counts as one requirement; the matcher is lenient
+- Small corpora (six manuals ~50 pages, three TechManualQA manuals, four HVAC manuals): differences of a few points are within noise. Add your own documents.
+- Safety-notice gold depends on annotator judgement about what counts as one notice; the matcher is lenient
   (fuzzy, one-to-one) but splitting conventions still matter.
 - The scan is simulated; real scans (skew, stamps, handwriting, signatures) are harder.
 - Gold was produced with AI assistance from page images and validated automatically; spot-check before relying

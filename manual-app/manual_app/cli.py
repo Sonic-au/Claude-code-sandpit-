@@ -17,7 +17,7 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     f = sub.add_parser("fetch", help="download source PDFs and build the bench PDFs")
-    f.add_argument("--corpus", default="", help="corpus manifest name (default: manuals; or tenders)")
+    f.add_argument("--corpus", default="", help="corpus manifest name: manuals (default), techmanualqa or hvac")
     sub.add_parser("parsers", help="list parser adapters and whether they can run here")
     sub.add_parser("vendor", help="build independent gold from vendor websites and TechManualQA-700")
 
@@ -31,7 +31,7 @@ def main(argv=None):
     p.add_argument("--force", action="store_true", help="re-parse even if cached output exists")
     p.add_argument("--no-llm", action="store_true", help="skip LLM steps even if configured")
     p.add_argument("--out", default="", help="results directory")
-    p.add_argument("--corpus", default="", help="corpus manifest name (default: manuals; or tenders)")
+    p.add_argument("--corpus", default="", help="corpus manifest name: manuals (default), techmanualqa or hvac")
 
     g = sub.add_parser("graph", help="build the knowledge graph for a corpus (rules plus LLM page extraction)")
     g.add_argument("--corpus", default="hvac")

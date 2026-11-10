@@ -39,7 +39,7 @@ def _subset(pdf: Path, idx: list[int], dest: Path) -> Path:
     return dest
 
 
-class TenderRouter(Parser):
+class PageRouter(Parser):
     name = "router"
     licence = "mix (see component parsers)"
     notes = "Digital pages -> Docling; image-only pages -> VLM (if configured) or Docling full-page OCR; empty -> PyMuPDF4LLM."

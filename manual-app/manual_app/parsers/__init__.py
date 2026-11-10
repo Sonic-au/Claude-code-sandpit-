@@ -5,7 +5,7 @@ from .base import ParseResult, Parser
 from .local import (Docling, LiteParse, LiteParseMarkdown, Marker, MinerU, PyMuPDF4LLM, PypdfText,
                     UnstructuredOSS)
 from .remote import AzureDocumentIntelligence, ClaudeVLM, LlamaParseAPI, OpenAICompatibleVLM, ReductoAPI
-from .router import TenderRouter
+from .router import PageRouter
 
 FACTORIES = {
     "pypdf-text": PypdfText,
@@ -23,7 +23,7 @@ FACTORIES = {
     "claude-vlm": ClaudeVLM,
     "llamaparse": LlamaParseAPI,
     "reducto": ReductoAPI,
-    "router": TenderRouter,
+    "router": PageRouter,
 }
 
 
