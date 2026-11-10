@@ -23,7 +23,8 @@ from manual_app.corpus import load_manifest, manifest_path  # noqa: E402
 from manual_app.llm import LLMRefusal, get_llm  # noqa: E402
 from manual_app.parsers.base import ParseResult  # noqa: E402
 
-CORPORA = ("manuals", "techmanualqa")
+CORPORA = ("manuals", "techmanualqa", "hvac")
+GRAPH_CORPUS = "hvac"
 QUESTION_TYPES = ["spec", "procedure", "troubleshooting", "safety", "part_number", "definition", "location",
                   "tool_or_material", "conditional", "unanswerable"]
 
@@ -89,7 +90,14 @@ def main() -> None:
                             "chunks": [{"page": c.page, "heading": c.heading, "text": c.text} for c in chunks],
                             "questions": qs})
             print(f"{doc.id}: {len(r.page_map)} pages, {len(chunks)} chunks, {len(qs)} questions")
-    data = {"parser": a.parser, "answer_strategy": bench.ANSWER_STRATEGY, "answer_prompt": retrieve.ANSWER_PROMPT,
+    graph = None
+    gpath = ROOT / "graph" / f"{GRAPH_CORPUS}.json"
+    if gpath.exists():
+        g = json.loads(gpath.read_text())
+        graph = {"corpus": g["corpus"], "meta": g["meta"],
+                 "nodes": [{k: n[k] for k in ("id", "type", "label", "aliases", "props", "sources", "by")} for n in g["nodes"]],
+                 "edges": [{"src": e["src"], "type": e["type"], "dst": e["dst"]} for e in g["edges"]]}
+    data = {"parser": a.parser, "graph": graph, "answer_strategy": bench.ANSWER_STRATEGY, "answer_prompt": retrieve.ANSWER_PROMPT,
             "question_types": QUESTION_TYPES, "results": [p.name for p in res_dirs], "manuals": manuals}
     (out / "data.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")))
     print(f"wrote {out / 'data.json'} ({(out / 'data.json').stat().st_size // 1024} KB)")

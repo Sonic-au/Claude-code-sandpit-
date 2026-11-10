@@ -3,7 +3,7 @@
 - every JSONL line parses and has the required fields
 - rules pass against the gold transcription of their page (or, for `present`/`absent`, the PDF text layer)
 - `table_value` rules pass against the gold table on that page, where one exists
-- each requirement's text is found on its page's text layer
+- each safety notice's text is found on its page's text layer
 - each answerable question's answer appears on one of its evidence pages
 Exit code 1 if anything fails.
 """
@@ -21,10 +21,9 @@ from .metrics import check_rule, contains_answer
 from .normalize import content_text, norm_text
 from .parsers.base import ParseResult
 
-REQ = {"rules": {"id", "type", "category"}, "requirements": {"id", "page", "text", "obligation"},
+REQ = {"rules": {"id", "type", "category"},
        "safety": {"id", "page", "text", "kind"},
        "tables": {"id", "page", "html"}, "questions": {"id", "doc", "question", "answer", "evidence", "answerable"}}
-OBL = {"mandatory", "evaluated", "administrative", "informational"}
 KINDS = {"danger", "warning", "caution", "note"}
 
 
@@ -41,7 +40,7 @@ def validate(doc_id: str) -> list[str]:
         if (gdir / "pages").exists() else {}
     tables = _jsonl(gdir / "tables.jsonl")
 
-    for kind in ("rules", "requirements", "safety", "tables", "questions"):
+    for kind in ("rules", "safety", "tables", "questions"):
         for i, item in enumerate(_jsonl(gdir / f"{kind}.jsonl")):
             missing = REQ[kind] - set(item)
             if missing:
@@ -50,7 +49,7 @@ def validate(doc_id: str) -> list[str]:
             if pg is not None and pg not in pm:
                 errs.append(f"{doc_id} {item.get('id')}: page {pg} not in bench pages")
 
-    ids = [x.get("id") for k in ("rules", "requirements", "safety", "tables", "questions")
+    ids = [x.get("id") for k in ("rules", "safety", "tables", "questions")
            for x in _jsonl(gdir / f"{k}.jsonl")]
     dup = {i for i in ids if ids.count(i) > 1}
     if dup:
@@ -81,12 +80,11 @@ def validate(doc_id: str) -> list[str]:
             print(f"  warning: {doc_id} {r['id']}: {r['type']} does not hold on the PDF text layer p{pg} "
                   "(check against the page image)")
 
-    items = [(q, "obligation", OBL) for q in _jsonl(gdir / "requirements.jsonl")] + \
-            [(q, "kind", KINDS) for q in _jsonl(gdir / "safety.jsonl")]
+    items = [(q, "kind", KINDS) for q in _jsonl(gdir / "safety.jsonl")]
     for q, field, allowed in items:
         if q.get(field) not in allowed:
             errs.append(f"{doc_id} {q['id']}: bad {field} {q.get(field)}")
-        # A requirement may start on its page and run onto the next one.
+        # A notice may start on its page and run onto the next one.
         nxt = pm[pm.index(q["page"]) + 1] if q["page"] in pm and pm.index(q["page"]) + 1 < len(pm) else None
         here, there = content_text(layer.get(q["page"], "")), content_text(layer.get(nxt, "") if nxt else "")
         t = norm_text(q["text"])
@@ -98,7 +96,7 @@ def validate(doc_id: str) -> list[str]:
             spans = any(fuzz.partial_ratio(t[:c], here) >= 88 and fuzz.partial_ratio(t[c + 1:], there) >= 88
                         for c in cuts)
         if not (on_page or spans):
-            errs.append(f"{doc_id} {q['id']}: requirement text not found on p{q['page']}")
+            errs.append(f"{doc_id} {q['id']}: notice text not found on p{q['page']}")
 
     for q in _jsonl(gdir / "questions.jsonl"):
         if q.get("answerable", True):

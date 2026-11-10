@@ -1,6 +1,0 @@
-{"id": "ptn-q01", "doc": "pubtabnet_paper", "question": "What average TEDS does the EDD model score on complex test tables?", "answer": "85.4", "evidence": [{"page": 6}], "answerable": true, "type": "table"}
-{"id": "ptn-q02", "doc": "pubtabnet_paper", "question": "How many tables does the ICDAR2013 dataset contain?", "answer": "156", "evidence": [{"page": 2}], "answerable": true, "type": "table"}
-{"id": "ptn-q03", "doc": "pubtabnet_paper", "question": "How many samples are in the PubTabNet training set?", "answer": "548,592", "evidence": [{"page": 3}], "answerable": true, "type": "number"}
-{"id": "ptn-q04", "doc": "pubtabnet_paper", "question": "At what resolution are the extracted table regions rendered as images?", "answer": "72 PPI", "evidence": [{"page": 3}], "answerable": true, "type": "number"}
-{"id": "ptn-q05", "doc": "pubtabnet_paper", "question": "Which optimizer is used to train the EDD model?", "answer": "Adam", "evidence": [{"page": 6}], "answerable": true, "type": "procedure"}
-{"id": "ptn-q06", "doc": "pubtabnet_paper", "question": "How long does the EDD model take to recognise one table image at inference time?", "answer": "", "evidence": [], "answerable": false, "type": "unanswerable"}

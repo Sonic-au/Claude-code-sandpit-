@@ -74,7 +74,7 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, 
     corpus = sorted({r.get("corpus") for r in rows if r.get("corpus")})
     if corpus:
         L += [f"Corpus: {', '.join(corpus)}", ""]
-    task = next(((r.get("C") or {}).get("task") for r in rows if (r.get("C") or {}).get("task")), "requirements")
+    task = next(((r.get("C") or {}).get("task") for r in rows if (r.get("C") or {}).get("task")), "safety")
     xname, cname = (("Safety F1", "Warning recall") if task == "safety" else ("Req F1", "Mand. recall"))
     L.append("Scores are percentages (higher is better) on the digital documents; the scan columns use the "
              f"simulated scan. **Overall** is the mean of text similarity, TEDS, rule pass rate, {xname} "
@@ -140,7 +140,7 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, 
         L.append("**Independent checks** are rules generated from vendor websites (HTML manual, product spec page) "
                  "and TechManualQA-700 answer snippets, not from our own annotation (`python -m manual_app vendor`).")
         L.append("")
-        L.append("No LLM was configured, so the LLM requirement extractor and answer scoring were not run "
+        L.append("No LLM was configured, so the LLM safety-notice extractor and answer scoring were not run "
                  "(set TB_LLM_PROVIDER / TB_LLM_MODEL).")
     L.append("")
     # Per-document detail

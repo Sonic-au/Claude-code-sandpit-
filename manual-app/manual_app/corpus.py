@@ -22,7 +22,7 @@ DATA = ROOT / "data"
 
 
 def manifest_path(corpus: str | None = None) -> Path:
-    """Corpus manifest: TB_CORPUS env var or argument (`manuals` by default, `tenders` for the bid corpus)."""
+    """Corpus manifest: TB_CORPUS env var or argument (`manuals` by default; also `techmanualqa` and `hvac`)."""
     import os
     name = corpus or os.environ.get("TB_CORPUS") or DEFAULT_CORPUS
     p = CORPORA / f"{name}.yaml"
