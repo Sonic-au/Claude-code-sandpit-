@@ -1,0 +1,1651 @@
+[
+ {
+  "doc": "tmqa_makita_drill",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 140.93213727099987,
+  "pages": 20,
+  "sec_per_page": 7.046606863549994,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 28,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7633974358974359,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9444444444444444,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.8944444444444444,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 30
+   },
+   "hybrid-rerank": {
+    "recall@5": 1.0,
+    "mrr": 0.9444444444444444,
+    "n": 30
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "grader": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+    "accuracy": 0.43333333333333335,
+    "lenient_accuracy": 1.0,
+    "judged_accuracy": 0.9666666666666667,
+    "judged_partial": 0.03333333333333333,
+    "jev_graded": 30,
+    "escalated": 0.03333333333333333,
+    "jev_claude_agreement": 0.9666666666666667,
+    "jev_claude_n": 30,
+    "grades": [
+     {
+      "id": "tmk-002",
+      "question": "What is the rated voltage for the XFD12 model?",
+      "reference": "D.C. 18 V",
+      "answer": "The rated voltage of the XFD12 is D.C. 18 V [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-003",
+      "question": "What is the net weight of the XFD12 model when using a BL1815N battery cartridge?",
+      "reference": "1.5 kg (3.4 lbs)",
+      "answer": "1.5 kg (3.4 lbs) [1]. The specification lists two net weights in the same order as the two battery cartridge groups: 1.5 kg (3.4 lbs) for BL1815N, BL1820B and 1.8 kg (3.9 lbs) for BL1830, BL1830B, BL1840B, BL1850B, BL1860B; the weight is with battery cartridge, according to EPTA-Procedure 01/2003 [1][2].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-007",
+      "question": "What should I use to wipe dirt off the lens of the lamp?",
+      "reference": "Use a dry cloth to wipe the dirt off the lens of\\nthe lamp.",
+      "answer": "Use a dry cloth to wipe the dirt off the lens of the lamp. Be careful not to scratch the lens of the lamp, or it may lower the illumination [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-010",
+      "question": "What is used to secure the hook to the tool housing?",
+      "reference": "a screw",
+      "answer": "A screw: insert the hook into a groove in the tool housing on either side and then secure it with a screw [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-011",
+      "question": "How do I perform a screwdriving operation with this tool?",
+      "reference": "Place the point of the driver bit in the screw head and\\napply pressure to the tool. Start the tool slowly and then\\nincrease the speed gradually. Release the switch trigger\\nas soon as the clutch cuts in.",
+      "answer": "Screwdriving operation [1]:\n- First adjust the adjusting ring to the proper torque level for your work [1].\n- Make sure the driver bit is inserted straight in the screw head, or the screw and/or driver bit may be damaged [1].\n- Place the point of the driver bit in the screw head and apply pressure to the tool [1].\n- Start the tool slowly and then increase the speed gradually [1].\n- Release the switch trigger as soon as the clutch cuts in [1].\n- When driving a wood screw, pre-drill a pilot hole 2/3 the diameter of the screw; it makes driving easier and prevents splitting of the workpiece [1].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.02,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-019",
+      "question": "What is the function of the adjusting ring on the tool?",
+      "reference": "The fastening torque can be adjusted in 22 levels by turning the adjusting ring.",
+      "answer": "The adjusting ring adjusts the fastening torque: turning it sets the fastening torque in 22 levels, by aligning the graduations with the arrow on the tool body [3]. Minimum fastening torque is at 1 and maximum torque is at the marking; the clutch slips at various torque levels when set at numbers 1 to 21, and the clutch does not work at the marking [3]. For screwdriving, the ring is set to the proper torque level for the work [2]; for drilling, the ring is turned so that the arrow points to the marking [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-020",
+      "question": "What is the purpose of the hook that can be installed on the tool?",
+      "reference": "The hook is convenient for temporarily hanging the tool.",
+      "answer": "The hook is convenient for temporarily hanging the tool. It can be installed on either side of the tool [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-030",
+      "question": "What specific handling instruction is given to prevent damage to the battery cartridge?",
+      "reference": "Be careful not to drop or strike battery.",
+      "answer": "Hold the tool and the battery cartridge firmly when installing or removing the battery cartridge; failure to hold them firmly may cause them to slip off your hands and result in damage to the tool and battery cartridge and a personal injury [4]. The battery safety instructions also say to be careful not to drop or strike the battery [2], and not to install the battery cartridge forcibly - if the cartridge does not slide in easily, it is not being inserted correctly [4].",
+      "jev": "correct",
+      "confidence": 0.97,
+      "probabilities": {
+       "correct": 0.97,
+       "partial": 0.03,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-043",
+      "question": "What type of batteries are stipulated for use to prevent potential hazards like fire or injury?",
+      "reference": "Only use genuine Makita batteries.",
+      "answer": "Only genuine Makita batteries: use of non-genuine Makita batteries, or batteries that have been altered, may result in the battery bursting causing fires, personal injury and damage (and voids the Makita warranty for the Makita tool and charger) [2]. More generally, power tools are to be used only with specifically designated battery packs, since use of any other battery packs may create a risk of injury and fire [1]. A damaged battery must not be used [3].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-047",
+      "question": "How do I install the battery cartridge into the tool correctly?",
+      "reference": "To install the battery cartridge, align the tongue on the battery cartridge with the groove in the housing and slip it into place. Insert it all the way until it locks in place with a little click.",
+      "answer": "- Always switch off the tool before installing or removing the battery cartridge [2]. Before installing it, check that the switch trigger actuates properly and returns to the \"OFF\" position when released [1].\n- Hold the tool and the battery cartridge firmly while installing, so they do not slip off your hands and cause damage or personal injury [2].\n- Align the tongue on the battery cartridge with the groove in the housing and slip it into place [2].\n- Insert it all the way until it locks in place with a little click. If you can see the red indicator on the upper side of the button, it is not locked completely; install it fully until the red indicator cannot be seen, otherwise it may accidentally fall out of the tool and cause injury to you or someone around you [2][3].\n- Do not install the battery cartridge forcibly; if it does not slide in easily, it is not being inserted correctly [2].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-050",
+      "question": "What is the correct procedure for performing a screwdriving operation?",
+      "reference": "Place the point of the driver bit in the screw head and apply pressure to the tool. Start the tool slowly and then increase the speed gradually. Release the switch trigger as soon as the clutch cuts in.",
+      "answer": "Screwdriving operation [1]:\n- First adjust the adjusting ring to the proper torque level for your work [1] (the fastening torque is set by turning the adjusting ring and aligning the graduations with the arrow on the tool body; drive a trial screw into your material or a duplicate piece beforehand to determine the required torque level [2]).\n- Make sure the driver bit is inserted straight in the screw head, or the screw and/or driver bit may be damaged [1].\n- Place the point of the driver bit in the screw head and apply pressure to the tool [1].\n- Start the tool slowly and then increase the speed gradually [1].\n- Release the switch trigger as soon as the clutch cuts in [1].\n- When driving a wood screw, pre-drill a pilot hole 2/3 the diameter of the screw; it makes driving easier and prevents splitting of the workpiece [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-055",
+      "question": "For how long does the front lamp remain illuminated after the switch trigger has been released?",
+      "reference": "The lamp goes out approximately 10 seconds after releasing the switch trigger.",
+      "answer": "The lamp goes out approximately 10 seconds after releasing the switch trigger [1]. (If the tool has overheated and the lamp is flashing, after releasing the switch trigger the lamp turns off in one minute [1].)",
+      "jev": "correct",
+      "confidence": 0.93,
+      "probabilities": {
+       "correct": 0.93,
+       "partial": 0.06,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-064",
+      "question": "What is the recommended temperature range for charging the battery cartridge to ensure safety and battery health?",
+      "reference": "10 \u00b0C - 40 \u00b0C (50 \u00b0F - 104 \u00b0F)",
+      "answer": "Charge the battery cartridge with room temperature at 10 \u00b0C - 40 \u00b0C (50 \u00b0F - 104 \u00b0F). Let a hot battery cartridge cool down before charging it [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-072",
+      "question": "How heavy is the drill with the standard battery?",
+      "reference": "1.5 kg (3.4 lbs)",
+      "answer": "The net weight, with battery cartridge (according to EPTA-Procedure 01/2003), is 1.5 kg (3.4 lbs) or 1.8 kg (3.9 lbs), depending on the standard battery cartridge fitted: the specification lists 1.5 kg (3.4 lbs) against BL1815N, BL1820B and 1.8 kg (3.9 lbs) against BL1830, BL1830B, BL1840B, BL1850B, BL1860B [1].",
+      "jev": "correct",
+      "confidence": 0.39,
+      "probabilities": {
+       "correct": 0.39,
+       "partial": 0.38,
+       "incorrect": 0.23
+      },
+      "claude": "partial",
+      "final": "partial",
+      "by": "claude"
+     },
+     {
+      "id": "tmk-075",
+      "question": "How long is this drill overall?",
+      "reference": "172 mm (6-3/4\")",
+      "answer": "The overall length is 172 mm (6-3/4\") [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-083",
+      "question": "What are the steps for a standard screwdriving operation?",
+      "reference": "Place the point of the driver bit in the screw head and\\napply pressure to the tool. Start the tool slowly and then\\nincrease the speed gradually. Release the switch trigger\\nas soon as the clutch cuts in.",
+      "answer": "Screwdriving operation [1]:\n- First adjust the adjusting ring to the proper torque level for your work [1] (the fastening torque is set by turning the adjusting ring and aligning the graduations with the arrow on the tool body; drive a trial screw into your material or a duplicate piece beforehand to determine the required torque level [2]).\n- Make sure the driver bit is inserted straight in the screw head, or the screw and/or driver bit may be damaged [1].\n- Place the point of the driver bit in the screw head and apply pressure to the tool [1].\n- Start the tool slowly and then increase the speed gradually [1].\n- Release the switch trigger as soon as the clutch cuts in [1].\n- When driving a wood screw, pre-drill a pilot hole 2/3 the diameter of the screw; it makes driving easier and prevents splitting of the workpiece [1].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.02,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-091",
+      "question": "What happens if the tool or battery is operated in a way that draws an abnormally high current?",
+      "reference": "the tool automatically stops without any indication.",
+      "answer": "The overload protection operates: the tool automatically stops without any indication [1] (the tool/battery protection system automatically cuts off power to the motor to extend tool and battery life [2]). In this situation, turn the tool off and stop the application that caused the tool to become overloaded, then turn the tool on to restart [1].",
+      "jev": "correct",
+      "confidence": 0.97,
+      "probabilities": {
+       "correct": 0.97,
+       "partial": 0.02,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-093",
+      "question": "What could be the consequence of shorting the battery terminals together?",
+      "reference": "Shorting the battery terminals together may cause burns or a fire.",
+      "answer": "Shorting the battery terminals together may cause burns or a fire [1]. A battery short can cause a large current flow, overheating, possible burns and even a breakdown [2].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-099",
+      "question": "What are the risks associated with using non-genuine Makita batteries?",
+      "reference": "Use of non-genuine Makita batteries, or batteries that\\n~~h~~ ave ~~b~~ een a ~~lt~~ ere ~~d~~, may resu ~~lt~~ ~~i~~ n ~~th~~ e ~~b~~ a ~~tt~~ ery ~~b~~ urs ~~ti~~ ng\\ncausing fires, personal injury and damage.",
+      "answer": "Use of non-genuine Makita batteries, or batteries that have been altered, may result in the battery bursting, causing fires, personal injury and damage. It will also void the Makita warranty for the Makita tool and charger [1].",
+      "jev": "correct",
+      "confidence": 0.97,
+      "probabilities": {
+       "correct": 0.97,
+       "partial": 0.03,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-109",
+      "question": "What is the no-load speed in high (2) setting for the XFD12 model?",
+      "reference": "0 - 2,000 /min",
+      "answer": "The no-load speed in the High (2) setting is 0 - 2,000 /min (RPM) [1] (given as 0 - 2 000 r/min in the Spanish specifications [4]).",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-112",
+      "question": "What type of lubricant is recommended when drilling into metals, excluding iron and brass?",
+      "reference": "cutting lubricant",
+      "answer": "A cutting lubricant should be used when drilling metals; the exceptions are iron and brass, which should be drilled dry [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-114",
+      "question": "What type of drill bit is best for drilling in wood?",
+      "reference": "wood drills equipped with a guide screw",
+      "answer": "Wood drills equipped with a guide screw give the best results when drilling in wood; the guide screw makes drilling easier by pulling the drill bit into the workpiece [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-118",
+      "question": "How do I check the remaining battery capacity if my battery has a \"B\" at the end of its model number?",
+      "reference": "Press the check button on the battery cartridge to indicate the remaining battery capacity. The indicator lamps\\nlight up for few seconds.",
+      "answer": "Press the check button on the battery cartridge to indicate the remaining battery capacity; the indicator lamps light up for a few seconds [1]. The lamps (lighted / off / blinking) show the remaining capacity in ranges: 75% to 100%, 50% to 75%, 25% to 50%, 0% to 25%, \"Charge the battery\", or \"The battery may have malfunctioned\" [1]. Note: depending on the conditions of use and the ambient temperature, the indication may differ slightly from the actual capacity [1].",
+      "jev": "correct",
+      "confidence": 0.96,
+      "probabilities": {
+       "correct": 0.96,
+       "partial": 0.02,
+       "incorrect": 0.02
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-124",
+      "question": "Where is the driver bit holder installed?",
+      "reference": "Fit the driver bit holder into the protrusion at the tool foot\\non either right or left side",
+      "answer": "The driver bit holder (an optional accessory) is fitted into the protrusion at the tool foot, on either the right or left side, and secured with a screw [1]. Driver bits 45 mm-long (1-3/4\") can be kept there [1].",
+      "jev": "correct",
+      "confidence": 0.95,
+      "probabilities": {
+       "correct": 0.95,
+       "partial": 0.03,
+       "incorrect": 0.02
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-125",
+      "question": "What meaning is assigned to the \"V\" symbol in the manual's symbol list?",
+      "reference": "volts",
+      "answer": "In the symbol list, \"V\" means volts [1] (Spanish: \"volts o voltios\") [3].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-126",
+      "question": "Under what condition related to previous repairs does the Makita warranty not apply?",
+      "reference": "repairs have been made or attempted by others:",
+      "answer": "The warranty does not apply where repairs have been made or attempted by others [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-128",
+      "question": "What is a potential severe consequence if battery electrolyte contacts the eyes?",
+      "reference": "It may result in loss of your eyesight.",
+      "answer": "It may result in loss of your eyesight; if electrolyte gets into your eyes, rinse them out with clear water and seek medical attention right away [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-129",
+      "question": "When is it recommended to charge a battery cartridge that hasn't been used for an extended period?",
+      "reference": "Charge the battery cartridge if you do not use\\n\\nit for a long period (more than six months).",
+      "answer": "Charge the battery cartridge if you do not use it for a long period (more than six months) [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-131",
+      "question": "What specific warning is provided regarding the use of power tools in environments with flammable substances?",
+      "reference": "Do not operate power tools in explosive atmo-\\nspheres, such as in the presence of flammable*\\nliquids, gases or dust.",
+      "answer": "Do not operate power tools in explosive atmospheres, such as in the presence of flammable liquids, gases or dust. Power tools create sparks which may ignite the dust or fumes [2].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tmk-133",
+      "question": "What explicit instruction is given concerning the use of a battery that has sustained damage?",
+      "reference": "Do not use a damaged battery.",
+      "answer": "\"Do not use a damaged battery.\" [1]",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     }
+    ],
+    "token_f1": 0.4225446699843887,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_prusa_mk4",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 351.300275241,
+  "pages": 66,
+  "sec_per_page": 5.322731443045455,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 30,
+   "by_category": {
+    "tmqa_snippet": 1.0
+   },
+   "failed": []
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.8,
+    "mrr": 0.6449603174603175,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9,
+    "mrr": 0.6698809523809524,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7108730158730159,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7751070226070226,
+    "n": 30
+   },
+   "hybrid-rerank": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.7830555555555556,
+    "n": 30
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "grader": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+    "accuracy": 0.36666666666666664,
+    "lenient_accuracy": 0.9,
+    "judged_accuracy": 0.9333333333333333,
+    "judged_partial": 0.03333333333333333,
+    "jev_graded": 29,
+    "escalated": 0.034482758620689655,
+    "jev_claude_agreement": 1.0,
+    "jev_claude_n": 29,
+    "grades": [
+     {
+      "id": "tpr-002",
+      "question": "As a new user, what are the initial steps I should take to get my first print going?",
+      "reference": "1. Read the Safety Instructions carefully (page 8).\\n\\n2. Place the printer on a flat and stable surface and plug it in. (page 15)\\n\\n3. If you bought the assembled printer, remove the test print from the print sheet (remove the\\n\\nsheet, bend it, remove the print), then place the print sheet back. (page 17)\\n\\n4. Calibrate the printer using the Selftest Wizard. (page 18)\\n\\n5. Insert the USB drive that came with your printer and print your first object. (page 23)",
+      "answer": "The Quick Guide to the First Print gives these steps [4]:\n1. Read the Safety Instructions carefully (page 8) [4].\n2. Place the printer on a flat and stable surface and plug it in (page 15) [4].\n3. If you bought the assembled printer, remove the test print from the print sheet (remove the sheet, bend it, remove the print), then place the print sheet back (page 17) [4].\n4. Calibrate the printer using the Selftest Wizard (page 18) [4]. The print sheet must be installed before calibration; the Selftest (Calibration Wizard) starts when you first power on the printer, completing the whole checklist is mandatory, and the first step (internet setup) is optional and can be skipped. It can also be started manually via LCD menu - Control - Run Full Selftest [2].\n5. Insert the USB drive that came with your printer and print your first object (page 23) [4]. Before that, clean the print sheet with the enclosed isopropyl-alcohol wipe (or spray a bit of isopropyl alcohol on the sheet and wipe with a paper towel), then select one of the test objects from the Print menu (only appears if a USB drive is inserted) and confirm by pressing the rotary knob; the Keychain is recommended. Watch the printer closely during the first print [1]. The nozzle first preheats to 170 \u00b0C, then the printer performs Mesh Bed Leveling, then prints the object [1].\n\nThe first-print chapter also covers controlling the printer, preparing the print sheet, performing initial calibration, inserting filament, starting the first print, removing the print, troubleshooting basic issues and updating the firmware [5][3].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.01,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-005",
+      "question": "What is the specified build volume for the Original Prusa MK4S?",
+      "reference": "250\u00d7210\u00d7220 mm",
+      "answer": "The build volume (Width \u00d7 Depth \u00d7 Height) is 250\u00d7210\u00d7220 mm [2]; the manual also states the MK4S has a print volume of 250 \u00d7 210 \u00d7 220 mm [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-007",
+      "question": "What are the WLAN frequency bands supported by the printer?",
+      "reference": "WLAN: 2400,0-2483,5 MHz",
+      "answer": "WLAN frequency band: 2400,0-2483,5 MHz (WLAN standard IEEE 802.11 b/g/n) [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-008",
+      "question": "From a safety perspective, what is the specified operating temperature range for this printer?",
+      "reference": "18 \u00b0C - 38 \u00b0C",
+      "answer": "NOT FOUND",
+      "final": "incorrect",
+      "by": "rule"
+     },
+     {
+      "id": "tpr-012",
+      "question": "What is the primary risk if the printer is left powered on and unattended?",
+      "reference": "misuse or unexpected component failure can pose a fire hazard.",
+      "answer": "A fire hazard: the manual says not to leave the printer unattended while it is on, because although it has temperature control and several smart safety features, misuse or unexpected component failure can pose a fire hazard [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-013",
+      "question": "What are the potential safety hazards if obstructions near the printer cause wear on cable sheaths?",
+      "reference": "Worn cables can pose a risk (electric shock, fire).",
+      "answer": "Worn cables can pose a risk of electric shock and fire [1]. (The manual advises keeping at least 30 cm of space around the printer, since obstructions can cause excessive wear on cable sheaths or the cables themselves [1].)",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-014",
+      "question": "What concentration of isopropyl alcohol is recommended for degreasing the print sheet surface?",
+      "reference": "Use highly concentrated isopropyl alcohol (90% or more) to degrease the sheet surface.",
+      "answer": "Highly concentrated isopropyl alcohol of 90% or more (IPA 90%+) is recommended for degreasing the print sheet surface [1][2][3]. Do not use products that merely contain IPA as one component (e.g. hand sanitizers) [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-016",
+      "question": "How do I load filament into the printer?",
+      "reference": "1. Cut the end of the filament into a sharp point. Push the filament through the hole in the\\n\\nfilament guide and insert the plastic strand into the opening at the top of the Nextruder. If the\\nfilament sensor is on, the filament will be automatically fed. If the filament sensor is off,\\nproceed to step 2, otherwise skip to step 3.\\n\\n2. Select LCD Menu - Filament - Load Filament and confirm with the button.\\n\\n3. The Preheat menu will automatically appear. Select the material of the filament you want to\\n\\ninsert and confirm the selection.\\n\\n4. Wait until the nozzle reaches the desired temperature.\\n\\n5. Select Continue to start feeding the filament. Push the filament into the Nextruder lightly until\\n\\nyou feel that the extruder gear grabbed the filament and is pulling it in.",
+      "answer": "Loading filament [1][3]:\n- Preparation: prepare a spool of filament (PLA is strongly recommended), make sure the end is secured, and place the spool on the spoolholder on top of the printer's frame. Carefully unhook the end of the filament and do not let go, otherwise it may tangle [1].\n1. Cut the end of the filament into a sharp point. Push the filament through the hole in the filament guide and insert it into the opening at the top of the Nextruder. If the filament sensor is on, the filament will be fed automatically (skip to step 3); if the filament sensor is off, proceed to step 2 [1].\n2. Select LCD Menu - Filament - Load Filament and confirm with the button [1].\n3. The Preheat menu appears automatically. Select the material of the filament you want to insert and confirm the selection [1].\n4. Wait until the nozzle reaches the desired temperature [1].\n5. Select Continue to start feeding the filament. Push the filament into the Nextruder lightly until you feel the extruder gear grab the filament and pull it in [3].\n6. The feed wheel pushes the filament further into the extruder; once fully heated, it pushes a bit of material out of the nozzle [3].\n- The printer then asks whether the colour of the extruded filament is okay (Yes / Purge More / Retry): select YES if filament is extruded and the colour is correct; PURGE MORE if filament is not extruded or is contaminated with another colour (can be repeated); RETRY to repeat the loading procedure if filament is not extruded and PURGE MORE doesn't help [3].\nThe printer remembers which filament is inserted even when turned off, and the filament type is shown in the lower section of the LCD menu [2].",
+      "jev": "correct",
+      "confidence": 0.96,
+      "probabilities": {
+       "correct": 0.96,
+       "partial": 0.02,
+       "incorrect": 0.02
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-022",
+      "question": "What is the Nextruder on the Original Prusa MK4S?",
+      "reference": "Nextruder - Our new next-generation extruder with a planetary gearbox and LoadCell sensor.",
+      "answer": "The Nextruder is Prusa's \"new next-generation extruder with a planetary gearbox and LoadCell sensor\" [1]. It is moved up and down by the Z-axis (Z-axis motors) and left and right along the X-axis by the X-axis stepper motor [1].",
+      "jev": "correct",
+      "confidence": 0.93,
+      "probabilities": {
+       "correct": 0.93,
+       "partial": 0.03,
+       "incorrect": 0.04
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-025",
+      "question": "What does 'Stealth Mode' do on this 3D printer?",
+      "reference": "With Stealth Mode enabled, the firmware limits the acceleration, feedrate, and jerk values,\\nresulting in reduced printer noise.",
+      "answer": "With Stealth Mode enabled, the firmware limits the acceleration, feedrate, and jerk values, resulting in reduced printer noise; because of these limits the overall printing time is slightly increased [1]. You can switch between Normal and Stealth Mode anytime, even during printing; after enabling, it is activated once several G-code commands in the buffer (printer memory) are processed. It is enabled in Settings -> Stealth Mode [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-027",
+      "question": "As a Safety Officer, what's the primary safety concern if a user reports using a damaged power cable with the printer?",
+      "reference": "Damaged cables are a safety risk risk of electric shock.",
+      "answer": "The primary concern is the risk of electric shock: damaged cables are a safety risk and can lead to electric shock [1][2]. The printer must not be used if the power cable is damaged [2]; the user should stop using the device immediately and replace the cables [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-036",
+      "question": "What is this handbook for?",
+      "reference": "FOR THE ORIGINAL PRUSA MK4S 3D PRINTER",
+      "answer": "It is the 3D Printing Handbook for the Original Prusa MK4S 3D printer [2] - the official instructions (handbook version 1.01, September 26th, 2024) [5]. In it you learn everything you need to set up your printer, use it, perform routine maintenance, and more [5]. It primarily references the Original Prusa MK4S, but the instructions are equally applicable to the MK3.9S, which is virtually identical from the user's perspective [5]. Assembly instructions are not in the handbook but at prusa.io/mk4s [5], and detailed troubleshooting guides for component replacements and advanced hardware issues are online at help.prusa3d.com [3]. Its Advanced User Guide part covers network connection, printing your own models, slicing and more [1].",
+      "jev": "correct",
+      "confidence": 0.93,
+      "probabilities": {
+       "correct": 0.93,
+       "partial": 0.06,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-037",
+      "question": "What are the first steps I need to take to make my first print?",
+      "reference": "1. Read the Safety Instructions carefully (page 8).\\n\\n2. Place the printer on a flat and stable surface and plug it in. (page 15)\\n\\n3. If you bought the assembled printer, remove the test print from the print sheet (remove the\\n\\nsheet, bend it, remove the print), then place the print sheet back. (page 17)\\n\\n4. Calibrate the printer using the Selftest Wizard. (page 18)\\n\\n5. Insert the USB drive that came with your printer and print your first object. (page 23)",
+      "answer": "The Quick Guide to the First Print lists these steps [2]:\n1. Read the Safety Instructions carefully (page 8) [2].\n2. Place the printer on a flat and stable surface and plug it in (page 15) [2].\n3. If you bought the assembled printer, remove the test print from the print sheet (remove the sheet, bend it, remove the print), then place the print sheet back (page 17) [2].\n4. Calibrate the printer using the Selftest Wizard (page 18) [2].\n5. Insert the USB drive that came with your printer and print your first object (page 23) [2].\n\nWhen starting the first print: leave the filament inserted in the printer [3]; if not already done, clean the print sheet with the enclosed wipe saturated with isopropyl alcohol (or spray a bit of isopropyl alcohol on the sheet and wipe it clean with a paper towel); then select one of the test objects from the Print menu (only appears if a USB drive is inserted) and confirm by pressing the rotary knob. The Keychain is recommended, and you should watch the printer closely during the first print [1]. The nozzle first preheats to 170 \u00b0C, then the printer performs Mesh Bed Leveling, and then printing takes place [1]. Optionally, with more than one colour of PLA, you can select the Dual-Color Keychain and follow the on-screen instructions to change filament [5].",
+      "jev": "correct",
+      "confidence": 0.92,
+      "probabilities": {
+       "correct": 0.92,
+       "partial": 0.05,
+       "incorrect": 0.03
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-042",
+      "question": "What is the supported filament diameter for the MK4S?",
+      "reference": "1.75 mm",
+      "answer": "The supported filament diameter is 1.75 mm [2]; the MK4S is compatible with 1.75mm filaments [3][4].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-052",
+      "question": "What should I use to degrease the print sheet surface?",
+      "reference": "Use highly concentrated isopropyl alcohol (90% or more) to degrease the sheet surface.",
+      "answer": "Use highly concentrated isopropyl alcohol (IPA), 90% or more, to degrease the print sheet surface [1][2]. Do not use products that only contain IPA as a component (e.g. hand sanitizers / dermatological hand products), as their additives may negatively affect the sheet [1][2]. Do not clean textured or satin sheets with acetone, and do not wash the sheet under running water, as it may corrode [1]. Apply it by dropping a small amount onto a clean paper towel (or a cloth moistened with isopropyl alcohol) and wiping the surface, ideally when the sheet is cold [5][1]. If you have no IPA (or IPA does not remove residues such as sugar on the smooth sheet), water with a bit of dish soap is an option - clean and dry the sheet thoroughly to prevent rusting [4][2].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-053",
+      "question": "What might happen if I accidentally release the end of the filament?",
+      "reference": "If you accidentally release the end of the filament, it can easily tangle and knot.",
+      "answer": "If you accidentally release the end of the filament, it can easily tangle and knot [2]: the tension makes the strand quickly retract onto the spool and tangle up [1][4]. This poses a risk during printing - a knot can form on the filament strand, which will inevitably lead to a failed print [1]. To fix it, remove the spool from the spoolholder, unwind the filament until you find the crossed section, fix it and wind the filament back onto the spool [1].",
+      "jev": "correct",
+      "confidence": 0.95,
+      "probabilities": {
+       "correct": 0.95,
+       "partial": 0.04,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-076",
+      "question": "What should I use to degrease the smooth PEI print sheet?",
+      "reference": "Isopropyl alcohol 90%+ (IPA) is the best option for degreasing.",
+      "answer": "Isopropyl alcohol 90%+ (IPA) is the best option for degreasing the smooth PEI print sheet [1][3]. Do not use dermatological hand products / hand sanitizers that contain isopropyl alcohol, since they contain other additives [1][3]. Warm water with a few drops of dish soap can be used if IPA does not remove residues like sugar, and acetone can be used occasionally for thorough cleaning of the smooth sheet [1][4].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-077",
+      "question": "What material is recommended for smoothing PVB prints?",
+      "reference": "isopropyl alcohol (IPA)",
+      "answer": "Isopropyl alcohol (IPA) [1][2]. PVB models can be smoothed in IPA vapors, by immersing them in an IPA bath, or by directly applying IPA to the object's surface with a sprayer or brush [2].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-084",
+      "question": "What is the procedure for cleaning a clogged nozzle using an acupuncture needle?",
+      "reference": "1. Heat the nozzle to the appropriate temperature for the filament material you are printing with\\n\\nor slightly above. First, feed the filament, then insert an acupuncture needle (included in the\\npackage) or thin wire (0.3-0.35 mm) into the nozzle from the bottom to a depth of about 1-2\\ncm. Use protective gloves in case material suddenly starts to come out of the nozzle.\\n\\n2. Select the Load Filament option from the LCD menu and check that the nozzle is actually\\n\\nextruding the filament.\\n\\n3. Again insert the wire or acupuncture needle into the nozzle and repeat the whole procedure\\n\\nseveral times. If the filament is being extruded correctly, the nozzle is clean.",
+      "answer": "Procedure (do not touch the nozzle - it is hot and there is a risk of burns; for better access raise the extruder to the top of the Z-axis via LCD menu - Control - Movement - Z Axis) [2]:\n1. Heat the nozzle to the appropriate temperature for the filament material you are printing with, or slightly above. First feed the filament, then insert an acupuncture needle (included in the package) or thin wire (0.3-0.35 mm) into the nozzle from the bottom to a depth of about 1-2 cm. Use protective gloves in case material suddenly starts to come out of the nozzle [1].\n2. Select the Load Filament option from the LCD menu and check that the nozzle is actually extruding the filament [1].\n3. Insert the wire or acupuncture needle into the nozzle again and repeat the whole procedure several times. If the filament is being extruded correctly, the nozzle is clean [1].\nIf the filament still doesn't come out and the nozzle is clogged, you can perform a cold pull to clean the inside of the nozzle; the Cold Pull wizard is in the printer's LCD Menu [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-093",
+      "question": "What should I do if the LoadCell calibration fails during the first print setup?",
+      "reference": "This usually happens when you tap the nozzle too briefly or with not enough force.\\nRepeat the calibration and push the nozzle a bit harder.",
+      "answer": "A failed LoadCell calibration usually happens when you tap the nozzle too briefly or with not enough force. Repeat the calibration and push the nozzle a bit harder [5].\n\nIf problems with first-layer calibration / Mesh Bed Leveling persist, the extracts additionally advise: check that everything is properly wired (connectors on the electronics board in the Nextruder; LoadCell sensor cable properly connected) [4][3]; run Auto Home (and Z-axis calibration) from the Control menu so everything is aligned, moving the Z-axis all the way up until it hits the endstops [2][4]; make sure the print sheet is correctly placed and re-run the Load Cell calibration / LoadCell Test from the Control menu, then start the print again [2][3][4]. For kit-built printers, inspect the axes and make sure all screws are tight [2][3].",
+      "jev": "correct",
+      "confidence": 0.95,
+      "probabilities": {
+       "correct": 0.95,
+       "partial": 0.04,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-094",
+      "question": "What is likely the problem if I hear the extruder gear clicking during purging?",
+      "reference": "If you hear the extruder gear clicking during Purging, it may be a sign the nozzle is\\nblocked.",
+      "answer": "It may be a sign that the nozzle is blocked (clogged) [1]. The manual directs you to the Troubleshooting chapters of the handbook or to help.prusa3d.com for a detailed solution [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-095",
+      "question": "What precaution must be taken before performing printer calibration regarding the print sheet?",
+      "reference": "The print sheet must be installed onto the printer before the calibration!!!",
+      "answer": "The print sheet must be installed onto the printer before the calibration [1]. (On a pre-assembled printer the test print must first be removed from the sheet and the sheet placed back, making sure there is no debris on the heatbed before installing it, as debris could throw off the first layer calibration or even damage the printer [2].)",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-098",
+      "question": "What crucial safety rule applies to the printer when it is powered on?",
+      "reference": "Do not leave the printer unattended while it is on!",
+      "answer": "Never, under any circumstances, disconnect electrical parts while the printer is on - this includes disconnecting the Nextruder from the motherboard, the heated bed, the LCD and others; always turn off the printer before disconnecting electrical parts [1]. Also, do not leave the printer unattended while it is on (misuse or unexpected component failure can pose a fire hazard) [2], and never interfere with the internal components or the print area while it is connected to power or in operation (risk of injury from mechanical parts or electric shock) [3][2].",
+      "jev": "correct",
+      "confidence": 0.97,
+      "probabilities": {
+       "correct": 0.97,
+       "partial": 0.03,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-107",
+      "question": "What is the default installed nozzle diameter on the MK4S?",
+      "reference": "0.4 mm",
+      "answer": "The MK4S comes with a 0.4 mm nozzle installed by default [1][3][4].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-108",
+      "question": "What's the power supply voltage range for the printer?",
+      "reference": "100-240 VAC, 2.8 A max., 50-60 Hz",
+      "answer": "The extracts do not give a voltage range as such; they state that the printer can only be powered through a standard 230 VAC, 50 Hz or 110 VAC, 60 Hz power outlet, and that alternative sources must never be used [1].",
+      "jev": "partial",
+      "confidence": 0.51,
+      "probabilities": {
+       "correct": 0.11,
+       "partial": 0.51,
+       "incorrect": 0.38
+      },
+      "claude": "partial",
+      "final": "partial",
+      "by": "claude"
+     },
+     {
+      "id": "tpr-112",
+      "question": "What specific lubricant is provided with the MK4S for bearing maintenance?",
+      "reference": "Prusa lubricant for bearings",
+      "answer": "The package includes \"Prusa lubricant for bearings\" [1], supplied in a white tube in the package; a little of it is applied to the smooth rods after cleaning them [4]. The extracts do not specify the lubricant's type or product name beyond that.",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-119",
+      "question": "How do I correctly install the flexible print sheet onto the heatbed?",
+      "reference": "Attach the sheet by first aligning the rear cutout with the locking pins on the back of the\\nheated bed (marked in orange in the picture above). Hold the sheet by the front two corners and\\nslowly lay it down onto the heated bed - watch your fingers!",
+      "answer": "Installing the flexible print sheet:\n1. Make sure the sheet is perfectly clean and that there is no debris on the heatbed before installing it - debris could throw off the first layer calibration or even damage the printer [1][2]. Never print directly on the heated bed [1].\n2. Align the rear cutout of the sheet with the two locking pins on the back of the heated bed [1].\n3. Hold the sheet by the front two corners and slowly lay it down onto the heated bed - watch your fingers, as the sheet is held by strong magnets embedded in the heatbed [1][5].\n4. Do not drag or move the sheet while it is magnetically attached - friction can scratch and damage the heatbed. If you need to readjust it, lift it up by the front two corners, adjust its position and place it back down [2][5].\n5. For the first print it is enough to wipe the sheet with the supplied wipes soaked with isopropyl alcohol; do not touch the surface afterward [1].",
+      "jev": "correct",
+      "confidence": 0.97,
+      "probabilities": {
+       "correct": 0.97,
+       "partial": 0.02,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-123",
+      "question": "What does the rotary knob next to the LCD screen do?",
+      "reference": "Rotate\\nthe knob to select items on the screen and press it to confirm your selection.",
+      "answer": "The rotary knob is the main control device of the printer (alongside the touchscreen): you rotate it to select items on the screen and press it to confirm your selection [1][2]. It is also used to adjust values, e.g. the print speed up or down in LCD Menu - Tune - Speed [3]. The Reset button is located directly under the knob; pressing it is the same as quickly turning the printer off and on again [1][2].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.01,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-125",
+      "question": "What is the purpose of the 'Brim' feature in PrusaSlicer?",
+      "reference": "The brim serves to increase adhesion to the bed, reducing the risk of warping.",
+      "answer": "The brim serves to increase adhesion to the bed, reducing the risk of warping: a wider first layer is printed around the model, which increases the area of the first layer [1][2]. It makes sense especially if the model only touches the bed in a small area [1]. It is enabled by checking the \"Brim\" box in the right-column menu of PrusaSlicer, and after printing the brim can usually be removed easily by hand, or with a knife or scalpel [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tpr-133",
+      "question": "Is it safe to leave the 3D printer unattended while it is on?",
+      "reference": "Do not leave the printer unattended while it is on!",
+      "answer": "No. The manual says: \"Do not leave the printer unattended while it is on!\" Although the printer is equipped with temperature control and several smart safety features, misuse or unexpected component failure can pose a fire hazard [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     }
+    ],
+    "token_f1": 0.32770472150917623,
+    "citation_accuracy": 0.9333333333333333,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "techmanualqa"
+ },
+ {
+  "doc": "tmqa_dji_mavic_pro",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 535.2453940900002,
+  "pages": 64,
+  "sec_per_page": 8.363209282656253,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": null,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {},
+   "per_table": {}
+  },
+  "V": {
+   "pass_rate": 0.9259259259259259,
+   "n": 27,
+   "by_category": {
+    "tmqa_snippet": 0.9259259259259259
+   },
+   "failed": [
+    "tdj-060-snip",
+    "tdj-126-snip"
+   ]
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.7198550360315067,
+    "n": 30
+   },
+   "dense": {
+    "recall@5": 0.9,
+    "mrr": 0.7712467779134446,
+    "n": 30
+   },
+   "hybrid": {
+    "recall@5": 0.8333333333333334,
+    "mrr": 0.7533363823998499,
+    "n": 30
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.7811141601776277,
+    "n": 30
+   },
+   "hybrid-rerank": {
+    "recall@5": 0.9333333333333333,
+    "mrr": 0.810871212121212,
+    "n": 30
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "grader": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+    "accuracy": 0.2,
+    "lenient_accuracy": 0.8333333333333334,
+    "judged_accuracy": 0.9333333333333333,
+    "judged_partial": 0.03333333333333333,
+    "jev_graded": 29,
+    "escalated": 0.20689655172413793,
+    "jev_claude_agreement": 1.0,
+    "jev_claude_n": 29,
+    "grades": [
+     {
+      "id": "tdj-002",
+      "question": "What version of iOS is required for the DJI GO 4 app?",
+      "reference": "The iOS version of the DJI GO 4 app is compatible with iOS 9.0 or later.",
+      "answer": "The iOS version of the DJI GO 4 app is compatible with iOS 9.0 or later [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-003",
+      "question": "What app should I download to use with the Mavic Pro?",
+      "reference": "Be sure to use the DJI GO TM 4 app or other apps compatible with DJI aircraft during flight.",
+      "answer": "The DJI GO 4 app. The manual's contents list a \"Download the DJI GO 4 App\" section (along with \"Download the DJI Assistant 2\") [2], and the DJI GO 4 app is the app used with the Mavic Pro, e.g. for the live camera preview on the connected mobile device and landing prompts [1][3]. For Dual Remote Controller Mode, DJI GO 4 app iOS v4.0.5 or Android v4.0.5 is required [4].",
+      "jev": "correct",
+      "confidence": 0.91,
+      "probabilities": {
+       "correct": 0.91,
+       "partial": 0.06,
+       "incorrect": 0.03
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-004",
+      "question": "What's the maximum video resolution the Mavic Pro can capture?",
+      "reference": "captures 4K videos",
+      "answer": "The Mavic Pro captures video up to 4K at 30 fps (frames per second) [2][3][1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-005",
+      "question": "What is the maximum flight speed of the Mavic Pro?",
+      "reference": "Mavic Pro boasts a maximum flight speed of 40 mph (65 kph)",
+      "answer": "The Mavic Pro's maximum flight speed is 40 mph (65 kph) [1]; the specifications list Max Speed as 40.4 mph (65 kph) in Sport Mode without wind [3]. In P-mode the maximum speed is lower: 22 mph (36 kph) when the Forward Vision System is enabled and lighting is sufficient, and 36 mph (58 kph) when forward obstacle sensing is disabled [2].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.01,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-006",
+      "question": "How do I attach the propellers correctly?",
+      "reference": "Attach the white ringed propellers to the mounting base with white marks. Press the propeller down onto\\n\\nthe mounting plate and rotate in the lock direction until it is secured. Attach the other propellers to the\\n\\nmounting base without marks.",
+      "answer": "1. Attach the white ringed propellers to the mounting bases with white marks [1][2].\n2. Press the propeller down onto the mounting plate and rotate in the lock direction until it is secured [1][2].\n3. Attach the other (unmarked) propellers to the mounting bases without marks, in the same way [1][2].\n4. Unfold all the propeller blades [1].\nThe white ring and unmarked propellers indicate where they should be attached and in which direction they should spin; use only DJI approved propellers and do not mix propeller types [3][4]. Check that the propellers are installed correctly and firmly before every flight [4][5].",
+      "jev": "correct",
+      "confidence": 0.92,
+      "probabilities": {
+       "correct": 0.92,
+       "partial": 0.03,
+       "incorrect": 0.05
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-011",
+      "question": "What is the function of the Flight Mode Switch on the controller?",
+      "reference": "Switch between P-mode and S-mode.",
+      "answer": "The Flight Mode Switch is used to change the aircraft's flight mode: toggle it to switch between P-mode (Positioning) and S-mode (Sport) [2][3][5].\n- The Flight Mode is locked in P-mode by default regardless of switch position. To switch modes, go to Camera view in the DJI GO 4 app and enable \"Multiple Flight Modes\", then toggle the switch to P and then to S to fly in Sport Mode. The Mavic Pro flies in P-mode by default every time after powering on, so toggle the switch to P and then to S every time before using S-mode [3].\n- In Dual Remote Controller Mode, only the Primary remote controller can switch the flight mode; the switch is disabled on the Secondary remote controller [1].",
+      "jev": "correct",
+      "confidence": 0.83,
+      "probabilities": {
+       "correct": 0.83,
+       "partial": 0.05,
+       "incorrect": 0.12
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "claude"
+     },
+     {
+      "id": "tdj-012",
+      "question": "What happens if the GPS signal is weak and the Vision System is unavailable?",
+      "reference": "The aircraft will revert to ATTI mode when GPS signal is weak, or when the compass experiences interfer\u00ad\\nence where the Vision System is unavailable.",
+      "answer": "The aircraft reverts (automatically switches) to ATTI mode [3][4]. In ATTI mode:\n- The aircraft is easily affected by its surroundings, which may result in horizontal shifting [3].\n- The Vision System and some advanced features are disabled, so the aircraft cannot position or auto-brake; it cannot hover in place [5][4]. (In Tripod Mode, flight speed will also increase [4].)\n- You should land in a safe place as soon as possible to avoid hazards, and avoid flying in areas where the GPS signal is weak or in confined spaces [5].\nIn addition, the aircraft cannot return to the Home Point when the GPS signal is weak or unavailable [1][2].",
+      "jev": "correct",
+      "confidence": 0.86,
+      "probabilities": {
+       "correct": 0.86,
+       "partial": 0.12,
+       "incorrect": 0.02
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "claude"
+     },
+     {
+      "id": "tdj-014",
+      "question": "When is Failsafe RTH automatically activated?",
+      "reference": "Failsafe RTH\\nwill be automatically activated if the remote controller signal is lost for a specified amount of time (3\\nseconds when using the remote controller and 20 seconds when using Wi-Fi).",
+      "answer": "Failsafe RTH is automatically activated if the remote controller signal is lost for a specified amount of time - 3 seconds when using the remote controller and 20 seconds when using Wi-Fi - provided the Home Point was successfully recorded and the compass is functioning normally [1]. Note that the aircraft cannot return to the Home Point when the GPS signal is weak or unavailable [1][2].",
+      "jev": "correct",
+      "confidence": 0.93,
+      "probabilities": {
+       "correct": 0.93,
+       "partial": 0.06,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-019",
+      "question": "What are the lighting condition limits for TapFly to work?",
+      "reference": "provided that the lighting is appropriate (< 300 lux) nor too bright (> 10,000 lux).",
+      "answer": "The extracts give a single lighting figure of 10,000 lux: the aircraft will automatically avoid obstacles it sees or brake and hover \"provided that the lighting is appropriate ( 10,000 lux)\" [1], and you should \"be extra cautious when flying in dark ( 10,000 lux) environments\" [3]. The comparison symbols/other bound in front of the figure are not legible in the extracts, so the exact lower and upper limits cannot be stated beyond the 10,000 lux value. TapFly Mode may also not work properly when flying over water or snow-covered areas [3].",
+      "jev": "partial",
+      "confidence": 0.79,
+      "probabilities": {
+       "correct": 0.0,
+       "partial": 0.79,
+       "incorrect": 0.21
+      },
+      "claude": "partial",
+      "final": "partial",
+      "by": "claude"
+     },
+     {
+      "id": "tdj-027",
+      "question": "What kind of propellers should I use with the Mavic Pro?",
+      "reference": "Use only DJI approved propellers with your Mavic Pro.",
+      "answer": "Use only DJI approved propellers with the Mavic Pro. They come as white ring and unmarked propellers, which indicate where they should be attached and in which direction they should spin [1].",
+      "jev": "correct",
+      "confidence": 0.95,
+      "probabilities": {
+       "correct": 0.95,
+       "partial": 0.02,
+       "incorrect": 0.03
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-037",
+      "question": "How long can the Mavic Pro Platinum fly for?",
+      "reference": "extended max flight time of 30 min",
+      "answer": "The Mavic Pro Platinum has a maximum flight time of 30 minutes (tested in 0 wind at a consistent 15.5 mph (25 kph); for reference only) [1][2]. Its max hovering time is 27 minutes (0 wind) [2].",
+      "jev": "correct",
+      "confidence": 0.94,
+      "probabilities": {
+       "correct": 0.94,
+       "partial": 0.02,
+       "incorrect": 0.04
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-038",
+      "question": "What is the capacity and voltage of the Intelligent Flight Battery?",
+      "reference": "a capacity of 3830 mAh, a voltage of 11.4 V",
+      "answer": "The Intelligent Flight Battery has a capacity of 3830 mAh and a voltage of 11.4 V [1][2] (battery type LiPo 3S, energy 43.6 Wh [2]).",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-042",
+      "question": "What parts should I use to protect the gimbal when the drone isn't in use?",
+      "reference": "Use the Gimbal Clamp and Gimbal Cover to protect the gimbal when the Mavic Pro is not in use.",
+      "answer": "Use the Gimbal Clamp and the Gimbal Cover to protect the gimbal when the Mavic Pro is not in use [1]. (Remove the Gimbal Clamp before powering on the aircraft [3].)",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-044",
+      "question": "What type of Micro SD card is recommended for saving high-resolution video?",
+      "reference": "A UHS-1 Micro SD card is recommended",
+      "answer": "A UHS-1 Micro SD card is recommended, because its fast read and write speeds allow you to save high-resolution video data [1]. The Mavic Pro supports Micro SD cards up to 64 GB (it comes with a 16 GB card), and the specifications state a Class 10 or UHS-1 rating is required [1][3].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-047",
+      "question": "What is the procedure for linking a new remote controller?",
+      "reference": "1. Turn on the remote controller and connect to the mobile device, and turn on the aircraft. Launch the\\n\\nDJI GO 4 app.\\n2. Enter \u201cCamera\u201d and tap on and then tap the \u201cLinking Primary RC\u201d or \u201cLinking Secondary\\nRC\u201d button to confirm.\\n3. The remote controller is ready to link.\\n4. Locate the linking button on the side of the aircraft... Press the link button",
+      "answer": "Linking is only required when using a new remote controller for the first time (the original is linked before delivery) [1]. Steps:\n1. Toggle the Control Mode switch to RC mode before linking [2].\n2. Turn on the remote controller and connect it to the mobile device, and turn on the aircraft [1].\n3. Launch the DJI GO 4 app [1].\n4. Enter \"Camera\", tap the icon, and then tap the \"Linking Primary RC\" or \"Linking Secondary RC\" button to confirm [1]. The remote controller is now ready to link [2].\n5. Locate the linking button on the side of the aircraft and press it to start linking [2].\n6. The Linking Status Indicator displays solid green once the remote controller is successfully linked, and the remote controller's LCD screen displays the aircraft's information [2].\nNotes: the previous remote controller un-links itself if a new one is linked to the same aircraft; in dual remote controller mode the slave remote controller must be relinked when the master remote controller has been relinked [2].",
+      "jev": "correct",
+      "confidence": 0.84,
+      "probabilities": {
+       "correct": 0.84,
+       "partial": 0.09,
+       "incorrect": 0.07
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "claude"
+     },
+     {
+      "id": "tdj-060",
+      "question": "What are the two situations that might cause a gimbal motor error?",
+      "reference": "(1) The aircraft is placed on uneven ground or the gimbal\u2019s motion is obstructed.\\n(2) The gimbal has been subjected to excessive external force, such as a collision.",
+      "answer": "A gimbal motor error may occur in these two situations [1]:\n1. The aircraft is placed on uneven ground or the gimbal's motion is obstructed.\n2. The gimbal has been subjected to excessive external force, such as a collision.",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-075",
+      "question": "On what page can I find information about the 'Intelligent Flight Battery'?",
+      "reference": "Intelligent Flight Battery 28",
+      "answer": "The \"Intelligent Flight Battery\" section is on page 28 [2], where its introduction (capacity 3830 mAh, voltage 11.4 V) and functions also appear [1][3].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-080",
+      "question": "What is the correct way to unfold the drone's arms?",
+      "reference": "1. Unfold the front arms, followed by the rear arms of the aircraft as shown.\\n2. Unfold all propeller blades.",
+      "answer": "All arms are folded on delivery [2]. To unfold them correctly [1]:\n1. Unfold the front arms first, followed by the rear arms of the aircraft.\n2. Unfold all propeller blades (front arms and propellers are unfolded before the rear ones).\nAll arms and propellers must be unfolded before powering on the aircraft, or it may affect Self Diagnostic Testing [1].",
+      "jev": "correct",
+      "confidence": 0.92,
+      "probabilities": {
+       "correct": 0.92,
+       "partial": 0.02,
+       "incorrect": 0.06
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-091",
+      "question": "What action must I take if the 'Critical Low battery level warning' is triggered?",
+      "reference": "The aircraft\\nmust land\\nimmediately.",
+      "answer": "When the Critical Low battery level warning is triggered, the aircraft must land immediately: allow the aircraft to descend and land automatically [2]. (The aircraft status indicator blinks red quickly, the DJI GO 4 app display flashes red, the aircraft starts to descend and the remote controller sounds an alarm [2].) Once the aircraft begins to land automatically, you can push the left stick upward to make it hover at its current altitude, giving you an opportunity to navigate to a more appropriate landing location [2]. The auto landing cannot be cancelled, but the remote controller can be used to alter the aircraft's orientation during the landing [1].",
+      "jev": "correct",
+      "confidence": 0.97,
+      "probabilities": {
+       "correct": 0.97,
+       "partial": 0.01,
+       "incorrect": 0.02
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-093",
+      "question": "Describe the 3-step process the aircraft follows when it detects an obstacle during RTH.",
+      "reference": "1. Aircraft decelerates when an obstacle is sensed at 49 ft (15 m) ahead.\\n\\n2. Aircraft stops and hovers then starts ascending vertically to avoid the obstacle. The aircraft will\\n\\nstop climbing when it is at least 16 ft (5 m) above the detected obstacle.\\n3. RTH procedures resume.",
+      "answer": "Provided the lighting conditions are adequate for the Forward Vision System, upon detecting an obstacle during RTH the aircraft acts as follows [1]:\n1. The aircraft decelerates when an obstacle is sensed at 49 ft (15 m) ahead.\n2. The aircraft stops and hovers, then starts ascending vertically to avoid the obstacle. It stops climbing when it is at least 16 ft (5 m) above the detected obstacle.\n3. RTH procedures resume: the aircraft continues flying to the Home Point at the current (new) altitude.\nNote: the aircraft cannot rotate during RTH while the Forward Vision System is enabled, and it cannot avoid obstacles above, beside, or behind it [2].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.02,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-095",
+      "question": "What types of objects should I specifically AVOID guiding the aircraft towards when using TapFly?",
+      "reference": "DO NOT guide the aircraft to fly towards people, animals, small and fine objects (e.g. tree\\n\\nbranches and power lines) or transparent objects (e.g. glass or water).",
+      "answer": "When using TapFly, DO NOT guide the aircraft to fly towards [1]:\n- people,\n- animals,\n- small and fine objects (e.g. tree branches and power lines), or\n- transparent objects (e.g. glass or water).\nAlso watch for obstacles in the flight path and stay clear of them [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-115",
+      "question": "What's the second thing on the pre-flight checklist?",
+      "reference": "2. Propellers are mounted correctly and firmly.",
+      "answer": "The second item on the Preflight Checklist is: \"Propellers are mounted correctly and firmly.\" (The first is that the remote controller, Intelligent Flight Battery, and mobile device are fully charged.) [1]",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-117",
+      "question": "How do I use the QuickShot feature?",
+      "reference": "1. Take off and ensure the aircraft is flying at least 4.5 ft (1.5 m) above the ground.\\n2. Launch DJI GO 4, tap, then select QuickShot, and follow the prompts.\\n3. Select your target subject in the camera view and choose a shooting mode. Tap \u201cGO\u201d to begin\\nrecording.",
+      "answer": "First ensure the aircraft is in P Mode and the Intelligent Flight Battery is charged sufficiently; QuickShot is only available when the GPS signal is strong [2][3 -> see 1]. Then:\n1. Take off and ensure the aircraft is flying at least 4.5 ft (1.5 m) above the ground [2].\n2. Launch DJI GO 4, tap the icon, then select QuickShot, and follow the prompts [2].\n3. Select your target subject in the camera view and choose a shooting mode [2] - Dronie (fly backward and upward, camera locked on your subject), Helix (fly upward, spiraling around your subject) or Rocket (ascend with the camera pointing downward) [3].\n4. Tap \"GO\" to begin recording. The aircraft will fly back to its original position after shooting is finished [2].\nThe Mavic records according to the selected mode and automatically generates a 10-second short video, which can be viewed, edited or shared to social media from the Playback menu [3][1].\nTo exit QuickShot at any time during shooting, tap the icon in DJI GO 4 or pull a control stick opposite to the direction of flight. The aircraft cannot avoid obstacles automatically in QuickShot, so only use it in wide open areas [1].",
+      "jev": "correct",
+      "confidence": 0.82,
+      "probabilities": {
+       "correct": 0.82,
+       "partial": 0.07,
+       "incorrect": 0.11
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "claude"
+     },
+     {
+      "id": "tdj-122",
+      "question": "What is the function of the Flight Pause Button?",
+      "reference": "Press once for emergency braking.",
+      "answer": "The Flight Pause Button is pressed once for emergency braking [1]. Pressing it once also exits ActiveTrack, TapFly and Intelligent Navigation flight modes, after which the aircraft hovers at its current position [2][3][4], and it can be used to immediately exit Smart RTH [5].",
+      "jev": "correct",
+      "confidence": 0.94,
+      "probabilities": {
+       "correct": 0.94,
+       "partial": 0.04,
+       "incorrect": 0.02
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-124",
+      "question": "What does the 'Dronie' QuickShot mode do?",
+      "reference": "Dronie : Fly backward and upward, with the camera locked on your subject.",
+      "answer": "In Dronie mode the aircraft flies backward and upward, with the camera locked on your subject [1]. As with the other QuickShot modes, the Mavic records a video accordingly and automatically generates a 10-second short video [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-125",
+      "question": "What does the remote controller error 'STICK ERR' indicate?",
+      "reference": "Control stick error. Calibrate the control sticks in the DJI GO 4 app.",
+      "answer": "\"STICK ERR\" indicates a control stick error; the remedy is to calibrate the control sticks in the DJI GO 4 app [1]. (The related message \"STICK ERR+RE-CTR STCK\" means the control stick is not centered - re-center it [1].)",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-126",
+      "question": "What are the flight restrictions if the app is not connected or logged in?",
+      "reference": "flight is restricted to a height of 30 m and distance of 50 m when not connected\\nor logged into the app during flight",
+      "answer": "NOT FOUND",
+      "final": "incorrect",
+      "by": "rule"
+     },
+     {
+      "id": "tdj-131",
+      "question": "What is the minimum braking distance required for S-mode in windless conditions?",
+      "reference": "A minimum braking distance of 30 meters is required in windless conditions.",
+      "answer": "A minimum braking distance of 30 meters is required in windless conditions in S-mode (Sport) [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tdj-132",
+      "question": "Identify a type of surface over which the Forward and Downward Vision Systems may not function correctly.",
+      "reference": "Flying over monochrome surfaces (e.g. pure black, pure white, pure red, pure green).",
+      "answer": "One example is water: the Forward and Downward Vision Systems may not function properly when the aircraft is flying over water (or transparent surfaces) [1][2]. Other surfaces listed include monochrome surfaces (e.g. pure black, pure white, pure red, pure green), highly reflective surfaces, moving surfaces or objects [2], inclined surfaces that deflect sound waves, surfaces that absorb sound waves (e.g. thick carpet), surfaces without clear patterns or texture, and surfaces with identical repeating patterns or textures (e.g. tiling) [1].",
+      "jev": "correct",
+      "confidence": 0.85,
+      "probabilities": {
+       "correct": 0.85,
+       "partial": 0.13,
+       "incorrect": 0.02
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "claude"
+     },
+     {
+      "id": "tdj-133",
+      "question": "What is the safety instruction regarding aged, chipped, or broken propellers?",
+      "reference": "DO NOT use aged, chipped,\\nor broken propellers.",
+      "answer": "DO NOT use aged, chipped, or broken propellers. Ensure that all propellers are in good condition before each flight [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     }
+    ],
+    "token_f1": 0.40671264708010874,
+    "citation_accuracy": 0.9,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "techmanualqa"
+ }
+]

@@ -1,0 +1,64 @@
+# Manual Handling corpus manifest.
+#
+# Source PDFs are NOT committed (they belong to their publishers). `manual_app fetch`
+# downloads each one, checks its SHA-256, and builds the bench PDFs from the listed pages.
+#
+# `pages` are 1-based page numbers in the ORIGINAL document. All gold annotations refer
+# to these original page numbers, so a result can always be traced back to the source.
+
+documents:
+  - id: newcastle_rft
+    title: "City of Newcastle RFT 2026/062T - Tarro and Johnson Park Amenities Buildings"
+    publisher: City of Newcastle (NSW, Australia)
+    kind: tender
+    url: https://newcastle.nsw.gov.au/getmedia/71713393-1628-4c00-82b5-33e61b2c9cd2/2026-062T-Request-for-Tender.pdf
+    sha256: 2e04b9961b1e2516353d06c0061f0bb28cee5354ae12ae4f7d8511b3c6147434
+    # Invitation + criteria, conditions of tendering, returnable tender schedules (forms and price tables).
+    pages: [3, 4, 7, 8, 9, 159, 160, 161, 163, 164, 165, 167, 168, 170, 171]
+    notes: Construction tender. 212 pages in full; the subset covers the parts a bid team answers.
+
+  - id: narembeen_rft
+    title: "Shire of Narembeen RFT 2026-02 - Waste Transfer Station Operation and Management"
+    publisher: Shire of Narembeen (WA, Australia)
+    kind: tender
+    url: https://www.narembeen.wa.gov.au/Profiles/narembeen/Assets/ClientData/Documents/Tenders/RFT2026-02_Provision_of_Waste_Transfer_Station_Operation_and_Management.pdf
+    sha256: c11a24b4d4ffb36feaf7f3e0df31df3bdde1e032677cb36e8f5978ffbce1f545
+    pages: all
+    notes: Services tender on the WA local-government template (Parts 1-4, returnable forms, criteria tables).
+
+  - id: centralina_rfp
+    title: "Centralina Regional Council RFP - Information Technology Managed Services (FY2026)"
+    publisher: Centralina Regional Council (North Carolina, USA)
+    kind: tender
+    url: https://centralina.org/wp-content/uploads/2026/04/FY2026-IT-MSP-RFP-3.pdf
+    sha256: 1d9c938946b63a237ce7a3cd48cca727937cb2e33acd71c6a62ec35bf7c924f2
+    pages: all
+    notes: IT managed services RFP with tasks, attachments and an IT environment table.
+
+  - id: docling_report
+    title: "Docling Technical Report (arXiv 2408.09869v5)"
+    publisher: IBM Research (arXiv, CC BY 4.0)
+    kind: technical
+    url: https://arxiv.org/pdf/2408.09869v5
+    sha256: 82dd470712ce8389f19f20eb9330475e2166a281f8c7990a9f1d0763d73b4d22
+    pages: all
+    notes: Technical paper with a performance table and figures.
+
+  - id: pubtabnet_paper
+    title: "Image-based table recognition: data, model, and evaluation (arXiv 1911.10683)"
+    publisher: IBM Research (arXiv)
+    kind: technical
+    url: https://arxiv.org/pdf/1911.10683
+    sha256: 19dc16b0d5e7ea356953c7338529440ca064663ae5d0b6f90b68c8c23ce33115
+    pages: [1, 2, 3, 4, 5, 6]
+    notes: Two-column technical paper with equations and result tables.
+
+  - id: narembeen_scan
+    title: "Narembeen RFT Part 4 returnable forms - simulated scan"
+    kind: tender
+    derived_from: narembeen_rft
+    pages: [12, 13, 14, 15, 16, 17]
+    # Image-only PDF: pages rendered to images, slightly rotated, noised and JPEG-compressed.
+    # Gold is shared with narembeen_rft, so OCR quality is measured against exact ground truth.
+    transform: {type: scan, dpi: 150, rotate_deg: 0.6, noise_sigma: 6, jpeg_quality: 55, seed: 7}
+    notes: Tests the OCR / vision path that scanned or signed tender documents need.
