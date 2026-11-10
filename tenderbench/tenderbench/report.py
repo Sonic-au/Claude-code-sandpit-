@@ -108,14 +108,14 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, 
         llm_rows = [r for r in rows if (r.get("C") or {}).get("llm") or (r.get("D") or {}).get("answers")]
         if llm_rows:
             L.append("| Document | Parser | LLM extraction F1 | LLM critical recall | All critical found | "
-                     "Answer accuracy | Lenient accuracy | Citation accuracy | Abstention accuracy |")
-            L.append("|---|---|---|---|---|---|---|---|---|")
+                     "Answers judged correct | Answer strict | Answer lenient | Citation accuracy | Abstention accuracy |")
+            L.append("|---|---|---|---|---|---|---|---|---|---|")
             for r in sorted(llm_rows, key=lambda r: (r["doc"], r["parser"])):
                 c = (r.get("C") or {}).get("llm", {})
                 a = (r.get("D") or {}).get("answers", {})
                 acf = c.get("all_critical_found")
                 L.append(f"| {r['doc']} | {_md(r['parser'])} | {_fmt(c.get('f1'))} | {_fmt(c.get('recall_critical'))} | "
-                         f"{'-' if acf is None else ('yes' if acf else 'no')} | {_fmt(a.get('accuracy'))} | {_fmt(a.get('lenient_accuracy'))} | "
+                         f"{'-' if acf is None else ('yes' if acf else 'no')} | {_fmt(a.get('judged_accuracy'))} | {_fmt(a.get('accuracy'))} | {_fmt(a.get('lenient_accuracy'))} | "
                          f"{_fmt(a.get('citation_accuracy'))} | {_fmt(a.get('abstention_accuracy'))} |")
     else:
         L.append("**Independent checks** are rules generated from vendor websites (HTML manual, product spec page) "
@@ -129,11 +129,11 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, 
     L.append("")
     allname = "All warnings found" if task == "safety" else "All mand. found"
     L.append(f"| Document | Parser | Text sim | TEDS | Rules | {xname} | {cname} | {allname} | "
-             "Recall@5 bm25 / dense / hybrid / hybrid-ctx |")
+             "Recall@5 bm25 / dense / hybrid / hybrid-ctx / hybrid-rerank |")
     L.append("|---|---|---|---|---|---|---|---|---|")
     for r in sorted(rows, key=lambda r: (r["doc"], r["parser"])):
         a, b, c, d = r.get("A", {}), r.get("B") or {}, (r.get("C") or {}).get("rules_baseline", {}), r.get("D") or {}
-        rec = " / ".join(_fmt(d.get(k, {}).get("recall@5")) for k in ("bm25", "dense", "hybrid", "hybrid-ctx"))
+        rec = " / ".join(_fmt(d.get(k, {}).get("recall@5")) for k in ("bm25", "dense", "hybrid", "hybrid-ctx", "hybrid-rerank"))
         amf = c.get("all_critical_found", c.get("all_mandatory_found"))
         L.append(f"| {r['doc']} | {_md(r['parser'])} | {_fmt(a.get('text_similarity'))} | {_fmt(a.get('teds'))} | "
                  f"{_fmt(b.get('pass_rate'))} | {_fmt(c.get('f1'))} | {_fmt(c.get('recall_critical', c.get('recall_mandatory')))} | "

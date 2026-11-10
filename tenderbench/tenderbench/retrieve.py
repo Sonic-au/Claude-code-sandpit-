@@ -1,17 +1,20 @@
 """Chunking and retrieval over one document's parsed pages.
 
 Chunks never cross a page boundary, so every retrieved chunk carries a page citation.
-Strategies: bm25, dense, hybrid (reciprocal rank fusion), and hybrid-ctx, which prefixes each
-chunk with the document title and its heading path - a no-LLM form of contextual retrieval.
+Strategies: bm25, dense, hybrid (reciprocal rank fusion), hybrid-ctx, which prefixes each
+chunk with the document title and its heading path - a no-LLM form of contextual retrieval - and
+hybrid-rerank, which re-scores the top 30 hybrid-ctx candidates with a small local cross-encoder.
 """
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
 
 from .normalize import markdown_to_text
 
 DENSE_MODEL = "BAAI/bge-small-en-v1.5"
+RERANK_MODEL = os.environ.get("TB_RERANK_MODEL", "cross-encoder/ms-marco-MiniLM-L-6-v2")
 _dense_cache: dict = {}
 _emb_cache: dict = {}
 
@@ -83,9 +86,24 @@ def _rrf(rankings: list[list[int]], k: int = 60) -> list[int]:
     return sorted(score, key=lambda i: -score[i])
 
 
+def _rerank(query: str, texts: list[str], order: list[int], depth: int = 30) -> list[int]:
+    """Re-score the first `depth` candidates with a cross-encoder (reads question and passage together)."""
+    from sentence_transformers import CrossEncoder
+    if RERANK_MODEL not in _dense_cache:
+        _dense_cache[RERANK_MODEL] = CrossEncoder(RERANK_MODEL, device="cpu", max_length=512)
+    head = order[:depth]
+    scores = _dense_cache[RERANK_MODEL].predict([(query, texts[i]) for i in head], batch_size=16)
+    ranked = [i for _, i in sorted(zip(scores, head), key=lambda x: -x[0])]
+    return ranked + order[depth:]
+
+
 def search(query: str, chunks: list[Chunk], strategy: str, title: str = "") -> list[Chunk]:
     if not chunks:
         return []
+    if strategy == "hybrid-rerank":
+        texts = [f"{title} | {c.heading} | {c.text}" for c in chunks]
+        order = _rrf([_rank_bm25(query, texts), _rank_dense(query, texts)])
+        return [chunks[i] for i in _rerank(query, [f"{c.heading} | {c.text}" for c in chunks], order)]
     if strategy == "hybrid-ctx":
         texts = [f"{title} | {c.heading} | {c.text}" for c in chunks]
     else:
@@ -101,7 +119,7 @@ def search(query: str, chunks: list[Chunk], strategy: str, title: str = "") -> l
     return [chunks[i] for i in order]
 
 
-ANSWER_PROMPT = """Answer the question using ONLY the numbered extracts from the tender "{title}".
+ANSWER_PROMPT = """Answer the question using ONLY the numbered extracts from the document "{title}".
 Cite the extract numbers you used like [2]. If the extracts do not contain the answer, reply exactly
 "NOT FOUND" and nothing else.
 
@@ -116,3 +134,31 @@ def answer(llm, question: str, top: list[Chunk], title: str) -> tuple[str, list[
     text = llm.complete(ANSWER_PROMPT.format(title=title, question=question, extracts=ex), max_tokens=800)
     cited = sorted({top[int(n) - 1].page for n in re.findall(r"\[(\d+)\]", text) if 0 < int(n) <= len(top)})
     return text.strip(), cited
+
+
+JUDGE_PROMPT = """You are grading an answer to a question about the document "{title}".
+
+Question: {question}
+
+Reference answer (from the document): {gold}
+
+Candidate answer: {answer}
+
+Grade the candidate against the reference:
+- "correct": it states the fact(s) the question asks for, in agreement with the reference. Different wording,
+  units written another way, a shorter answer, or extra detail that does not contradict the reference are fine.
+- "partial": it gives some of the facts the question asks for but misses or gets wrong an essential part.
+- "incorrect": it contradicts the reference, answers something else, or gives no answer.
+Ignore citation markers like [1]."""
+
+JUDGE_SCHEMA = {"type": "object", "additionalProperties": False, "required": ["verdict"],
+                "properties": {"verdict": {"type": "string", "enum": ["correct", "partial", "incorrect"]}}}
+
+
+def judge(llm, question: str, gold: str, ans: str, title: str) -> str:
+    """LLM grade of an answer against the gold answer: correct | partial | incorrect."""
+    if not ans.strip() or ans.strip().upper().startswith("NOT FOUND"):
+        return "incorrect"
+    r = llm.complete_json(JUDGE_PROMPT.format(title=title, question=question, gold=gold, answer=ans), JUDGE_SCHEMA,
+                          max_tokens=200)
+    return r["verdict"]

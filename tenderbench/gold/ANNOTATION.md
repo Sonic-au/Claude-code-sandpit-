@@ -122,6 +122,8 @@ per bullet).
 {"id": "xyl-s01", "page": 32, "kind": "warning", "text": "Disconnect and lock out electrical power before installing or servicing the unit."}
 ```
 
+- Only notices printed with a signal word count. Table footnotes and legal notices do not, so the TI LM317
+  datasheet has no `safety.jsonl` (its three earlier items were footnotes with no signal word).
 - `kind`: `danger`, `warning`, `caution` (includes NOTICE), `note` (includes IMPORTANT). Use the signal word printed
   on the page.
 - `text`: the notice body verbatim, without the signal word.

@@ -8,6 +8,7 @@ Track D  retrieval / QA   evidence recall@5, MRR; answer accuracy and abstention
 from __future__ import annotations
 
 import json
+import os
 import statistics
 import time
 from pathlib import Path
@@ -129,8 +130,11 @@ def track_c(result: ParseResult, gold: dict, doc: Document, llm=None) -> dict:
     return out
 
 
+ANSWER_STRATEGY = os.environ.get("TB_ANSWER_STRATEGY", "hybrid-rerank")   # retrieval used for the answer step
+
+
 def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
-            strategies=("bm25", "dense", "hybrid", "hybrid-ctx"), k: int = 5) -> dict:
+            strategies=("bm25", "dense", "hybrid", "hybrid-ctx", "hybrid-rerank"), k: int = 5) -> dict:
     qs = gold["questions"]
     if not qs:
         return {}
@@ -151,9 +155,9 @@ def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
     if llm is not None:
         correct, lenient, f1s, cite_ok, abstain_ok, n_ans, n_un = 0, 0, [], 0, 0, 0, 0
         from .llm import LLMRefusal
-        refused = 0
+        refused, verdicts = 0, []
         for q in qs:
-            top = retrieve.search(q["question"], chunks, "hybrid-ctx", doc.title)[:k]
+            top = retrieve.search(q["question"], chunks, ANSWER_STRATEGY, doc.title)[:k]
             try:
                 ans, cited = retrieve.answer(llm, q["question"], top, doc.title)
             except LLMRefusal:
@@ -166,11 +170,20 @@ def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
                 lenient += ok or answer_coverage(ans, q["answer"]) >= 0.7
                 f1s.append(token_f1(ans, q["answer"]))
                 cite_ok += bool(set(cited) & {e["page"] for e in q["evidence"]})
+                if ans:
+                    try:
+                        verdicts.append(retrieve.judge(llm, q["question"], q["answer"], ans, doc.title))
+                    except LLMRefusal:
+                        pass
             else:
                 n_un += 1
                 abstain_ok += "not found" in ans.lower()
-        out["answers"] = {"model": llm.label, "accuracy": correct / n_ans if n_ans else None,
+        judged = len(verdicts) == n_ans and n_ans > 0     # only report once every answer has a grade
+        out["answers"] = {"model": llm.label, "retrieval": ANSWER_STRATEGY,
+                          "accuracy": correct / n_ans if n_ans else None,
                           "lenient_accuracy": lenient / n_ans if n_ans else None,
+                          "judged_accuracy": verdicts.count("correct") / n_ans if judged else None,
+                          "judged_partial": verdicts.count("partial") / n_ans if judged else None,
                           "token_f1": statistics.fmean(f1s) if f1s else None,
                           "citation_accuracy": cite_ok / n_ans if n_ans else None,
                           "abstention_accuracy": abstain_ok / n_un if n_un else None, "refused": refused}

@@ -112,3 +112,37 @@ def test_identifiers_keep_underscores():
 def test_shell_pipes_in_rules():
     r = result(["or:\n\n```\ncat filename.gz | gunzip | psql dbname\n```\n"], [825])
     assert check_rule({"type": "present", "text": "cat filename.gz | gunzip | psql dbname", "page": 825}, r)
+
+
+def test_answer_coverage_is_fair_to_long_gold_answers():
+    from tenderbench.metrics import answer_coverage
+    gold = "The lamp goes out approximately 10 seconds after releasing the switch trigger."
+    assert answer_coverage("The lamp goes out about 10 seconds after releasing the switch trigger [1].", gold) >= 0.7
+    assert answer_coverage("Approximately 30 minutes.", gold) < 0.7
+
+
+def test_judge_marks_not_found_incorrect_without_calling_the_llm():
+    from tenderbench.retrieve import judge
+    assert judge(None, "q", "gold", "NOT FOUND", "doc") == "incorrect"
+
+    class Fake:
+        def complete_json(self, prompt, schema, system="", max_tokens=0):
+            assert "2,000 lbs" in prompt and "2,000 pounds" in prompt
+            return {"verdict": "correct"}
+    assert judge(Fake(), "Breaking strength?", "2,000 pounds", "2,000 lbs [1].", "doc") == "correct"
+
+
+def test_session_provider_queues_then_reads_back(tmp_path, monkeypatch):
+    import json
+    from tenderbench import corpus
+    from tenderbench.llm import LLM, LLMPending
+    monkeypatch.setattr(corpus, "DATA", tmp_path)
+    try:
+        LLM("session", "s", "session").complete("What is X?")
+        raise AssertionError("expected LLMPending")
+    except LLMPending as e:
+        key = str(e)
+    task = json.loads((tmp_path / "session_llm" / "tasks.jsonl").read_text())
+    assert task["key"] == key and task["prompt"] == "What is X?"
+    (tmp_path / "session_llm" / "responses.jsonl").write_text(json.dumps({"key": key, "response": "42"}) + "\n")
+    assert LLM("session", "s", "session").complete("What is X?") == "42"
