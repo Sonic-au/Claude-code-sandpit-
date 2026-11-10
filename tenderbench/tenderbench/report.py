@@ -100,7 +100,10 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, 
             L.append(f"LLM usage: {llm_info.get('calls', 0)} calls, {llm_info.get('input_tokens', 0):,} input and "
                      f"{llm_info.get('output_tokens', 0):,} output tokens"
                      + (f", about US${cost:.2f}" if cost is not None else "")
-                     + f", {llm_info.get('refusals', 0)} declined; data residency: {llm_info.get('residency')}.")
+                     + f", {llm_info.get('refusals', 0)} declined"
+                     + (f", {llm_info['pending']} still pending (session provider: answer them and run again)"
+                        if llm_info.get("pending") else "")
+                     + f"; data residency: {llm_info.get('residency')}.")
         L.append("")
         llm_rows = [r for r in rows if (r.get("C") or {}).get("llm") or (r.get("D") or {}).get("answers")]
         if llm_rows:

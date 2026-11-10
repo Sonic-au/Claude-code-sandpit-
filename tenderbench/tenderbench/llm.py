@@ -9,6 +9,9 @@ Settings (all optional):
   TB_LLM_EFFORT     low | medium | high | xhigh | max (default medium, Opus 5.5's own default, set explicitly)
   TB_LLM_REGION     bedrock region; ap-southeast-2 (Sydney) keeps inference onshore
   TB_LLM_BASE_URL   openai: an OpenAI-compatible server for self-hosted non-Claude models
+  TB_LLM_PROVIDER=session   no API: tasks are written to data/session_llm/tasks.jsonl, answered inside a
+                    Claude Code session (on a Claude subscription), and read back from responses.jsonl on the
+                    next run. Two passes: run once to queue tasks, answer them, run again to score.
 
 The Claude API path opts into server-side refusal fallback ("default" routing) so a safety-classifier decline is
 re-run on a fallback model instead of failing the item. Token usage and estimated cost are tracked for the report.
@@ -28,6 +31,10 @@ class LLMRefusal(RuntimeError):
     pass
 
 
+class LLMPending(LLMRefusal):
+    """Session provider: the task is queued for answering in a Claude Code session, not answered yet."""
+
+
 class LLM:
     def __init__(self, provider: str, model: str, effort: str = "medium", region: str | None = None,
                  base_url: str | None = None):
@@ -37,6 +44,8 @@ class LLM:
 
     @property
     def residency(self) -> str:
+        if self.provider == "session":
+            return "offshore (Claude Code session)"
         if self.provider == "bedrock":
             return "cloud-au" if (self.region or "").startswith("ap-southeast") else "offshore"
         if self.provider == "openai":
@@ -100,13 +109,50 @@ class LLM:
 
     # -------------------------------------------------------------- public
 
+    # -------------------------------------------------------------- Claude Code session (subscription)
+
+    def _session(self, prompt: str, system: str, schema: dict | None):
+        import hashlib
+        from .corpus import DATA
+        d = DATA / "session_llm"
+        d.mkdir(parents=True, exist_ok=True)
+        key = hashlib.sha256(json.dumps([system, prompt, schema], sort_keys=True).encode()).hexdigest()[:24]
+        if not hasattr(self, "_answers"):
+            self._answers = {}
+            rp = d / "responses.jsonl"
+            if rp.exists():
+                for line in rp.read_text().splitlines():
+                    if line.strip():
+                        r = json.loads(line)
+                        self._answers[r["key"]] = r["response"]
+            self._queued = set()
+            tp = d / "tasks.jsonl"
+            if tp.exists():
+                self._queued = {json.loads(l)["key"] for l in tp.read_text().splitlines() if l.strip()}
+        if key in self._answers:
+            self.usage["calls"] += 1
+            return self._answers[key]
+        if key not in self._queued:
+            with (d / "tasks.jsonl").open("a") as f:
+                f.write(json.dumps({"key": key, "system": system, "prompt": prompt, "schema": schema},
+                                   ensure_ascii=False) + "\n")
+            self._queued.add(key)
+        self.usage["pending"] = self.usage.get("pending", 0) + 1
+        raise LLMPending(key)
+
     def complete(self, prompt: str, system: str = "", max_tokens: int = 4000) -> str:
+        if self.provider == "session":
+            r = self._session(prompt, system, None)
+            return r if isinstance(r, str) else json.dumps(r)
         if self.provider in ("anthropic", "bedrock"):
             return self._claude(prompt, system, max_tokens, None)
         return self._openai(prompt, system, max_tokens)
 
     def complete_json(self, prompt: str, schema: dict, system: str = "", max_tokens: int = 16000):
         """JSON matching `schema` (structured outputs on Claude, so the result always parses)."""
+        if self.provider == "session":
+            r = self._session(prompt, system, schema)
+            return json.loads(r) if isinstance(r, str) else r
         if self.provider in ("anthropic", "bedrock"):
             return json.loads(self._claude(prompt, system, max_tokens, schema))
         text = self._openai(prompt + "\n\nReturn only JSON matching this schema:\n" + json.dumps(schema), system,
@@ -125,6 +171,8 @@ def get_llm() -> LLM | None:
     provider = os.environ.get("TB_LLM_PROVIDER") or ("anthropic" if _has_anthropic_credential() else None)
     if not provider:
         return None
+    if provider == "session":
+        return LLM("session", os.environ.get("TB_LLM_MODEL", "claude-code-session"), "session")
     default_model = "anthropic.claude-opus-5-5" if provider == "bedrock" else "claude-opus-5-5"
     model = os.environ.get("TB_LLM_MODEL") or (default_model if provider in ("anthropic", "bedrock") else None)
     if not model:
