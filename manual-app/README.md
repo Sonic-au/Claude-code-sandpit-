@@ -1,4 +1,6 @@
-# Manual Handling: technical-manual Q&A
+# Manual Handling
+
+**Let AI handle your manuals.** *The right answer, on the right page.*
 
 `manual-app` (formerly TenderBench). Run it with `python -m manual_app`.
 
