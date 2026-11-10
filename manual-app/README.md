@@ -331,6 +331,29 @@ Full tables: [`results/2026-11-07-local/report.md`](results/2026-11-07-local/rep
   already OCRs image pages. Evidence so far favours MinerU as the primary parser if its AGPL licence is acceptable,
   with Docling as the MIT-licensed alternative.
 
+## Workbench: inspect manuals, review answers, add labelled questions
+
+The [Manual Handling Workbench](https://claude.ai/artifact/QbUbwe44Vzcismk1YhUnLk) is a page for working with the
+manuals by hand:
+
+- **Pages:** each bench page as printed beside the parser's text, with WARNING, CAUTION and NOTE highlighted and
+  links to the test questions answered on that page.
+- **Test questions:** every question with its expected answer, Claude's answer, the grade (Jev, or Claude when Jev
+  was unsure), the evidence page and whether search found it.
+- **Ask and label:** ask a new question. The page runs a keyword search over the parsed text and Claude answers from
+  the top five extracts, using the bench's own answer prompt. Correct the answer, tick the evidence pages and save
+  it as a labelled test question. Claude runs on the viewer's Claude plan, so no API key is needed.
+
+The page's search is keyword (BM25) only, unlike the bench's reranked hybrid search, so its extracts can differ.
+
+Rebuild the page's data after a bench run, then import saved labels into the gold set:
+
+```bash
+python scripts/export_workbench.py <out_dir>          # data.json and page images, from cached answers
+python scripts/import_labels.py <labels_dir>           # saved labels -> gold/<doc>/questions.jsonl
+python -m manual_app.validate_gold                     # check them and rebuild gold/questions.jsonl
+```
+
 ## Adding your own (private) documents
 
 1. Add an entry to a corpus manifest (`corpus/manuals.yaml`, or a new `corpus/<name>.yaml` run with `--corpus <name>`) (a `file://` URL is not supported; copy the PDF to `data/source/<id>.pdf`
