@@ -207,3 +207,19 @@ def test_cascade_accepts_confident_jev_and_escalates_the_rest():
     sweep = {row["threshold"]: row for row in threshold_sweep([r2, r3])}
     assert sweep[1.01]["escalated"] == 1.0 and sweep[1.01]["agrees_with_claude"] == 1.0
     assert sweep[0.5]["escalated"] == 0.0
+
+
+def test_graph_shares_nodes_across_manuals_and_matches_questions():
+    from manual_app.graph import Graph, GraphIndex
+    g = Graph("t")
+    a, b = g.node("manual", "Manual A", key="a", by="rules"), g.node("manual", "Manual B", key="b", by="rules")
+    g.edge(a, "has_component", g.node("component", "Drain hoses", "a", 3, "connect the drain hoses"), "a", 3)
+    g.edge(b, "has_component", g.node("component", "drain hose", "b", 7), "b", 7)
+    g.edge(b, "has_component", g.node("component", "reversing valve", "b", 9), "b", 9)
+    assert g.stats()["shared_across_manuals"] == 1          # "Drain hoses" and "drain hose" are one node
+    g.merge("component:drain-hose", g.node("component", "condensate hose", "a", 4))
+    assert "condensate hose" in g.nodes["component:drain-hose"]["aliases"]
+    docs, pages, hits = GraphIndex(g).match("Where does the reversing valve sit?")
+    assert set(docs) == {"b"} and ("b", 9) in pages and hits == ["component:reversing-valve"]
+    docs, _, _ = GraphIndex(g).match("How do I fit the condensate hose?")
+    assert set(docs) == {"a", "b"}

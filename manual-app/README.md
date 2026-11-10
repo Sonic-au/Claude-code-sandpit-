@@ -354,6 +354,38 @@ python scripts/import_labels.py <labels_dir>           # saved labels -> gold/<d
 python -m manual_app.validate_gold                     # check them and rebuild gold/questions.jsonl
 ```
 
+## Knowledge graph across manuals (HVAC, 10 Nov 2026)
+
+`corpus/hvac.yaml` adds four related manuals from three makers (two Daikin split-system manuals, a Bard PH13
+package heat pump and a Rheem heat pump; 97 pages). `python -m manual_app graph --corpus hvac` builds
+`graph/hvac.json` from Docling output:
+
+- **Nodes:** manuals, models, components, refrigerants and tools (shared across manuals), plus specs, procedures,
+  faults and safety notices (one manual each). Every node and link keeps its manual, page and a short quote.
+- **Extraction:** rules find refrigerants and safety notices; Claude reads each page for the rest (run in a Claude
+  Code session), then groups different names for the same part.
+- **Size:** 1,172 nodes and 2,057 links; 68 parts, tools and refrigerants appear in more than one manual.
+- **Not reviewed:** no person has checked the extraction. The workbench's graph view has accept / reject buttons.
+
+**Does it help search?** `python -m manual_app graph-eval --corpus hvac` searches all four manuals at once, using 40
+single-manual and 8 cross-manual questions drafted by Claude (answers checked verbatim against the page):
+
+| Search | Single-manual recall@5 | Cross-manual recall@5 | Manuals read per question |
+|---|---|---|---|
+| Text only (hybrid + headings) | 97.5 | 100.0 | 4.0 |
+| Text + graph page boost | 92.5 | 100.0 | 4.0 |
+| Text + graph boost, unmatched manuals dropped | 92.5 | 100.0 | 2.7 |
+
+- **Not yet.** With four manuals, text search already finds the right page, and the graph boost makes it slightly
+  worse: common parts ("outdoor unit") occur on many pages and pull in the wrong ones, and the two Daikin manuals
+  share most of their parts.
+- Query time is the same (about 36 ms): narrowing only filters the ranking, it does not skip any work yet.
+- The graph does cut the manuals read from 4 to 2.7 with the right manual always kept, which is where a speed-up
+  would come from on a corpus of hundreds of manuals. That is untested.
+- Parsing note: Docling returned reversed, letter-spaced text for most of the Bard manual's tables.
+
+Results: [`results/2026-11-10-hvac-graph/graph_eval.json`](results/2026-11-10-hvac-graph/graph_eval.json).
+
 ## Adding your own (private) documents
 
 1. Add an entry to a corpus manifest (`corpus/manuals.yaml`, or a new `corpus/<name>.yaml` run with `--corpus <name>`) (a `file://` URL is not supported; copy the PDF to `data/source/<id>.pdf`

@@ -13,12 +13,13 @@ Extraction: rules find refrigerants and safety notices; an LLM reads each parsed
 procedures and faults, then one more call groups different names for the same component. With
 TB_LLM_PROVIDER=session the LLM tasks are queued and answered in a Claude Code session (see scripts/session_tool.py).
 
-Search: `corpus_search` looks for the question's entities in the graph, keeps only the manuals they occur in, and
-boosts the pages they were found on, before the usual hybrid text search.
+Search: `corpus_search` looks for the question's entities in the graph and fuses the pages they were found on into
+the usual hybrid text ranking; it can also drop the manuals none of them occur in.
 """
 from __future__ import annotations
 
 import json
+import math
 import re
 import time
 from collections import defaultdict
@@ -255,6 +256,7 @@ class GraphIndex:
 
     def __init__(self, g: Graph):
         self.terms = []
+        self.n_pages = len({(s["doc"], s["page"]) for n in g.nodes.values() for s in n["sources"]}) or 1
         for n in g.nodes.values():
             if n["type"] not in ("component", "refrigerant", "model", "tool", "fault", "procedure"):
                 continue
@@ -269,7 +271,8 @@ class GraphIndex:
         docs, pages, hits = defaultdict(float), defaultdict(float), []
         for t, n in self.terms:
             if t in q or t in q2:
-                w = len(t.split())                                    # longer names are more specific
+                # specific things count for more: longer names, and names found on few pages (as IDF does for words)
+                w = len(t.split()) * math.log(1 + self.n_pages / max(1, len(n["sources"])))
                 hits.append(n["id"])
                 for s in n["sources"]:
                     docs[s["doc"]] += w
@@ -299,19 +302,24 @@ def _hybrid(question: str, chunks: list[DocChunk]) -> list[int]:
     return retrieve._rrf([retrieve._rank_bm25(question, texts), retrieve._rank_dense(question, texts)])
 
 
-def corpus_search(question: str, chunks: list[DocChunk], index: GraphIndex | None = None) -> tuple[list[DocChunk], dict]:
-    """Rank chunks from every manual. With a graph index: keep the manuals the question's entities occur in
-    (all manuals if none match), then fuse the text ranking with a ranking of graph-matched pages."""
+def corpus_search(question: str, chunks: list[DocChunk], index: GraphIndex | None = None,
+                  narrow: bool = True) -> tuple[list[DocChunk], dict]:
+    """Rank chunks from every manual. With a graph index, the pages where the question's entities were found are
+    fused into the text ranking; with `narrow`, manuals that none of those entities occur in are dropped as well
+    (all manuals are kept when nothing matches)."""
+    order = _hybrid(question, chunks)
+    all_docs = len({c.doc for c in chunks})
     if index is None:
-        return [chunks[i] for i in _hybrid(question, chunks)], {"manuals_searched": len({c.doc for c in chunks})}
+        return [chunks[i] for i in order], {"manuals_searched": all_docs}
     docs, pages, hits = index.match(question)
-    pool = [c for c in chunks if c.doc in docs] if docs else chunks
-    order = _hybrid(question, pool)
+    if narrow and docs:
+        order = [i for i in order if chunks[i].doc in docs]
     if pages:
-        by_graph = sorted(range(len(pool)), key=lambda i: -pages.get((pool[i].doc, pool[i].page), 0.0))
-        by_graph = [i for i in by_graph if pages.get((pool[i].doc, pool[i].page), 0.0) > 0]
-        order = retrieve._rrf([order, order, by_graph + [i for i in order if i not in set(by_graph)]])
-    return [pool[i] for i in order], {"manuals_searched": len({c.doc for c in pool}), "entities": hits}
+        weight = lambda i: pages.get((chunks[i].doc, chunks[i].page), 0.0)
+        by_graph = sorted((i for i in order if weight(i) > 0), key=lambda i: -weight(i))
+        seen = set(by_graph)
+        order = retrieve._rrf([order, order, by_graph + [i for i in order if i not in seen]])
+    return [chunks[i] for i in order], {"manuals_searched": len(docs) if narrow and docs else all_docs, "entities": hits}
 
 
 def evaluate(corpus: str, questions: list[dict], g: Graph, parser: str = "docling", k: int = 5) -> dict:
@@ -319,11 +327,11 @@ def evaluate(corpus: str, questions: list[dict], g: Graph, parser: str = "doclin
     chunks, index = corpus_chunks(corpus, parser), GraphIndex(g)
     corpus_search("warm up", chunks)                                  # load the embedding model before timing
     out = {}
-    for name, ix in (("text_only", None), ("graph_narrowed", index)):
+    for name, ix, narrow in (("text_only", None, False), ("graph_boosted", index, False), ("graph_narrowed", index, True)):
         hit, doc_hit, secs, searched, rows = 0, 0, 0.0, 0, []
         for q in questions:
             t = time.perf_counter()
-            top, info = corpus_search(q["question"], chunks, ix)
+            top, info = corpus_search(q["question"], chunks, ix, narrow)
             secs += time.perf_counter() - t
             ev = {(e.get("doc", q.get("doc")), e["page"]) for e in q["evidence"]}
             ok = any((c.doc, c.page) in ev for c in top[:k])

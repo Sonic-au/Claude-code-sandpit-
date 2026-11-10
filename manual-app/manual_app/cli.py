@@ -38,6 +38,11 @@ def main(argv=None):
     g.add_argument("--parser", default="docling")
     g.add_argument("--no-llm", action="store_true", help="rules only: manuals, refrigerants and safety notices")
 
+    ge = sub.add_parser("graph-eval", help="compare text-only and graph-narrowed search across a corpus's manuals")
+    ge.add_argument("--corpus", default="hvac")
+    ge.add_argument("--parser", default="docling")
+    ge.add_argument("--out", default="", help="write the full result as JSON")
+
     a = ap.parse_args(argv)
     if a.cmd == "fetch":
         for d in corpus.load_manifest(corpus.manifest_path(a.corpus or None)):
@@ -66,6 +71,22 @@ def main(argv=None):
             print("LLM tasks are pending: answer them (scripts/session_tool.py) and run this again.")
         else:
             print(f"wrote {gr.save()}")
+    elif a.cmd == "graph-eval":
+        from . import graph
+        from .bench import GOLD, _jsonl
+        qs = []
+        for d in corpus.load_manifest(corpus.manifest_path(a.corpus)):
+            qs += [q for q in _jsonl(GOLD / d.id / "questions.jsonl") if q.get("answerable", True)]
+        cross = [q for q in _jsonl(GOLD / f"{a.corpus}_cross_questions.jsonl") if q.get("answerable", True)]
+        g = graph.Graph.load(graph.GRAPH_DIR / f"{a.corpus}.json")
+        res = {"single_manual": graph.evaluate(a.corpus, qs, g, a.parser), "cross_manual": graph.evaluate(a.corpus, cross, g, a.parser)}
+        for kind, r in res.items():
+            for mode, v in r.items():
+                print(f"{kind:14} {mode:15} recall@5 {100 * v['recall_at_5']:5.1f}  right manual {100 * v['right_manual_in_top5']:5.1f}  "
+                      f"{v['ms_per_question']:6.0f} ms/question  manuals searched {v['manuals_searched_mean']:.2f}  n={v['n']}")
+        if a.out:
+            Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+            Path(a.out).write_text(json.dumps(res, indent=1))
     return 0
 
 
