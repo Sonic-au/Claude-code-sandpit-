@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Answer TenderBench LLM tasks inside a Claude Code session (TB_LLM_PROVIDER=session; no API needed).
+"""Answer Manual Handling LLM tasks inside a Claude Code session (TB_LLM_PROVIDER=session; no API needed).
 
   split  <n> <dir>            split the unanswered tasks in data/session_llm/tasks.jsonl into n shard files
   count  <shard.jsonl>        number of tasks in a shard and how many are answered

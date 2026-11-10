@@ -1,4 +1,6 @@
-# TenderBench
+# Manual Handling: technical-manual Q&A
+
+`manual-app` (formerly TenderBench). Run it with `python -m manual_app`.
 
 An evaluation harness for choosing how to ingest **technical manuals** into a knowledge base that answers
 **technician questions** with page citations. It scores document parsers, and the extraction and retrieval steps
@@ -20,7 +22,7 @@ Existing benchmarks measure parsing in general, not tenders:
 | [RealDocBench](https://arxiv.org/abs/2606.07401) (Extend) | Field-level accuracy, strict per-question scoring | Regulated forms, not tenders |
 | olmOCR-Bench (in [olmOCR](https://arxiv.org/abs/2502.18443)) | Cheap deterministic unit tests | Mostly academic PDFs |
 
-TenderBench borrows one method from each and applies it to public tenders and technical papers.
+Manual Handling borrows one method from each and applies it to public tenders and technical papers.
 
 ## Tracks
 
@@ -63,11 +65,11 @@ Public documents only; PDFs are downloaded and checksum-verified, not committed.
 | `narembeen_scan` | Narembeen Part 4 forms as a simulated scan | 6 | OCR path; gold shared with the digital version, so OCR is scored against exact truth |
 
 Gold annotations (`gold/`) were made from page images, never from a parser's output, following
-[`gold/ANNOTATION.md`](gold/ANNOTATION.md), and checked with `python -m tenderbench.validate_gold`.
+[`gold/ANNOTATION.md`](gold/ANNOTATION.md), and checked with `python -m manual_app.validate_gold`.
 
 ## Parsers
 
-`python -m tenderbench parsers` shows which can run in your environment.
+`python -m manual_app parsers` shows which can run in your environment.
 
 | Adapter | Type | Residency | Licence | Status |
 |---|---|---|---|---|
@@ -93,10 +95,10 @@ Everything below runs with free, open-source software on a CPU: no API keys, no 
 the machine. LLM steps are skipped automatically when no Anthropic credential is set.
 
 ```bash
-cd tenderbench
+cd manual_app
 scripts/setup.sh                          # one-time install (parsers, models, scoring libraries)
 . scripts/env.sh && scripts/run_all.sh    # fetch, build independent gold, parse with seven parsers, score
-python -m tenderbench run --parsers docling --no-llm   # just the recommended parser
+python -m manual_app run --parsers docling --no-llm   # just the recommended parser
 ```
 
 | Parser | Licence | Notes |
@@ -119,9 +121,9 @@ pip install -r requirements.txt
 npm install @llamaindex/liteparse @tesseract.js-data/eng      # optional: LiteParse
 export LITEPARSE_BIN=$PWD/node_modules/.bin/lit               # and LITEPARSE_CONFIG for local OCR data
 
-python -m tenderbench fetch                                   # download + build bench PDFs
-python -m tenderbench run                                     # default local parsers, all tracks
-python -m tenderbench run --parsers docling,vlm --docs narembeen_rft,narembeen_scan
+python -m manual_app fetch                                   # download + build bench PDFs
+python -m manual_app run                                     # default local parsers, all tracks
+python -m manual_app run --parsers docling,vlm --docs narembeen_rft,narembeen_scan
 python -m pytest -q tests
 ```
 
@@ -138,17 +140,17 @@ and are never simulated otherwise:
 export ANTHROPIC_API_KEY=...                       # Claude API (US); public documents only
 export TB_LLM_PROVIDER=bedrock TB_LLM_REGION=ap-southeast-2   # or Claude on Amazon Bedrock in Sydney (onshore)
 export TB_LLM_EFFORT=high                          # optional: low | medium | high | xhigh | max
-python -m tenderbench run --parsers docling,mineru,pymupdf4llm
+python -m manual_app run --parsers docling,mineru,pymupdf4llm
 ```
 
 **On a Claude subscription (no API bill):** `TB_LLM_PROVIDER=session` writes each LLM task to
 `data/session_llm/tasks.jsonl` instead of calling an API. Then, in a Claude Code session:
 
 ```bash
-TB_LLM_PROVIDER=session python -m tenderbench run --parsers docling   # queues tasks
+TB_LLM_PROVIDER=session python -m manual_app run --parsers docling   # queues tasks
 python scripts/session_tool.py split 4 /tmp/shards                    # ask session agents to `show` and `answer` each
 python scripts/session_tool.py merge /tmp/shards
-TB_LLM_PROVIDER=session python -m tenderbench run --parsers docling   # scores; repeat while tasks are pending
+TB_LLM_PROVIDER=session python -m manual_app run --parsers docling   # scores; repeat while tasks are pending
 ```
 
 Answers are graded in a later pass, so expect three runs. Responses are cached by prompt hash, so re-scoring is free.
@@ -189,8 +191,8 @@ Full tables: [`results/2026-11-09-manuals/report.md`](results/2026-11-09-manuals
 
 ## Independent gold: vendor websites and TechManualQA-700 (10 Nov 2026)
 
-`python -m tenderbench vendor` builds gold that does not come from our annotators (`corpus/vendor_sources.yaml`,
-`tenderbench/vendor.py`); vendor pages are snapshotted with URL, date and SHA-256. The report shows it as
+`python -m manual_app vendor` builds gold that does not come from our annotators (`corpus/vendor_sources.yaml`,
+`manual_app/vendor.py`); vendor pages are snapshotted with URL, date and SHA-256. The report shows it as
 **Independent checks**.
 
 | Source | What it gives | Size |
@@ -287,10 +289,10 @@ Full tables: [`results/2026-11-07-local/report.md`](results/2026-11-07-local/rep
 
 ## Running the general benchmarks too
 
-For a general-quality check alongside TenderBench, run candidates through the official harnesses:
+For a general-quality check alongside Manual Handling, run candidates through the official harnesses:
 [OmniDocBench](https://github.com/opendatalab/OmniDocBench) (page-level end-to-end evaluation) and
 [ParseBench](https://arxiv.org/abs/2604.08538) (dataset and code on Hugging Face/GitHub). Their scores answer
-"is this parser good in general"; TenderBench answers "is it good on our documents".
+"is this parser good in general"; Manual Handling answers "is it good on our documents".
 
 ## Limitations
 

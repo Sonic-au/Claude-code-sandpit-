@@ -1,6 +1,6 @@
-# TenderBench corpus manifest.
+# Manual Handling corpus manifest.
 #
-# Source PDFs are NOT committed (they belong to their publishers). `tenderbench fetch`
+# Source PDFs are NOT committed (they belong to their publishers). `manual_app fetch`
 # downloads each one, checks its SHA-256, and builds the bench PDFs from the listed pages.
 #
 # `pages` are 1-based page numbers in the ORIGINAL document. All gold annotations refer

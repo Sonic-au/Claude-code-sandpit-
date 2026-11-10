@@ -5,7 +5,7 @@ knowledge graph in Neo4j under a human-approved, flat schema: an LLM proposes ca
 model ("Jev") decides what is written, each fact keeping its source sentence. Assessed from its PyPI README
 (read in full) and its installed code; the GitHub whitepaper was not reachable from this environment.
 
-## Profile of the TenderBench tenders
+## Profile of the Manual Handling tenders
 
 Command (deterministic, no LLM, no network; verified in the code: the only HTTP call sits behind the
 drafting seat and needs an API key that was not set):
@@ -43,4 +43,4 @@ contracts, would not engage on these tenders without a custom pack or rule.
 
 Draft a tender schema (Requirement, Obligation level, Deliverable, Standard, Insurance, Criterion, Party,
 Defined term), add a glossary/"means" defined-term rule, run one capped build on `narembeen_rft` with an
-onshore or self-hosted model binding, and score its retrieval against TenderBench Track D questions.
+onshore or self-hosted model binding, and score its retrieval against Manual Handling Track D questions.

@@ -29,7 +29,7 @@ def manifest_path(corpus: str | None = None) -> Path:
     if not p.exists():
         raise FileNotFoundError(f"no corpus manifest {p}; available: {[x.stem for x in CORPORA.glob('*.yaml')]}")
     return p
-USER_AGENT = "TenderBench/0.1 (document-parsing research; +https://github.com/Sonic-au/Claude-code-sandpit-)"
+USER_AGENT = "ManualHandling/0.1 (document-parsing research; +https://github.com/Sonic-au/Claude-code-sandpit-)"
 
 
 @dataclass

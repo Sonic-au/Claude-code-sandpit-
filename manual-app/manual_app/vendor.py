@@ -1,6 +1,6 @@
 """Gold that does not come from our own annotators: vendor websites and an external benchmark.
 
-`python -m tenderbench vendor` regenerates everything below from `corpus/vendor_sources.yaml`.
+`python -m manual_app vendor` regenerates everything below from `corpus/vendor_sources.yaml`.
 
 1. HTML manual (`kind: html_manual`): the vendor publishes the same manual as HTML. Code blocks, headings,
    admonitions and heading order become rules, each mapped to the bench page whose PDF text layer holds it.

@@ -70,7 +70,7 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, 
         except Exception:
             pass
     order = sorted(s, key=lambda p: -(s[p]["overall"] or 0))
-    L = ["# TenderBench results", ""]
+    L = ["# Manual Handling results", ""]
     corpus = sorted({r.get("corpus") for r in rows if r.get("corpus")})
     if corpus:
         L += [f"Corpus: {', '.join(corpus)}", ""]
@@ -119,7 +119,7 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, 
                          f"{_fmt(a.get('citation_accuracy'))} | {_fmt(a.get('abstention_accuracy'))} |")
     else:
         L.append("**Independent checks** are rules generated from vendor websites (HTML manual, product spec page) "
-                 "and TechManualQA-700 answer snippets, not from our own annotation (`python -m tenderbench vendor`).")
+                 "and TechManualQA-700 answer snippets, not from our own annotation (`python -m manual_app vendor`).")
         L.append("")
         L.append("No LLM was configured, so the LLM requirement extractor and answer scoring were not run "
                  "(set TB_LLM_PROVIDER / TB_LLM_MODEL).")

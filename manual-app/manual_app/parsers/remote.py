@@ -197,7 +197,7 @@ class LlamaParseAPI(Parser):
     def _parse(self, pdf, n_pages):
         base = os.environ.get("LLAMA_CLOUD_BASE_URL", "https://api.cloud.llamaindex.ai").rstrip("/")
         key = os.environ["LLAMA_CLOUD_API_KEY"]
-        boundary = "----tenderbench"
+        boundary = "----manual_app"
         body = (f"--{boundary}\r\nContent-Disposition: form-data; name=\"tier\"\r\n\r\n{self.tier}\r\n"
                 f"--{boundary}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{pdf.name}\"\r\n"
                 "Content-Type: application/pdf\r\n\r\n").encode() + pdf.read_bytes() + f"\r\n--{boundary}--\r\n".encode()
@@ -237,7 +237,7 @@ class ReductoAPI(Parser):
 
     def _parse(self, pdf, n_pages):
         key = os.environ["REDUCTO_API_KEY"]
-        boundary = "----tenderbench"
+        boundary = "----manual_app"
         body = (f"--{boundary}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{pdf.name}\"\r\n"
                 "Content-Type: application/pdf\r\n\r\n").encode() + pdf.read_bytes() + f"\r\n--{boundary}--\r\n".encode()
         up, _ = _http_json(f"{self.base}/upload", data=body, method="POST",

@@ -1,4 +1,4 @@
-"""Command line: `python -m tenderbench <command>`."""
+"""Command line: `python -m manual_app <command>`."""
 from __future__ import annotations
 
 import argparse
@@ -13,7 +13,7 @@ LOCAL_DEFAULT = ["pypdf-text", "pymupdf4llm", "liteparse", "docling"]
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(prog="tenderbench", description=__doc__)
+    ap = argparse.ArgumentParser(prog="manual_app", description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     f = sub.add_parser("fetch", help="download source PDFs and build the bench PDFs")

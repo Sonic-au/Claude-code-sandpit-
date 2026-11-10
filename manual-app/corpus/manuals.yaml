@@ -1,6 +1,6 @@
 # Technical-manual corpus (default). Use case: technician Q&A with page citations.
 #
-# Source PDFs are NOT committed. `python -m tenderbench fetch` downloads each one, checks its
+# Source PDFs are NOT committed. `python -m manual_app fetch` downloads each one, checks its
 # SHA-256 and builds the bench PDF from the listed pages. `pages` are 1-based page numbers in
 # the ORIGINAL document; all gold annotations use them.
 

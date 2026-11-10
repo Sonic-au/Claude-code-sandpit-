@@ -1,4 +1,4 @@
-# Sources of gold that is independent of our own annotators (`python -m tenderbench vendor`).
+# Sources of gold that is independent of our own annotators (`python -m manual_app vendor`).
 
 sources:
   # The vendor publishes the manual as HTML: code blocks, headings, notices and heading order become rules.

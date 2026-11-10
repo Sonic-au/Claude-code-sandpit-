@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One-time setup for TenderBench in a fresh container (idempotent).
+# One-time setup for Manual Handling in a fresh container (idempotent).
 # Installs: Python venv with CPU PyTorch + Docling + scoring libs + anthropic SDK; MinerU in its own venv;
 # LiteParse (npm) with local Tesseract English data. Needs network access to PyPI, download.pytorch.org,
 # download-r2.pytorch.org, huggingface.co, us.aws.cdn.hf.co and the npm registry.

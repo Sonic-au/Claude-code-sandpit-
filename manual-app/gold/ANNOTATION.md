@@ -1,4 +1,4 @@
-# TenderBench annotation guide
+# Manual Handling annotation guide
 
 Gold data is the bench. Annotate from the **page image** (what a person sees), never from a
 parser's output: copying a parser's text would bias the bench towards that parser. The PDF text

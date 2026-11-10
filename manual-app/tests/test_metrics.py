@@ -1,7 +1,7 @@
-from tenderbench.metrics import (best_teds, check_rule, contains_answer, reciprocal_rank, recall_at_k,
+from manual_app.metrics import (best_teds, check_rule, contains_answer, reciprocal_rank, recall_at_k,
                                  score_requirements, teds, text_similarity, token_f1)
-from tenderbench.normalize import content_text, extract_tables, table_grid
-from tenderbench.parsers.base import ParseResult
+from manual_app.normalize import content_text, extract_tables, table_grid
+from manual_app.parsers.base import ParseResult
 
 GOLD_TABLE = ("<table><tr><th>Criterion</th><th>Weighting</th></tr>"
               "<tr><td>Relevant Experience</td><td>25%</td></tr><tr><td>Price</td><td>50%</td></tr></table>")
@@ -92,7 +92,7 @@ def test_steps_and_near_rules():
 
 
 def test_extract_safety_baseline():
-    from tenderbench.extract import extract_safety
+    from manual_app.extract import extract_safety
     md = ("WARNING: Disconnect and lock out electrical power before servicing.\n\n"
           "Note that the pump is heavy.\n\n"
           "CAUTION\n\nDo not crank engine for more than 15 seconds.\n\n"
@@ -115,14 +115,14 @@ def test_shell_pipes_in_rules():
 
 
 def test_answer_coverage_is_fair_to_long_gold_answers():
-    from tenderbench.metrics import answer_coverage
+    from manual_app.metrics import answer_coverage
     gold = "The lamp goes out approximately 10 seconds after releasing the switch trigger."
     assert answer_coverage("The lamp goes out about 10 seconds after releasing the switch trigger [1].", gold) >= 0.7
     assert answer_coverage("Approximately 30 minutes.", gold) < 0.7
 
 
 def test_judge_marks_not_found_incorrect_without_calling_the_llm():
-    from tenderbench.retrieve import judge
+    from manual_app.retrieve import judge
     assert judge(None, "q", "gold", "NOT FOUND", "doc") == "incorrect"
 
     class Fake:
@@ -134,8 +134,8 @@ def test_judge_marks_not_found_incorrect_without_calling_the_llm():
 
 def test_session_provider_queues_then_reads_back(tmp_path, monkeypatch):
     import json
-    from tenderbench import corpus
-    from tenderbench.llm import LLM, LLMPending
+    from manual_app import corpus
+    from manual_app.llm import LLM, LLMPending
     monkeypatch.setattr(corpus, "DATA", tmp_path)
     try:
         LLM("session", "s", "session").complete("What is X?")

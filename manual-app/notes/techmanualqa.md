@@ -1,4 +1,4 @@
-# TechManualQA-700 in TenderBench
+# TechManualQA-700 in Manual Handling
 
 Source: Duricic et al., *A Semi-Automated Pipeline for Synthetic Generation of Grounded, Structurally-Aware QA
 Datasets for Technical Manuals* (ECIR 2026; archive README cites CIKM 2025). Dataset CC BY 4.0,

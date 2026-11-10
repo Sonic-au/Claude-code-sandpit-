@@ -1,4 +1,4 @@
-"""Consistency checks for gold annotations: `python -m tenderbench.validate_gold [doc_id ...]`.
+"""Consistency checks for gold annotations: `python -m manual_app.validate_gold [doc_id ...]`.
 
 - every JSONL line parses and has the required fields
 - rules pass against the gold transcription of their page (or, for `present`/`absent`, the PDF text layer)
