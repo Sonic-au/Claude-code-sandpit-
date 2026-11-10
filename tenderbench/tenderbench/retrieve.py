@@ -120,8 +120,9 @@ def search(query: str, chunks: list[Chunk], strategy: str, title: str = "") -> l
 
 
 ANSWER_PROMPT = """Answer the question using ONLY the numbered extracts from the document "{title}".
-Cite the extract numbers you used like [2]. If the extracts do not contain the answer, reply exactly
-"NOT FOUND" and nothing else.
+Give a direct, complete answer: state specific values with their units as printed, and for procedures include
+every step the extracts give. Cite the extract numbers you used like [2]. If the extracts do not contain the
+answer, reply exactly "NOT FOUND" and nothing else.
 
 Question: {question}
 
