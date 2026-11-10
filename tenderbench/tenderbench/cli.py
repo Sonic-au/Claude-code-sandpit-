@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -18,6 +19,7 @@ def main(argv=None):
     f = sub.add_parser("fetch", help="download source PDFs and build the bench PDFs")
     f.add_argument("--corpus", default="", help="corpus manifest name (default: manuals; or tenders)")
     sub.add_parser("parsers", help="list parser adapters and whether they can run here")
+    sub.add_parser("vendor", help="build independent gold from vendor websites and TechManualQA-700")
 
     p = sub.add_parser("run", help="parse (cached) and score")
     p.add_argument("--parsers", default=",".join(LOCAL_DEFAULT),
@@ -36,6 +38,11 @@ def main(argv=None):
         for d in corpus.load_manifest(corpus.manifest_path(a.corpus or None)):
             corpus.build(d)
             print(f"{d.id}: {len(d.page_map())} pages -> {d.bench_pdf}")
+    elif a.cmd == "vendor":
+        from .vendor import build_all
+        for r in build_all():
+            r = {k: v for k, v in r.items() if k not in ("source", "sources")}
+            print(json.dumps(r, ensure_ascii=False))
     elif a.cmd == "parsers":
         for name in FACTORIES:
             pr = get_parser(name)

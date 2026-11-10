@@ -40,6 +40,7 @@ def summarise(rows: list[dict]) -> dict:
             "teds": g(lambda r: r.get("A", {}).get("teds"), digital),
             "teds_struct": g(lambda r: r.get("A", {}).get("teds_struct"), digital),
             "rules": g(lambda r: (r.get("B") or {}).get("pass_rate"), digital),
+            "vendor": g(lambda r: (r.get("V") or {}).get("pass_rate"), digital),
             "req_f1": g(lambda r: (r.get("C") or {}).get("rules_baseline", {}).get("f1"), digital),
             "req_recall_mand": g(lambda r: (r.get("C") or {}).get("rules_baseline", {}).get(
                 "recall_critical", (r.get("C") or {}).get("rules_baseline", {}).get("recall_mandatory")), digital),
@@ -82,19 +83,22 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None) 
                 "dangers only." if task == "safety" else ""))
     L.append("")
     L.append(f"| Parser | Overall | Text sim | Table TEDS | TEDS-S | Rule tests | {xname} | {cname} | Recall@5 | "
-             "Scan text | Scan rules | s/page | Residency | Licence |")
-    L.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+             "Independent checks | Scan text | Scan rules | s/page | Residency | Licence |")
+    L.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     for p in order:
         r = s[p]
         res, lic = meta.get(p, ("?", "?"))
         L.append(f"| {_md(p)} | **{_fmt(r['overall'])}** | {_fmt(r['text_similarity'])} | {_fmt(r['teds'])} | "
                  f"{_fmt(r['teds_struct'])} | {_fmt(r['rules'])} | {_fmt(r['req_f1'])} | {_fmt(r['req_recall_mand'])} | "
-                 f"{_fmt(r['recall5'])} | {_fmt(r['scan_text_similarity'])} | {_fmt(r['scan_rules'])} | "
+                 f"{_fmt(r['recall5'])} | {_fmt(r['vendor'])} | {_fmt(r['scan_text_similarity'])} | {_fmt(r['scan_rules'])} | "
                  f"{_fmt(r['sec_per_page'], pct=False, nd=2)} | {res} | {lic} |")
     L.append("")
     if llm_label:
         L.append(f"LLM steps used `{llm_label}`.")
     else:
+        L.append("**Independent checks** are rules generated from vendor websites (HTML manual, product spec page) "
+                 "and TechManualQA-700 answer snippets, not from our own annotation (`python -m tenderbench vendor`).")
+        L.append("")
         L.append("No LLM was configured, so the LLM requirement extractor and answer scoring were not run "
                  "(set TB_LLM_PROVIDER / TB_LLM_MODEL).")
     L.append("")

@@ -1,0 +1,24 @@
+{"id": "pgv-v001", "type": "heading", "page": 823, "category": "vendor_heading", "text": "Chapter 25. Backup and Restore", "source": "https://www.postgresql.org/docs/17/backup.html"}
+{"id": "pgv-v002", "type": "heading", "page": 823, "category": "vendor_heading", "text": "25.1. SQL Dump", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v003", "type": "present", "page": 823, "category": "vendor_code", "text": "pg_dump dbname > dumpfile", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v004", "type": "heading", "page": 824, "category": "vendor_heading", "text": "25.1.1. Restoring the Dump", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v005", "type": "present", "page": 824, "category": "vendor_code", "text": "psql -X dbname < dumpfile", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v006", "type": "present", "page": 824, "category": "vendor_code", "text": "psql -X --set ON_ERROR_STOP=on dbname < dumpfile", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v007", "type": "present", "page": 824, "category": "vendor_code", "text": "pg_dump -h host1 dbname | psql -X -h host2 dbname", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v008", "type": "present", "page": 824, "category": "vendor_notice", "text": "The dumps produced by pg_dump are relative to template0.", "notice": "important", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v009", "type": "heading", "page": 824, "category": "vendor_heading", "text": "25.1.2. Using pg_dumpall", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v010", "type": "order", "page": 824, "category": "vendor_order", "before": "25.1.1. Restoring the Dump", "after": "25.1.2. Using pg_dumpall", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v011", "type": "present", "page": 825, "category": "vendor_code", "text": "pg_dumpall > dumpfile", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v012", "type": "present", "page": 825, "category": "vendor_code", "text": "psql -X -f dumpfile postgres", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v013", "type": "heading", "page": 825, "category": "vendor_heading", "text": "25.1.3. Handling Large Databases", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v014", "type": "present", "page": 825, "category": "vendor_code", "text": "pg_dump dbname | gzip > filename.gz", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v015", "type": "present", "page": 825, "category": "vendor_code", "text": "gunzip -c filename.gz | psql dbname", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v016", "type": "present", "page": 825, "category": "vendor_code", "text": "cat filename.gz | gunzip | psql dbname", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v017", "type": "present", "page": 825, "category": "vendor_code", "text": "pg_dump dbname | split -b 2G - filename", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v018", "type": "present", "page": 825, "category": "vendor_code", "text": "cat filename* | psql dbname", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v019", "type": "present", "page": 825, "category": "vendor_code", "text": "pg_dump dbname | split -b 2G --filter='gzip > $FILE.gz'", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v020", "type": "present", "page": 826, "category": "vendor_code", "text": "pg_dump -Fc dbname > filename", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v021", "type": "present", "page": 826, "category": "vendor_code", "text": "pg_restore -d dbname filename", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v022", "type": "present", "page": 826, "category": "vendor_code", "text": "pg_dump -j num -F d -f out.dir dbname", "source": "https://www.postgresql.org/docs/17/backup-dump.html"}
+{"id": "pgv-v023", "type": "present", "page": 829, "category": "vendor_code", "text": "test ! -f /mnt/server/archivedir/00000001000000A900000065 && cp pg_wal/00000001000000A900000065 /mnt/server/archivedir/00000001000000A900000065", "source": "https://www.postgresql.org/docs/17/continuous-archiving.html"}
+{"id": "pgv-v024", "type": "heading", "page": 834, "category": "vendor_heading", "text": "25.3.5. Recovering Using a Continuous Archive Backup", "source": "https://www.postgresql.org/docs/17/continuous-archiving.html"}

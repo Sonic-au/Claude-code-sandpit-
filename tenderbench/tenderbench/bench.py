@@ -53,7 +53,9 @@ def load_gold(doc: Document) -> dict:
         "rules": rules,
         "requirements": [r for r in _jsonl(gdir / "requirements.jsonl") if keep(r)],
         "safety": [r for r in _jsonl(gdir / "safety.jsonl") if keep(r)],
-        "questions": [q for q in _jsonl(GOLD / "questions.jsonl")
+        # Independent gold: vendor HTML/spec pages and TechManualQA snippets (see vendor.py).
+        "vendor_rules": [r for r in _jsonl(gdir / "vendor_rules.jsonl") if keep(r)],
+        "questions": [q for q in _jsonl(GOLD / "questions.jsonl") + _jsonl(gdir / "vendor_questions.jsonl")
                       if q["doc"] == doc.gold_id and all(e["page"] in pages_in for e in q.get("evidence", []))],
     }
 
@@ -171,6 +173,8 @@ def score(result: ParseResult, doc: Document, llm=None, tracks="ABCD") -> dict:
         s["A"] = track_a(result, gold)
     if "B" in tracks and gold["rules"]:
         s["B"] = score_rules(gold["rules"], result)
+    if "B" in tracks and gold["vendor_rules"]:
+        s["V"] = score_rules(gold["vendor_rules"], result)
     if "C" in tracks:
         s["C"] = track_c(result, gold, doc, llm)
     if "D" in tracks:

@@ -71,6 +71,8 @@ class Document:
 def load_manifest(path: Path | None = None) -> list[Document]:
     raw = yaml.safe_load((path or manifest_path()).read_text())
     docs = []
+    if "documents" not in (raw or {}):      # e.g. vendor_sources.yaml lives beside the manifests
+        return docs
     known = {"id", "title", "kind", "pages", "url", "sha256", "derived_from", "transform", "publisher", "category",
              "notes"}
     for d in raw["documents"]:

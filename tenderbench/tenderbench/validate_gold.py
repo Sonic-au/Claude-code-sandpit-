@@ -105,7 +105,11 @@ def validate(doc_id: str) -> list[str]:
             pages = [e["page"] for e in q.get("evidence", [])]
             if not pages:
                 errs.append(f"{doc_id} {q['id']}: answerable question without evidence")
-            elif not any(contains_answer(layer.get(p, "") + " " + gold_pages.get(p, ""), q["answer"]) for p in pages):
+            elif not any(contains_answer(layer.get(p, "") + " " + gold_pages.get(p, ""), q["answer"]) or
+                         # long, multi-line answers (procedures): a fuzzy match on the page is the fair test
+                         (len(q["answer"]) > 60 and fuzz.partial_ratio(norm_text(q["answer"]),
+                                                                        content_text(layer.get(p, ""))) >= 85)
+                         for p in pages):
                 errs.append(f"{doc_id} {q['id']}: answer '{q['answer']}' not found on evidence pages {pages}")
     return errs
 
