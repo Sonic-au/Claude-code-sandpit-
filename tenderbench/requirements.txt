@@ -16,3 +16,4 @@ fonttools
 pytest
 # Optional: anthropic[bedrock] (Claude on Bedrock Sydney), mineru[core], marker-pdf, unstructured[pdf]
 cryptography>=3.1
+anthropic>=2.7

@@ -105,13 +105,21 @@ python -m pytest -q tests
 Results land in `results/<timestamp>/` as `report.md`, `summary.json` and `scores.json`. Parser outputs are cached
 in `data/outputs/` (use `--force` to re-parse).
 
-**LLM steps** (LLM requirement extractor, answer scoring) run only when an LLM is configured, and are never
-simulated otherwise:
+**LLM steps** run on **Claude** by default: requirement extraction (tenders), safety-notice extraction (manuals)
+and answering each question with page citations (scored for accuracy, citations and abstention). They use Claude
+Opus 5.5 (`claude-opus-5-5`, effort `medium`) through the official `anthropic` SDK, with structured outputs for
+extraction and server-side refusal fallback on the Claude API. They run when an Anthropic credential is present
+and are never simulated otherwise:
 
 ```bash
-export TB_LLM_PROVIDER=bedrock TB_LLM_REGION=ap-southeast-2 TB_LLM_MODEL=<model id available in Sydney>   # onshore
-export TB_LLM_PROVIDER=openai TB_LLM_BASE_URL=http://localhost:8000/v1 TB_LLM_MODEL=<local model>          # self-hosted
+export ANTHROPIC_API_KEY=...                       # Claude API (US); public documents only
+export TB_LLM_PROVIDER=bedrock TB_LLM_REGION=ap-southeast-2   # or Claude on Amazon Bedrock in Sydney (onshore)
+export TB_LLM_EFFORT=high                          # optional: low | medium | high | xhigh | max
+python -m tenderbench run --parsers docling,mineru,pymupdf4llm
 ```
+
+The report adds an LLM table (extraction F1, critical recall, all-critical-found, answer and citation accuracy,
+abstention) and a usage line with token counts and estimated cost (`llm_usage.json`).
 
 **Network notes.** Docling downloads models from Hugging Face; behind a proxy set `HF_HUB_DISABLE_XET=1` and allow
 `huggingface.co` plus its CDN. LiteParse OCR fetches Tesseract data from GitHub unless `LITEPARSE_CONFIG` points at

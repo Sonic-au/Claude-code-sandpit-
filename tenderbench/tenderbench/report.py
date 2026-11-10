@@ -59,7 +59,7 @@ def summarise(rows: list[dict]) -> dict:
     return summary
 
 
-def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None) -> None:
+def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None, llm_info: dict | None = None) -> None:
     s = summarise(rows)
     (out_dir / "summary.json").write_text(json.dumps(s, indent=1, default=str))
     meta = {}
@@ -95,6 +95,25 @@ def write_report(rows: list[dict], out_dir: Path, llm_label: str | None = None) 
     L.append("")
     if llm_label:
         L.append(f"LLM steps used `{llm_label}`.")
+        if llm_info:
+            cost = llm_info.get("cost_usd")
+            L.append(f"LLM usage: {llm_info.get('calls', 0)} calls, {llm_info.get('input_tokens', 0):,} input and "
+                     f"{llm_info.get('output_tokens', 0):,} output tokens"
+                     + (f", about US${cost:.2f}" if cost is not None else "")
+                     + f", {llm_info.get('refusals', 0)} declined; data residency: {llm_info.get('residency')}.")
+        L.append("")
+        llm_rows = [r for r in rows if (r.get("C") or {}).get("llm") or (r.get("D") or {}).get("answers")]
+        if llm_rows:
+            L.append("| Document | Parser | LLM extraction F1 | LLM critical recall | All critical found | "
+                     "Answer accuracy | Citation accuracy | Abstention accuracy |")
+            L.append("|---|---|---|---|---|---|---|---|")
+            for r in sorted(llm_rows, key=lambda r: (r["doc"], r["parser"])):
+                c = (r.get("C") or {}).get("llm", {})
+                a = (r.get("D") or {}).get("answers", {})
+                acf = c.get("all_critical_found")
+                L.append(f"| {r['doc']} | {_md(r['parser'])} | {_fmt(c.get('f1'))} | {_fmt(c.get('recall_critical'))} | "
+                         f"{'-' if acf is None else ('yes' if acf else 'no')} | {_fmt(a.get('accuracy'))} | "
+                         f"{_fmt(a.get('citation_accuracy'))} | {_fmt(a.get('abstention_accuracy'))} |")
     else:
         L.append("**Independent checks** are rules generated from vendor websites (HTML manual, product spec page) "
                  "and TechManualQA-700 answer snippets, not from our own annotation (`python -m tenderbench vendor`).")

@@ -69,8 +69,7 @@ def extract_rules(pages: list[str], page_map: list[int]) -> list[dict]:
 
 
 LLM_SYSTEM = (
-    "You extract requirements from tender (RFT/RFP) documents for a bid team's compliance matrix. "
-    "Return only JSON."
+    "You extract requirements from tender (RFT/RFP) documents for a bid team's compliance matrix."
 )
 LLM_PROMPT = """Page {page} of the tender "{title}" is below, as parsed text.
 
@@ -79,30 +78,81 @@ should do, provide, submit, comply with, or address for evaluation. One item per
 split compound requirements ("X and Y") into separate items. Copy the requirement text VERBATIM from
 the page (no paraphrasing). Skip statements of what the buyer will do, definitions, and background.
 
-For each item give:
-  "text": verbatim requirement text,
-  "obligation": one of "mandatory" (must/shall/required - non-compliance can exclude the bid),
-                "evaluated" (scored against criteria, e.g. describe/demonstrate experience),
-                "administrative" (submission format, forms, signatures, deadlines),
-                "informational" (should/may, guidance with no hard obligation).
+obligation: "mandatory" (must/shall/required - non-compliance can exclude the bid), "evaluated" (scored
+against criteria, e.g. describe/demonstrate experience), "administrative" (submission format, forms,
+signatures, deadlines), "informational" (should/may, guidance with no hard obligation).
 
-Return a JSON array of objects. Return [] if there are none.
+Return an empty list if the page has none.
 
 PAGE TEXT:
 <<<
 {text}
 >>>"""
 
+REQ_SCHEMA = {
+    "type": "object",
+    "properties": {"items": {"type": "array", "items": {
+        "type": "object",
+        "properties": {"text": {"type": "string"},
+                       "obligation": {"type": "string",
+                                      "enum": ["mandatory", "evaluated", "administrative", "informational"]}},
+        "required": ["text", "obligation"], "additionalProperties": False}}},
+    "required": ["items"], "additionalProperties": False,
+}
 
-def extract_llm(llm, pages: list[str], page_map: list[int], title: str) -> list[dict]:
-    out = []
+
+def _llm_pages(llm, pages, page_map, prompt, schema, system, title, label_key):
+    from .llm import LLMRefusal
+    out, skipped = [], []
     for md, page in zip(pages, page_map):
         if not md.strip():
             continue
-        items = llm.complete_json(LLM_PROMPT.format(page=page, title=title, text=md[:30000]), LLM_SYSTEM)
-        for it in items or []:
-            if isinstance(it, dict) and it.get("text"):
-                out.append({"page": page, "text": it["text"], "obligation": it.get("obligation", "mandatory")})
+        try:
+            data = llm.complete_json(prompt.format(page=page, title=title, text=md[:60000]), schema, system)
+        except LLMRefusal:
+            skipped.append(page)
+            continue
+        for it in data.get("items", []):
+            out.append({"page": page, "text": it["text"], label_key: it[label_key]})
+    return out, skipped
+
+
+def extract_llm(llm, pages: list[str], page_map: list[int], title: str) -> list[dict]:
+    out, _ = _llm_pages(llm, pages, page_map, LLM_PROMPT, REQ_SCHEMA, LLM_SYSTEM, title, "obligation")
+    return out
+
+
+SAFETY_SYSTEM = "You extract safety notices from technical manuals for a technician knowledge base."
+SAFETY_PROMPT = """Page {page} of the manual "{title}" is below, as parsed text.
+
+List every safety notice on this page: text introduced by a signal word or label such as DANGER, WARNING,
+CAUTION, NOTICE, NOTE, IMPORTANT or "<something> Hazard:", including notices printed in boxes or as table cells.
+One item per distinct statement: when a notice is a bulleted list, give one item per bullet. Copy the notice
+text VERBATIM without the signal word. Do not include definitions of what the signal words mean.
+
+kind: "danger", "warning" (also "... Hazard:" labels), "caution" (also NOTICE), or "note" (also IMPORTANT, TIP),
+following the signal word printed with the notice.
+
+Return an empty list if the page has none.
+
+PAGE TEXT:
+<<<
+{text}
+>>>"""
+
+SAFETY_SCHEMA = {
+    "type": "object",
+    "properties": {"items": {"type": "array", "items": {
+        "type": "object",
+        "properties": {"text": {"type": "string"},
+                       "kind": {"type": "string", "enum": ["danger", "warning", "caution", "note"]}},
+        "required": ["text", "kind"], "additionalProperties": False}}},
+    "required": ["items"], "additionalProperties": False,
+}
+
+
+def extract_safety_llm(llm, pages: list[str], page_map: list[int], title: str) -> list[dict]:
+    out, _ = _llm_pages(llm, pages, page_map, SAFETY_PROMPT, SAFETY_SCHEMA, SAFETY_SYSTEM, title, "kind")
     return out
 
 

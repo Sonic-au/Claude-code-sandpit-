@@ -110,8 +110,13 @@ def track_a(result: ParseResult, gold: dict) -> dict:
 def track_c(result: ParseResult, gold: dict, doc: Document, llm=None) -> dict:
     if gold.get("safety"):          # manuals: safety-notice extraction, warnings/dangers are critical
         preds = extract.extract_safety(result.pages, result.page_map)
-        return {"rules_baseline": score_requirements(preds, gold["safety"], label="kind",
-                                                     critical=("warning", "danger")), "task": "safety"}
+        out = {"rules_baseline": score_requirements(preds, gold["safety"], label="kind",
+                                                    critical=("warning", "danger")), "task": "safety"}
+        if llm is not None:
+            preds = extract.extract_safety_llm(llm, result.pages, result.page_map, doc.title)
+            out["llm"] = score_requirements(preds, gold["safety"], label="kind", critical=("warning", "danger"))
+            out["llm"]["model"] = llm.label
+        return out
     if not gold["requirements"]:
         return {}
     out = {"task": "requirements"}
@@ -145,9 +150,15 @@ def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
                       "n": len(rec)}
     if llm is not None:
         correct, f1s, cite_ok, abstain_ok, n_ans, n_un = 0, [], 0, 0, 0, 0
+        from .llm import LLMRefusal
+        refused = 0
         for q in qs:
             top = retrieve.search(q["question"], chunks, "hybrid-ctx", doc.title)[:k]
-            ans, cited = retrieve.answer(llm, q["question"], top, doc.title)
+            try:
+                ans, cited = retrieve.answer(llm, q["question"], top, doc.title)
+            except LLMRefusal:
+                refused += 1
+                ans, cited = "", []
             if q.get("answerable", True):
                 n_ans += 1
                 ok = contains_answer(ans, q["answer"])
@@ -160,7 +171,7 @@ def track_d(result: ParseResult, gold: dict, doc: Document, llm=None,
         out["answers"] = {"model": llm.label, "accuracy": correct / n_ans if n_ans else None,
                           "token_f1": statistics.fmean(f1s) if f1s else None,
                           "citation_accuracy": cite_ok / n_ans if n_ans else None,
-                          "abstention_accuracy": abstain_ok / n_un if n_un else None}
+                          "abstention_accuracy": abstain_ok / n_un if n_un else None, "refused": refused}
     return out
 
 
@@ -205,6 +216,10 @@ def run(parsers: list[str], doc_ids: list[str] | None = None, allow_offshore: bo
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "scores.json").write_text(json.dumps(rows, indent=1, default=str))
     from .report import write_report
-    write_report(rows, out_dir, llm_label=llm.label if llm else None)
+    llm_info = None
+    if llm:
+        llm_info = {"label": llm.label, "residency": llm.residency, **llm.usage, "cost_usd": llm.cost_usd}
+        (out_dir / "llm_usage.json").write_text(json.dumps(llm_info, indent=1))
+    write_report(rows, out_dir, llm_label=llm.label if llm else None, llm_info=llm_info)
     log(f"wrote {out_dir}")
     return out_dir
