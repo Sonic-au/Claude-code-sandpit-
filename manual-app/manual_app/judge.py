@@ -9,7 +9,7 @@ TB_JUDGE selects the grader for answers (Track D):
   compare   Jev and Claude both grade every answer; the final verdict follows the cascade rule. Use it once on
             a workload to measure agreement and choose the threshold (see `threshold_sweep`).
 
-Jev settings: TB_JEV_URL (default https://api.typesafe.ai/v1/systemone), TB_JEV_MODEL (default jev-1.13.0, pinned
+Jev settings: TB_JEV_URL (default https://api.typesafe.ai/v1/systemone), TB_JEV_MODEL (default jev-1.14.0, the jev-latest build in Nov 2026; pinned
 because a threshold is tuned to one build), TB_JEV_API_KEY (a bearer token; in a cloud session a saved network
 secret is injected by the proxy instead). Jev is a hosted, offshore service: send it public documents only.
 """
@@ -44,7 +44,7 @@ class JevError(RuntimeError):
 class Jev:
     def __init__(self, url: str | None = None, model: str | None = None, timeout: int = 60):
         self.url = url or os.environ.get("TB_JEV_URL", "https://api.typesafe.ai/v1/systemone")
-        self.model = model or os.environ.get("TB_JEV_MODEL", "jev-1.13.0")
+        self.model = model or os.environ.get("TB_JEV_MODEL", "jev-1.14.0")
         self.timeout = timeout
         self.usage = {"calls": 0, "input_tokens": 0, "errors": 0}
 

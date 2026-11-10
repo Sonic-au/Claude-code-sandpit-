@@ -1,0 +1,72 @@
+{
+ "label": "session:claude-code-session (effort session)",
+ "residency": "offshore (Claude Code session)",
+ "calls": 157,
+ "input_tokens": 0,
+ "output_tokens": 0,
+ "refusals": 0,
+ "cost_usd": null,
+ "judge": {
+  "label": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+  "calls": 53,
+  "input_tokens": 30014,
+  "errors": 0,
+  "cost_usd": 0.001260588,
+  "threshold_sweep": [
+   {
+    "threshold": 0.5,
+    "escalated": 0.0,
+    "agrees_with_claude": 1.0,
+    "n": 53
+   },
+   {
+    "threshold": 0.6,
+    "escalated": 0.018867924528301886,
+    "agrees_with_claude": 1.0,
+    "n": 53
+   },
+   {
+    "threshold": 0.7,
+    "escalated": 0.03773584905660377,
+    "agrees_with_claude": 1.0,
+    "n": 53
+   },
+   {
+    "threshold": 0.8,
+    "escalated": 0.03773584905660377,
+    "agrees_with_claude": 1.0,
+    "n": 53
+   },
+   {
+    "threshold": 0.85,
+    "escalated": 0.05660377358490566,
+    "agrees_with_claude": 1.0,
+    "n": 53
+   },
+   {
+    "threshold": 0.9,
+    "escalated": 0.07547169811320754,
+    "agrees_with_claude": 1.0,
+    "n": 53
+   },
+   {
+    "threshold": 0.95,
+    "escalated": 0.1509433962264151,
+    "agrees_with_claude": 1.0,
+    "n": 53
+   },
+   {
+    "threshold": 0.99,
+    "escalated": 0.37735849056603776,
+    "agrees_with_claude": 1.0,
+    "n": 53
+   },
+   {
+    "threshold": 1.01,
+    "escalated": 1.0,
+    "agrees_with_claude": 1.0,
+    "n": 53
+   }
+  ]
+ }
+}

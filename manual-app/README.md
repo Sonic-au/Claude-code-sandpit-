@@ -164,7 +164,7 @@ Answers are graded in a later pass, so expect three runs. Responses are cached b
 | `cascade` | Jev grades first. Grades with confidence at or above `TB_JEV_THRESHOLD` (default 0.9) are final; the rest go to Claude ("accept when confident, escalate when unsure"). |
 | `compare` | Jev and Claude both grade everything. The report shows their agreement and a threshold sweep (escalation rate and agreement with Claude at each threshold); run it once to choose the threshold. |
 
-Jev settings: `TB_JEV_URL` (default `https://api.typesafe.ai/v1/systemone`), `TB_JEV_MODEL` (default `jev-1.13.0`;
+Jev settings: `TB_JEV_URL` (default `https://api.typesafe.ai/v1/systemone`), `TB_JEV_MODEL` (default `jev-1.14.0`, the `jev-latest` build in November 2026;
 it is pinned because a threshold is tuned to one build) and `TB_JEV_API_KEY` (bearer token; in a cloud session
 save it as a network secret instead). Jev is a hosted, offshore service, priced at US$0.042 per million input tokens
 in the paper (check current pricing), so send it public documents only. Access was invite-only (waitlist) in
@@ -279,6 +279,32 @@ Answers use `hybrid-rerank` retrieval (top 5 chunks). Three answer scores are re
 Full tables: [`results/2026-11-11-manuals-claude-session/report.md`](results/2026-11-11-manuals-claude-session/report.md),
 [`results/2026-11-11-techmanualqa-claude-session/report.md`](results/2026-11-11-techmanualqa-claude-session/report.md).
 The 10 Nov run (before the judge and reranker) is in `results/2026-11-10-*-claude-session/`.
+
+## Results: Jev vs Claude as answer graders (10 Nov 2026, Docling, `TB_JUDGE=compare`)
+
+Jev (`jev-1.14.0`) and Claude each graded the 141 answers from the Claude session run that were not "NOT FOUND",
+on the manuals and TechManualQA documents. Jev cost about US$0.004 for all 141.
+
+- **They agree on 140 of 141 grades** (136 correct, 2 partial, 2 incorrect). Judged accuracy per document is
+  unchanged.
+- **The one disagreement was flagged by Jev's own confidence.** On the Makita drill weight, the answer hedged
+  between 1.5 kg and 1.8 kg. Jev said correct with confidence 0.39; Claude said partial. Any cascade threshold
+  above 0.39 escalates it to Claude.
+
+| Cascade threshold | Escalated to Claude | Cascade agrees with Claude |
+|---|---|---|
+| 0.8 | 5 of 141 (4%) | 141 of 141 |
+| 0.9 (default) | 12 of 141 (9%) | 141 of 141 |
+| 0.95 | 26 of 141 (18%) | 141 of 141 |
+| 0.99 | 56 of 141 (40%) | 141 of 141 |
+
+- **Agreement is not accuracy.** Two graders agreeing does not make them right, and almost every answer here is
+  easy to grade. Use `scripts/spot_check.py` to check both against a person, and use `compare` on harder sets.
+- The paper chooses the threshold with a lower-bound rule on about 100 labelled items. With this little
+  disagreement any threshold from 0.4 up passes, so the default 0.9 is kept.
+
+Full tables: [`results/2026-11-10-manuals-jev-compare/report.md`](results/2026-11-10-manuals-jev-compare/report.md),
+[`results/2026-11-10-techmanualqa-jev-compare/report.md`](results/2026-11-10-techmanualqa-jev-compare/report.md).
 
 ## Results: tenders (7 Nov 2026, re-scored 9 Nov)
 
