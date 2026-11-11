@@ -215,9 +215,9 @@
     if (t.status === 'done' && !nf && t.cited.length) {
       body.push(el('div', { class: 'chips' }, el('span', { class: 'sec', text: 'Check it on' }), t.cited.map((c) => pageBtn(c.doc, c.page, all))));
       const fg = figures(t.cited);
-      if (fg.length) body.push(el('div', { style: 'display:grid;gap:8px' }, el('span', { class: 'sec', text: fg.length > 1 ? 'Diagrams on those pages' : 'Diagram on that page' }),
+      if (fg.length) body.push(el('div', { style: 'display:grid;gap:8px' }, el('span', { class: 'sec', text: fg.length > 1 ? 'Figures from those pages' : 'Figure from that page' }),
         el('div', { class: 'figs' }, fg.map((f) => el('button', { class: 'fig', type: 'button', title: `Open page ${f.page}`, onclick: () => openPage(f.doc, f.page) },
-          el('img', { src: `figures/${f.doc}/${f.file}`, alt: `Diagram from page ${f.page} of ${short(manual(f.doc))}`, loading: 'lazy', width: f.w, height: f.h }), el('span', { text: (all ? short(manual(f.doc)).split(' ').slice(0, 2).join(' ') + ' · ' : '') + 'p. ' + f.page }))))));
+          el('img', { src: `figures/${f.doc}/${f.file}`, alt: `Figure from page ${f.page} of ${short(manual(f.doc))}`, loading: 'lazy', width: f.w, height: f.h }), el('span', { text: (all ? short(manual(f.doc)).split(' ').slice(0, 2).join(' ') + ' · ' : '') + 'p. ' + f.page }))))));
       const ns = notices(t.cited);
       if (ns.length) body.push(el('div', { style: 'display:grid;gap:8px' }, el('span', { class: 'sec', text: 'Safety notices printed on those pages' }),
         ns.map((n) => el('div', { class: 'label ' + (n.kind === 'caution' ? 'caution' : 'warning') }, el('b', { text: n.kind }), el('div', {}, n.text + ' ', pageBtn(n.doc, n.page))))));
