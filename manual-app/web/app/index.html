@@ -133,7 +133,7 @@
     <div id="lib-list" style="display:grid;gap:8px"></div>
     <div class="card req">
       <span class="sec">Manual not here?</span>
-      <p class="note" style="margin:0">Get it from the web. We look for it on the maker's website, read it in and add it to this library. This is not instant.</p>
+      <p class="note" style="margin:0">Get it from the web. An agent starts straight away: it finds the manual on the maker's website, reads it in and adds it to this library, usually within a few minutes.</p>
       <div class="pick-row"><input type="text" id="req-in" placeholder="Maker and model, e.g. Daikin FTXM35" aria-label="Maker and model of the manual you need"><button class="btn" id="req-go" type="button">Get it</button></div>
       <span class="note" id="req-note"></span>
       <ul id="req-list" hidden></ul>
@@ -170,7 +170,7 @@
       if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? '' : v); }
     for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : String(k)); return n; };
   const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
-  const S = { data: null, figs: {}, requests: [], view: 'ask', graph: null, gState: 'idle', gCenter: -1, doc: 'all', thread: [], sample: null, sampleState: 'connecting', db: null, userId: null, busy: false, seq: 0 };
+  const S = { data: null, figs: {}, requests: [], view: 'ask', graph: null, gState: 'idle', gCenter: -1, doc: 'all', thread: [], sample: null, sampleState: 'connecting', mcp: null, db: null, userId: null, busy: false, seq: 0 };
   const K = 8;   // passages given to Claude. The bench used 5 from a stronger search; keyword search here gets a few more.
   const short = (m) => m.title.replace(/\s*\(.*?\)\s*/g, ' ').split(' - ')[0].trim();
   const manual = (id) => S.data.manuals.find((m) => m.id === id);
@@ -292,21 +292,36 @@
       el('button', { class: 'pg', type: 'button', onclick: () => { S.doc = 'all'; setHash('all'); render(); }, text: 'Search all instead' })];
 
   // ------------------------------------------------------------ library: find, read, ask about, or request a manual
-  const sendRequest = async (text) => { const v = text.trim(), note = $('req-note'); if (!v) { note.textContent = 'Type the maker and model first.'; return; }
-    if (!S.db) { note.textContent = 'Requests need you signed in with edit access to this page.'; return; }
-    try { await S.db.collection('requests').add({ wanted: v.slice(0, 200), status: 'requested', by: S.userId || '', at: new Date().toISOString() }); $('req-in').value = ''; note.textContent = `Requested: ${v.slice(0, 80)}. It appears in the library once it has been found and loaded.`; }
-    catch { note.textContent = 'The request was not saved. Try again.'; } };
-  const renderRequests = () => { const ul = $('req-list'); ul.hidden = !S.requests.length; ul.replaceChildren(...S.requests.slice(-6).map((r) => el('li', { text: `${r.wanted}: ${r.status || 'requested'}` }))); };
+  // A request is saved, then the fetch task is started straight away through the viewer's Claude Code connector. If that
+  // connector is missing or not allowed, the saved request is still picked up by the task's own scheduled check.
+  const FETCH_TASK = 'trig_01QuwDJjccWATPoF9j2uhdNF', REMOTE = 'Claude Code Remote';
+  const startFetch = async (wanted) => { if (!S.mcp) return 'Saved. It will be fetched at the next scheduled check, because this view cannot start the fetch itself.';
+    try { await S.mcp.callTool(REMOTE, 'fire_trigger', { trigger_id: FETCH_TASK }, { cache: false }); return `Fetching "${wanted}" from the web now. This usually takes a few minutes; it appears in the library when it is done.`; }
+    catch (e) { const code = e && e.code;
+      if (code === 'server_not_connected' || code === 'selection_required' || code === 'needs_reauth') return 'Saved. To fetch straight away, connect Claude Code in claude.ai Settings, Connectors. Otherwise it is fetched at the next scheduled check.';
+      if (code === 'not_in_manifest' || code === 'approval_required' || code === 'not_granted' || code === 'consent_required') return 'Saved, but starting the fetch was not allowed for this page. It will be fetched at the next scheduled check.';
+      if (code === 'blocked_by_policy') return 'Saved. Your organisation does not let this page start the fetch, so it waits for the next scheduled check.';
+      if (code === 'server_unavailable' || code === 'upstream_error') return 'Saved. The fetch may not have started; if not, the next scheduled check picks it up.';
+      return 'Saved. The fetch could not be started from here, so it waits for the next scheduled check.'; } };
+  const sendRequest = async (text) => { const v = text.trim().slice(0, 200), note = $('req-note'); if (!v) { note.textContent = 'Type the maker and model first.'; return; }
+    if (S.sending) return; if (!S.db) { note.textContent = 'Requests need you signed in with edit access to this page.'; return; }
+    S.sending = true; note.textContent = 'Saving the request…';
+    try { await S.db.collection('requests').add({ wanted: v, status: 'requested', by: S.userId || '', at: new Date().toISOString() }); $('req-in').value = ''; }
+    catch { note.textContent = 'The request was not saved. Try again.'; S.sending = false; return; }
+    note.textContent = 'Saved. Starting the fetch…'; note.textContent = await startFetch(v); S.sending = false; note.scrollIntoView({ block: 'nearest' }); };
+  const renderRequests = () => { const ul = $('req-list'); ul.hidden = !S.requests.length; const added = S.requests.filter((r) => r.status === 'added').length; if (S.addedSeen !== undefined && added > S.addedSeen) refreshData(); S.addedSeen = added; ul.replaceChildren(...S.requests.slice(-6).map((r) => el('li', { text: `${r.wanted}: ${r.status || 'requested'}` }))); };
+  const refreshData = async () => { try { const r = await fetch('data.json', { cache: 'no-store' }); if (!r.ok) return; const d = await r.json(); if (d.manuals.length > S.data.manuals.length) { S.data = d; indexes.clear(); renderLibrary(); if (S.view === 'ask') render(); } else $('req-note').textContent = 'A requested manual has been added. Reload the page to see it.'; } catch {} };
   const renderLibrary = () => { if (!S.data) return; const raw = $('lib-q').value.trim(), qt = tok(raw), out = [];
     const hit = (m) => { const t = m.title.toLowerCase(); return qt.every((w) => t.includes(w)); };
     for (const [c, name] of GROUPS) { const ms = S.data.manuals.filter((m) => m.corpus === c && hit(m)); if (!ms.length) continue; out.push(el('span', { class: 'grp', text: name }));
       for (const m of ms) out.push(el('div', { class: 'row' }, el('b', { text: m.title }), el('span', { class: 'note' }, `${m.pages.length} pages loaded`, m.total_pages > m.pages.length ? ` of ${m.total_pages}` : '', m.source ? [' · ', el('a', { href: m.source, target: '_blank', rel: 'noopener noreferrer', style: 'color:var(--notice)', text: 'source' })] : null),
         el('div', { class: 'acts' }, el('button', { class: 'btn', type: 'button', onclick: () => openPage(m.id, m.pages[0]), text: 'Read' }),
           el('button', { class: 'btn', type: 'button', onclick: () => { S.doc = m.id; setView('ask'); $('q').focus(); }, text: 'Ask about it' })))); }
-    if (!out.length) out.push(el('div', { class: 'label notice' }, el('b', { text: 'Not here' }), el('div', {}, `No manual in the library matches "${raw}". `,
+    if (!out.length) out.push(el('div', { class: 'label notice' }, el('b', { text: 'Not here' }), el('div', {}, `No manual in the library matches "${raw}". Press Enter or tap to fetch it now. `,
       el('button', { class: 'pg', type: 'button', onclick: () => sendRequest(raw), text: 'Get it from the web' }))));
     $('lib-list').replaceChildren(...out); };
   $('lib-q').addEventListener('input', renderLibrary);
+  $('lib-q').addEventListener('keydown', (e) => { if (e.key !== 'Enter') return; e.preventDefault(); const raw = $('lib-q').value.trim(); if (raw && !$('lib-list').querySelector('.row')) sendRequest(raw); });
   $('req-go').addEventListener('click', () => sendRequest($('req-in').value));
   $('req-in').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendRequest($('req-in').value); } });
 
@@ -400,7 +415,7 @@
     if (h && h.page) openPage(h.doc, h.page);
   })();
   (async () => {
-    const [sample, db, user] = await Promise.all([window.claude?.use?.('sample') ?? null, window.claude?.use?.('db') ?? null, window.claude?.use?.('user') ?? null]);
+    const [sample, db, user, mcp] = await Promise.all([window.claude?.use?.('sample') ?? null, window.claude?.use?.('db') ?? null, window.claude?.use?.('user') ?? null, window.claude?.use?.('mcp') ?? null]); S.mcp = mcp;
     S.sample = sample; S.sampleState = sample ? 'on' : 'off'; S.db = db; if (user) { try { S.userId = await user.id(); } catch {} }
     if (db) db.collection('requests').onSnapshot((snap) => { S.requests = snap.docs.map((d) => d.data()).sort((a, b) => String(a.at).localeCompare(String(b.at))); renderRequests(); }, () => {});
     if (S.data) render();
