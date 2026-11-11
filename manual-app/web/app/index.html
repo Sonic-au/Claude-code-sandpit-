@@ -379,7 +379,7 @@
     const live = recent.filter(active), ok = recent.filter((r) => r.status === 'added').length, first = recent.reduce((a, r) => (Date.parse(r.at) < Date.parse(a.at) ? r : a), recent[0]);
     const lines = recent.map((r) => { const [dot, text] = PLAIN[r.status] || (active(r) ? PLAIN.looking : ['no', String(r.status || 'Stopped').slice(0, 80)]), stale = !active(r) && (r.status === 'requested' || r.status === 'looking');
       return el('div', { class: 'line' }, el('span', { class: 'dot ' + (stale ? 'no' : dot) }), el('div', {}, el('b', { text: String(r.wanted || 'Manual').slice(0, 120) }), el('small', { text: stale ? 'This one didn\'t finish. Try adding it again.' : text }))); });
-    const notes = live.length ? live.flatMap(notesOf).sort((a, b) => String(a.t).localeCompare(String(b.t))) : [];
+    const notes = live.length ? live.flatMap(notesOf) : [];   // kept in the order written; the times on notes are not reliable
     return progCard({ kind: 'load', key: 'load', at: (live[0] || first).at, notes, done: !live.length, lines,
       title: live.length ? `Loading ${live.length} manual${live.length > 1 ? 's' : ''}` : ok ? `${ok} manual${ok > 1 ? 's' : ''} ready` : 'Nothing was loaded',
       doneText: ok ? 'All done. Find them in the library above, under "Added on request".' : 'None of these could be loaded. The reasons are below.' }); };
