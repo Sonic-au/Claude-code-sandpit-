@@ -310,7 +310,28 @@ phone. Pick a manual (or all of them), ask in plain words, and get:
 
 It runs as a published page on the viewer's Claude plan, so it needs no server and no API key. Search is keyword
 (BM25) in the browser over the same passages the bench uses, and Claude gets the top 8 passages instead of the
-bench's reranked top 5, so its accuracy is not the bench's measured accuracy.
+bench's reranked top 5; its accuracy is measured separately below.
+
+**Measured accuracy (11 Nov 2026).** `scripts/eval_app.py` runs the app's own search (the in-browser BM25, ported line
+for line and checked against the live page on 44 of 44 spot checks), its top 8 passages and its prompt over the 208
+test questions in all three corpora; Claude answered in a session and Jev graded, with uncertain grades sent to Claude.
+
+| App mode | Answers graded correct (%) | Partial | Not found | Answer page in the 8 passages (%) | Cited the answer page (%) | Said "not found" when it should |
+|---|---|---|---|---|---|---|
+| Manual picked | 169 / 179 (94.4) | 7 | 3 | 98.3 | 96.6 | 29 / 29 |
+| All manuals at once | 165 / 179 (92.2) | 5 | 7 | 95.0 | 92.7 | 29 / 29 |
+
+- By corpus, with a manual picked: bench manuals 93.9%, TechManualQA 93.3%,
+  HVAC 97.5%. Searching all manuals costs about 2 points, mostly on the long Prusa and Makita manuals.
+- **Most misses are near-misses.** With a manual picked, 7 of the 10 misses are partial answers: procedures with a
+  step missing, a hedge between two values (Rheem charge, Makita weight) or a value the parser garbled (TapFly lux).
+- **The rest are search or parsing gaps.** Of the 3 "not found" answers, two had the answer page in the passages but
+  not the value in a usable form (the Army fuel capacity in a flattened spec table, the LM317 load-capacitance row);
+  the third (a DJI flight-restriction question) never reached the right page.
+- It answered "not found" for all 29 unanswerable questions in both modes, so it did not make up answers.
+- These are close to the bench's reranked-search results (136 / 145 on the earlier question set), so keyword search
+  with 8 passages is enough at this scale. The grader is the same model family as the answerer; no person has checked
+  these grades. Results: [`results/2026-11-11-app-eval/`](results/2026-11-11-app-eval/).
 
 Page sources live in `web/` (`app`, `workbench`, `landing`). To rebuild the app's data after a bench run:
 

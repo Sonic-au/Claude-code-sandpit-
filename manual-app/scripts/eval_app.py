@@ -24,12 +24,31 @@ os.environ.setdefault("TB_LLM_PROVIDER", "session")
 
 from manual_app import bench, retrieve  # noqa: E402
 from manual_app.corpus import load_manifest, manifest_path  # noqa: E402
-from manual_app.judge import Grader, JevError  # noqa: E402
+from manual_app.judge import Grader, Jev, JevError  # noqa: E402
 from manual_app.llm import LLMRefusal, get_llm  # noqa: E402
 from manual_app.metrics import contains_answer  # noqa: E402
 from manual_app.parsers.base import ParseResult  # noqa: E402
 
 K = 8
+
+
+class CachedJev(Jev):
+    """Jev's confidences vary slightly between calls, which would send a different few grades to Claude on each
+    re-run. Cache each verdict by request so a re-run grades exactly as before (data/session_llm/jev_cache.json)."""
+
+    PATH = ROOT / "data" / "session_llm" / "jev_cache.json"
+
+    def __init__(self):
+        super().__init__()
+        self.cache = json.loads(self.PATH.read_text()) if self.PATH.exists() else {}
+
+    def grade(self, question, gold, answer, title):
+        key = json.dumps([self.model, title, question, gold, answer])
+        if key not in self.cache:
+            self.cache[key] = list(super().grade(question, gold, answer, title))
+            self.PATH.parent.mkdir(parents=True, exist_ok=True)
+            self.PATH.write_text(json.dumps(self.cache))
+        return tuple(self.cache[key])
 CORPORA = ("manuals", "techmanualqa", "hvac")
 TOK = re.compile(r"[a-z0-9]+(?:[.%][0-9]+)?")
 
@@ -161,7 +180,8 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     chunks, titles, questions = load()
     llm = get_llm()
-    grader = Grader(llm)
+    mode = os.environ.get("TB_JUDGE", "claude")
+    grader = Grader(llm, jev=CachedJev() if mode != "claude" else None)
     for mode in (["single", "all"] if a.mode == "both" else [a.mode]):
         res = run(mode, chunks, titles, questions, llm, grader)
         res["grader"] = grader.label
