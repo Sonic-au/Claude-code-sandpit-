@@ -1,0 +1,261 @@
+<title>Manual Handling Ask</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: a field tool for one hand on a phone. Manual picker on top, a thread of question-and-answer cards in
+     one column, the ask box fixed to the bottom. Every answer carries its page chips; tapping one opens the page. */
+  :root {
+    --bg: #eef1f3; --panel: #ffffff; --sunk: #f4f6f8; --ink: #111a24; --muted: #566373; --line: #cfd6de;
+    --accent: #e8590c; --on-accent: #ffffff; --warning: #e8590c; --warning-soft: #fdeee4; --caution: #b98900; --caution-soft: #fbf3d6;
+    --notice: #0b5cad; --notice-soft: #e4effa; --safe: #1b7f4b; --safe-soft: #e2f3ea; --bad: #b42318; --bad-soft: #fdecea; --scrim: rgba(10, 16, 24, .62);
+    --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif; --body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #0f141a; --panel: #171e27; --sunk: #121820; --ink: #e7ecf2; --muted: #9aa7b6; --line: #2a3441;
+    --accent: #ff8a4c; --on-accent: #10161d; --warning: #ff8a4c; --warning-soft: #33200f; --caution: #e9bd3a; --caution-soft: #2d2610;
+    --notice: #6db1f5; --notice-soft: #12263b; --safe: #5ecb8f; --safe-soft: #12291e; --bad: #f07a6e; --bad-soft: #321716; --scrim: rgba(0, 0, 0, .7); color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --bg: #0f141a; --panel: #171e27; --sunk: #121820; --ink: #e7ecf2; --muted: #9aa7b6; --line: #2a3441;
+    --accent: #ff8a4c; --on-accent: #10161d; --warning: #ff8a4c; --warning-soft: #33200f; --caution: #e9bd3a; --caution-soft: #2d2610;
+    --notice: #6db1f5; --notice-soft: #12263b; --safe: #5ecb8f; --safe-soft: #12291e; --bad: #f07a6e; --bad-soft: #321716; --scrim: rgba(0, 0, 0, .7); color-scheme: dark; }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.5; }
+  button, select, textarea, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--notice); outline-offset: 2px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 14px 190px; display: grid; gap: 16px; }
+  .wrap > * { min-width: 0; }
+  header { display: grid; gap: 10px; }
+  .brand { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 14px; }
+  .brand h1 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 28px; letter-spacing: .05em; text-transform: uppercase; line-height: 1; }
+  .brand span { color: var(--muted); font-size: 14px; }
+  .picker { display: grid; gap: 4px; }
+  .picker label { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .picker select { width: 100%; min-height: 48px; padding: 8px 12px; border: 2px solid var(--line); border-radius: 8px; background: var(--panel); font-weight: 500; }
+
+  .intro { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 12px; }
+  .intro h2 { margin: 0; font-family: var(--display); font-size: 34px; font-weight: 700; text-transform: uppercase; line-height: 1; text-wrap: balance; }
+  .intro p { margin: 0; color: var(--muted); }
+  .examples { display: grid; gap: 8px; }
+  .examples button { text-align: left; background: var(--sunk); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; min-height: 44px; }
+  .examples button:hover { border-color: var(--accent); }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+  .q { font-weight: 600; font-size: 18px; overflow-wrap: anywhere; }
+  .meta { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; overflow-wrap: anywhere; }
+  .answer { font-size: 19px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .answer.wait { color: var(--muted); font-style: italic; font-size: 17px; }
+  .cite, .pg { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; border: 1.5px solid var(--notice); color: var(--notice); background: var(--notice-soft); border-radius: 6px; padding: 1px 7px; cursor: pointer; white-space: nowrap; }
+  .cite { vertical-align: 1px; margin: 0 1px; }
+  .pg { min-height: 36px; padding: 5px 12px; font-size: 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .label { border: 2px solid var(--c); border-radius: 6px; overflow: hidden; display: grid; grid-template-columns: auto minmax(0, 1fr); }
+  .label > b { background: var(--c); color: var(--on-accent); font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: .06em; text-transform: uppercase; padding: 8px 10px; display: flex; align-items: center; }
+  .label > div { background: var(--s); padding: 8px 12px; font-size: 15.5px; overflow-wrap: anywhere; }
+  .label.warning { --c: var(--warning); --s: var(--warning-soft); } .label.caution { --c: var(--caution); --s: var(--caution-soft); }
+  .label.notice { --c: var(--notice); --s: var(--notice-soft); } .label.bad { --c: var(--bad); --s: var(--bad-soft); }
+  @media (max-width: 460px) { .label { grid-template-columns: minmax(0, 1fr); } }
+  .sec { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  details summary { cursor: pointer; color: var(--muted); font-size: 15px; min-height: 32px; }
+  .src { border-left: 3px solid var(--line); padding: 4px 0 4px 10px; margin-top: 8px; display: grid; gap: 4px; font-size: 14.5px; }
+  .src.used { border-left-color: var(--notice); }
+  .src .h { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted); font-size: 13px; }
+  .src .x { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .btn { border: 1.5px solid var(--line); background: var(--panel); border-radius: 8px; padding: 8px 14px; min-height: 44px; cursor: pointer; font-weight: 500; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: .06em; text-transform: uppercase; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn[aria-pressed="true"] { border-color: var(--safe); color: var(--safe); background: var(--safe-soft); }
+  .btn.no[aria-pressed="true"] { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
+  .note { font-size: 14px; color: var(--muted); }
+
+  .ask { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--panel); border-top: 1px solid var(--line);
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+  .ask-in { max-width: 760px; margin: 0 auto; display: grid; gap: 6px; }
+  .ask-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
+  .ask textarea { width: 100%; min-height: 52px; max-height: 140px; resize: none; border: 2px solid var(--line); border-radius: 8px; background: var(--sunk); padding: 12px; }
+  .ask textarea:focus { border-color: var(--accent); outline: none; }
+
+  .viewer { position: fixed; inset: 0; z-index: 30; background: var(--scrim); display: grid; grid-template-rows: auto minmax(0, 1fr); }
+  .viewer-bar { background: var(--panel); border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
+    padding: calc(8px + env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) 8px max(12px, env(safe-area-inset-left, 0px)); }
+  .viewer-bar .t { font-weight: 600; min-width: 0; overflow-wrap: anywhere; font-size: 15px; flex: 1 1 200px; }
+  .viewer-body { overflow: auto; padding: 12px max(12px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); display: grid; justify-items: center; align-content: start; gap: 12px; }
+  .viewer-body img { width: 100%; max-width: 900px; height: auto; background: #fff; border-radius: 4px; display: block; }
+  .viewer-body pre { width: 100%; max-width: 900px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--body); font-size: 15px; margin: 0; }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand"><h1>Manual Handling</h1><span>Let AI handle your manuals. <i>The right answer, on the right page.</i></span></div>
+    <div class="picker"><label for="doc">Equipment manual</label><select id="doc"></select></div>
+  </header>
+  <main id="thread" aria-live="polite"></main>
+</div>
+
+<form class="ask" id="ask" autocomplete="off">
+  <div class="ask-in">
+    <div class="ask-row">
+      <textarea id="q" rows="1" placeholder="Ask about this manual…" aria-label="Your question" enterkeyhint="send"></textarea>
+      <button class="btn primary" id="go" type="submit">Ask</button>
+    </div>
+    <span class="note" id="status">Loading manuals…</span>
+  </div>
+</form>
+
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Manual page">
+  <div class="viewer-bar">
+    <span class="t" id="v-title"></span>
+    <div class="chips">
+      <button class="btn" id="v-prev" type="button">← Page</button>
+      <button class="btn" id="v-next" type="button">Page →</button>
+      <button class="btn" id="v-text" type="button" aria-pressed="false">Text</button>
+      <button class="btn primary" id="v-close" type="button">Close</button>
+    </div>
+  </div>
+  <div class="viewer-body" id="v-body"></div>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) { if (v === null || v === undefined || v === false) continue;
+      if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? '' : v); }
+    for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : String(k)); return n; };
+  const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+  const S = { data: null, doc: 'all', thread: [], sample: null, sampleState: 'connecting', db: null, userId: null, busy: false, seq: 0 };
+  const K = 8;   // passages given to Claude. The bench used 5 from a stronger search; keyword search here gets a few more.
+  const short = (m) => m.title.replace(/\s*\(.*?\)\s*/g, ' ').split(' - ')[0].trim();
+  const manual = (id) => S.data.manuals.find((m) => m.id === id);
+  const GROUPS = [['manuals', 'Equipment and reference manuals'], ['techmanualqa', 'Consumer equipment'], ['hvac', 'HVAC']];
+
+  // ------------------------------------------------------------ keyword search (BM25) over parsed passages
+  const tok = (s) => (s.toLowerCase().match(/[a-z0-9]+(?:[.%][0-9]+)?/g) || []);
+  const indexes = new Map();
+  const index = (key) => {
+    if (indexes.has(key)) return indexes.get(key);
+    const ms = key === 'all' ? S.data.manuals : [manual(key)];
+    const chunks = ms.flatMap((m) => m.chunks.map((c) => ({ ...c, doc: m.id })));
+    const docs = chunks.map((c) => tok(`${manual(c.doc).title} | ${c.heading} | ${c.text}`));
+    const df = new Map(); docs.forEach((d) => new Set(d).forEach((t) => df.set(t, (df.get(t) || 0) + 1)));
+    const N = docs.length, avg = docs.reduce((a, d) => a + d.length, 0) / Math.max(1, N), idf = new Map();
+    for (const [t, n] of df) idf.set(t, Math.max(0.05, Math.log((N - n + 0.5) / (n + 0.5))));
+    const tfs = docs.map((d) => { const f = new Map(); d.forEach((t) => f.set(t, (f.get(t) || 0) + 1)); return f; });
+    const ix = { chunks, docs, tfs, idf, avg }; indexes.set(key, ix); return ix;
+  };
+  const search = (key, q) => { const ix = index(key), qt = [...new Set(tok(q))], k1 = 1.5, b = 0.75;
+    return ix.tfs.map((f, i) => [qt.reduce((s, t) => { const tf = f.get(t) || 0; return tf ? s + (ix.idf.get(t) || 0) * (tf * (k1 + 1)) / (tf + k1 * (1 - b + b * ix.docs[i].length / ix.avg)) : s; }, 0), i])
+      .filter(([s]) => s > 0).sort((a, b2) => b2[0] - a[0]).slice(0, K).map(([, i]) => ix.chunks[i]); };
+
+  // ------------------------------------------------------------ safety notices printed on the cited pages
+  const SIGNAL = /^[\s>*_#|-]*(DANGER|WARNING|CAUTION)\b[\s:!*_.|-]*(.*)$/;
+  const notices = (pages) => { const out = [], seen = new Set();
+    for (const { doc, page } of pages) { const lines = (manual(doc).page_text[String(page)] || '').split('\n');
+      for (let i = 0; i < lines.length && out.length < 5; i++) { const m = lines[i].match(SIGNAL); if (!m) continue;
+        let text = m[2].replace(/[*_|]/g, '').trim(); for (let j = i + 1; text.length < 12 && j < Math.min(lines.length, i + 4); j++) text = (text + ' ' + lines[j].replace(/[*_|#>]/g, '').trim()).trim();
+        text = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 320); const key = text.toLowerCase().slice(0, 60);
+        if (text.length < 12 || seen.has(key)) continue; seen.add(key); out.push({ kind: m[1].toLowerCase(), text, doc, page }); } }
+    return out; };
+
+  // ------------------------------------------------------------ page viewer
+  const V = { doc: null, page: null, text: false };
+  const showPage = () => { const m = manual(V.doc), i = m.pages.indexOf(V.page);
+    $('v-title').textContent = `${short(m)} · page ${V.page}`; $('v-prev').disabled = i <= 0; $('v-next').disabled = i >= m.pages.length - 1; $('v-text').setAttribute('aria-pressed', String(V.text));
+    const img = el('img', { src: `pages/${V.doc}/${V.page}.jpg`, alt: `Page ${V.page} of ${m.title}` });
+    img.addEventListener('error', () => img.replaceWith(el('p', { class: 'note', text: 'The page image did not load. Use Text to read the parsed page.' })));
+    $('v-body').replaceChildren(V.text ? el('pre', { text: (m.page_text[String(V.page)] || '').replace(/<[^>]+>/g, ' ') || 'No text was parsed for this page.' }) : img); $('v-body').scrollTop = 0; };
+  const openPage = (doc, page) => { V.doc = doc; V.page = page; V.text = false; $('viewer').hidden = false; showPage(); $('v-close').focus(); };
+  const closePage = () => { $('viewer').hidden = true; $('q').focus({ preventScroll: true }); };
+  $('v-close').addEventListener('click', closePage); $('v-text').addEventListener('click', () => { V.text = !V.text; showPage(); });
+  $('v-prev').addEventListener('click', () => { const m = manual(V.doc); V.page = m.pages[m.pages.indexOf(V.page) - 1]; showPage(); });
+  $('v-next').addEventListener('click', () => { const m = manual(V.doc); V.page = m.pages[m.pages.indexOf(V.page) + 1]; showPage(); });
+  $('viewer').addEventListener('click', (e) => { if (e.target === $('viewer') || e.target === $('v-body')) closePage(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('viewer').hidden) closePage(); });
+  const pageBtn = (doc, page, withName) => el('button', { class: 'pg', type: 'button', onclick: () => openPage(doc, page), text: (withName ? short(manual(doc)).split(' ').slice(0, 2).join(' ') + ' · ' : '') + 'p. ' + page });
+
+  // ------------------------------------------------------------ rendering
+  const answerNodes = (t) => { const parts = t.answer.split(/(\[\d+\])/g);
+    return parts.map((p) => { const m = p.match(/^\[(\d+)\]$/), x = m && t.extracts[+m[1] - 1];
+      return x ? el('button', { class: 'cite', type: 'button', title: `Open page ${x.page}`, onclick: () => openPage(x.doc, x.page), text: 'p. ' + x.page }) : p; }); };
+  const card = (t) => {
+    const all = t.doc === 'all', nf = t.status === 'done' && t.answer.trim().toUpperCase().startsWith('NOT FOUND');
+    const body = [];
+    if (t.status === 'nomatch') body.push(el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', { text: 'No passage in this manual matches those words. Try the terms the manual would use, or pick another manual.' })));
+    else if (t.status === 'asking' && !t.answer) body.push(el('div', { class: 'answer wait', id: 'ans-' + t.id, text: 'Reading the manual…' }));
+    else if (nf) body.push(el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', { text: 'The pages loaded for this manual do not answer that. The closest passages are below; check the full manual before acting.' })));
+    else if (t.answer) body.push(el('div', { class: 'answer', id: 'ans-' + t.id }, t.status === 'done' ? answerNodes(t) : t.answer));
+    if (t.error) body.push(el('div', { class: 'label bad' }, el('b', { text: 'Problem' }), el('div', { text: t.error })));
+    if (t.status === 'done' && !nf && t.cited.length) {
+      body.push(el('div', { class: 'chips' }, el('span', { class: 'sec', text: 'Check it on' }), t.cited.map((c) => pageBtn(c.doc, c.page, all))));
+      const ns = notices(t.cited);
+      if (ns.length) body.push(el('div', { style: 'display:grid;gap:8px' }, el('span', { class: 'sec', text: 'Safety notices printed on those pages' }),
+        ns.map((n) => el('div', { class: 'label ' + (n.kind === 'caution' ? 'caution' : 'warning') }, el('b', { text: n.kind }), el('div', {}, n.text + ' ', pageBtn(n.doc, n.page))))));
+    }
+    if (t.status === 'done' && !nf && !t.cited.length && t.answer) body.push(el('p', { class: 'note', style: 'margin:0', text: 'This answer cites no page, so treat it with care and check the passages below.' }));
+    if (t.extracts.length && t.status !== 'asking') { const used = new Set(t.citedIdx || []);
+      body.push(el('details', { open: (nf || !S.sample) || null }, el('summary', { text: `Passages searched (${t.extracts.length})` }),
+        t.extracts.map((x, i) => el('div', { class: 'src' + (used.has(i) ? ' used' : '') }, el('div', { class: 'h' }, el('b', { text: `[${i + 1}]` }), pageBtn(x.doc, x.page, all), x.heading ? el('span', { text: x.heading }) : null), el('div', { class: 'x', text: x.text }))))); }
+    if (t.status === 'done' && t.answer) { const note = el('span', { class: 'note', text: t.fb ? 'Thanks, saved.' : '' });
+      const vote = (v) => async () => { t.fb = v; render(); if (!S.db) return;
+        try { await S.db.collection('feedback').add({ question: t.q, doc: t.doc, answer: t.answer, cited: t.cited, retrieved: t.extracts.map((x) => ({ doc: x.doc, page: x.page })), verdict: v, author: S.userId || '', at: new Date().toISOString() }); } catch { t.fbError = true; render(); } };
+      body.push(el('div', { class: 'chips' }, el('span', { class: 'sec', text: 'Was this right?' }),
+        el('button', { class: 'btn', type: 'button', 'aria-pressed': String(t.fb === 'right'), onclick: vote('right'), text: 'Yes' }), el('button', { class: 'btn no', type: 'button', 'aria-pressed': String(t.fb === 'wrong'), onclick: vote('wrong'), text: 'No' }),
+        t.fb ? el('span', { class: 'note', text: t.fbError ? 'Not saved: saving needs edit access to this page.' : S.db ? 'Thanks, saved for review.' : 'Noted on this device only.' }) : null)); }
+    return el('article', { class: 'card', id: 'card-' + t.id }, el('div', { class: 'meta', text: all ? 'All manuals' : short(manual(t.doc)) }), el('div', { class: 'q', text: t.q }), body);
+  };
+  const intro = () => { const m = S.doc === 'all' ? null : manual(S.doc), ex = m ? m.examples : S.data.manuals.flatMap((x) => x.examples.slice(0, 1)).slice(0, 4);
+    return el('section', { class: 'intro' }, el('h2', { text: 'What do you need to know?' }),
+      el('p', { text: m ? `Ask in your own words. Answers come only from the ${m.pages.length} loaded pages of this manual, with the page to check.` : `Ask in your own words. All ${S.data.manuals.length} manuals are searched; answers name the page to check.` }),
+      ex.length ? el('div', { class: 'examples' }, el('span', { class: 'sec', text: 'Try one' }), ex.map((q) => el('button', { type: 'button', onclick: () => ask(q), text: q }))) : null,
+      el('div', { class: 'label caution' }, el('b', { text: 'Caution' }), el('div', { text: 'This is a test build on public manuals. Always check the cited page before you act on an answer.' }))); };
+  const render = () => { $('thread').replaceChildren(...(S.thread.length ? S.thread.map(card) : [intro()])); $('go').disabled = S.busy;
+    $('status').textContent = S.busy ? 'Answering…' : S.sample ? `Claude answers from the ${K} best-matching passages and cites pages.` : S.sampleState === 'connecting' ? 'Connecting to Claude…' : 'Claude is not available here, so you get the closest passages without a written answer.'; };
+
+  // ------------------------------------------------------------ asking
+  const ask = async (question) => {
+    const q = (question || $('q').value).trim(); if (!q || S.busy || !S.data) return;
+    $('q').value = ''; $('q').style.height = '';
+    const t = { id: ++S.seq, q, doc: S.doc, extracts: search(S.doc, q), answer: '', cited: [], status: 'asking', error: '' };
+    S.thread.push(t);
+    if (!t.extracts.length) t.status = 'nomatch'; else if (!S.sample) t.status = 'done';
+    if (t.status !== 'asking') { render(); $('card-' + t.id).scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+    S.busy = true; render(); $('card-' + t.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const all = t.doc === 'all', title = all ? 'the equipment manuals named in each extract' : manual(t.doc).title;
+    const ex = t.extracts.map((c, i) => `[${i + 1}] (${all ? short(manual(c.doc)) + ', ' : ''}page ${c.page}) ${c.text}`).join('\n\n');
+    const prompt = S.data.answer_prompt.replace('the document "{title}"', all ? title : `the document "${title}"`).replace('{title}', title).replace('{question}', q).replace('{extracts}', ex);
+    try {
+      const r = await S.sample(prompt, { cache: false, onText: ({ text }) => { t.answer = text; const n = $('ans-' + t.id); if (n) { n.textContent = text; n.classList.remove('wait'); } } });
+      t.answer = r.text.trim(); t.citedIdx = [...new Set([...t.answer.matchAll(/\[(\d+)\]/g)].map((m) => +m[1] - 1).filter((i) => i >= 0 && i < t.extracts.length))];
+      const seen = new Set(); t.cited = t.citedIdx.map((i) => t.extracts[i]).filter((x) => { const k = x.doc + '|' + x.page; if (seen.has(k)) return false; seen.add(k); return true; }).map((x) => ({ doc: x.doc, page: x.page }));
+      t.status = 'done';
+    } catch (e) {
+      const code = e && e.code; t.status = 'done'; t.answer = (e && e.text) || '';
+      t.error = { not_granted: 'Claude is not allowed for this page, so only the closest passages are shown.', sampling_disabled: 'Claude is not available for this account, so only the closest passages are shown.',
+        rate_limited: 'Too many requests, or your usage limit was reached. Try again in a little while.', session_expired: 'Your session expired. Sign in again, then ask once more.', refused: 'Claude declined this question. Rephrase it and try again.' }[code] || 'Claude did not finish answering. Ask again.';
+      if (['not_granted', 'sampling_disabled', 'not_declared', 'capability_disabled', 'capability_removed'].includes(code)) { S.sample = null; S.sampleState = 'off'; }
+    }
+    S.busy = false; render();
+  };
+  $('ask').addEventListener('submit', (e) => { e.preventDefault(); ask(); });
+  $('q').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(); } });
+  $('q').addEventListener('input', () => { const q = $('q'); q.style.height = 'auto'; q.style.height = Math.min(140, q.scrollHeight + 4) + 'px'; });
+  $('doc').addEventListener('change', (e) => { S.doc = e.target.value; store.set('mh-ask-doc', S.doc); $('q').placeholder = S.doc === 'all' ? 'Ask across all manuals…' : 'Ask about this manual…'; if (!S.thread.length) render(); });
+
+  // ------------------------------------------------------------ start
+  (async () => {
+    try { const r = await fetch('data.json'); if (!r.ok) throw new Error(r.status); S.data = await r.json(); }
+    catch { $('status').textContent = 'The manuals did not load. Reload the page to try again.'; return; }
+    const sel = $('doc'); sel.append(el('option', { value: 'all', text: `All manuals (${S.data.manuals.length})` }));
+    for (const [c, name] of GROUPS) { const ms = S.data.manuals.filter((m) => m.corpus === c); if (ms.length) sel.append(el('optgroup', { label: name }, ms.map((m) => el('option', { value: m.id, text: short(m) })))); }
+    const want = location.hash.slice(1) || store.get('mh-ask-doc'); S.doc = want === 'all' || S.data.manuals.some((m) => m.id === want) ? want : S.data.manuals[0].id; sel.value = S.doc;
+    $('q').placeholder = S.doc === 'all' ? 'Ask across all manuals…' : 'Ask about this manual…';
+    render();
+  })();
+  (async () => {
+    const [sample, db, user] = await Promise.all([window.claude?.use?.('sample') ?? null, window.claude?.use?.('db') ?? null, window.claude?.use?.('user') ?? null]);
+    S.sample = sample; S.sampleState = sample ? 'on' : 'off'; S.db = db; if (user) { try { S.userId = await user.id(); } catch {} }
+    if (S.data) render();
+  })();
+})();
+</script>

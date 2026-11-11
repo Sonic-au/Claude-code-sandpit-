@@ -1,0 +1,217 @@
+<title>Manual Handling</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: one dark stage, the film's own look. The film is the hero; below it, the workshop: how it works as a
+     numbered line, the app in four screens, the numbers, and the limits. Safety-label colours are the only accents. */
+  :root {
+    --bg: #0b1119; --bg-2: #0f1824; --panel: #121c29; --ink: #eef3f8; --muted: #9db0c4; --line: #23364a;
+    --warning: #ff7a2f; --caution: #ffc933; --notice: #5fb0ff; --safe: #5fe0a0; --on-accent: #10161d;
+    --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif; --body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
+  a { color: var(--notice); }
+  :focus-visible { outline: 2px solid var(--caution); outline-offset: 3px; }
+  .band { padding-block: clamp(48px, 8vw, 96px); }
+  .band.alt { background: var(--bg-2); border-block: 1px solid var(--line); }
+  .in { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 28px; }
+  .in > * { min-width: 0; }
+  h1, h2, h3 { font-family: var(--display); text-transform: uppercase; margin: 0; line-height: .98; letter-spacing: .01em; text-wrap: balance; }
+  h1 { font-size: clamp(54px, 10.5vw, 132px); font-weight: 700; }
+  h2 { font-size: clamp(36px, 5.6vw, 64px); font-weight: 700; }
+  h3 { font-size: 24px; font-weight: 600; letter-spacing: .03em; }
+  p { margin: 0; max-width: 62ch; }
+  .kick { font-family: var(--mono); font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .muted { color: var(--muted); }
+
+  /* nav */
+  nav { padding-block: 18px; }
+  nav .in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; }
+  .mark { font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+  .mark i { width: 18px; height: 24px; border: 2px solid var(--ink); border-radius: 2px; position: relative; display: inline-block; }
+  .mark i::after { content: ""; position: absolute; right: 2px; bottom: 2px; width: 7px; height: 5px; background: var(--caution); }
+  nav ul { display: flex; flex-wrap: wrap; gap: 6px 22px; list-style: none; margin: 0; padding: 0; font-size: 15px; }
+  nav ul a { color: var(--muted); text-decoration: none; } nav ul a:hover { color: var(--ink); }
+
+  /* hero */
+  .hero { position: relative; overflow: hidden; padding-block: clamp(28px, 5vw, 60px) clamp(48px, 7vw, 88px); }
+  .hero::before { content: ""; position: absolute; inset: -40% -10% auto; height: 120%; pointer-events: none;
+    background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(95, 176, 255, .16), transparent 70%), radial-gradient(ellipse 40% 40% at 15% 70%, rgba(255, 122, 47, .12), transparent 70%); }
+  .hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 56px 56px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, transparent 85%); mask-image: linear-gradient(to bottom, transparent, #000 30%, transparent 85%); }
+  .hero .in { position: relative; z-index: 1; gap: 22px; }
+  .hero h1 span { color: var(--warning); }
+  .sub { font-size: clamp(20px, 2.6vw, 28px); font-style: italic; color: var(--muted); }
+  .lede { font-size: clamp(18px, 2vw, 21px); }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { font-family: var(--display); font-weight: 600; font-size: 21px; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; padding: 12px 22px; border-radius: 4px; border: 2px solid var(--line); color: var(--ink); background: transparent; }
+  .btn.primary { background: var(--warning); border-color: var(--warning); color: var(--on-accent); }
+  .btn:hover { border-color: var(--ink); }
+  .film { position: relative; border-radius: 10px; border: 1px solid var(--line); background: #000; box-shadow: 0 30px 80px -30px rgba(95, 176, 255, .35), 0 0 0 6px rgba(18, 28, 41, .7); overflow: hidden; }
+  .film video { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
+  .chapters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chapters button { font: inherit; font-size: 14px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+  .chapters button span { font-family: var(--mono); font-size: 12px; margin-right: 6px; font-variant-numeric: tabular-nums; }
+  .chapters button:hover, .chapters button[aria-current="true"] { color: var(--ink); border-color: var(--warning); }
+
+  /* safety labels */
+  .labels { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  .label { border: 2px solid var(--c); border-radius: 5px; overflow: hidden; background: var(--panel); display: grid; grid-template-rows: auto 1fr; }
+  .label b { background: var(--c); color: var(--on-accent); font-family: var(--display); font-weight: 700; font-size: 22px; letter-spacing: .08em; padding: 6px 14px; text-transform: uppercase; }
+  .label div { padding: 14px 16px; }
+
+  /* steps */
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0; counter-reset: s; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .steps li { counter-increment: s; padding: 20px 20px 22px; display: grid; gap: 6px; align-content: start; background: var(--panel); outline: 1px solid var(--line); position: relative; transition: background .25s; }
+  .steps li::before { content: counter(s, decimal-leading-zero); font-family: var(--mono); font-size: 13px; color: var(--warning); }
+  .steps li:hover { background: #172435; }
+  .steps p { font-size: 15px; color: var(--muted); }
+
+  /* app screens */
+  .screens { display: grid; gap: 16px; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tabs button { font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); background: transparent; border: 0; border-bottom: 3px solid transparent; padding: 6px 4px; margin-right: 14px; cursor: pointer; }
+  .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--warning); }
+  .shot { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); box-shadow: 0 24px 60px -30px rgba(0, 0, 0, .8); }
+  .shot img { display: block; width: 100%; max-width: 100%; height: auto; }
+  .shot figcaption { padding: 14px 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 16px; }
+  .shot figcaption b { color: var(--ink); font-weight: 600; }
+  figure { margin: 0; }
+
+  /* numbers */
+  .nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .num { border-top: 3px solid var(--warning); padding-top: 14px; display: grid; gap: 4px; }
+  .num:nth-child(2) { border-color: var(--notice); } .num:nth-child(3) { border-color: var(--safe); } .num:nth-child(4) { border-color: var(--caution); }
+  .num .v { font-family: var(--display); font-weight: 700; font-size: clamp(56px, 7vw, 84px); line-height: .9; font-variant-numeric: tabular-nums; }
+  .num .v small { font-size: .42em; color: var(--muted); font-weight: 600; }
+  .num .l { color: var(--muted); font-size: 15px; max-width: 28ch; }
+
+  /* stories */
+  .who { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+  .who div { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; display: grid; gap: 6px; align-content: start; }
+  .who p { font-size: 15.5px; color: var(--muted); }
+
+  .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .links a { display: grid; gap: 2px; border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; text-decoration: none; color: var(--ink); background: var(--panel); }
+  .links a:hover { border-color: var(--warning); }
+  .links a b { font-family: var(--display); font-size: 22px; text-transform: uppercase; letter-spacing: .04em; font-weight: 600; }
+  .links a span { font-size: 14px; color: var(--muted); }
+  footer { padding-block: 28px 40px; color: var(--muted); font-size: 14px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero h1, .hero .sub, .hero .lede, .hero .cta, .film { animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; }
+    .hero .sub { animation-delay: .08s; } .hero .lede { animation-delay: .16s; } .hero .cta { animation-delay: .24s; } .film { animation-delay: .32s; }
+    @keyframes rise { from { opacity: .2; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    .hero::before { animation: drift 16s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform: translate3d(-4%, 3%, 0) scale(1.08); } }
+  }
+</style>
+
+<nav><div class="in">
+  <a class="mark" href="#top"><i aria-hidden="true"></i>Manual Handling</a>
+  <ul><li><a href="#how">How it works</a></li><li><a href="#app">The app</a></li><li><a href="#results">Results</a></li><li><a href="#limits">Limits</a></li></ul>
+</div></nav>
+
+<header class="hero" id="top"><div class="in">
+  <span class="kick">Technical-manual Q&amp;A · bench · workbench · knowledge graph</span>
+  <h1>Let AI handle <span>your manuals.</span></h1>
+  <p class="sub">The right answer, on the right page.</p>
+  <p class="lede">A technician asks in plain words. Manual Handling finds the passage, answers with the value and its unit, and cites the page that proves it. When the manual doesn't say, it says so.</p>
+  <div class="cta"><a class="btn primary" href="https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn">Ask a manual</a><a class="btn" href="https://claude.ai/artifact/QbUbwe44Vzcismk1YhUnLk">Open the workbench</a><a class="btn" href="#film">Watch the film · 2:26</a></div>
+  <div class="film" id="film"><video id="v" controls playsinline preload="metadata" poster="poster.jpg" src="manual-handling.mp4"></video></div>
+  <div class="chapters" id="chapters" role="group" aria-label="Film chapters"></div>
+</div></header>
+
+<section class="band alt"><div class="in">
+  <span class="kick">Why it's hard</span>
+  <h2>Manuals keep their facts where software reads worst</h2>
+  <div class="labels">
+    <div class="label" style="--c:var(--warning)"><b>Warning</b><div>A wrong torque value or a dropped warning is worse than no answer. Every answer has to show its page.</div></div>
+    <div class="label" style="--c:var(--caution)"><b>Caution</b><div>Tables, numbered steps and warning boxes are exactly what plain PDF text extraction scrambles.</div></div>
+    <div class="label" style="--c:var(--notice)"><b>Notice</b><div>Public leaderboards rank parsers on other people's documents. They can't tell you how yours will fare.</div></div>
+  </div>
+</div></section>
+
+<section class="band" id="how"><div class="in">
+  <span class="kick">From manuals to knowledge</span>
+  <h2>Seven steps, each one measured</h2>
+  <p class="muted">The bench scores every step separately, so a bad answer can be traced to the step that caused it.</p>
+  <ol class="steps">
+    <li><h3>Parse</h3><p>A layout-aware parser turns each page into text and tables. Seven parsers compared; Docling led on manuals.</p></li>
+    <li><h3>Chunk</h3><p>Pages are cut into passages that never cross a page, so each one keeps its page number and heading.</p></li>
+    <li><h3>Search</h3><p>Keyword and embedding search run side by side and their rankings are fused.</p></li>
+    <li><h3>Rerank</h3><p>A small local model re-reads the top 30 passages against the question and re-orders them.</p></li>
+    <li><h3>Answer</h3><p>Claude answers from five passages only and cites them, or replies "not found".</p></li>
+    <li><h3>Grade</h3><p>Jev grades each answer with a confidence. Uncertain grades go to Claude for a second opinion.</p></li>
+    <li><h3>Label</h3><p>People add harder questions in the workbench, and the test set grows with use.</p></li>
+  </ol>
+</div></section>
+
+<section class="band alt" id="app"><div class="in">
+  <span class="kick">The app</span>
+  <h2>See what the machine saw</h2>
+  <div class="screens">
+    <div class="tabs" role="tablist" aria-label="App screens">
+      <button role="tab" aria-selected="true" data-i="0">Pages</button><button role="tab" aria-selected="false" data-i="1">Test questions</button><button role="tab" aria-selected="false" data-i="2">Ask and label</button><button role="tab" aria-selected="false" data-i="3">Knowledge graph</button>
+    </div>
+    <figure class="shot"><img id="shot" src="ux1.jpg" alt="Workbench Pages view: a printed manual page beside the parser's text" width="1440" height="900"><figcaption id="cap"><b>Pages.</b> Each printed page beside what the parser read, with warnings highlighted and links to the questions answered there.</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="band" id="results"><div class="in">
+  <span class="kick">What the bench found</span>
+  <h2>Measured on real manuals</h2>
+  <div class="nums">
+    <div class="num"><span class="v">136<small> / 145</small></span><span class="l">answers graded correct across nine public manuals, with Docling and Claude</span></div>
+    <div class="num"><span class="v">97.0<small>%</small></span><span class="l">of questions with the source page in the top five after reranking</span></div>
+    <div class="num"><span class="v">140<small> / 141</small></span><span class="l">grades where two independent graders, Jev and Claude, agree</span></div>
+    <div class="num"><span class="v">1,172</span><span class="l">linked parts, specs, procedures, faults and warnings across four HVAC manuals</span></div>
+  </div>
+  <div class="who">
+    <div><h3>The technician</h3><p>Asks in their own words and gets the value, its unit and the page to check it on.</p></div>
+    <div><h3>The engineer</h3><p>Chooses a parser on evidence from their own manuals, not a public leaderboard.</p></div>
+    <div><h3>The safety lead</h3><p>Knows every WARNING and CAUTION survived parsing, next to the step it governs.</p></div>
+    <div><h3>The subject expert</h3><p>Adds the tricky questions only they would think of, and each becomes a new test.</p></div>
+  </div>
+</div></section>
+
+<section class="band alt" id="limits"><div class="in">
+  <span class="kick">What it doesn't prove yet</span>
+  <h2>Read this before you rely on it</h2>
+  <div class="labels">
+    <div class="label" style="--c:var(--caution)"><b>Caution</b><div>The results come from nine public manuals and 168 questions. They show the method works, not how it performs on your manuals.</div></div>
+    <div class="label" style="--c:var(--caution)"><b>Caution</b><div>No person has checked the graders or the knowledge graph yet. Both have review tools ready in the workbench.</div></div>
+    <div class="label" style="--c:var(--notice)"><b>Notice</b><div>With four HVAC manuals the knowledge graph did not improve search over plain text. Its value so far is navigation; the search benefit is untested at scale.</div></div>
+  </div>
+  <div class="links">
+    <a href="https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn"><b>Ask a manual</b><span>The technician app: ask, get the answer and the page to check</span></a>
+    <a href="https://claude.ai/artifact/QbUbwe44Vzcismk1YhUnLk"><b>Workbench</b><span>Inspect pages, review answers, add questions, explore the graph</span></a>
+    <a href="https://claude.ai/artifact/A5oyCHSE74MgyTpduyiA5B"><b>Results dashboard</b><span>Parser scores, answers, search and graders</span></a>
+    <a href="https://claude.ai/artifact/NstU82VVfc9Fq3DhCpMLF8"><b>The film</b><span>The 2:26 film on its own page, with chapters</span></a>
+  </div>
+</div></section>
+
+<footer><div class="in"><span>Manual Handling. Let AI handle your manuals. Built and tested on public documents only.</span></div></footer>
+
+<script>
+(() => {
+  const v = document.getElementById('v'), ch = document.getElementById('chapters');
+  const CH = [[1, 'The pump'], [13.9, 'Why it is hard'], [25.7, 'Research'], [41.9, 'Seven steps'], [61.9, 'One question'], [80.2, 'The app'], [98.8, 'Results'], [116.2, 'Who and what next'], [134.2, 'Close']];
+  const fmt = (s) => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+  CH.forEach(([t, name]) => { const b = document.createElement('button'), sp = document.createElement('span'); b.type = 'button'; sp.textContent = fmt(t); b.append(sp, name);
+    b.addEventListener('click', () => { v.currentTime = t; v.play().catch(() => {}); }); ch.append(b); });
+  v.addEventListener('timeupdate', () => { let k = 0; CH.forEach(([t], i) => { if (v.currentTime >= t - 0.3) k = i; }); [...ch.children].forEach((b, i) => b.setAttribute('aria-current', String(i === k))); });
+  const SHOTS = [
+    ['ux1.jpg', 'Workbench Pages view: a printed manual page beside the parser\'s text', 'Pages.', ' Each printed page beside what the parser read, with warnings highlighted and links to the questions answered there.'],
+    ['ux2.jpg', 'Workbench Test questions view: expected answer, Claude\'s answer, grade and pages searched', 'Test questions.', ' The expected answer, Claude\'s answer, the grade, the evidence page and whether search found it.'],
+    ['ux3.jpg', 'Workbench Ask and label view: a question, five retrieved extracts and a form to save a label', 'Ask and label.', ' Ask something new, see the five passages search found, let Claude answer, then correct it and save it as a test.'],
+    ['graph.jpg', 'Workbench Knowledge graph view: the compressor node linked to three manuals', 'Knowledge graph.', ' Select a part to see every manual, spec, procedure, fault and warning linked to it, then jump to the page.']];
+  const img = document.getElementById('shot'), cap = document.getElementById('cap'), tabs = [...document.querySelectorAll('.tabs button')];
+  tabs.forEach((b) => b.addEventListener('click', () => { const s = SHOTS[+b.dataset.i]; tabs.forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+    img.src = s[0]; img.alt = s[1]; const st = document.createElement('b'); st.textContent = s[2]; cap.replaceChildren(st, s[3]); }));
+})();
+</script>

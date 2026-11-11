@@ -297,6 +297,28 @@ on the manuals and TechManualQA documents. Jev cost about US$0.004 for all 141.
 Full tables: [`results/2026-11-10-manuals-jev-compare/report.md`](results/2026-11-10-manuals-jev-compare/report.md),
 [`results/2026-11-10-techmanualqa-jev-compare/report.md`](results/2026-11-10-techmanualqa-jev-compare/report.md).
 
+## Technician app: ask a manual
+
+[Manual Handling Ask](https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn) is the technician-facing app, built for a
+phone. Pick a manual (or all of them), ask in plain words, and get:
+
+- an answer written only from the manual's passages, with a page chip on every claim; tapping it opens the printed
+  page, with the parsed text one tap away;
+- any DANGER, WARNING or CAUTION printed on the cited pages, shown in a safety label under the answer;
+- a plain "Not found" when the loaded pages do not answer, with the closest passages listed;
+- a Yes / No "Was this right?" that saves the question, answer and cited pages for review.
+
+It runs as a published page on the viewer's Claude plan, so it needs no server and no API key. Search is keyword
+(BM25) in the browser over the same passages the bench uses, and Claude gets the top 8 passages instead of the
+bench's reranked top 5, so its accuracy is not the bench's measured accuracy.
+
+Page sources live in `web/` (`app`, `workbench`, `landing`). To rebuild the app's data after a bench run:
+
+```bash
+python scripts/export_workbench.py <workbench_dir>      # parsed pages, passages, questions, page images
+python scripts/export_app.py <workbench_dir> <app_dir>  # the app's data.json (no answers, grades or graph)
+```
+
 ## Workbench: inspect manuals, review answers, add labelled questions
 
 The [Manual Handling Workbench](https://claude.ai/artifact/QbUbwe44Vzcismk1YhUnLk) is a page for working with the
