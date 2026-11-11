@@ -88,10 +88,6 @@
 
   .film { border-radius: 12px; border: 1px solid var(--line); background: #000; overflow: hidden; }
   .film video { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
-  .chapters { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chapters button { font: inherit; font-size: 14px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 0 14px; min-height: 44px; cursor: pointer; }
-  .chapters button span { font-family: var(--mono); font-size: 12px; margin-right: 6px; font-variant-numeric: tabular-nums; }
-  .chapters button:hover, .chapters button[aria-current="true"] { color: var(--ink); border-color: var(--accent); }
 
   .tbl { overflow-x: auto; }
   table { border-collapse: collapse; width: 100%; font-size: 15.5px; }
@@ -132,7 +128,6 @@
   .sound { position: absolute; left: 50%; bottom: 14%; transform: translateX(-50%); font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: .06em; text-transform: uppercase; color: #10161d; background: #ff7a2f; border: 0; border-radius: 999px; padding: 0 22px; min-height: 48px; cursor: pointer; box-shadow: 0 8px 30px rgba(0, 0, 0, .5); white-space: nowrap; }
   @media (min-width: 900px) { .stage { max-width: min(1160px, calc((100vh - 330px) * 16 / 9)); margin: 20px auto 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); } }
   .home-in { padding-block: 22px 36px; gap: 18px; }
-  .chapters { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; } .chapters button { flex: 0 0 auto; white-space: nowrap; }
   .go { display: grid; gap: 0; border-top: 1px solid var(--line); }
   .go a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--ink); min-height: 64px; }
   .go a b { font-family: var(--display); font-size: 24px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
@@ -151,7 +146,6 @@
   <main class="view" id="view-home">
     <div class="stage"><video id="v" playsinline muted preload="metadata" poster="poster.jpg" src="manual-handling.mp4"></video><button class="sound" id="sound" type="button">▶ Play with sound</button></div>
     <div class="in home-in">
-      <div class="chapters" id="chapters" role="group" aria-label="Film chapters"></div>
       <span class="kick">Answers from your equipment manuals</span>
       <h1>Let AI handle <span>your manuals.</span></h1>
       <p class="sub">The right answer, on the right page.</p>
@@ -265,7 +259,7 @@
 
 <script>
 (() => {
-  const VIEWS = ['home', 'how', 'app', 'proof', 'manuals'], v = document.getElementById('v'), sound = document.getElementById('sound'), ch = document.getElementById('chapters');
+  const VIEWS = ['home', 'how', 'app', 'proof', 'manuals'], v = document.getElementById('v'), sound = document.getElementById('sound');
   const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const show = () => { const h = location.hash.slice(1), cur = VIEWS.includes(h) ? h : 'home';
     for (const n of VIEWS) document.getElementById('view-' + n).hidden = n !== cur;
@@ -276,10 +270,6 @@
   // The film plays silently on arrival to catch the eye; one tap restarts it with sound.
   sound.addEventListener('click', () => { v.muted = false; v.controls = true; v.currentTime = 0; v.play().catch(() => {}); sound.hidden = true; });
   v.addEventListener('volumechange', () => { if (!v.muted) sound.hidden = true; });
-  const CH = [[1, 'The pump'], [13.9, 'Why it is hard'], [25.7, 'Research'], [41.9, 'Seven steps'], [61.9, 'One question'], [80.2, 'The app'], [98.8, 'Results'], [116.2, 'Who and what next'], [134.2, 'Close']];
-  CH.forEach(([t, name]) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = name;
-    b.addEventListener('click', () => { v.muted = false; v.controls = true; sound.hidden = true; v.currentTime = t; v.play().catch(() => {}); }); ch.append(b); });
-  v.addEventListener('timeupdate', () => { let k = 0; CH.forEach(([t], i) => { if (v.currentTime >= t - 0.3) k = i; }); [...ch.children].forEach((b, i) => b.setAttribute('aria-current', String(i === k))); });
   show();
 })();
 </script>
