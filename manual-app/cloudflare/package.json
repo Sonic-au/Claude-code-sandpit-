@@ -1,0 +1,19 @@
+{
+  "name": "manual-handling",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "seed:sql": "node scripts/build_seed.mjs seed/data.json seed/seed.sql",
+    "db:local": "npm run seed:sql && wrangler d1 migrations apply DB --local && wrangler d1 execute DB --local --file seed/seed.sql",
+    "db:remote": "npm run seed:sql && wrangler d1 migrations apply DB --remote && wrangler d1 execute DB --remote --file seed/seed.sql",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test:search": "node scripts/check_search.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.3.0"
+  },
+  "devDependencies": {
+    "wrangler": "4.154.0"
+  }
+}
