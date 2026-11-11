@@ -277,8 +277,7 @@
   sound.addEventListener('click', () => { v.muted = false; v.controls = true; v.currentTime = 0; v.play().catch(() => {}); sound.hidden = true; });
   v.addEventListener('volumechange', () => { if (!v.muted) sound.hidden = true; });
   const CH = [[1, 'The pump'], [13.9, 'Why it is hard'], [25.7, 'Research'], [41.9, 'Seven steps'], [61.9, 'One question'], [80.2, 'The app'], [98.8, 'Results'], [116.2, 'Who and what next'], [134.2, 'Close']];
-  const fmt = (s) => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
-  CH.forEach(([t, name]) => { const b = document.createElement('button'), sp = document.createElement('span'); b.type = 'button'; sp.textContent = fmt(t); b.append(sp, name);
+  CH.forEach(([t, name]) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = name;
     b.addEventListener('click', () => { v.muted = false; v.controls = true; sound.hidden = true; v.currentTime = t; v.play().catch(() => {}); }); ch.append(b); });
   v.addEventListener('timeupdate', () => { let k = 0; CH.forEach(([t], i) => { if (v.currentTime >= t - 0.3) k = i; }); [...ch.children].forEach((b, i) => b.setAttribute('aria-current', String(i === k))); });
   show();
