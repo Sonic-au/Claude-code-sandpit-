@@ -3,8 +3,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-  /* Layout: the product first. Hero pairs the promise with a real answer; then proof, how it works, the app,
-     why to trust it, who it is for, your own manuals, what is and is not proven, what is next, and one action. */
+  /* Layout: phone first. Home is the film, edge to edge, then the promise and one button. Four more pages (how it
+     works, the app, proof, your manuals) switch from a tab bar fixed to the bottom on phones and to the top on wide screens. */
   :root {
     --bg: #f1f3f5; --bg-2: #e7ebef; --panel: #ffffff; --ink: #111a24; --muted: #55626f; --line: #cdd5dd;
     --accent: #d9480f; --on-accent: #ffffff; --notice: #0b5cad; --notice-soft: #e4effa; --safe: #1b7f4b; --safe-soft: #e2f3ea; --caution: #8a6500; --caution-soft: #fbf3d6;
@@ -35,18 +35,10 @@
   .muted { color: var(--muted); }
   .lede { font-size: clamp(18px, 1.9vw, 20px); }
 
-  nav { padding-block: 10px; }
-  nav .in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 20px; }
   .mark { font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
   .mark i { width: 18px; height: 24px; border: 2px solid var(--ink); border-radius: 2px; position: relative; display: inline-block; }
   .mark i::after { content: ""; position: absolute; right: 2px; bottom: 2px; width: 7px; height: 5px; background: var(--accent); }
-  nav ul { display: flex; flex-wrap: wrap; gap: 0 6px; list-style: none; margin: 0; padding: 0; font-size: 15px; }
-  nav ul a { color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; }
-  nav ul a:hover { color: var(--ink); }
 
-  .hero { padding-block: clamp(16px, 3vw, 40px) clamp(40px, 6vw, 72px); }
-  .hero .in { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
-  @media (max-width: 900px) { .hero .in { grid-template-columns: minmax(0, 1fr); } }
   .pitch { display: grid; gap: 18px; }
   .sub { font-size: clamp(19px, 2.2vw, 24px); font-style: italic; color: var(--muted); }
   .cta { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center; }
@@ -117,44 +109,66 @@
     .pitch > *, .demo { animation: rise .8s cubic-bezier(.2, .7, .2, 1) both; } .demo { animation-delay: .15s; }
     @keyframes rise { from { opacity: .25; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   }
+
+  /* shell: views and tab bar */
+  .view { display: grid; }
+  .wrap { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  .top { padding-block: 10px 6px; }
+  .tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--panel); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding: 4px max(4px, env(safe-area-inset-right, 0px)) calc(4px + env(safe-area-inset-bottom, 0px)) max(4px, env(safe-area-inset-left, 0px)); }
+  .tabs a { display: grid; justify-items: center; align-content: center; gap: 2px; min-height: 56px; text-decoration: none; color: var(--muted); font-size: 12.5px; font-weight: 500; border-radius: 8px; text-align: center; line-height: 1.15; }
+  .tabs a i { width: 22px; height: 3px; border-radius: 2px; background: transparent; display: block; }
+  .tabs a[aria-current="page"] { color: var(--ink); } .tabs a[aria-current="page"] i { background: var(--accent); }
+  @media (min-width: 900px) {
+    .wrap { padding-bottom: 0; padding-top: 64px; }
+    .tabs { top: 0; bottom: auto; border-top: 0; border-bottom: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 4px; padding: calc(4px + env(safe-area-inset-top, 0px)) max(24px, env(safe-area-inset-right, 0px)) 4px max(24px, env(safe-area-inset-left, 0px)); }
+    .tabs a { grid-auto-flow: row; padding: 0 14px; font-size: 15px; }
+    .top { display: none; }
+    .tabs::before { content: "Manual Handling"; font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: .08em; text-transform: uppercase; margin-right: auto; align-self: center; color: var(--ink); }
+  }
+  /* home */
+  .stage { background: #000; position: relative; }
+  .stage video { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
+  .sound { position: absolute; left: 50%; bottom: 14%; transform: translateX(-50%); font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: .06em; text-transform: uppercase; color: #10161d; background: #ff7a2f; border: 0; border-radius: 999px; padding: 0 22px; min-height: 48px; cursor: pointer; box-shadow: 0 8px 30px rgba(0, 0, 0, .5); white-space: nowrap; }
+  @media (min-width: 900px) { .stage { max-width: min(1160px, calc((100vh - 330px) * 16 / 9)); margin: 20px auto 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); } }
+  .home-in { padding-block: 22px 36px; gap: 18px; }
+  .chapters { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; } .chapters button { flex: 0 0 auto; white-space: nowrap; }
+  .go { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .go a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--ink); min-height: 64px; }
+  .go a b { font-family: var(--display); font-size: 24px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+  .go a span { grid-column: 1; color: var(--muted); font-size: 15px; } .go a em { grid-row: 1 / span 2; grid-column: 2; font-style: normal; color: var(--accent); font-size: 26px; }
+  .mini { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .mini div { border-top: 3px solid var(--accent); padding-top: 8px; display: grid; gap: 2px; align-content: start; }
+  .mini b { font-family: var(--display); font-size: clamp(30px, 8vw, 46px); line-height: .95; font-variant-numeric: tabular-nums; } .mini span { font-size: 13px; color: var(--muted); line-height: 1.3; }
+  .page-in { padding-block: 26px 40px; }
+  .page-in > h2 + p { margin-top: -8px; }
+  .next { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; border-top: 1px solid var(--line); padding-top: 18px; }
 </style>
 
-<nav><div class="in">
-  <a class="mark" href="#top"><i aria-hidden="true"></i>Manual Handling</a>
-  <ul><li><a href="#how">How it works</a></li><li><a href="#app">The app</a></li><li><a href="#trust">Why trust it</a></li><li><a href="#yours">Your manuals</a></li><li><a href="#film">Film</a></li></ul>
-</div></nav>
+<div class="wrap">
+  <div class="top in"><a class="mark" href="#home"><i aria-hidden="true"></i>Manual Handling</a></div>
 
-<header class="hero" id="top"><div class="in">
-  <div class="pitch">
-    <span class="kick">Answers from your equipment manuals</span>
-    <h1>Let AI handle <span>your manuals.</span></h1>
-    <p class="sub">The right answer, on the right page.</p>
-    <p class="lede">A technician asks in plain words and gets the value, its unit, the page that proves it and the table or diagram printed there. When the manual doesn't say, it says "not found".</p>
-    <div class="cta"><a class="btn" href="https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn">Ask a manual</a><a class="link" href="#film">Watch the 2-minute film</a></div>
-  </div>
-  <div class="demo" aria-label="A real answer from the test run">
-    <span class="who">Xylem e-MPA pump manual</span>
-    <div class="q">What dry torque do the capscrews on a size 60 coupling get, in ft-lb?</div>
-    <div class="a">The capscrews on a size 60 coupling are torqued dry to 75 ft-lb (900 in-lb). Do not lubricate the capscrew threads <span class="pg">p. 26</span>.</div>
-    <figure><img src="diagram.jpg" alt="The capscrew torque table from page 26 of the pump manual, showing 75 ft-lb for size 60" width="706" height="314"><figcaption>From p. 26: the torque table</figcaption></figure>
-    <span class="ok">✓ Graded correct against the manual</span>
-    <span class="cap">A real question and answer from the test run, shown as the app shows it.</span>
-  </div>
-</div></header>
+  <main class="view" id="view-home">
+    <div class="stage"><video id="v" playsinline muted preload="metadata" poster="poster.jpg" src="manual-handling.mp4"></video><button class="sound" id="sound" type="button">▶ Play with sound</button></div>
+    <div class="in home-in">
+      <div class="chapters" id="chapters" role="group" aria-label="Film chapters"></div>
+      <span class="kick">Answers from your equipment manuals</span>
+      <h1>Let AI handle <span>your manuals.</span></h1>
+      <p class="sub">The right answer, on the right page.</p>
+      <p class="lede">A technician asks in plain words and gets the value, its unit, the page that proves it and the table or diagram printed there.</p>
+      <div class="cta"><a class="btn" href="https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn">Ask a manual</a></div>
+      <div class="mini"><div><b>94.4%</b><span>answers correct in testing</span></div><div><b>29/29</b><span>"not found" when the manual can't answer</span></div><div><b>12</b><span>manuals, 208 test questions</span></div></div>
+      <nav class="go" aria-label="More">
+        <a href="#how"><b>How it works</b><span>Seven steps from a PDF to a checked answer</span><em aria-hidden="true">›</em></a>
+        <a href="#app"><b>The app</b><span>Ask, read, check and connect, on a phone</span><em aria-hidden="true">›</em></a>
+        <a href="#proof"><b>Proof</b><span>The test results, and what isn't proven yet</span><em aria-hidden="true">›</em></a>
+        <a href="#manuals"><b>Your manuals</b><span>Who it's for, how yours get in, where data goes</span><em aria-hidden="true">›</em></a>
+      </nav>
+      <p class="muted" style="font-size:14px">The film was made before the latest test run, so it quotes the earlier figures (136 of 145 on nine manuals).</p>
+    </div>
+  </main>
 
-<section class="band alt" id="proof"><div class="in">
-  <span class="kick">Measured, not claimed</span>
-  <h2>Tested on 208 questions across 12 manuals</h2>
-  <div class="nums">
-    <div class="num"><span class="v">94.4<small>%</small></span><span class="l">of answerable questions answered correctly by the app (169 of 179)</span></div>
-    <div class="num"><span class="v">29<small> / 29</small></span><span class="l">questions the manual can't answer met with "not found", not a guess</span></div>
-    <div class="num"><span class="v">96.6<small>%</small></span><span class="l">of answers cited the page that holds the answer</span></div>
-    <div class="num"><span class="v">200</span><span class="l">diagrams and tables cut from the pages, ready to show beside an answer</span></div>
-  </div>
-  <p class="muted">Public manuals: pumps, HVAC units, a generator, aircraft hardware, a regulator datasheet, a drill, a 3D printer and a drone.</p>
-</div></section>
-
-<section class="band" id="how"><div class="in">
+  <main class="view" id="view-how" hidden><div class="in page-in">
   <span class="kick">From manuals to knowledge</span>
   <h2>Seven steps, each one measured</h2>
   <ol class="steps">
@@ -166,9 +180,10 @@
     <li><h3>Check</h3><p>A second AI model grades each test answer; unsure grades get a second opinion.</p></li>
     <li><h3>Learn</h3><p>People add harder questions, and each becomes a new test.</p></li>
   </ol>
-</div></section>
+    <div class="next"><a class="btn" href="https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn">Ask a manual</a><a class="link" href="#app">Next: the app ›</a></div>
+  </div></main>
 
-<section class="band alt" id="app"><div class="in">
+  <main class="view" id="view-app" hidden><div class="in page-in">
   <span class="kick">The app</span>
   <h2>Built for one hand and a phone</h2>
   <div class="strip" tabindex="0" role="group" aria-label="App screens, scroll sideways">
@@ -177,10 +192,28 @@
     <figure class="wide"><img src="ux1.jpg" alt="Workbench: a printed manual page beside the text the software read" width="1440" height="900" loading="lazy"><figcaption><b>Check</b>For reviewers: the printed page beside what the software read.</figcaption></figure>
     <figure class="wide"><img src="graph.jpg" alt="Knowledge graph linking a compressor to three manuals" width="1440" height="900" loading="lazy"><figcaption><b>Connect</b>Parts, specs, faults and warnings linked across related manuals.</figcaption></figure>
   </div>
-</div></section>
+    <div class="demo" aria-label="A real answer from the test run">
+    <span class="who">Xylem e-MPA pump manual</span>
+    <div class="q">What dry torque do the capscrews on a size 60 coupling get, in ft-lb?</div>
+    <div class="a">The capscrews on a size 60 coupling are torqued dry to 75 ft-lb (900 in-lb). Do not lubricate the capscrew threads <span class="pg">p. 26</span>.</div>
+    <figure><img src="diagram.jpg" alt="The capscrew torque table from page 26 of the pump manual, showing 75 ft-lb for size 60" width="706" height="314"><figcaption>From p. 26: the torque table</figcaption></figure>
+    <span class="ok">✓ Graded correct against the manual</span>
+    <span class="cap">A real question and answer from the test run, shown as the app shows it.</span>
+  </div>
+    <div class="next"><a class="btn" href="https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn">Ask a manual</a><a class="link" href="https://claude.ai/artifact/QbUbwe44Vzcismk1YhUnLk">Reviewer workbench</a><a class="link" href="#proof">Next: proof ›</a></div>
+  </div></main>
 
-<section class="band" id="trust"><div class="in">
-  <span class="kick">Why trust it</span>
+  <main class="view" id="view-proof" hidden><div class="in page-in">
+  <span class="kick">Measured, not claimed</span>
+  <h2>Tested on 208 questions across 12 manuals</h2>
+  <div class="nums">
+    <div class="num"><span class="v">94.4<small>%</small></span><span class="l">of answerable questions answered correctly by the app (169 of 179)</span></div>
+    <div class="num"><span class="v">29<small> / 29</small></span><span class="l">questions the manual can't answer met with "not found", not a guess</span></div>
+    <div class="num"><span class="v">96.6<small>%</small></span><span class="l">of answers cited the page that holds the answer</span></div>
+    <div class="num"><span class="v">200</span><span class="l">diagrams and tables cut from the pages, ready to show beside an answer</span></div>
+  </div>
+  <p class="muted">Public manuals: pumps, HVAC units, a generator, aircraft hardware, a regulator datasheet, a drill, a 3D printer and a drone.</p>
+  <span class="kick" style="margin-top:14px">Why trust it</span>
   <h2>Every answer can be checked, and every step is scored</h2>
   <div class="cards">
     <div class="card"><h3>Page on every claim</h3><p>Tap the page chip and you are looking at the printed page.</p></div>
@@ -188,33 +221,7 @@
     <div class="card"><h3>It can say "not found"</h3><p>In testing it declined all 29 questions the manuals could not answer.</p></div>
     <div class="card"><h3>Two graders, one growing test</h3><p>Two different AI models graded the test answers and agreed on 140 of 141. Every new question a person adds becomes a permanent test.</p></div>
   </div>
-</div></section>
-
-<section class="band alt"><div class="in">
-  <span class="kick">Who it's for</span>
-  <h2>Teams that live in equipment manuals</h2>
-  <div class="cards">
-    <div class="card"><h3>Service and maintenance crews</h3><p>The value, the step or the fault remedy, on site, without paging through a PDF.</p></div>
-    <div class="card"><h3>Technical support desks</h3><p>One place to ask across every model's manual, with the source to quote back.</p></div>
-    <div class="card"><h3>Safety and compliance leads</h3><p>Evidence that warnings survive and that answers trace to the printed page.</p></div>
-    <div class="card"><h3>Engineers choosing tools</h3><p>Scores on your own documents, not a public leaderboard.</p></div>
-  </div>
-</div></section>
-
-<section class="band" id="yours"><div class="in">
-  <span class="kick">Your manuals</span>
-  <h2>How your own manuals get in</h2>
-  <div class="cards">
-    <div class="card"><h3>1. Ask for it</h3><p>In the app, type the maker and model under "Manual not in the list?".</p></div>
-    <div class="card"><h3>2. It is read in</h3><p>The manual is found on the maker's site, read page by page and its diagrams cut out. Today this is done on request, not instantly.</p></div>
-    <div class="card"><h3>3. It is tested</h3><p>Test questions are written for it and scored before anyone relies on it.</p></div>
-  </div>
-  <h3>Where your data goes</h3>
-  <p class="muted">Reading the pages, search and diagram extraction use open-source tools that can run on your own machines. Answers are written by Claude; running Claude through Amazon Bedrock in Sydney is supported in the code but has not been tested yet. Everything shown here uses public manuals only.</p>
-</div></section>
-
-<section class="band alt" id="proven"><div class="in">
-  <span class="kick">Straight answers</span>
+  <span class="kick" style="margin-top:14px">Straight answers</span>
   <h2>What's proven and what isn't</h2>
   <div class="tbl"><table>
     <thead><tr><th>Claim</th><th>Status</th><th>Detail</th></tr></thead>
@@ -227,32 +234,53 @@
       <tr><td>Finds manuals on the internet by itself</td><td><span class="tag no">Not yet</span></td><td>Manuals are loaded on request today.</td></tr>
     </tbody>
   </table></div>
-</div></section>
+    <div class="next"><a class="btn" href="https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn">Ask a manual</a><a class="link" href="https://claude.ai/artifact/A5oyCHSE74MgyTpduyiA5B">Results dashboard</a><a class="link" href="#manuals">Next: your manuals ›</a></div>
+  </div></main>
 
-<section class="band" id="film"><div class="in">
-  <span class="kick">The film · 2:26</span>
-  <h2>The whole story in two minutes</h2>
-  <div class="film"><video id="v" controls playsinline preload="metadata" poster="poster.jpg" src="manual-handling.mp4"></video></div>
-  <div class="chapters" id="chapters" role="group" aria-label="Film chapters"></div>
-  <p class="muted">The film was made before the latest test run, so it quotes the earlier figures (136 of 145 on nine manuals).</p>
-</div></section>
+  <main class="view" id="view-manuals" hidden><div class="in page-in">
+  <span class="kick">Your manuals</span>
+  <h2>How your own manuals get in</h2>
+  <div class="cards">
+    <div class="card"><h3>1. Ask for it</h3><p>In the app, type the maker and model under "Manual not in the list?".</p></div>
+    <div class="card"><h3>2. It is read in</h3><p>The manual is found on the maker's site, read page by page and its diagrams cut out. Today this is done on request, not instantly.</p></div>
+    <div class="card"><h3>3. It is tested</h3><p>Test questions are written for it and scored before anyone relies on it.</p></div>
+  </div>
+  <h3>Where your data goes</h3>
+  <p class="muted">Reading the pages, search and diagram extraction use open-source tools that can run on your own machines. Answers are written by Claude; running Claude through Amazon Bedrock in Sydney is supported in the code but has not been tested yet. Everything shown here uses public manuals only.</p>
+  <span class="kick" style="margin-top:14px">Who it's for</span>
+  <h2>Teams that live in equipment manuals</h2>
+  <div class="cards">
+    <div class="card"><h3>Service and maintenance crews</h3><p>The value, the step or the fault remedy, on site, without paging through a PDF.</p></div>
+    <div class="card"><h3>Technical support desks</h3><p>One place to ask across every model's manual, with the source to quote back.</p></div>
+    <div class="card"><h3>Safety and compliance leads</h3><p>Evidence that warnings survive and that answers trace to the printed page.</p></div>
+    <div class="card"><h3>Engineers choosing tools</h3><p>Scores on your own documents, not a public leaderboard.</p></div>
+  </div>
+    <div class="next"><a class="btn" href="https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn">Ask a manual</a><a class="link" href="#home">Back to the film ›</a></div>
+  </div></main>
+</div>
 
-<section class="band alt"><div class="in final">
-  <h2>Try it on a manual</h2>
-  <p>Pick a manual, ask what you'd ask on site, and check the answer against the page.</p>
-  <a class="btn" href="https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn">Ask a manual</a>
-  <div class="links"><a class="link" href="https://claude.ai/artifact/QbUbwe44Vzcismk1YhUnLk">Reviewer workbench</a><a class="link" href="https://claude.ai/artifact/A5oyCHSE74MgyTpduyiA5B">Results dashboard</a></div>
-</div></section>
-
-<footer><div class="in"><span>Manual Handling. Let AI handle your manuals. Built and tested on public documents only.</span></div></footer>
+<nav class="tabs" id="tabs" aria-label="Pages">
+  <a href="#home" data-v="home"><i></i>Film</a><a href="#how" data-v="how"><i></i>How it works</a><a href="#app" data-v="app"><i></i>The app</a><a href="#proof" data-v="proof"><i></i>Proof</a><a href="#manuals" data-v="manuals"><i></i>Your manuals</a>
+</nav>
 
 <script>
 (() => {
-  const v = document.getElementById('v'), ch = document.getElementById('chapters');
+  const VIEWS = ['home', 'how', 'app', 'proof', 'manuals'], v = document.getElementById('v'), sound = document.getElementById('sound'), ch = document.getElementById('chapters');
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const show = () => { const h = location.hash.slice(1), cur = VIEWS.includes(h) ? h : 'home';
+    for (const n of VIEWS) document.getElementById('view-' + n).hidden = n !== cur;
+    for (const a of document.querySelectorAll('#tabs a')) { if (a.dataset.v === cur) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); }
+    if (cur !== 'home') v.pause(); else if (v.muted && !calm) v.play().catch(() => {});
+    window.scrollTo(0, 0); };
+  window.addEventListener('hashchange', show);
+  // The film plays silently on arrival to catch the eye; one tap restarts it with sound.
+  sound.addEventListener('click', () => { v.muted = false; v.controls = true; v.currentTime = 0; v.play().catch(() => {}); sound.hidden = true; });
+  v.addEventListener('volumechange', () => { if (!v.muted) sound.hidden = true; });
   const CH = [[1, 'The pump'], [13.9, 'Why it is hard'], [25.7, 'Research'], [41.9, 'Seven steps'], [61.9, 'One question'], [80.2, 'The app'], [98.8, 'Results'], [116.2, 'Who and what next'], [134.2, 'Close']];
   const fmt = (s) => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
   CH.forEach(([t, name]) => { const b = document.createElement('button'), sp = document.createElement('span'); b.type = 'button'; sp.textContent = fmt(t); b.append(sp, name);
-    b.addEventListener('click', () => { v.currentTime = t; v.play().catch(() => {}); }); ch.append(b); });
+    b.addEventListener('click', () => { v.muted = false; v.controls = true; sound.hidden = true; v.currentTime = t; v.play().catch(() => {}); }); ch.append(b); });
   v.addEventListener('timeupdate', () => { let k = 0; CH.forEach(([t], i) => { if (v.currentTime >= t - 0.3) k = i; }); [...ch.children].forEach((b, i) => b.setAttribute('aria-current', String(i === k))); });
+  show();
 })();
 </script>
