@@ -313,8 +313,12 @@
       if (code === 'blocked_by_policy') return `Saved. Your organisation does not let this page start the ${doing}, so it waits for the next scheduled check.`;
       if (code === 'server_unavailable' || code === 'upstream_error') return `Saved. The ${doing} may not have started; if not, the next scheduled check picks it up.`;
       return `Saved. The ${doing} could not be started from here, so it waits for the next scheduled check.`; } };
+  const qKey = (q) => String(q || '').toLowerCase().replace(/\s+/g, ' ').trim(), ageMin = (x) => (Date.now() - Date.parse(x.at || 0)) / 60000;
+  const pending = (x) => (x.status === 'searching' || x.status === 'looking') && ageMin(x) < 12;
+  const waited = (x) => { const m = ageMin(x); return m < 1 ? 'started just now' : `started ${Math.floor(m)} min ago`; };
   const sendSearch = async (text) => { const v = text.trim().slice(0, 200), note = $('req-note'); if (!v) { note.textContent = 'Describe the equipment first.'; return; }
     if (S.sending) return; if (!S.db) { note.textContent = 'Searching needs you signed in with edit access to this page.'; return; }
+    if (S.searches.some((x) => pending(x) && qKey(x.query) === qKey(v))) { note.textContent = 'Already searching for that. The list appears below by itself; there is no need to search again.'; $('found').scrollIntoView({ block: 'nearest' }); return; }
     S.sending = true; note.textContent = 'Saving the search…';
     try { await S.db.collection('searches').add({ query: v, status: 'searching', by: S.userId || '', at: new Date().toISOString() }); $('req-in').value = ''; }
     catch { note.textContent = 'The search was not saved. Try again.'; S.sending = false; return; }
@@ -329,14 +333,18 @@
     if (!ok) { note.textContent = 'Nothing was saved. Try again.'; S.sending = false; return; }
     const msg = await startAgent('download'); note.textContent = msg || `Adding ${ok} manual${ok > 1 ? 's' : ''} now. Each one is checked, read in and appears in the library when done, usually within a few minutes.`; S.sending = false; renderFound(); };
   const renderFound = () => { const box = $('found'); if (!S.data) return; const out = [];
-    for (const sr of S.searches.slice(-3).reverse()) { const head = el('div', { class: 'scope' }, el('b', { style: 'color:var(--ink)', text: sr.query }));
-      if (sr.status === 'searching' || sr.status === 'looking') { out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: 'Searching the web… this usually takes a few minutes. The list appears here by itself.' }))); continue; }
-      const cs = candidates(sr); if (sr.status !== 'ready' || !cs.length) { out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: sr.status === 'ready' ? 'No manuals were found for that. Try the maker and series name.' : `Search ended: ${String(sr.status || 'unknown').slice(0, 80)}` }))); continue; }
+    const latest = new Map(); for (const x of S.searches) { if (x.status === 'duplicate') continue; const k = qKey(x.query), old = latest.get(k); if (!old || (candidates(x).length >= candidates(old).length)) latest.set(k, x); }
+    clearTimeout(S.foundTick); if ([...latest.values()].some(pending)) S.foundTick = setTimeout(renderFound, 20000);
+    for (const sr of [...latest.values()].slice(-3).reverse()) { const head = el('div', { class: 'scope' }, el('b', { style: 'color:var(--ink)', text: sr.query }));
+      const cs = candidates(sr), busy = pending(sr);
+      if (busy && !cs.length) { out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: `Searching the web (${waited(sr)}). First results usually arrive within a minute or two and appear here by themselves.` }))); continue; }
+      if (!busy && (sr.status === 'searching' || sr.status === 'looking') && !cs.length) { out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: 'That search did not finish. Search again.' }))); continue; }
+      if (!busy && sr.status !== 'ready' && !cs.length || sr.status === 'ready' && !cs.length) { out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: sr.status === 'ready' ? 'No manuals were found for that. Try the maker and series name.' : `Search ended: ${String(sr.status || 'unknown').slice(0, 80)}` }))); continue; }
       const open = cs.filter((c) => !taken(c)), rows = cs.map((c) => { const k = candKey(c), tk = taken(c), box2 = el('input', { type: 'checkbox', checked: (!tk && S.picked[k]) || null, disabled: tk || null, 'aria-label': 'Add ' + c.title });
         box2.addEventListener('change', () => { if (box2.checked) S.picked[k] = true; else delete S.picked[k]; });
         return el('label', { class: 'cand' }, box2, el('b', { text: String(c.title).slice(0, 160) }),
           el('small', {}, el('span', { class: 'tag ' + (c.trust === 'vendor' ? 'vendor' : 'third'), text: c.trust === 'vendor' ? 'maker site' : 'third party' }), ' ', String(c.host || '').slice(0, 60), c.models ? ' · ' + String(Array.isArray(c.models) ? c.models.join(', ') : c.models).slice(0, 120) : '', tk ? ' · already added or requested' : '')); });
-      out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: `${cs.length} manual${cs.length > 1 ? 's' : ''} found, duplicates removed.` }), rows,
+      out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: busy ? `${cs.length} found so far, still searching (${waited(sr)})…` : `${cs.length} manual${cs.length > 1 ? 's' : ''} found, duplicates removed.` }), rows,
         el('div', { class: 'acts', style: 'display:flex;flex-wrap:wrap;gap:8px;margin-top:8px' }, el('button', { class: 'btn', type: 'button', disabled: !open.length || null, onclick: () => addCandidates(sr, open.filter((c) => S.picked[candKey(c)])), text: 'Add selected' }),
           el('button', { class: 'btn', type: 'button', disabled: !open.length || null, onclick: () => addCandidates(sr, open), text: `Add all ${open.length}` })))); }
     box.replaceChildren(...out); };
