@@ -8,7 +8,7 @@ search passages, finds the figures on each page, and then:
   - writes <dir>/pdf/<doc_id>.pdf (trimmed to --max-pages; the app's reader draws pages straight from it)
   - adds or replaces the manual in <dir>/data.json under the "requested" group
 
-Needs only pymupdf4llm, pyyaml and lxml (no PyTorch). No model is used and nothing leaves the machine.
+Needs only pymupdf4llm, pyyaml and lxml (no PyTorch); the bundled single-file copy needs only the first two. No model is used and nothing leaves the machine.
 """
 import argparse
 import json
