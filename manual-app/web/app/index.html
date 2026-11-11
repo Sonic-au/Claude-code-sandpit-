@@ -3,8 +3,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-  /* Layout: a field tool for one hand on a phone. Manual picker on top, a thread of question-and-answer cards in
-     one column, the ask box fixed to the bottom. Every answer carries its page chips; tapping one opens the page. */
+  /* Layout: a field tool for one hand on a phone. One search box comes first; answers stack under it, newest on top.
+     Two other views sit behind tabs: Library (find, read or request a manual) and Graph (how parts, specs, faults
+     and manuals connect). Every answer carries its page chips; tapping one opens the page. */
   :root {
     --bg: #eef1f3; --panel: #ffffff; --sunk: #f4f6f8; --ink: #111a24; --muted: #566373; --line: #cfd6de;
     --accent: #e8590c; --on-accent: #ffffff; --warning: #e8590c; --warning-soft: #fdeee4; --caution: #b98900; --caution-soft: #fbf3d6;
@@ -24,15 +25,32 @@
   body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.5; }
   button, select, textarea, input { font: inherit; color: inherit; }
   :focus-visible { outline: 2px solid var(--notice); outline-offset: 2px; }
-  .wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 14px 190px; display: grid; gap: 16px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 14px 60px; display: grid; gap: 16px; }
   .wrap > * { min-width: 0; }
   header { display: grid; gap: 10px; }
   .brand { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 14px; }
   .brand h1 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 28px; letter-spacing: .05em; text-transform: uppercase; line-height: 1; }
   .brand span { color: var(--muted); font-size: 14px; }
-  .picker { display: grid; gap: 4px; }
-  .picker label { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-  .picker select { width: 100%; min-height: 48px; padding: 8px 12px; border: 2px solid var(--line); border-radius: 8px; background: var(--panel); font-weight: 500; }
+  .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 4px; }
+  .tabs button { min-height: 44px; border: 0; background: transparent; border-radius: 7px; cursor: pointer; font-weight: 600; color: var(--muted); }
+  .tabs button[aria-selected="true"] { background: var(--panel); color: var(--ink); box-shadow: 0 0 0 1.5px var(--accent) inset; }
+  .view { display: grid; gap: 14px; min-width: 0; } .view > * { min-width: 0; }
+  .field { width: 100%; min-height: 52px; border: 2px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 14px; }
+  .field:focus { border-color: var(--accent); outline: none; }
+  .scope { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 15px; color: var(--muted); }
+  .row { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+  .row b { font-weight: 600; overflow-wrap: anywhere; } .row .acts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .grp { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .gsvg { width: 100%; max-width: 460px; height: auto; display: block; margin: 0 auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  .gsvg text { font-family: var(--body); font-size: 10.5px; fill: var(--ink); } .gsvg line { stroke: var(--line); stroke-width: 1.2; }
+  .gsvg .n { cursor: pointer; } .gsvg .n circle.dot { fill: var(--panel); stroke: var(--tc); stroke-width: 2.5; } .gsvg .c circle.dot { fill: var(--tc); }
+  .gsvg .c text { font-size: 12px; font-weight: 600; }
+  .ty { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--tc); border: 1.5px solid var(--tc); border-radius: 5px; padding: 0 5px; white-space: nowrap; }
+  .t-manual { --tc: var(--ink); } .t-model { --tc: var(--notice); } .t-component { --tc: var(--safe); } .t-spec { --tc: var(--caution); } .t-procedure { --tc: var(--muted); }
+  .t-fault { --tc: var(--bad); } .t-safety { --tc: var(--warning); } .t-tool { --tc: var(--muted); } .t-refrigerant { --tc: var(--notice); }
+  .nodes { display: grid; gap: 6px; }
+  .nodes button { display: flex; gap: 8px; align-items: center; text-align: left; min-height: 44px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; cursor: pointer; overflow-wrap: anywhere; }
+  .nodes button:hover { border-color: var(--accent); }
 
   .intro { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 12px; }
   .intro h2 { margin: 0; font-family: var(--display); font-size: 34px; font-weight: 700; text-transform: uppercase; line-height: 1; text-wrap: balance; }
@@ -79,12 +97,8 @@
   .viewer-body img.zoom { width: 220%; max-width: none; }
   .viewer-bar select { min-height: 44px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--panel); padding: 4px 8px; }
 
-  .ask { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--panel); border-top: 1px solid var(--line);
-    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
-  .ask-in { max-width: 760px; margin: 0 auto; display: grid; gap: 6px; }
   .ask-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
-  .ask textarea { width: 100%; min-height: 52px; max-height: 140px; resize: none; border: 2px solid var(--line); border-radius: 8px; background: var(--sunk); padding: 12px; }
-  .ask textarea:focus { border-color: var(--accent); outline: none; }
+  .ask textarea { resize: none; max-height: 140px; display: block; }
 
   .viewer { position: fixed; inset: 0; z-index: 30; background: var(--scrim); display: grid; grid-template-rows: auto minmax(0, 1fr); }
   .viewer-bar { background: var(--panel); border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
@@ -98,20 +112,39 @@
 <div class="wrap">
   <header>
     <div class="brand"><h1>Manual Handling</h1><span>Let AI handle your manuals. <i>The right answer, on the right page.</i></span></div>
-    <div class="picker"><label for="doc">Equipment manual</label><div class="pick-row"><select id="doc"></select><button class="btn" id="read" type="button">Read it</button></div></div>
-  </header>
-  <main id="thread" aria-live="polite"></main>
-</div>
-
-<form class="ask" id="ask" autocomplete="off">
-  <div class="ask-in">
-    <div class="ask-row">
-      <textarea id="q" rows="1" placeholder="Ask about this manual…" aria-label="Your question" enterkeyhint="send"></textarea>
-      <button class="btn primary" id="go" type="submit">Ask</button>
+    <div class="tabs" role="tablist" aria-label="Views">
+      <button type="button" role="tab" id="tab-ask" data-v="ask" aria-selected="true">Ask</button><button type="button" role="tab" id="tab-library" data-v="library" aria-selected="false">Library</button><button type="button" role="tab" id="tab-graph" data-v="graph" aria-selected="false">Graph</button>
     </div>
+  </header>
+  <section class="view" id="view-ask">
+    <form class="ask" id="ask" autocomplete="off">
+      <div class="ask-row">
+        <textarea class="field" id="q" rows="1" placeholder="Ask a question…" aria-label="Your question" enterkeyhint="search"></textarea>
+        <button class="btn primary" id="go" type="submit">Ask</button>
+      </div>
+    </form>
+    <div class="scope" id="scope"></div>
     <span class="note" id="status">Loading manuals…</span>
-  </div>
-</form>
+    <main id="thread" aria-live="polite" style="display:grid;gap:16px"></main>
+  </section>
+
+  <section class="view" id="view-library" hidden>
+    <input class="field" id="lib-q" type="search" placeholder="Find a manual by maker or model…" aria-label="Find a manual" autocomplete="off">
+    <div id="lib-list" style="display:grid;gap:8px"></div>
+    <div class="card req">
+      <span class="sec">Manual not here?</span>
+      <p class="note" style="margin:0">Get it from the web. We look for it on the maker's website, read it in and add it to this library. This is not instant.</p>
+      <div class="pick-row"><input type="text" id="req-in" placeholder="Maker and model, e.g. Daikin FTXM35" aria-label="Maker and model of the manual you need"><button class="btn" id="req-go" type="button">Get it</button></div>
+      <span class="note" id="req-note"></span>
+      <ul id="req-list" hidden></ul>
+    </div>
+  </section>
+
+  <section class="view" id="view-graph" hidden>
+    <input class="field" id="g-q" type="search" placeholder="Search parts, specs, faults, tools…" aria-label="Search the knowledge graph" autocomplete="off">
+    <div id="g-out" style="display:grid;gap:14px"></div>
+  </section>
+</div>
 
 <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Manual page">
   <div class="viewer-bar">
@@ -137,7 +170,7 @@
       if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? '' : v); }
     for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : String(k)); return n; };
   const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
-  const S = { data: null, figs: {}, requests: [], doc: 'all', thread: [], sample: null, sampleState: 'connecting', db: null, userId: null, busy: false, seq: 0 };
+  const S = { data: null, figs: {}, requests: [], view: 'ask', graph: null, gState: 'idle', gCenter: -1, doc: 'all', thread: [], sample: null, sampleState: 'connecting', db: null, userId: null, busy: false, seq: 0 };
   const K = 8;   // passages given to Claude. The bench used 5 from a stronger search; keyword search here gets a few more.
   const short = (m) => m.title.replace(/\s*\(.*?\)\s*/g, ' ').split(' - ')[0].trim();
   const manual = (id) => S.data.manuals.find((m) => m.id === id);
@@ -175,7 +208,7 @@
   const V = { doc: null, page: null, text: false, zoom: false };
   const slug = (id) => id.replace(/_/g, '-');
   const fromHash = () => { const h = location.hash.slice(1), m = h.match(/^(.+)-p(\d+)$/), find = (x) => S.data.manuals.find((mm) => slug(mm.id) === x || mm.id === x);
-    if (m && find(m[1])) return { doc: find(m[1]).id, page: +m[2] }; if (h === 'all') return { doc: 'all' }; return find(h) ? { doc: find(h).id } : null; };
+    if (h === 'library' || h === 'graph') return { view: h }; if (m && find(m[1])) return { doc: find(m[1]).id, page: +m[2] }; if (h === 'all') return { doc: 'all' }; return find(h) ? { doc: find(h).id } : null; };
   const setHash = (h) => { if (location.hash.slice(1) === h) return; try { location.replace('#' + h); } catch { location.hash = h; } };
   const showPage = () => { const m = manual(V.doc), i = m.pages.indexOf(V.page);
     $('v-title').textContent = short(m); $('v-prev').disabled = i <= 0; $('v-next').disabled = i >= m.pages.length - 1;
@@ -187,7 +220,8 @@
     $('v-body').replaceChildren(V.text ? el('pre', { text: (m.page_text[String(V.page)] || '').replace(/<[^>]+>/g, ' ') || 'No text was parsed for this page.' }) : img); $('v-body').scrollTop = 0; $('v-body').scrollLeft = 0;
     setHash(`${slug(V.doc)}-p${V.page}`); };
   const openPage = (doc, page) => { const m = manual(doc); V.doc = doc; V.page = m.pages.includes(page) ? page : m.pages[0]; V.text = false; V.zoom = false; $('viewer').hidden = false; showPage(); $('v-close').focus(); };
-  const closePage = () => { $('viewer').hidden = true; setHash(S.doc === 'all' ? 'all' : slug(S.doc)); $('q').focus({ preventScroll: true }); };
+  const viewHash = () => S.view !== 'ask' ? S.view : S.doc === 'all' ? 'all' : slug(S.doc);
+  const closePage = () => { $('viewer').hidden = true; setHash(viewHash()); };
   const step = (d) => { const m = manual(V.doc), n = m.pages[m.pages.indexOf(V.page) + d]; if (n !== undefined) { V.page = n; showPage(); } };
   $('v-close').addEventListener('click', closePage); $('v-text').addEventListener('click', () => { V.text = !V.text; showPage(); }); $('v-zoom').addEventListener('click', () => { V.zoom = !V.zoom; showPage(); });
   $('v-prev').addEventListener('click', () => step(-1)); $('v-next').addEventListener('click', () => step(1)); $('v-jump').addEventListener('change', (e) => { V.page = +e.target.value; showPage(); });
@@ -196,7 +230,6 @@
   document.addEventListener('keydown', (e) => { if ($('viewer').hidden) return; if (e.key === 'Escape') closePage(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
   let tx = null; $('v-body').addEventListener('touchstart', (e) => { tx = e.touches.length === 1 && !V.zoom ? e.touches[0].clientX : null; }, { passive: true });
   $('v-body').addEventListener('touchend', (e) => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 70) step(dx < 0 ? 1 : -1); }, { passive: true });
-  $('read').addEventListener('click', () => { if (S.doc === 'all') { $('status').textContent = 'Pick one manual from the list to read it.'; $('doc').focus(); return; } const m = manual(S.doc); openPage(S.doc, m.pages[0]); });
   const figures = (pages) => { const out = []; for (const { doc, page } of pages) for (const f of ((S.figs[doc] || {})[String(page)] || [])) { if (out.length < 4) out.push({ doc, page, ...f }); } return out; };
   const pageBtn = (doc, page, withName) => el('button', { class: 'pg', type: 'button', onclick: () => openPage(doc, page), text: (withName ? short(manual(doc)).split(' ').slice(0, 2).join(' ') + ' · ' : '') + 'p. ' + page });
 
@@ -207,9 +240,9 @@
   const card = (t) => {
     const all = t.doc === 'all', nf = t.status === 'done' && t.answer.trim().toUpperCase().startsWith('NOT FOUND');
     const body = [];
-    if (t.status === 'nomatch') body.push(el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', { text: 'No passage in this manual matches those words. Try the terms the manual would use, or pick another manual.' })));
+    if (t.status === 'nomatch') body.push(el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', {}, 'No passage in the library matches those words. Try the terms the manual would use. ', getIt())));
     else if (t.status === 'asking' && !t.answer) body.push(el('div', { class: 'answer wait', id: 'ans-' + t.id, text: 'Reading the manual…' }));
-    else if (nf) body.push(el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', { text: 'The pages loaded for this manual do not answer that. The closest passages are below; check the full manual before acting.' })));
+    else if (nf) body.push(el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', {}, 'The loaded pages do not answer that. The closest passages are below. ', getIt())));
     else if (t.answer) body.push(el('div', { class: 'answer', id: 'ans-' + t.id }, t.status === 'done' ? answerNodes(t) : t.answer));
     if (t.error) body.push(el('div', { class: 'label bad' }, el('b', { text: 'Problem' }), el('div', { text: t.error })));
     if (t.status === 'done' && !nf && t.cited.length) {
@@ -234,22 +267,83 @@
         t.fb ? el('span', { class: 'note', text: t.fbError ? 'Not saved: saving needs edit access to this page.' : S.db ? 'Thanks, saved for review.' : 'Noted on this device only.' }) : null)); }
     return el('article', { class: 'card', id: 'card-' + t.id }, el('div', { class: 'meta', text: all ? 'All manuals' : short(manual(t.doc)) }), el('div', { class: 'q', text: t.q }), body);
   };
-  const intro = () => { const m = S.doc === 'all' ? null : manual(S.doc), ex = m ? m.examples : S.data.manuals.flatMap((x) => x.examples.slice(0, 1)).slice(0, 4);
-    return el('section', { class: 'intro' }, el('h2', { text: 'What do you need to know?' }),
-      el('p', { text: m ? `Ask in your own words. Answers come only from the ${m.pages.length} loaded pages of this manual, with the page to check.` : `Ask in your own words. All ${S.data.manuals.length} manuals are searched; answers name the page to check.` }),
+  const getIt = () => el('button', { class: 'pg', type: 'button', onclick: () => { setView('library'); $('req-in').focus(); }, text: 'Manual missing? Get it from the web' });
+  const intro = () => { const ex = S.doc === 'all' ? S.data.manuals.flatMap((x) => x.examples.slice(0, 1)).slice(0, 3) : manual(S.doc).examples.slice(0, 3);
+    return el('section', { class: 'intro' },
       ex.length ? el('div', { class: 'examples' }, el('span', { class: 'sec', text: 'Try one' }), ex.map((q) => el('button', { type: 'button', onclick: () => ask(q), text: q }))) : null,
-      el('div', { class: 'label caution' }, el('b', { text: 'Caution' }), el('div', { text: 'This is a test build on public manuals. Always check the cited page before you act on an answer.' })),
-      requestBox()); };
-  const requestBox = () => { const inp = el('input', { type: 'text', id: 'req-in', placeholder: 'Maker and model, e.g. Daikin FTXM35', 'aria-label': 'Maker and model of the manual you need' }), note = el('span', { class: 'note' });
-    const send = async () => { const v = inp.value.trim(); if (!v) { note.textContent = 'Type the maker and model first.'; return; }
-      if (!S.db) { note.textContent = 'Requests need you signed in with edit access to this page.'; return; }
-      try { await S.db.collection('requests').add({ wanted: v.slice(0, 200), status: 'requested', by: S.userId || '', at: new Date().toISOString() }); inp.value = ''; note.textContent = 'Requested. It appears in the list once it has been found and loaded.'; }
-      catch { note.textContent = 'The request was not saved. Try again.'; } };
-    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); send(); } });
-    return el('div', { class: 'req' }, el('span', { class: 'sec', text: 'Manual not in the list?' }), el('p', { class: 'note', style: 'margin:0', text: 'Ask for it here. Manuals are found on the maker\'s website, read in and added to the list; this is not instant.' }),
-      el('div', { class: 'pick-row' }, inp, el('button', { class: 'btn', type: 'button', onclick: send, text: 'Request' })), note,
-      S.requests.length ? el('ul', {}, S.requests.slice(-6).map((r) => el('li', { text: `${r.wanted}: ${r.status || 'requested'}` }))) : null); };
-  const render = () => { $('thread').replaceChildren(...(S.thread.length ? S.thread.map(card) : [intro()])); $('go').disabled = S.busy;
+      el('div', { class: 'label caution' }, el('b', { text: 'Caution' }), el('div', { text: 'This is a test build on public manuals. Always check the cited page before you act on an answer.' }))); };
+  const scope = () => S.doc === 'all' ? [`Searching all ${S.data.manuals.length} manuals.`, el('button', { class: 'pg', type: 'button', onclick: () => setView('library'), text: 'Pick one' })]
+    : ['Searching ', el('b', { style: 'color:var(--ink)', text: short(manual(S.doc)) }), el('button', { class: 'pg', type: 'button', onclick: () => openPage(S.doc, manual(S.doc).pages[0]), text: 'Read it' }),
+      el('button', { class: 'pg', type: 'button', onclick: () => { S.doc = 'all'; setHash('all'); render(); }, text: 'Search all instead' })];
+
+  // ------------------------------------------------------------ library: find, read, ask about, or request a manual
+  const sendRequest = async (text) => { const v = text.trim(), note = $('req-note'); if (!v) { note.textContent = 'Type the maker and model first.'; return; }
+    if (!S.db) { note.textContent = 'Requests need you signed in with edit access to this page.'; return; }
+    try { await S.db.collection('requests').add({ wanted: v.slice(0, 200), status: 'requested', by: S.userId || '', at: new Date().toISOString() }); $('req-in').value = ''; note.textContent = `Requested: ${v.slice(0, 80)}. It appears in the library once it has been found and loaded.`; }
+    catch { note.textContent = 'The request was not saved. Try again.'; } };
+  const renderRequests = () => { const ul = $('req-list'); ul.hidden = !S.requests.length; ul.replaceChildren(...S.requests.slice(-6).map((r) => el('li', { text: `${r.wanted}: ${r.status || 'requested'}` }))); };
+  const renderLibrary = () => { if (!S.data) return; const raw = $('lib-q').value.trim(), qt = tok(raw), out = [];
+    const hit = (m) => { const t = m.title.toLowerCase(); return qt.every((w) => t.includes(w)); };
+    for (const [c, name] of GROUPS) { const ms = S.data.manuals.filter((m) => m.corpus === c && hit(m)); if (!ms.length) continue; out.push(el('span', { class: 'grp', text: name }));
+      for (const m of ms) out.push(el('div', { class: 'row' }, el('b', { text: m.title }), el('span', { class: 'note', text: `${m.pages.length} pages loaded` }),
+        el('div', { class: 'acts' }, el('button', { class: 'btn', type: 'button', onclick: () => openPage(m.id, m.pages[0]), text: 'Read' }),
+          el('button', { class: 'btn', type: 'button', onclick: () => { S.doc = m.id; setView('ask'); $('q').focus(); }, text: 'Ask about it' })))); }
+    if (!out.length) out.push(el('div', { class: 'label notice' }, el('b', { text: 'Not here' }), el('div', {}, `No manual in the library matches "${raw}". `,
+      el('button', { class: 'pg', type: 'button', onclick: () => sendRequest(raw), text: 'Get it from the web' }))));
+    $('lib-list').replaceChildren(...out); };
+  $('lib-q').addEventListener('input', renderLibrary);
+  $('req-go').addEventListener('click', () => sendRequest($('req-in').value));
+  $('req-in').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendRequest($('req-in').value); } });
+
+  // ------------------------------------------------------------ knowledge graph: one node, what it connects to, and the pages that say so
+  const TYPES = { manual: 'Manuals', model: 'Models', component: 'Parts', spec: 'Specs', procedure: 'Procedures', fault: 'Faults', safety: 'Safety notices', tool: 'Tools', refrigerant: 'Refrigerants' };
+  const SVG = (tag, attrs = {}, ...kids) => { const n = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const [k, v] of Object.entries(attrs)) if (v != null) n.setAttribute(k, v); for (const k of kids.flat()) if (k != null) n.append(k); return n; };
+  const loadGraph = async () => { if (S.gState !== 'idle') return; S.gState = 'loading'; renderGraph();
+    try { const r = await fetch('graph.json'); if (!r.ok) throw new Error(r.status); const g = await r.json();
+      g.adj = g.nodes.map(() => []); for (const [a, b] of g.edges) { g.adj[a].push(b); g.adj[b].push(a); }
+      g.nodes.forEach((n, i) => { n.i = i; n.key = (n.l + ' ' + n.a.join(' ')).toLowerCase(); n.docs = new Set(n.s.map((x) => x[0])).size; });
+      S.graph = g; S.gState = 'ready'; const start = g.nodes.filter((n) => n.t === 'refrigerant').sort((a, b) => g.adj[b.i].length - g.adj[a.i].length)[0] || g.nodes[0]; S.gCenter = start.i;
+    } catch { S.gState = 'failed'; } renderGraph(); };
+  const wrapLabel = (s, w = 14) => { const words = s.split(' '), lines = ['']; for (const x of words) { if ((lines[lines.length - 1] + ' ' + x).trim().length <= w) lines[lines.length - 1] = (lines[lines.length - 1] + ' ' + x).trim(); else if (lines.length < 2) lines.push(x.slice(0, w)); else { lines[1] = lines[1].slice(0, w - 1) + '…'; break; } } if (lines[0].length > w) lines[0] = lines[0].slice(0, w - 1) + '…'; return lines.filter(Boolean); };
+  const center = (i) => { S.gCenter = i; $('g-q').value = ''; renderGraph(); window.scrollTo({ top: 0 }); };
+  const nodeBtn = (n) => el('button', { type: 'button', class: 't-' + n.t, onclick: () => center(n.i) }, el('span', { class: 'ty', text: n.t }), el('span', { text: n.l }));
+  const egoSvg = (c, near) => { const W = 470, H = 380, cx = W / 2, cy = H / 2, R = 112, svg = SVG('svg', { class: 'gsvg', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': `${c.l} and ${near.length} things connected to it` });
+    const pts = near.map((n, k) => { const a = -Math.PI / 2 + (k + .5) / near.length * Math.PI * 2; return { n, a, x: cx + Math.cos(a) * R, y: cy + Math.sin(a) * R * .92 }; });
+    for (const p of pts) svg.append(SVG('line', { x1: cx, y1: cy, x2: p.x, y2: p.y }));
+    for (const p of pts) { const cos = Math.cos(p.a), sin = Math.sin(p.a), anchor = cos > .35 ? 'start' : cos < -.35 ? 'end' : 'middle', lines = wrapLabel(p.n.l);
+      const tx = p.x + (anchor === 'start' ? 13 : anchor === 'end' ? -13 : 0), ty = p.y + (anchor === 'middle' ? (sin < 0 ? -14 - (lines.length - 1) * 12 : 22) : 4 - (lines.length - 1) * 6);
+      const g = SVG('g', { class: 'n t-' + p.n.t, tabindex: 0, role: 'button', 'aria-label': `${p.n.t}: ${p.n.l}` }, SVG('circle', { cx: p.x, cy: p.y, r: 24, fill: 'transparent' }), SVG('circle', { class: 'dot', cx: p.x, cy: p.y, r: 8 }),
+        SVG('text', { x: tx, y: ty, 'text-anchor': anchor }, lines.map((ln, k) => { const t = SVG('tspan', { x: tx, dy: k ? 12 : 0 }); t.textContent = ln; return t; })));
+      g.addEventListener('click', () => center(p.n.i)); g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); center(p.n.i); } }); svg.append(g); }
+    const cl = wrapLabel(c.l, 20), ct = SVG('text', { x: cx, y: cy + 28, 'text-anchor': 'middle' }, cl.map((ln, k) => { const t = SVG('tspan', { x: cx, dy: k ? 14 : 0 }); t.textContent = ln; return t; }));
+    svg.append(SVG('g', { class: 'c t-' + c.t }, SVG('circle', { class: 'dot', cx, cy, r: 13 }), ct)); return svg; };
+  const renderGraph = () => { const out = $('g-out'), g = S.graph;
+    if (S.gState !== 'ready') { out.replaceChildren(el('p', { class: 'note', text: S.gState === 'failed' ? 'The graph did not load. Reload the page to try again.' : 'Loading the graph…' })); return; }
+    const raw = $('g-q').value.trim().toLowerCase(), qt = raw.split(/\s+/).filter(Boolean);
+    if (qt.length) { const hits = g.nodes.filter((n) => qt.every((w) => n.key.includes(w))).sort((a, b) => (b.docs - a.docs) || (g.adj[b.i].length - g.adj[a.i].length)).slice(0, 14);
+      out.replaceChildren(hits.length ? el('div', { class: 'nodes' }, hits.map(nodeBtn)) : el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', { text: 'Nothing in the graph matches those words. The graph covers the four HVAC manuals so far.' }))); return; }
+    const c = g.nodes[S.gCenter], all = [...new Set(g.adj[c.i])].map((i) => g.nodes[i]).sort((a, b) => (b.docs - a.docs) || (g.adj[b.i].length - g.adj[a.i].length)), near = all.slice(0, 10);
+    const book = c.t === 'manual' ? S.data && S.data.manuals.find((m) => m.title === c.l) : null, kids = [];
+    kids.push(el('div', { class: 'scope t-' + c.t }, el('span', { class: 'ty', text: c.t }), el('b', { style: 'color:var(--ink);font-size:18px', text: c.l }), c.docs > 1 ? el('span', { text: `in ${c.docs} manuals` }) : null));
+    if (near.length) kids.push(egoSvg(c, near));
+    if (c.q) kids.push(el('p', { class: 'note', style: 'margin:0;font-style:italic', text: `"${c.q}"` }));
+    const acts = [];
+    if (book) acts.push(el('button', { class: 'pg', type: 'button', onclick: () => openPage(book.id, book.pages[0]), text: 'Read this manual' }));
+    for (const [doc, page] of c.s) if (S.data && S.data.manuals.some((m) => m.id === doc)) acts.push(pageBtn(doc, page, true));
+    acts.push(el('button', { class: 'pg', type: 'button', onclick: () => { if (book) S.doc = book.id; setView('ask'); if (!book) { $('q').value = c.l; } $('q').focus(); }, text: 'Ask about this' }));
+    kids.push(el('div', { class: 'chips' }, c.s.length ? el('span', { class: 'sec', text: 'Printed on' }) : null, acts));
+    for (const [t, name] of Object.entries(TYPES)) { const ns = all.filter((n) => n.t === t); if (!ns.length) continue;
+      kids.push(el('details', { open: ns.length <= 6 || null }, el('summary', { text: `${name} connected (${ns.length})` }), el('div', { class: 'nodes', style: 'margin-top:8px' }, ns.slice(0, 40).map(nodeBtn)))); }
+    kids.push(el('p', { class: 'note', style: 'margin:0', text: `The graph links ${g.nodes.length} parts, specs, faults, procedures and notices across the four HVAC manuals. Tap anything to move there.` }));
+    out.replaceChildren(...kids); };
+  $('g-q').addEventListener('input', renderGraph);
+
+  // ------------------------------------------------------------ views
+  const setView = (v) => { S.view = v; for (const n of ['ask', 'library', 'graph']) { $('view-' + n).hidden = n !== v; $('tab-' + n).setAttribute('aria-selected', String(n === v)); }
+    setHash(viewHash()); if (v === 'graph') { if (S.gState === 'idle') loadGraph(); else renderGraph(); } if (v === 'library') renderLibrary(); if (v === 'ask' && S.data) render(); window.scrollTo({ top: 0 }); };
+  for (const n of ['ask', 'library', 'graph']) $('tab-' + n).addEventListener('click', () => setView(n));
+  const render = () => { $('thread').replaceChildren(...(S.thread.length ? S.thread.slice().reverse().map(card) : [intro()])); $('go').disabled = S.busy; $('scope').replaceChildren(...scope());
+    $('q').placeholder = S.doc === 'all' ? 'Ask a question…' : 'Ask about this manual…';
     $('status').textContent = S.busy ? 'Answering…' : S.sample ? `Claude answers from the ${K} best-matching passages and cites pages.` : S.sampleState === 'connecting' ? 'Connecting to Claude…' : 'Claude is not available here, so you get the closest passages without a written answer.'; };
 
   // ------------------------------------------------------------ asking
@@ -259,8 +353,8 @@
     const t = { id: ++S.seq, q, doc: S.doc, extracts: search(S.doc, q), answer: '', cited: [], status: 'asking', error: '' };
     S.thread.push(t);
     if (!t.extracts.length) t.status = 'nomatch'; else if (!S.sample) t.status = 'done';
-    if (t.status !== 'asking') { render(); $('card-' + t.id).scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-    S.busy = true; render(); $('card-' + t.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (t.status !== 'asking') { render(); return; }
+    S.busy = true; render();
     const all = t.doc === 'all', title = all ? 'the equipment manuals named in each extract' : manual(t.doc).title;
     const ex = t.extracts.map((c, i) => `[${i + 1}] (${all ? short(manual(c.doc)) + ', ' : ''}page ${c.page}) ${c.text}`).join('\n\n');
     const prompt = S.data.answer_prompt.replace('the document "{title}"', all ? title : `the document "${title}"`).replace('{title}', title).replace('{question}', q).replace('{extracts}', ex);
@@ -280,24 +374,20 @@
   $('ask').addEventListener('submit', (e) => { e.preventDefault(); ask(); });
   $('q').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(); } });
   $('q').addEventListener('input', () => { const q = $('q'); q.style.height = 'auto'; q.style.height = Math.min(140, q.scrollHeight + 4) + 'px'; });
-  $('doc').addEventListener('change', (e) => { S.doc = e.target.value; store.set('mh-ask-doc', S.doc); setHash(S.doc === 'all' ? 'all' : slug(S.doc)); $('q').placeholder = S.doc === 'all' ? 'Ask across all manuals…' : 'Ask about this manual…'; if (!S.thread.length) render(); });
 
   // ------------------------------------------------------------ start
   (async () => {
     try { const r = await fetch('data.json'); if (!r.ok) throw new Error(r.status); S.data = await r.json(); }
     catch { $('status').textContent = 'The manuals did not load. Reload the page to try again.'; return; }
-    const sel = $('doc'); sel.append(el('option', { value: 'all', text: `All manuals (${S.data.manuals.length})` }));
-    for (const [c, name] of GROUPS) { const ms = S.data.manuals.filter((m) => m.corpus === c); if (ms.length) sel.append(el('optgroup', { label: name }, ms.map((m) => el('option', { value: m.id, text: short(m) })))); }
     try { const f = await fetch('figures.json'); if (f.ok) S.figs = await f.json(); } catch {}
-    const h = fromHash(), saved = store.get('mh-ask-doc'); S.doc = h ? h.doc : (saved === 'all' || S.data.manuals.some((m) => m.id === saved)) ? saved : S.data.manuals[0].id; sel.value = S.doc;
-    $('q').placeholder = S.doc === 'all' ? 'Ask across all manuals…' : 'Ask about this manual…';
-    render();
+    const h = fromHash(); S.doc = h && h.doc ? h.doc : 'all';
+    render(); renderLibrary(); if (h && h.view) setView(h.view);
     if (h && h.page) openPage(h.doc, h.page);
   })();
   (async () => {
     const [sample, db, user] = await Promise.all([window.claude?.use?.('sample') ?? null, window.claude?.use?.('db') ?? null, window.claude?.use?.('user') ?? null]);
     S.sample = sample; S.sampleState = sample ? 'on' : 'off'; S.db = db; if (user) { try { S.userId = await user.id(); } catch {} }
-    if (db) db.collection('requests').onSnapshot((snap) => { S.requests = snap.docs.map((d) => d.data()).sort((a, b) => String(a.at).localeCompare(String(b.at))); if (S.data && !S.thread.length && !document.activeElement?.matches?.('#req-in')) render(); }, () => {});
+    if (db) db.collection('requests').onSnapshot((snap) => { S.requests = snap.docs.map((d) => d.data()).sort((a, b) => String(a.at).localeCompare(String(b.at))); renderRequests(); }, () => {});
     if (S.data) render();
   })();
 })();
