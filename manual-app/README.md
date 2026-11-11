@@ -307,6 +307,13 @@ phone. Pick a manual (or all of them), ask in plain words, and get:
 - any DANGER, WARNING or CAUTION printed on the cited pages, shown in a safety label under the answer;
 - a plain "Not found" when the loaded pages do not answer, with the closest passages listed;
 - a Yes / No "Was this right?" that saves the question, answer and cited pages for review.
+- the diagrams printed on the cited pages (wiring diagrams, dimension drawings, exploded views), shown under the
+  answer; tapping one opens its page.
+
+It is also a reader: "Read it" opens the picked manual page by page, with swipe, page jump, zoom and the parsed text.
+Every page has its own link (for example `#hvac-bard-wallmount-p14`), so a page can be bookmarked or sent to someone.
+A "Manual not in the list?" box saves a request for a new manual; requests are filled by finding the manual on the
+maker's website and running it through the bench pipeline, which is not automatic yet.
 
 It runs as a published page on the viewer's Claude plan, so it needs no server and no API key. Search is keyword
 (BM25) in the browser over the same passages the bench uses, and Claude gets the top 8 passages instead of the
@@ -338,6 +345,7 @@ Page sources live in `web/` (`app`, `workbench`, `landing`). To rebuild the app'
 ```bash
 python scripts/export_workbench.py <workbench_dir>      # parsed pages, passages, questions, page images
 python scripts/export_app.py <workbench_dir> <app_dir>  # the app's data.json (no answers, grades or graph)
+python scripts/export_figures.py <app_dir>               # diagrams cut from each page (PyMuPDF, no model)
 ```
 
 ## Workbench: inspect manuals, review answers, add labelled questions

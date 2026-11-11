@@ -68,6 +68,16 @@
   .btn[aria-pressed="true"] { border-color: var(--safe); color: var(--safe); background: var(--safe-soft); }
   .btn.no[aria-pressed="true"] { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
   .note { font-size: 14px; color: var(--muted); }
+  .pick-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
+  .figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .fig { margin: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; cursor: pointer; padding: 0; display: grid; text-align: left; }
+  .fig img { display: block; width: 100%; max-width: 100%; height: auto; max-height: 300px; object-fit: contain; background: #fff; }
+  .fig span { font-family: var(--mono); font-size: 12px; color: var(--muted); background: var(--sunk); padding: 4px 8px; border-top: 1px solid var(--line); }
+  .req { display: grid; gap: 8px; }
+  .req input { width: 100%; min-height: 46px; border: 2px solid var(--line); border-radius: 8px; background: var(--sunk); padding: 8px 12px; }
+  .req ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); display: grid; gap: 2px; }
+  .viewer-body img.zoom { width: 220%; max-width: none; }
+  .viewer-bar select { min-height: 44px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--panel); padding: 4px 8px; }
 
   .ask { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--panel); border-top: 1px solid var(--line);
     padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
@@ -88,7 +98,7 @@
 <div class="wrap">
   <header>
     <div class="brand"><h1>Manual Handling</h1><span>Let AI handle your manuals. <i>The right answer, on the right page.</i></span></div>
-    <div class="picker"><label for="doc">Equipment manual</label><select id="doc"></select></div>
+    <div class="picker"><label for="doc">Equipment manual</label><div class="pick-row"><select id="doc"></select><button class="btn" id="read" type="button">Read it</button></div></div>
   </header>
   <main id="thread" aria-live="polite"></main>
 </div>
@@ -107,9 +117,12 @@
   <div class="viewer-bar">
     <span class="t" id="v-title"></span>
     <div class="chips">
-      <button class="btn" id="v-prev" type="button">← Page</button>
-      <button class="btn" id="v-next" type="button">Page →</button>
+      <button class="btn" id="v-prev" type="button" aria-label="Previous page">←</button>
+      <select id="v-jump" aria-label="Go to page"></select>
+      <button class="btn" id="v-next" type="button" aria-label="Next page">→</button>
+      <button class="btn" id="v-zoom" type="button" aria-pressed="false">Zoom</button>
       <button class="btn" id="v-text" type="button" aria-pressed="false">Text</button>
+      <button class="btn" id="v-link" type="button">Copy link</button>
       <button class="btn primary" id="v-close" type="button">Close</button>
     </div>
   </div>
@@ -124,7 +137,7 @@
       if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? '' : v); }
     for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : String(k)); return n; };
   const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
-  const S = { data: null, doc: 'all', thread: [], sample: null, sampleState: 'connecting', db: null, userId: null, busy: false, seq: 0 };
+  const S = { data: null, figs: {}, requests: [], doc: 'all', thread: [], sample: null, sampleState: 'connecting', db: null, userId: null, busy: false, seq: 0 };
   const K = 8;   // passages given to Claude. The bench used 5 from a stronger search; keyword search here gets a few more.
   const short = (m) => m.title.replace(/\s*\(.*?\)\s*/g, ' ').split(' - ')[0].trim();
   const manual = (id) => S.data.manuals.find((m) => m.id === id);
@@ -159,19 +172,32 @@
     return out; };
 
   // ------------------------------------------------------------ page viewer
-  const V = { doc: null, page: null, text: false };
+  const V = { doc: null, page: null, text: false, zoom: false };
+  const slug = (id) => id.replace(/_/g, '-');
+  const fromHash = () => { const h = location.hash.slice(1), m = h.match(/^(.+)-p(\d+)$/), find = (x) => S.data.manuals.find((mm) => slug(mm.id) === x || mm.id === x);
+    if (m && find(m[1])) return { doc: find(m[1]).id, page: +m[2] }; if (h === 'all') return { doc: 'all' }; return find(h) ? { doc: find(h).id } : null; };
+  const setHash = (h) => { if (location.hash.slice(1) === h) return; try { location.replace('#' + h); } catch { location.hash = h; } };
   const showPage = () => { const m = manual(V.doc), i = m.pages.indexOf(V.page);
-    $('v-title').textContent = `${short(m)} · page ${V.page}`; $('v-prev').disabled = i <= 0; $('v-next').disabled = i >= m.pages.length - 1; $('v-text').setAttribute('aria-pressed', String(V.text));
-    const img = el('img', { src: `pages/${V.doc}/${V.page}.jpg`, alt: `Page ${V.page} of ${m.title}` });
+    $('v-title').textContent = short(m); $('v-prev').disabled = i <= 0; $('v-next').disabled = i >= m.pages.length - 1;
+    $('v-text').setAttribute('aria-pressed', String(V.text)); $('v-zoom').setAttribute('aria-pressed', String(V.zoom)); $('v-zoom').disabled = V.text;
+    const jump = $('v-jump'); if (jump.dataset.doc !== V.doc) { jump.replaceChildren(...m.pages.map((pg) => el('option', { value: pg, text: 'Page ' + pg }))); jump.dataset.doc = V.doc; } jump.value = String(V.page);
+    const img = el('img', { src: `pages/${V.doc}/${V.page}.jpg`, alt: `Page ${V.page} of ${m.title}`, class: V.zoom ? 'zoom' : null });
     img.addEventListener('error', () => img.replaceWith(el('p', { class: 'note', text: 'The page image did not load. Use Text to read the parsed page.' })));
-    $('v-body').replaceChildren(V.text ? el('pre', { text: (m.page_text[String(V.page)] || '').replace(/<[^>]+>/g, ' ') || 'No text was parsed for this page.' }) : img); $('v-body').scrollTop = 0; };
-  const openPage = (doc, page) => { V.doc = doc; V.page = page; V.text = false; $('viewer').hidden = false; showPage(); $('v-close').focus(); };
-  const closePage = () => { $('viewer').hidden = true; $('q').focus({ preventScroll: true }); };
-  $('v-close').addEventListener('click', closePage); $('v-text').addEventListener('click', () => { V.text = !V.text; showPage(); });
-  $('v-prev').addEventListener('click', () => { const m = manual(V.doc); V.page = m.pages[m.pages.indexOf(V.page) - 1]; showPage(); });
-  $('v-next').addEventListener('click', () => { const m = manual(V.doc); V.page = m.pages[m.pages.indexOf(V.page) + 1]; showPage(); });
-  $('viewer').addEventListener('click', (e) => { if (e.target === $('viewer') || e.target === $('v-body')) closePage(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('viewer').hidden) closePage(); });
+    img.addEventListener('click', () => { V.zoom = !V.zoom; showPage(); });
+    $('v-body').replaceChildren(V.text ? el('pre', { text: (m.page_text[String(V.page)] || '').replace(/<[^>]+>/g, ' ') || 'No text was parsed for this page.' }) : img); $('v-body').scrollTop = 0; $('v-body').scrollLeft = 0;
+    setHash(`${slug(V.doc)}-p${V.page}`); };
+  const openPage = (doc, page) => { const m = manual(doc); V.doc = doc; V.page = m.pages.includes(page) ? page : m.pages[0]; V.text = false; V.zoom = false; $('viewer').hidden = false; showPage(); $('v-close').focus(); };
+  const closePage = () => { $('viewer').hidden = true; setHash(S.doc === 'all' ? 'all' : slug(S.doc)); $('q').focus({ preventScroll: true }); };
+  const step = (d) => { const m = manual(V.doc), n = m.pages[m.pages.indexOf(V.page) + d]; if (n !== undefined) { V.page = n; showPage(); } };
+  $('v-close').addEventListener('click', closePage); $('v-text').addEventListener('click', () => { V.text = !V.text; showPage(); }); $('v-zoom').addEventListener('click', () => { V.zoom = !V.zoom; showPage(); });
+  $('v-prev').addEventListener('click', () => step(-1)); $('v-next').addEventListener('click', () => step(1)); $('v-jump').addEventListener('change', (e) => { V.page = +e.target.value; showPage(); });
+  $('v-link').addEventListener('click', async () => { const b = $('v-link'), url = location.href; try { await navigator.clipboard.writeText(url); b.textContent = 'Copied'; } catch { b.textContent = 'Link is in the address bar'; } setTimeout(() => { b.textContent = 'Copy link'; }, 1800); });
+  $('viewer').addEventListener('click', (e) => { if (e.target === $('viewer')) closePage(); });
+  document.addEventListener('keydown', (e) => { if ($('viewer').hidden) return; if (e.key === 'Escape') closePage(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+  let tx = null; $('v-body').addEventListener('touchstart', (e) => { tx = e.touches.length === 1 && !V.zoom ? e.touches[0].clientX : null; }, { passive: true });
+  $('v-body').addEventListener('touchend', (e) => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 70) step(dx < 0 ? 1 : -1); }, { passive: true });
+  $('read').addEventListener('click', () => { if (S.doc === 'all') { $('status').textContent = 'Pick one manual from the list to read it.'; $('doc').focus(); return; } const m = manual(S.doc); openPage(S.doc, m.pages[0]); });
+  const figures = (pages) => { const out = []; for (const { doc, page } of pages) for (const f of ((S.figs[doc] || {})[String(page)] || [])) { if (out.length < 4) out.push({ doc, page, ...f }); } return out; };
   const pageBtn = (doc, page, withName) => el('button', { class: 'pg', type: 'button', onclick: () => openPage(doc, page), text: (withName ? short(manual(doc)).split(' ').slice(0, 2).join(' ') + ' · ' : '') + 'p. ' + page });
 
   // ------------------------------------------------------------ rendering
@@ -188,6 +214,10 @@
     if (t.error) body.push(el('div', { class: 'label bad' }, el('b', { text: 'Problem' }), el('div', { text: t.error })));
     if (t.status === 'done' && !nf && t.cited.length) {
       body.push(el('div', { class: 'chips' }, el('span', { class: 'sec', text: 'Check it on' }), t.cited.map((c) => pageBtn(c.doc, c.page, all))));
+      const fg = figures(t.cited);
+      if (fg.length) body.push(el('div', { style: 'display:grid;gap:8px' }, el('span', { class: 'sec', text: fg.length > 1 ? 'Diagrams on those pages' : 'Diagram on that page' }),
+        el('div', { class: 'figs' }, fg.map((f) => el('button', { class: 'fig', type: 'button', title: `Open page ${f.page}`, onclick: () => openPage(f.doc, f.page) },
+          el('img', { src: `figures/${f.doc}/${f.file}`, alt: `Diagram from page ${f.page} of ${short(manual(f.doc))}`, loading: 'lazy', width: f.w, height: f.h }), el('span', { text: (all ? short(manual(f.doc)).split(' ').slice(0, 2).join(' ') + ' · ' : '') + 'p. ' + f.page }))))));
       const ns = notices(t.cited);
       if (ns.length) body.push(el('div', { style: 'display:grid;gap:8px' }, el('span', { class: 'sec', text: 'Safety notices printed on those pages' }),
         ns.map((n) => el('div', { class: 'label ' + (n.kind === 'caution' ? 'caution' : 'warning') }, el('b', { text: n.kind }), el('div', {}, n.text + ' ', pageBtn(n.doc, n.page))))));
@@ -208,7 +238,17 @@
     return el('section', { class: 'intro' }, el('h2', { text: 'What do you need to know?' }),
       el('p', { text: m ? `Ask in your own words. Answers come only from the ${m.pages.length} loaded pages of this manual, with the page to check.` : `Ask in your own words. All ${S.data.manuals.length} manuals are searched; answers name the page to check.` }),
       ex.length ? el('div', { class: 'examples' }, el('span', { class: 'sec', text: 'Try one' }), ex.map((q) => el('button', { type: 'button', onclick: () => ask(q), text: q }))) : null,
-      el('div', { class: 'label caution' }, el('b', { text: 'Caution' }), el('div', { text: 'This is a test build on public manuals. Always check the cited page before you act on an answer.' }))); };
+      el('div', { class: 'label caution' }, el('b', { text: 'Caution' }), el('div', { text: 'This is a test build on public manuals. Always check the cited page before you act on an answer.' })),
+      requestBox()); };
+  const requestBox = () => { const inp = el('input', { type: 'text', id: 'req-in', placeholder: 'Maker and model, e.g. Daikin FTXM35', 'aria-label': 'Maker and model of the manual you need' }), note = el('span', { class: 'note' });
+    const send = async () => { const v = inp.value.trim(); if (!v) { note.textContent = 'Type the maker and model first.'; return; }
+      if (!S.db) { note.textContent = 'Requests need you signed in with edit access to this page.'; return; }
+      try { await S.db.collection('requests').add({ wanted: v.slice(0, 200), status: 'requested', by: S.userId || '', at: new Date().toISOString() }); inp.value = ''; note.textContent = 'Requested. It appears in the list once it has been found and loaded.'; }
+      catch { note.textContent = 'The request was not saved. Try again.'; } };
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+    return el('div', { class: 'req' }, el('span', { class: 'sec', text: 'Manual not in the list?' }), el('p', { class: 'note', style: 'margin:0', text: 'Ask for it here. Manuals are found on the maker\'s website, read in and added to the list; this is not instant.' }),
+      el('div', { class: 'pick-row' }, inp, el('button', { class: 'btn', type: 'button', onclick: send, text: 'Request' })), note,
+      S.requests.length ? el('ul', {}, S.requests.slice(-6).map((r) => el('li', { text: `${r.wanted}: ${r.status || 'requested'}` }))) : null); };
   const render = () => { $('thread').replaceChildren(...(S.thread.length ? S.thread.map(card) : [intro()])); $('go').disabled = S.busy;
     $('status').textContent = S.busy ? 'Answering…' : S.sample ? `Claude answers from the ${K} best-matching passages and cites pages.` : S.sampleState === 'connecting' ? 'Connecting to Claude…' : 'Claude is not available here, so you get the closest passages without a written answer.'; };
 
@@ -240,7 +280,7 @@
   $('ask').addEventListener('submit', (e) => { e.preventDefault(); ask(); });
   $('q').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(); } });
   $('q').addEventListener('input', () => { const q = $('q'); q.style.height = 'auto'; q.style.height = Math.min(140, q.scrollHeight + 4) + 'px'; });
-  $('doc').addEventListener('change', (e) => { S.doc = e.target.value; store.set('mh-ask-doc', S.doc); $('q').placeholder = S.doc === 'all' ? 'Ask across all manuals…' : 'Ask about this manual…'; if (!S.thread.length) render(); });
+  $('doc').addEventListener('change', (e) => { S.doc = e.target.value; store.set('mh-ask-doc', S.doc); setHash(S.doc === 'all' ? 'all' : slug(S.doc)); $('q').placeholder = S.doc === 'all' ? 'Ask across all manuals…' : 'Ask about this manual…'; if (!S.thread.length) render(); });
 
   // ------------------------------------------------------------ start
   (async () => {
@@ -248,13 +288,16 @@
     catch { $('status').textContent = 'The manuals did not load. Reload the page to try again.'; return; }
     const sel = $('doc'); sel.append(el('option', { value: 'all', text: `All manuals (${S.data.manuals.length})` }));
     for (const [c, name] of GROUPS) { const ms = S.data.manuals.filter((m) => m.corpus === c); if (ms.length) sel.append(el('optgroup', { label: name }, ms.map((m) => el('option', { value: m.id, text: short(m) })))); }
-    const want = location.hash.slice(1) || store.get('mh-ask-doc'); S.doc = want === 'all' || S.data.manuals.some((m) => m.id === want) ? want : S.data.manuals[0].id; sel.value = S.doc;
+    try { const f = await fetch('figures.json'); if (f.ok) S.figs = await f.json(); } catch {}
+    const h = fromHash(), saved = store.get('mh-ask-doc'); S.doc = h ? h.doc : (saved === 'all' || S.data.manuals.some((m) => m.id === saved)) ? saved : S.data.manuals[0].id; sel.value = S.doc;
     $('q').placeholder = S.doc === 'all' ? 'Ask across all manuals…' : 'Ask about this manual…';
     render();
+    if (h && h.page) openPage(h.doc, h.page);
   })();
   (async () => {
     const [sample, db, user] = await Promise.all([window.claude?.use?.('sample') ?? null, window.claude?.use?.('db') ?? null, window.claude?.use?.('user') ?? null]);
     S.sample = sample; S.sampleState = sample ? 'on' : 'off'; S.db = db; if (user) { try { S.userId = await user.id(); } catch {} }
+    if (db) db.collection('requests').onSnapshot((snap) => { S.requests = snap.docs.map((d) => d.data()).sort((a, b) => String(a.at).localeCompare(String(b.at))); if (S.data && !S.thread.length && !document.activeElement?.matches?.('#req-in')) render(); }, () => {});
     if (S.data) render();
   })();
 })();
