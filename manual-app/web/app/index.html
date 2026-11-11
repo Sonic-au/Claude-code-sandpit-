@@ -38,13 +38,16 @@
   .field { width: 100%; min-height: 52px; border: 2px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 14px; }
   .field:focus { border-color: var(--accent); outline: none; }
   .scope { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 15px; color: var(--muted); }
-  .row { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+  .row { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; align-items: start; }
+  .row-b { display: grid; gap: 8px; min-width: 0; }
+  .thumb { width: 96px; aspect-ratio: 3 / 4; padding: 0; border: 1px solid var(--line); border-radius: 6px; background: #fff; overflow: hidden; cursor: pointer; display: grid; place-items: center; color: #566373; font-size: 12px; }
+  .thumb img, .thumb canvas { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
   .row b { font-weight: 600; overflow-wrap: anywhere; } .row .acts { display: flex; flex-wrap: wrap; gap: 8px; }
   .grp { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
   .gsvg { width: 100%; max-width: 460px; height: auto; display: block; margin: 0 auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
   .gsvg text { font-family: var(--body); font-size: 10.5px; fill: var(--ink); } .gsvg line { stroke: var(--line); stroke-width: 1.2; }
   .gsvg .n { cursor: pointer; } .gsvg .n circle.dot { fill: var(--panel); stroke: var(--tc); stroke-width: 2.5; } .gsvg .c circle.dot { fill: var(--tc); }
-  .gsvg .c text { font-size: 12px; font-weight: 600; }
+  .gsvg .c text { font-size: 12px; font-weight: 600; } .gsvg .ov text { font-size: 10.5px; }
   .ty { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--tc); border: 1.5px solid var(--tc); border-radius: 5px; padding: 0 5px; white-space: nowrap; }
   .t-manual { --tc: var(--ink); } .t-model { --tc: var(--notice); } .t-component { --tc: var(--safe); } .t-spec { --tc: var(--caution); } .t-procedure { --tc: var(--muted); }
   .t-fault { --tc: var(--bad); } .t-safety { --tc: var(--warning); } .t-tool { --tc: var(--muted); } .t-refrigerant { --tc: var(--notice); }
@@ -339,12 +342,19 @@
     box.replaceChildren(...out); };
   const renderRequests = () => { const ul = $('req-list'); ul.hidden = !S.requests.length; const added = S.requests.filter((r) => r.status === 'added').length; if (S.addedSeen !== undefined && added > S.addedSeen) refreshData(); S.addedSeen = added; ul.replaceChildren(...S.requests.slice(-8).map((r) => el('li', { text: `${r.wanted}: ${r.status || 'requested'}` }))); };
   const refreshData = async () => { try { const r = await fetch('data.json', { cache: 'no-store' }); if (!r.ok) return; const d = await r.json(); if (d.manuals.length > S.data.manuals.length) { S.data = d; indexes.clear(); renderLibrary(); if (S.view === 'ask') render(); } else $('req-note').textContent = 'A requested manual has been added. Reload the page to see it.'; } catch {} };
+  // First page of each manual as a thumbnail: a stored page image, or drawn from the PDF once the card scrolls into view.
+  const thumbWatch = 'IntersectionObserver' in window ? new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) { thumbWatch.unobserve(e.target); drawThumb(e.target); } }, { rootMargin: '200px' }) : null;
+  const drawThumb = (b) => { const m = manual(b.dataset.doc); if (!m) return; pdfCanvas(m, m.pages[0], 240).then((c) => { c.setAttribute('aria-hidden', 'true'); b.replaceChildren(c); }).catch(() => { b.textContent = 'No preview'; }); };
+  const thumb = (m) => { const b = el('button', { class: 'thumb', type: 'button', 'aria-label': `Read ${short(m)}`, 'data-doc': m.id, onclick: () => openPage(m.id, m.pages[0]) });
+    if (m.pdf) { b.textContent = 'Preview…'; if (thumbWatch) thumbWatch.observe(b); else drawThumb(b); }
+    else { const img = el('img', { src: `pages/${m.id}/${m.pages[0]}.jpg`, alt: '', loading: 'lazy' }); img.addEventListener('error', () => { b.textContent = 'No preview'; }); b.append(img); }
+    return b; };
   const renderLibrary = () => { if (!S.data) return; const raw = $('lib-q').value.trim(), qt = tok(raw), out = [];
     const hit = (m) => { const t = m.title.toLowerCase(); return qt.every((w) => t.includes(w)); };
     for (const [c, name] of GROUPS) { const ms = S.data.manuals.filter((m) => m.corpus === c && hit(m)); if (!ms.length) continue; out.push(el('span', { class: 'grp', text: name }));
-      for (const m of ms) out.push(el('div', { class: 'row' }, el('b', { text: m.title }), m.trust === 'third-party' ? el('span', {}, el('span', { class: 'tag third', text: 'third-party source' })) : null, el('span', { class: 'note' }, `${m.pages.length} pages loaded`, m.total_pages > m.pages.length ? ` of ${m.total_pages}` : '', m.source ? [' · ', el('a', { href: m.source, target: '_blank', rel: 'noopener noreferrer', style: 'color:var(--notice)', text: 'source' })] : null),
+      for (const m of ms) out.push(el('div', { class: 'row' }, thumb(m), el('div', { class: 'row-b' }, el('b', { text: m.title }), m.trust === 'third-party' ? el('span', {}, el('span', { class: 'tag third', text: 'third-party source' })) : null, el('span', { class: 'note' }, `${m.pages.length} pages loaded`, m.total_pages > m.pages.length ? ` of ${m.total_pages}` : '', m.source ? [' · ', el('a', { href: m.source, target: '_blank', rel: 'noopener noreferrer', style: 'color:var(--notice)', text: 'source' })] : null),
         el('div', { class: 'acts' }, el('button', { class: 'btn', type: 'button', onclick: () => openPage(m.id, m.pages[0]), text: 'Read' }),
-          el('button', { class: 'btn', type: 'button', onclick: () => { S.doc = m.id; setView('ask'); $('q').focus(); }, text: 'Ask about it' })))); }
+          el('button', { class: 'btn', type: 'button', onclick: () => { S.doc = m.id; setView('ask'); $('q').focus(); }, text: 'Ask about it' }))))); }
     if (!out.length) out.push(el('div', { class: 'label notice' }, el('b', { text: 'Not here' }), el('div', {}, `No manual in the library matches "${raw}". Press Enter or tap to search the web. `,
       el('button', { class: 'pg', type: 'button', onclick: () => sendSearch(raw), text: 'Search the web for it' }))));
     $('lib-list').replaceChildren(...out); };
@@ -360,7 +370,7 @@
     try { const r = await fetch('graph.json'); if (!r.ok) throw new Error(r.status); const g = await r.json();
       g.adj = g.nodes.map(() => []); for (const [a, b] of g.edges) { g.adj[a].push(b); g.adj[b].push(a); }
       g.nodes.forEach((n, i) => { n.i = i; n.key = (n.l + ' ' + n.a.join(' ')).toLowerCase(); n.docs = new Set(n.s.map((x) => x[0])).size; });
-      S.graph = g; S.gState = 'ready'; const start = g.nodes.filter((n) => n.t === 'refrigerant').sort((a, b) => g.adj[b.i].length - g.adj[a.i].length)[0] || g.nodes[0]; S.gCenter = start.i;
+      S.graph = g; S.gState = 'ready'; S.gCenter = -1;
     } catch { S.gState = 'failed'; } renderGraph(); };
   const wrapLabel = (s, w = 14) => { const words = s.split(' '), lines = ['']; for (const x of words) { if ((lines[lines.length - 1] + ' ' + x).trim().length <= w) lines[lines.length - 1] = (lines[lines.length - 1] + ' ' + x).trim(); else if (lines.length < 2) lines.push(x.slice(0, w)); else { lines[1] = lines[1].slice(0, w - 1) + '…'; break; } } if (lines[0].length > w) lines[0] = lines[0].slice(0, w - 1) + '…'; return lines.filter(Boolean); };
   const center = (i) => { S.gCenter = i; $('g-q').value = ''; renderGraph(); window.scrollTo({ top: 0 }); };
@@ -375,14 +385,39 @@
       g.addEventListener('click', () => center(p.n.i)); g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); center(p.n.i); } }); svg.append(g); }
     const cl = wrapLabel(c.l, 20), ct = SVG('text', { x: cx, y: cy + 28, 'text-anchor': 'middle' }, cl.map((ln, k) => { const t = SVG('tspan', { x: cx, dy: k ? 14 : 0 }); t.textContent = ln; return t; }));
     svg.append(SVG('g', { class: 'c t-' + c.t }, SVG('circle', { class: 'dot', cx, cy, r: 13 }), ct)); return svg; };
+  // Overview: every manual in the library grouped by equipment type, then by maker.
+  const META = { xylem_empa: ['Xylem', 'Pumps'], postgresql_backup: ['PostgreSQL', 'Software'], ti_lm317: ['Texas Instruments', 'Electronics'], faa_ac43: ['FAA', 'Aircraft maintenance'], army_tm_tqg: ['US Army', 'Generators'],
+    tmqa_makita_drill: ['Makita', 'Power tools'], tmqa_prusa_mk4: ['Prusa', '3D printers'], tmqa_dji_mavic_pro: ['DJI', 'Drones'], hvac_daikin_ftxs_indoor: ['Daikin', 'HVAC'], hvac_daikin_rxs_outdoor: ['Daikin', 'HVAC'], hvac_bard_wallmount: ['Bard', 'HVAC'], hvac_rheem_heatpump: ['Rheem', 'HVAC'] };
+  const guessKind = (t) => /air.?condition|heat pump|split|hvac|furnace|chiller|boiler|ventilat/i.test(t) ? 'HVAC' : /pump/i.test(t) ? 'Pumps' : /generator/i.test(t) ? 'Generators' : /drill|saw|grinder|driver/i.test(t) ? 'Power tools' : /printer/i.test(t) ? 'Printers' : 'Other equipment';
+  const makerOf = (m) => String(m.maker || (META[m.id] || [])[0] || m.title.trim().split(/\s+/)[0]).slice(0, 40), kindOf = (m) => String(m.equipment || (META[m.id] || [])[1] || guessKind(m.title)).slice(0, 40);
+  const groups = () => { const t = new Map(); for (const m of S.data.manuals) { const k = kindOf(m), v = makerOf(m); if (!t.has(k)) t.set(k, new Map()); if (!t.get(k).has(v)) t.get(k).set(v, []); t.get(k).get(v).push(m); }
+    return [...t].sort((a, b) => a[0].localeCompare(b[0])).map(([k, vs]) => [k, [...vs].sort((a, b) => a[0].localeCompare(b[0]))]); };
+  const graphNodeOf = (m) => { const n = S.graph && S.graph.nodes.find((x) => x.t === 'manual' && (x.d === m.id || x.l === m.title)); return n ? n.i : -1; };
+  const goManual = (m) => { const i = graphNodeOf(m); if (i >= 0) center(i); else openPage(m.id, m.pages[0]); };
+  const overviewSvg = (gs) => { const XT = 52, XV = 196, XM = 306, W = 470; let y = 30; const rows = [];
+    for (const [k, vs] of gs) { const vr = []; for (const [v, ms] of vs) { const mr = ms.map((m) => { const r = { m, y }; y += 28; return r; }); vr.push({ v, mr, y: (mr[0].y + mr[mr.length - 1].y) / 2 }); } rows.push({ k, vr, y: (vr[0].y + vr[vr.length - 1].y) / 2 }); y += 14; }
+    const svg = SVG('svg', { class: 'gsvg', viewBox: `0 0 ${W} ${y}`, role: 'img', 'aria-label': 'Manuals grouped by equipment type and maker' }), link = (x1, y1, x2, y2) => SVG('path', { d: `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`, fill: 'none', stroke: 'var(--line)', 'stroke-width': 1.4 });
+    for (const t of rows) for (const v of t.vr) { svg.append(link(XT, t.y, XV, v.y)); for (const r of v.mr) svg.append(link(XV, v.y, XM, r.y)); }
+    const label = (x, yy, lines, anchor, cls) => { const tx = SVG('text', { x, y: yy, 'text-anchor': anchor, class: cls || null }, lines.map((ln, i) => { const ts = SVG('tspan', { x, dy: i ? 12 : 0 }); ts.textContent = ln; return ts; })); return tx; };
+    for (const t of rows) { const ls = wrapLabel(t.k, 13); svg.append(SVG('g', { class: 'c t-model' }, SVG('circle', { class: 'dot', cx: XT, cy: t.y, r: 9 }), label(XT, t.y - 14 - (ls.length - 1) * 12, ls, 'middle')));
+      for (const v of t.vr) { svg.append(SVG('g', { class: 'n t-component' }, SVG('circle', { class: 'dot', cx: XV, cy: v.y, r: 7 }), label(XV, v.y - 11, [v.v.length > 20 ? v.v.slice(0, 19) + '…' : v.v], 'middle')));
+        for (const r of v.mr) { const has = graphNodeOf(r.m) >= 0, nm = short(r.m), g2 = SVG('g', { class: (has ? 'c' : 'n') + ' n ov t-manual', tabindex: 0, role: 'button', 'aria-label': `${nm}: ${has ? 'open its connections' : 'read it'}` }, SVG('rect', { x: XM - 14, y: r.y - 14, width: W - XM + 14, height: 28, fill: 'transparent' }), SVG('circle', { class: 'dot', cx: XM, cy: r.y, r: 6 }), label(XM + 12, r.y + 4, [nm.length > 24 ? nm.slice(0, 23) + '…' : nm], 'start'));
+          g2.addEventListener('click', () => goManual(r.m)); g2.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goManual(r.m); } }); svg.append(g2); } } }
+    return svg; };
+  const renderOverview = () => { const gs = groups(), kids = [el('div', { class: 'scope' }, el('b', { style: 'color:var(--ink);font-size:18px', text: 'Equipment type, then maker, then manual' })), overviewSvg(gs),
+      el('p', { class: 'note', style: 'margin:0', text: 'Filled dots have their parts, specs, faults and procedures mapped: tap one to explore its connections. The others open in the reader.' })];
+    for (const [k, vs] of gs) kids.push(el('details', { open: true }, el('summary', { text: `${k} (${vs.reduce((a, [, ms]) => a + ms.length, 0)})` }),
+      vs.map(([v, ms]) => el('div', { class: 'nodes', style: 'margin-top:8px' }, el('span', { class: 'grp', text: v }), ms.map((m) => el('button', { type: 'button', class: 't-manual', onclick: () => goManual(m) }, el('span', { class: 'ty', text: graphNodeOf(m) >= 0 ? 'mapped' : 'read' }), el('span', { text: short(m) })))))));
+    $('g-out').replaceChildren(...kids); };
   const renderGraph = () => { const out = $('g-out'), g = S.graph;
     if (S.gState !== 'ready') { out.replaceChildren(el('p', { class: 'note', text: S.gState === 'failed' ? 'The graph did not load. Reload the page to try again.' : 'Loading the graph…' })); return; }
     const raw = $('g-q').value.trim().toLowerCase(), qt = raw.split(/\s+/).filter(Boolean);
     if (qt.length) { const hits = g.nodes.filter((n) => qt.every((w) => n.key.includes(w))).sort((a, b) => (b.docs - a.docs) || (g.adj[b.i].length - g.adj[a.i].length)).slice(0, 14);
       out.replaceChildren(hits.length ? el('div', { class: 'nodes' }, hits.map(nodeBtn)) : el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', { text: 'Nothing in the graph matches those words. The graph covers the four HVAC manuals so far.' }))); return; }
+    if (S.gCenter < 0) { if (S.data) renderOverview(); return; }
     const c = g.nodes[S.gCenter], all = [...new Set(g.adj[c.i])].map((i) => g.nodes[i]).sort((a, b) => (b.docs - a.docs) || (g.adj[b.i].length - g.adj[a.i].length)), near = all.slice(0, 10);
-    const book = c.t === 'manual' ? S.data && S.data.manuals.find((m) => m.title === c.l) : null, kids = [];
-    kids.push(el('div', { class: 'scope t-' + c.t }, el('span', { class: 'ty', text: c.t }), el('b', { style: 'color:var(--ink);font-size:18px', text: c.l }), c.docs > 1 ? el('span', { text: `in ${c.docs} manuals` }) : null));
+    const book = c.t === 'manual' ? S.data && S.data.manuals.find((m) => m.id === c.d || m.title === c.l) : null, kids = [];
+    kids.push(el('div', { class: 'scope t-' + c.t }, el('span', { class: 'ty', text: c.t }), el('b', { style: 'color:var(--ink);font-size:18px', text: c.l }), c.docs > 1 ? el('span', { text: `in ${c.docs} manuals` }) : null, el('button', { class: 'pg', type: 'button', onclick: () => center(-1), text: '‹ All equipment' })));
     if (near.length) kids.push(egoSvg(c, near));
     if (c.q) kids.push(el('p', { class: 'note', style: 'margin:0;font-style:italic', text: `"${c.q}"` }));
     const acts = [];

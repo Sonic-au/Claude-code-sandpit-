@@ -2,7 +2,7 @@
 
 Usage: python scripts/export_app_graph.py graph/hvac.json <app_dir>
 
-Output <app_dir>/graph.json: {"corpus", "nodes": [{"t", "l", "a", "s", "q"}], "edges": [[src, dst], ...]}
+Output <app_dir>/graph.json: {"corpus", "nodes": [{"t", "l", "a", "s", "q"} (manual nodes also carry "d", their document id)], "edges": [[src, dst], ...]}
 where t is the node type, l the label, a the aliases, s up to eight unique [doc, page] sources and q the first
 supporting quote. Edges refer to node positions.
 """
@@ -24,7 +24,10 @@ def main() -> None:
                 seen.add(key)
                 pages.append([s["doc"], s["page"]])
         quote = next((s.get("quote", "") for s in n.get("sources", []) if s.get("quote")), "")
-        nodes.append({"t": n["type"], "l": n["label"], "a": n.get("aliases", [])[:4], "s": pages, "q": quote[:220]})
+        node = {"t": n["type"], "l": n["label"], "a": n.get("aliases", [])[:4], "s": pages, "q": quote[:220]}
+        if n["type"] == "manual":
+            node["d"] = n["id"].split(":", 1)[-1]      # the manual's document id, so the app can match it to its library entry
+        nodes.append(node)
     edges = sorted({(index[e["src"]], index[e["dst"]]) for e in graph["edges"] if e["src"] in index and e["dst"] in index})
     out = app_dir / "graph.json"
     out.write_text(json.dumps({"corpus": graph.get("corpus", ""), "nodes": nodes, "edges": edges}, separators=(",", ":")))

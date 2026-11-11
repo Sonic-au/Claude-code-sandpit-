@@ -79,6 +79,8 @@ def main() -> None:
     ap.add_argument("--id", required=True)
     ap.add_argument("--title", required=True)
     ap.add_argument("--source", default="")
+    ap.add_argument("--maker", default="", help="who makes the equipment, e.g. Daikin")
+    ap.add_argument("--equipment", default="", help="equipment type for grouping, e.g. HVAC, Pumps, Generators")
     ap.add_argument("--trust", choices=["vendor", "third-party"], default="third-party",
                     help="vendor = downloaded from the maker's own site; anything else is third-party")
     ap.add_argument("--app-dir", required=True, type=Path)
@@ -123,7 +125,7 @@ def main() -> None:
     entry = {"id": a.id, "corpus": "requested", "title": a.title, "pages": pages,
              "page_text": {str(p): t for p, t in zip(pages, md)},
              "chunks": [{"page": c.page, "heading": c.heading, "text": c.text} for c in chunks],
-             "examples": [], "pdf": f"pdf/{a.id}.pdf", "figs": figs, "source": a.source, "trust": a.trust, "parser": "pymupdf4llm",
+             "examples": [], "pdf": f"pdf/{a.id}.pdf", "figs": figs, "source": a.source, "maker": a.maker[:40], "equipment": a.equipment[:40], "trust": a.trust, "parser": "pymupdf4llm",
              "security": {"scanned": True, "hidden_text_pages": hidden_pages},
              "total_pages": len(src)}
     data["manuals"] = [m for m in data["manuals"] if m["id"] != a.id] + [entry]
