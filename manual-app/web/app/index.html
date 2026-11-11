@@ -100,6 +100,23 @@
   .cand input { width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--accent); } .cand b { font-weight: 600; overflow-wrap: anywhere; } .cand small { grid-column: 2; color: var(--muted); font-size: 13.5px; overflow-wrap: anywhere; }
   .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; border: 1.5px solid var(--c); color: var(--c); border-radius: 5px; padding: 0 5px; white-space: nowrap; }
   .tag.vendor { --c: var(--safe); } .tag.third { --c: var(--caution); }
+  .prog { border: 1.5px solid var(--accent); border-radius: 10px; background: var(--sunk); padding: 12px; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px 12px; align-items: center; }
+  .prog.done { border-color: var(--safe); } .prog svg { width: 64px; height: 64px; display: block; }
+  .prog h3 { margin: 0; font-family: var(--display); font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.05; overflow-wrap: anywhere; }
+  .prog .msg { font-size: 16px; font-weight: 500; min-height: 1.5em; } .prog .ago { font-size: 13px; color: var(--muted); }
+  .prog .bar { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 4px; }
+  .prog .bar i { display: block; height: 100%; width: 40%; border-radius: 3px; background: var(--accent); animation: slide 1.6s ease-in-out infinite; }
+  .prog.done .bar i { width: 100%; background: var(--safe); animation: none; }
+  .prog .lines { grid-column: 1 / -1; display: grid; gap: 6px; margin-top: 6px; } .prog .line { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; font-size: 15px; align-items: start; }
+  .prog .line b { font-weight: 600; overflow-wrap: anywhere; } .prog .line small { display: block; color: var(--muted); font-size: 13.5px; }
+  .prog .dot { width: 14px; height: 14px; border-radius: 50%; margin-top: 4px; border: 2.5px solid var(--muted); } .prog .dot.go { border-color: var(--accent); border-top-color: transparent; animation: spin 1s linear infinite; }
+  .prog .dot.ok { border-color: var(--safe); background: var(--safe); } .prog .dot.no { border-color: var(--caution); background: var(--caution); }
+  .prog details { grid-column: 1 / -1; } .prog ol { margin: 6px 0 0; padding-left: 20px; font-size: 14.5px; color: var(--muted); display: grid; gap: 3px; }
+  .cog { transform-box: fill-box; transform-origin: center; animation: spin 3.2s linear infinite; } .cog.b { animation-duration: 2.4s; animation-direction: reverse; }
+  .lens { animation: sweep 2.8s ease-in-out infinite; } .sheet { animation: feed 2.4s ease-in-out infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } } @keyframes slide { 0% { margin-left: -40%; } 100% { margin-left: 100%; } }
+  @keyframes sweep { 0%, 100% { transform: translate(-7px, 3px); } 50% { transform: translate(9px, -5px); } } @keyframes feed { 0% { transform: translateY(-9px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(7px); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cog, .lens, .sheet, .prog .bar i, .prog .dot.go { animation: none; } .prog .bar i { width: 100%; opacity: .5; } }
   .req ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); display: grid; gap: 2px; }
   .viewer-body img.zoom, .viewer-body canvas.zoom { width: 220%; max-width: none; }
   .viewer-bar select { min-height: 44px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--panel); padding: 4px 8px; }
@@ -139,8 +156,8 @@
     <input class="field" id="lib-q" type="search" placeholder="Find a manual by maker or model…" aria-label="Find a manual" autocomplete="off">
     <div id="lib-list" style="display:grid;gap:8px"></div>
     <div class="card req">
-      <span class="sec">Find manuals on the web</span>
-      <p class="note" style="margin:0">Describe the equipment. An agent searches the makers' own websites first, lists the manuals it finds for that model and related ones, and you choose which to add.</p>
+      <span class="sec">Find more manuals</span>
+      <p class="note" style="margin:0">Tell us what you're working on. We check the maker's own website first, list the manuals we find for that model and ones like it, and you pick which to load.</p>
       <div class="pick-row"><input type="text" id="req-in" placeholder="e.g. Daikin FTXM wall mounted split" aria-label="Equipment to find manuals for"><button class="btn" id="req-go" type="button">Search</button></div>
       <span class="note" id="req-note"></span>
       <div id="found" style="display:grid;gap:10px"></div>
@@ -178,7 +195,7 @@
       if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? '' : v); }
     for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : String(k)); return n; };
   const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
-  const S = { data: null, figs: {}, requests: [], searches: [], picked: {}, view: 'ask', graph: null, gState: 'idle', gCenter: -1, doc: 'all', thread: [], sample: null, sampleState: 'connecting', mcp: null, db: null, userId: null, busy: false, seq: 0 };
+  const S = { data: null, figs: {}, requests: [], searches: [], picked: {}, openLog: {}, liveCount: 0, view: 'ask', graph: null, gState: 'idle', gCenter: -1, doc: 'all', thread: [], sample: null, sampleState: 'connecting', mcp: null, db: null, userId: null, busy: false, seq: 0 };
   const K = 8;   // passages given to Claude. The bench used 5 from a stronger search; keyword search here gets a few more.
   const short = (m) => m.title.replace(/\s*\(.*?\)\s*/g, ' ').split(' - ')[0].trim();
   const manual = (id) => S.data.manuals.find((m) => m.id === id);
@@ -318,37 +335,76 @@
   const waited = (x) => { const m = ageMin(x); return m < 1 ? 'started just now' : `started ${Math.floor(m)} min ago`; };
   const sendSearch = async (text) => { const v = text.trim().slice(0, 200), note = $('req-note'); if (!v) { note.textContent = 'Describe the equipment first.'; return; }
     if (S.sending) return; if (!S.db) { note.textContent = 'Searching needs you signed in with edit access to this page.'; return; }
-    if (S.searches.some((x) => pending(x) && qKey(x.query) === qKey(v))) { note.textContent = 'Already searching for that. The list appears below by itself; there is no need to search again.'; $('found').scrollIntoView({ block: 'nearest' }); return; }
+    if (S.searches.some((x) => pending(x) && qKey(x.query) === qKey(v))) { note.textContent = 'Already looking for that. Your list will show up below on its own.'; $('found').scrollIntoView({ block: 'nearest' }); return; }
     S.sending = true; note.textContent = 'Saving the search…';
     try { await S.db.collection('searches').add({ query: v, status: 'searching', by: S.userId || '', at: new Date().toISOString() }); $('req-in').value = ''; }
     catch { note.textContent = 'The search was not saved. Try again.'; S.sending = false; return; }
-    note.textContent = 'Starting the search…'; note.textContent = await startAgent('search'); S.sending = false; };
+    note.textContent = ''; renderFound(); $('found').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); note.textContent = await startAgent('search'); S.sending = false; };
   const candKey = (c) => String(c.url || '').trim().toLowerCase().replace(/[#?].*$/, '').replace(/^https?:\/\/(www\.)?/, '');
   const candidates = (sr) => { const seen = new Set(), out = []; for (const c of (Array.isArray(sr.candidates) ? sr.candidates.slice() : []).sort((x, y) => ((y && y.trust === 'vendor') ? 1 : 0) - ((x && x.trust === 'vendor') ? 1 : 0))) { if (!c || typeof c.url !== 'string' || !/^https:\/\//i.test(c.url) || !c.title) continue; const k = candKey(c), t = String(c.title).toLowerCase().replace(/\s+/g, ' ').trim(); if (seen.has(k) || seen.has(t)) continue; seen.add(k); seen.add(t); out.push(c); } return out.slice(0, 20); };
   const taken = (c) => S.data.manuals.some((m) => m.source && candKey({ url: m.source }) === candKey(c)) || S.requests.some((r) => r.url && candKey(r) === candKey(c) && !/not found|could not|held/.test(r.status || ''));
   const addCandidates = async (sr, list) => { const note = $('req-note'); if (S.sending || !list.length) { if (!list.length) note.textContent = 'Tick at least one manual first.'; return; }
     if (!S.db) { note.textContent = 'Adding needs you signed in with edit access to this page.'; return; }
-    S.sending = true; note.textContent = `Saving ${list.length} request${list.length > 1 ? 's' : ''}…`; let ok = 0;
+    S.sending = true; note.textContent = 'Sending…'; let ok = 0;
     for (const c of list) { try { await S.db.collection('requests').add({ wanted: String(c.title).slice(0, 200), url: c.url, host: String(c.host || ''), trust: c.trust === 'vendor' ? 'vendor' : 'third-party', search: sr.id, status: 'requested', by: S.userId || '', at: new Date().toISOString() }); ok++; delete S.picked[candKey(c)]; } catch {} }
     if (!ok) { note.textContent = 'Nothing was saved. Try again.'; S.sending = false; return; }
-    const msg = await startAgent('download'); note.textContent = msg || `Adding ${ok} manual${ok > 1 ? 's' : ''} now. Each one is checked, read in and appears in the library when done, usually within a few minutes.`; S.sending = false; renderFound(); };
-  const renderFound = () => { const box = $('found'); if (!S.data) return; const out = [];
+    delete S.openLog['list:' + sr.id]; renderFound(); $('found').scrollIntoView({ block: 'start', behavior: 'smooth' }); const msg = await startAgent('download'); note.textContent = msg; S.sending = false; renderFound(); };
+  // ---- progress: a small moving picture, one plain-English line that changes as time passes (or as the agent reports in),
+  // and a "watch progress" list for anyone who wants every step. Wording is for people who fix equipment, not computers.
+  const SAY = { search: [[0, 'On it. Starting the search.'], [12, 'Checking the maker\'s own website first.'], [32, 'Going through their manuals shelf.'], [55, 'Pulling out the installation and service manuals.'], [80, 'Checking related models too, in case yours is covered there.'],
+      [105, 'Making sure each one is the real document.'], [135, 'Clearing out doubles so you only see each manual once.'], [165, 'Nearly there. Putting your list together.'], [240, 'This one is taking longer than usual. Still on the job.']],
+    load: [[0, 'Got it. Fetching your manual.'], [15, 'Downloading it from the source.'], [45, 'Checking it over. Nothing gets loaded unless it looks right.'], [80, 'Reading every page.'], [120, 'Picking out the diagrams and tables.'], [165, 'Filing it in your library.'], [230, 'Big manual. Still going.'], [420, 'Taking longer than usual. Still on the job.']] };
+  const secsSince = (at) => Math.max(0, (Date.now() - Date.parse(at || 0)) / 1000);
+  const sayNow = (kind, at) => { let m = SAY[kind][0][1]; for (const [t, text] of SAY[kind]) if (secsSince(at) >= t) m = text; return m; };
+  const agoText = (at) => { const x = secsSince(at); return x < 50 ? 'Started just now' : x < 100 ? 'About a minute in' : `About ${Math.round(x / 60)} minutes in`; };
+  const notesOf = (d) => (Array.isArray(d.progress) ? d.progress : []).map((n) => typeof n === 'string' ? { m: n } : n).filter((n) => n && typeof n.m === 'string' && n.m.trim()).map((n) => ({ m: n.m.trim().slice(0, 140), t: n.t })).slice(-12);
+  const COG = 'M0,-17 L3,-17 L4.5,-12.5 L8.5,-10.5 L12.5,-13 L15,-10.5 L12.5,-6.5 L14,-2.5 L18.5,-1.5 L18.5,1.5 L14,2.5 L12.5,6.5 L15,10.5 L12.5,13 L8.5,10.5 L4.5,12.5 L3,17 L-3,17 L-4.5,12.5 L-8.5,10.5 L-12.5,13 L-15,10.5 L-12.5,6.5 L-14,2.5 L-18.5,1.5 L-18.5,-1.5 L-14,-2.5 L-12.5,-6.5 L-15,-10.5 L-12.5,-13 L-8.5,-10.5 L-4.5,-12.5 L-3,-17 Z';
+  const picture = (kind, done) => { const v = SVG('svg', { viewBox: '0 0 64 64', 'aria-hidden': 'true' });
+    if (done) { v.append(SVG('circle', { cx: 32, cy: 32, r: 24, fill: 'var(--safe)' }), SVG('path', { d: 'M21 33 l8 8 l15 -17', fill: 'none', stroke: '#fff', 'stroke-width': 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })); return v; }
+    if (kind === 'search') { for (const [x, y] of [[12, 12], [16, 16], [20, 20]]) v.append(SVG('rect', { x, y, width: 30, height: 38, rx: 3, fill: 'var(--panel)', stroke: 'var(--muted)', 'stroke-width': 2 }));
+      for (const y of [30, 37, 44]) v.append(SVG('line', { x1: 25, y1: y, x2: 45, y2: y, stroke: 'var(--line)', 'stroke-width': 3, 'stroke-linecap': 'round' }));
+      v.append(SVG('g', { class: 'lens' }, SVG('circle', { cx: 36, cy: 34, r: 11, fill: 'rgba(255,255,255,.35)', stroke: 'var(--accent)', 'stroke-width': 4 }), SVG('line', { x1: 44, y1: 42, x2: 54, y2: 52, stroke: 'var(--accent)', 'stroke-width': 5, 'stroke-linecap': 'round' }))); return v; }
+    v.append(SVG('g', { transform: 'translate(23 39)' }, SVG('g', { class: 'cog' }, SVG('path', { d: COG, fill: 'var(--accent)' }), SVG('circle', { r: 6, fill: 'var(--sunk)' }))),
+      SVG('g', { transform: 'translate(47 20) scale(.62)' }, SVG('g', { class: 'cog b' }, SVG('path', { d: COG, fill: 'var(--muted)' }), SVG('circle', { r: 6, fill: 'var(--sunk)' }))),
+      SVG('g', { class: 'sheet' }, SVG('rect', { x: 40, y: 38, width: 16, height: 20, rx: 2, fill: 'var(--panel)', stroke: 'var(--muted)', 'stroke-width': 2 }), SVG('line', { x1: 44, y1: 45, x2: 52, y2: 45, stroke: 'var(--line)', 'stroke-width': 2 }), SVG('line', { x1: 44, y1: 50, x2: 52, y2: 50, stroke: 'var(--line)', 'stroke-width': 2 }))); return v; };
+  const progCard = (o) => { const last = o.notes[o.notes.length - 1], msg = el('div', { class: 'msg', 'aria-live': 'polite', text: o.done ? o.doneText : last ? last.m : sayNow(o.kind, o.at) }), ago = el('div', { class: 'ago', text: o.done ? '' : agoText(o.at) });
+    if (!o.done) { msg.dataset.kind = o.kind; msg.dataset.at = o.at; if (last) msg.dataset.note = '1'; ago.dataset.ago = o.at; }
+    const key = 'steps:' + o.key, log = el('details', { open: S.openLog[key] || null }, el('summary', { text: 'Watch progress' }), el('ol', {}, (o.notes.length ? o.notes.map((n) => n.m) : SAY[o.kind].filter(([t]) => o.done || secsSince(o.at) >= t).slice(0, o.done ? 3 : 99).map(([, t]) => t)).map((t) => el('li', { text: t }))));
+    log.addEventListener('toggle', () => { S.openLog[key] = log.open; });
+    return el('div', { class: 'prog' + (o.done ? ' done' : '') }, picture(o.kind, o.done), el('div', {}, el('h3', { text: o.title }), msg, ago), el('div', { class: 'bar' }, el('i')), o.lines && o.lines.length ? el('div', { class: 'lines' }, o.lines) : null, log); };
+  const PLAIN = { requested: ['go', 'Waiting its turn'], looking: ['go', 'Fetching and reading it'], added: ['ok', 'Ready to use'], 'already in the library': ['ok', 'Already in your library'], 'not found': ['no', 'Couldn\'t find it'], 'library full': ['no', 'Library is full, so this one wasn\'t loaded'],
+    'could not be read': ['no', 'Couldn\'t read this one. It may be a scanned copy.'], 'held: suspicious content': ['no', 'Set aside. Something in it didn\'t look right, so it wasn\'t loaded.'] };
+  const active = (r) => (r.status === 'requested' || r.status === 'looking') && ageMin(r) < 25;
+  const loadCard = () => { const recent = S.requests.filter((r) => ageMin(r) < 45 && (active(r) || ageMin(r) < 45)); if (!recent.length) return null;
+    const live = recent.filter(active), ok = recent.filter((r) => r.status === 'added').length, first = recent.reduce((a, r) => (Date.parse(r.at) < Date.parse(a.at) ? r : a), recent[0]);
+    const lines = recent.map((r) => { const [dot, text] = PLAIN[r.status] || (active(r) ? PLAIN.looking : ['no', String(r.status || 'Stopped').slice(0, 80)]), stale = !active(r) && (r.status === 'requested' || r.status === 'looking');
+      return el('div', { class: 'line' }, el('span', { class: 'dot ' + (stale ? 'no' : dot) }), el('div', {}, el('b', { text: String(r.wanted || 'Manual').slice(0, 120) }), el('small', { text: stale ? 'This one didn\'t finish. Try adding it again.' : text }))); });
+    const notes = live.length ? live.flatMap(notesOf).sort((a, b) => String(a.t).localeCompare(String(b.t))) : [];
+    return progCard({ kind: 'load', key: 'load', at: (live[0] || first).at, notes, done: !live.length, lines,
+      title: live.length ? `Loading ${live.length} manual${live.length > 1 ? 's' : ''}` : ok ? `${ok} manual${ok > 1 ? 's' : ''} ready` : 'Nothing was loaded',
+      doneText: ok ? 'All done. Find them in the library above, under "Added on request".' : 'None of these could be loaded. The reasons are below.' }); };
+  const renderFound = () => { const box = $('found'); if (!S.data) return; const out = [], lc = loadCard(); if (lc) out.push(lc);
     const latest = new Map(); for (const x of S.searches) { if (x.status === 'duplicate') continue; const k = qKey(x.query), old = latest.get(k); if (!old || (candidates(x).length >= candidates(old).length)) latest.set(k, x); }
-    clearTimeout(S.foundTick); if ([...latest.values()].some(pending)) S.foundTick = setTimeout(renderFound, 20000);
-    for (const sr of [...latest.values()].slice(-3).reverse()) { const head = el('div', { class: 'scope' }, el('b', { style: 'color:var(--ink)', text: sr.query }));
-      const cs = candidates(sr), busy = pending(sr);
-      if (busy && !cs.length) { out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: `Searching the web (${waited(sr)}). First results usually arrive within a minute or two and appear here by themselves.` }))); continue; }
-      if (!busy && (sr.status === 'searching' || sr.status === 'looking') && !cs.length) { out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: 'That search did not finish. Search again.' }))); continue; }
-      if (!busy && sr.status !== 'ready' && !cs.length || sr.status === 'ready' && !cs.length) { out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: sr.status === 'ready' ? 'No manuals were found for that. Try the maker and series name.' : `Search ended: ${String(sr.status || 'unknown').slice(0, 80)}` }))); continue; }
-      const open = cs.filter((c) => !taken(c)), rows = cs.map((c) => { const k = candKey(c), tk = taken(c), box2 = el('input', { type: 'checkbox', checked: (!tk && S.picked[k]) || null, disabled: tk || null, 'aria-label': 'Add ' + c.title });
+    for (const sr of [...latest.values()].slice(-3).reverse()) { const cs = candidates(sr), busy = pending(sr), stuck = !busy && (sr.status === 'searching' || sr.status === 'looking');
+      if (busy) out.push(progCard({ kind: 'search', key: 'search:' + sr.id, at: sr.at, notes: notesOf(sr), done: false, title: `Looking for: ${String(sr.query).slice(0, 60)}` }));
+      if (!cs.length) { if (!busy) out.push(el('div', {}, el('div', { class: 'scope' }, el('b', { style: 'color:var(--ink)', text: sr.query })), el('p', { class: 'note', style: 'margin:4px 0 0', text: stuck ? 'That search didn\'t finish. Tap Search to try again.' : sr.status === 'ready' ? 'No manuals turned up for that. Try the maker\'s name and the model or series.' : `Search stopped: ${String(sr.status || 'unknown').slice(0, 80)}` }))); continue; }
+      const open = cs.filter((c) => !taken(c)), loading = S.requests.some((r) => r.search === sr.id && active(r)), key = 'list:' + sr.id;
+      const rows = cs.map((c) => { const k = candKey(c), tk = taken(c), box2 = el('input', { type: 'checkbox', checked: (!tk && S.picked[k]) || null, disabled: tk || null, 'aria-label': 'Load ' + c.title });
         box2.addEventListener('change', () => { if (box2.checked) S.picked[k] = true; else delete S.picked[k]; });
         return el('label', { class: 'cand' }, box2, el('b', { text: String(c.title).slice(0, 160) }),
-          el('small', {}, el('span', { class: 'tag ' + (c.trust === 'vendor' ? 'vendor' : 'third'), text: c.trust === 'vendor' ? 'maker site' : 'third party' }), ' ', String(c.host || '').slice(0, 60), c.models ? ' · ' + String(Array.isArray(c.models) ? c.models.join(', ') : c.models).slice(0, 120) : '', tk ? ' · already added or requested' : '')); });
-      out.push(el('div', {}, head, el('p', { class: 'note', style: 'margin:4px 0 0', text: busy ? `${cs.length} found so far, still searching (${waited(sr)})…` : `${cs.length} manual${cs.length > 1 ? 's' : ''} found, duplicates removed.` }), rows,
-        el('div', { class: 'acts', style: 'display:flex;flex-wrap:wrap;gap:8px;margin-top:8px' }, el('button', { class: 'btn', type: 'button', disabled: !open.length || null, onclick: () => addCandidates(sr, open.filter((c) => S.picked[candKey(c)])), text: 'Add selected' }),
-          el('button', { class: 'btn', type: 'button', disabled: !open.length || null, onclick: () => addCandidates(sr, open), text: `Add all ${open.length}` })))); }
-    box.replaceChildren(...out); };
-  const renderRequests = () => { const ul = $('req-list'); ul.hidden = !S.requests.length; const added = S.requests.filter((r) => r.status === 'added').length; if (S.addedSeen !== undefined && added > S.addedSeen) refreshData(); S.addedSeen = added; ul.replaceChildren(...S.requests.slice(-8).map((r) => el('li', { text: `${r.wanted}: ${r.status || 'requested'}` }))); };
+          el('small', {}, el('span', { class: 'tag ' + (c.trust === 'vendor' ? 'vendor' : 'third'), text: c.trust === 'vendor' ? 'maker site' : 'third party' }), ' ', String(c.host || '').slice(0, 60), c.models ? ' · ' + String(Array.isArray(c.models) ? c.models.join(', ') : c.models).slice(0, 120) : '', tk ? ' · already added or on its way' : '')); });
+      const isOpen = key in S.openLog ? S.openLog[key] : !loading, list = el('details', { open: isOpen || null }, el('summary', {}, el('b', { style: 'color:var(--ink)', text: String(sr.query).slice(0, 60) }), busy ? ` · ${cs.length} found so far` : ` · ${cs.length} manual${cs.length > 1 ? 's' : ''} found`),
+        el('p', { class: 'note', style: 'margin:6px 0 0', text: busy ? 'More may still turn up. You can start adding now.' : 'Each manual is listed once. Tick the ones you want.' }), rows,
+        el('div', { class: 'acts', style: 'display:flex;flex-wrap:wrap;gap:8px;margin-top:8px' }, el('button', { class: 'btn', type: 'button', disabled: !open.length || null, onclick: () => addCandidates(sr, open.filter((c) => S.picked[candKey(c)])), text: 'Load selected' }),
+          el('button', { class: 'btn', type: 'button', disabled: !open.length || null, onclick: () => addCandidates(sr, open), text: `Load all ${open.length}` })));
+      list.addEventListener('toggle', () => { S.openLog[key] = list.open; }); out.push(list); }
+    box.replaceChildren(...out); S.liveCount = S.searches.filter(pending).length + S.requests.filter(active).length; };
+  // every few seconds: move the messages on, and redraw when something starts or stops
+  setInterval(() => { if (!S.data) return; const live = S.searches.filter(pending).length + S.requests.filter(active).length; if (live !== S.liveCount) { renderFound(); return; }
+    for (const n of document.querySelectorAll('#found [data-kind]')) if (!n.dataset.note) { const t = sayNow(n.dataset.kind, n.dataset.at); if (n.textContent !== t) n.textContent = t; }
+    for (const n of document.querySelectorAll('#found [data-ago]')) n.textContent = agoText(n.dataset.ago); }, 4000);
+  const renderRequests = () => { const added = S.requests.filter((r) => r.status === 'added').length; if (S.addedSeen !== undefined && added > S.addedSeen) refreshData(); S.addedSeen = added;
+    const old = S.requests.filter((r) => ageMin(r) >= 45).slice(-8), ul = $('req-list'); ul.hidden = !old.length; ul.replaceChildren(...old.map((r) => el('li', { text: `${String(r.wanted).slice(0, 100)}: ${(PLAIN[r.status] || [0, String(r.status || '').slice(0, 60)])[1]}` }))); };
   const refreshData = async () => { try { const r = await fetch('data.json', { cache: 'no-store' }); if (!r.ok) return; const d = await r.json(); if (d.manuals.length > S.data.manuals.length) { S.data = d; indexes.clear(); renderLibrary(); if (S.view === 'ask') render(); } else $('req-note').textContent = 'A requested manual has been added. Reload the page to see it.'; } catch {} };
   // First page of each manual as a thumbnail: a stored page image, or drawn from the PDF once the card scrolls into view.
   const thumbWatch = 'IntersectionObserver' in window ? new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) { thumbWatch.unobserve(e.target); drawThumb(e.target); } }, { rootMargin: '200px' }) : null;
