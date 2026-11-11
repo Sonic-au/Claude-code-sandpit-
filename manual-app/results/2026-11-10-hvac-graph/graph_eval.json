@@ -1,0 +1,1286 @@
+{
+ "single_manual": {
+  "text_only": {
+   "recall_at_5": 0.975,
+   "right_manual_in_top5": 1.0,
+   "ms_per_question": 35.379067124995345,
+   "manuals_searched_mean": 4.0,
+   "n": 40,
+   "questions": [
+    {
+     "id": "dki-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dki-q02",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dki-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dki-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dki-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dki-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dki-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dki-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dki-q09",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dki-q10",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q02",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q09",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "dko-q10",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q02",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q09",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "brd-q10",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q02",
+     "hit": false,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q09",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "rhm-q10",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    }
+   ]
+  },
+  "graph_boosted": {
+   "recall_at_5": 0.925,
+   "right_manual_in_top5": 1.0,
+   "ms_per_question": 35.728587125015565,
+   "manuals_searched_mean": 4.0,
+   "n": 40,
+   "questions": [
+    {
+     "id": "dki-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:air-conditioner",
+      "component:indoor-unit"
+     ]
+    },
+    {
+     "id": "dki-q02",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:indoor-unit"
+     ]
+    },
+    {
+     "id": "dki-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:indoor-unit",
+      "component:jumper",
+      "component:printed-circuit-board",
+      "component:remote-controller",
+      "tool:jumper"
+     ]
+    },
+    {
+     "id": "dki-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:connection-cord",
+      "component:indoor-unit",
+      "component:remote-controller",
+      "procedure:hvac_daikin_ftxs_indoor:connecting-to-an-ha-system"
+     ]
+    },
+    {
+     "id": "dki-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:indoor-unit"
+     ]
+    },
+    {
+     "id": "dki-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:indoor-unit",
+      "component:terminal-block",
+      "component:wiring",
+      "procedure:hvac_daikin_ftxs_indoor:wiring",
+      "procedure:hvac_daikin_rxs_outdoor:wiring"
+     ]
+    },
+    {
+     "id": "dki-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:condensate-drain-line",
+      "component:drain-hose",
+      "component:indoor-unit",
+      "component:pipe",
+      "procedure:hvac_daikin_ftxs_indoor:drain-piping"
+     ]
+    },
+    {
+     "id": "dki-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:flare",
+      "component:flare-nut",
+      "component:indoor-unit"
+     ]
+    },
+    {
+     "id": "dki-q09",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:indoor-unit",
+      "component:pipe"
+     ]
+    },
+    {
+     "id": "dki-q10",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:indoor-unit",
+      "component:remote-controller",
+      "fault:hvac_daikin_ftxs_indoor:remote-controller-malfunctioning",
+      "procedure:hvac_daikin_ftxs_indoor:trial-operation",
+      "procedure:hvac_daikin_rxs_outdoor:test-item"
+     ]
+    },
+    {
+     "id": "dko-q01",
+     "hit": false,
+     "manuals_searched": 4,
+     "entities": [
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q02",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:outdoor-unit",
+      "component:pipe",
+      "component:refrigerant-line-set"
+     ]
+    },
+    {
+     "id": "dko-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:drain-port",
+      "component:foot-base",
+      "component:heat-pump",
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:outdoor-unit",
+      "component:service-port",
+      "component:service-port-cap",
+      "component:service-valve"
+     ]
+    },
+    {
+     "id": "dko-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:compound-pressure-gauge",
+      "component:outdoor-unit",
+      "component:vacuum-pump",
+      "fault:hvac_daikin_rxs_outdoor:compound-pressure-gauge-pointer-swings-back",
+      "tool:vacuum-pump"
+     ]
+    },
+    {
+     "id": "dko-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q09",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:jumper",
+      "component:outdoor-unit",
+      "tool:jumper"
+     ]
+    },
+    {
+     "id": "dko-q10",
+     "hit": false,
+     "manuals_searched": 4,
+     "entities": [
+      "component:outdoor-unit",
+      "component:power-supply"
+     ]
+    },
+    {
+     "id": "brd-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:coil",
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "brd-q02",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:low-ambient-control"
+     ]
+    },
+    {
+     "id": "brd-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:transformer"
+     ]
+    },
+    {
+     "id": "brd-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:cylinder",
+      "component:heat-pump",
+      "refrigerant:r-410a",
+      "tool:refrigerant-cylinder"
+     ]
+    },
+    {
+     "id": "brd-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:compressor",
+      "component:heat-pump",
+      "component:red-fault-led",
+      "component:scroll-compressor"
+     ]
+    },
+    {
+     "id": "brd-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:coil",
+      "component:control-board",
+      "component:heat-pump",
+      "component:heat-pump-control-board",
+      "component:terminal"
+     ]
+    },
+    {
+     "id": "brd-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:temperature-sensor"
+     ]
+    },
+    {
+     "id": "brd-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:high-pressure-switch"
+     ]
+    },
+    {
+     "id": "brd-q09",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:compressor",
+      "component:heat-pump",
+      "component:scroll-compressor",
+      "component:suction-and-discharge-tube"
+     ]
+    },
+    {
+     "id": "brd-q10",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:blower-motor",
+      "component:heat-pump",
+      "component:indoor-blower",
+      "component:motor"
+     ]
+    },
+    {
+     "id": "rhm-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:compressor",
+      "component:compressor-contactor",
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "rhm-q02",
+     "hit": false,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:refrigerant-charge",
+      "procedure:hvac_bard_wallmount:refrigerant-charge"
+     ]
+    },
+    {
+     "id": "rhm-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "rhm-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "rhm-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:coil",
+      "component:heat-pump",
+      "component:refrigerant-line-set",
+      "procedure:hvac_rheem_heatpump:leak-testing",
+      "tool:dry-nitrogen"
+     ]
+    },
+    {
+     "id": "rhm-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:defrost-control",
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "rhm-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:heat-pump-system",
+      "component:service-valve",
+      "procedure:hvac_rheem_heatpump:opening-the-service-valve"
+     ]
+    },
+    {
+     "id": "rhm-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:transformer"
+     ]
+    },
+    {
+     "id": "rhm-q09",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:low-ambient-control"
+     ]
+    },
+    {
+     "id": "rhm-q10",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:compressor",
+      "component:heat-pump",
+      "component:outdoor-fan",
+      "component:overload-protector"
+     ]
+    }
+   ]
+  },
+  "graph_narrowed": {
+   "recall_at_5": 0.925,
+   "right_manual_in_top5": 1.0,
+   "ms_per_question": 39.18705197502277,
+   "manuals_searched_mean": 2.725,
+   "n": 40,
+   "questions": [
+    {
+     "id": "dki-q01",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:air-conditioner",
+      "component:indoor-unit"
+     ]
+    },
+    {
+     "id": "dki-q02",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:indoor-unit"
+     ]
+    },
+    {
+     "id": "dki-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:indoor-unit",
+      "component:jumper",
+      "component:printed-circuit-board",
+      "component:remote-controller",
+      "tool:jumper"
+     ]
+    },
+    {
+     "id": "dki-q04",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:connection-cord",
+      "component:indoor-unit",
+      "component:remote-controller",
+      "procedure:hvac_daikin_ftxs_indoor:connecting-to-an-ha-system"
+     ]
+    },
+    {
+     "id": "dki-q05",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:indoor-unit"
+     ]
+    },
+    {
+     "id": "dki-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:indoor-unit",
+      "component:terminal-block",
+      "component:wiring",
+      "procedure:hvac_daikin_ftxs_indoor:wiring",
+      "procedure:hvac_daikin_rxs_outdoor:wiring"
+     ]
+    },
+    {
+     "id": "dki-q07",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:condensate-drain-line",
+      "component:drain-hose",
+      "component:indoor-unit",
+      "component:pipe",
+      "procedure:hvac_daikin_ftxs_indoor:drain-piping"
+     ]
+    },
+    {
+     "id": "dki-q08",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:flare",
+      "component:flare-nut",
+      "component:indoor-unit"
+     ]
+    },
+    {
+     "id": "dki-q09",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:indoor-unit",
+      "component:pipe"
+     ]
+    },
+    {
+     "id": "dki-q10",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:indoor-unit",
+      "component:remote-controller",
+      "fault:hvac_daikin_ftxs_indoor:remote-controller-malfunctioning",
+      "procedure:hvac_daikin_ftxs_indoor:trial-operation",
+      "procedure:hvac_daikin_rxs_outdoor:test-item"
+     ]
+    },
+    {
+     "id": "dko-q01",
+     "hit": false,
+     "manuals_searched": 3,
+     "entities": [
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q02",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:outdoor-unit",
+      "component:pipe",
+      "component:refrigerant-line-set"
+     ]
+    },
+    {
+     "id": "dko-q03",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:drain-port",
+      "component:foot-base",
+      "component:heat-pump",
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:outdoor-unit",
+      "component:service-port",
+      "component:service-port-cap",
+      "component:service-valve"
+     ]
+    },
+    {
+     "id": "dko-q06",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:compound-pressure-gauge",
+      "component:outdoor-unit",
+      "component:vacuum-pump",
+      "fault:hvac_daikin_rxs_outdoor:compound-pressure-gauge-pointer-swings-back",
+      "tool:vacuum-pump"
+     ]
+    },
+    {
+     "id": "dko-q07",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q08",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "dko-q09",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:jumper",
+      "component:outdoor-unit",
+      "tool:jumper"
+     ]
+    },
+    {
+     "id": "dko-q10",
+     "hit": false,
+     "manuals_searched": 3,
+     "entities": [
+      "component:outdoor-unit",
+      "component:power-supply"
+     ]
+    },
+    {
+     "id": "brd-q01",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:coil",
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "brd-q02",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump",
+      "component:low-ambient-control"
+     ]
+    },
+    {
+     "id": "brd-q03",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump",
+      "component:transformer"
+     ]
+    },
+    {
+     "id": "brd-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:cylinder",
+      "component:heat-pump",
+      "refrigerant:r-410a",
+      "tool:refrigerant-cylinder"
+     ]
+    },
+    {
+     "id": "brd-q05",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:compressor",
+      "component:heat-pump",
+      "component:red-fault-led",
+      "component:scroll-compressor"
+     ]
+    },
+    {
+     "id": "brd-q06",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:coil",
+      "component:control-board",
+      "component:heat-pump",
+      "component:heat-pump-control-board",
+      "component:terminal"
+     ]
+    },
+    {
+     "id": "brd-q07",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump",
+      "component:temperature-sensor"
+     ]
+    },
+    {
+     "id": "brd-q08",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump",
+      "component:high-pressure-switch"
+     ]
+    },
+    {
+     "id": "brd-q09",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:compressor",
+      "component:heat-pump",
+      "component:scroll-compressor",
+      "component:suction-and-discharge-tube"
+     ]
+    },
+    {
+     "id": "brd-q10",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:blower-motor",
+      "component:heat-pump",
+      "component:indoor-blower",
+      "component:motor"
+     ]
+    },
+    {
+     "id": "rhm-q01",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:compressor",
+      "component:compressor-contactor",
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "rhm-q02",
+     "hit": false,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump",
+      "component:refrigerant-charge",
+      "procedure:hvac_bard_wallmount:refrigerant-charge"
+     ]
+    },
+    {
+     "id": "rhm-q03",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "rhm-q04",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "rhm-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:coil",
+      "component:heat-pump",
+      "component:refrigerant-line-set",
+      "procedure:hvac_rheem_heatpump:leak-testing",
+      "tool:dry-nitrogen"
+     ]
+    },
+    {
+     "id": "rhm-q06",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:defrost-control",
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "rhm-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:heat-pump-system",
+      "component:service-valve",
+      "procedure:hvac_rheem_heatpump:opening-the-service-valve"
+     ]
+    },
+    {
+     "id": "rhm-q08",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump",
+      "component:transformer"
+     ]
+    },
+    {
+     "id": "rhm-q09",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump",
+      "component:low-ambient-control"
+     ]
+    },
+    {
+     "id": "rhm-q10",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:compressor",
+      "component:heat-pump",
+      "component:outdoor-fan",
+      "component:overload-protector"
+     ]
+    }
+   ]
+  }
+ },
+ "cross_manual": {
+  "text_only": {
+   "recall_at_5": 1.0,
+   "right_manual_in_top5": 1.0,
+   "ms_per_question": 45.30807124996272,
+   "manuals_searched_mean": 4.0,
+   "n": 8,
+   "questions": [
+    {
+     "id": "hvx-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "hvx-q02",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "hvx-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "hvx-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "hvx-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "hvx-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "hvx-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    },
+    {
+     "id": "hvx-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": []
+    }
+   ]
+  },
+  "graph_boosted": {
+   "recall_at_5": 1.0,
+   "right_manual_in_top5": 1.0,
+   "ms_per_question": 36.56429100004743,
+   "manuals_searched_mean": 4.0,
+   "n": 8,
+   "questions": [
+    {
+     "id": "hvx-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:indoor-unit",
+      "component:outdoor-unit",
+      "refrigerant:r-410a"
+     ]
+    },
+    {
+     "id": "hvx-q02",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:indoor-unit",
+      "component:inter-unit-wire",
+      "component:outdoor-unit",
+      "component:wire"
+     ]
+    },
+    {
+     "id": "hvx-q03",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "hvx-q04",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:filter-drier",
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "hvx-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "refrigerant:r-410a"
+     ]
+    },
+    {
+     "id": "hvx-q06",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "hvx-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "hvx-q08",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:compressor",
+      "component:heat-pump"
+     ]
+    }
+   ]
+  },
+  "graph_narrowed": {
+   "recall_at_5": 1.0,
+   "right_manual_in_top5": 1.0,
+   "ms_per_question": 37.753137500089906,
+   "manuals_searched_mean": 3.125,
+   "n": 8,
+   "questions": [
+    {
+     "id": "hvx-q01",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:indoor-unit",
+      "component:outdoor-unit",
+      "refrigerant:r-410a"
+     ]
+    },
+    {
+     "id": "hvx-q02",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:indoor-unit",
+      "component:inter-unit-wire",
+      "component:outdoor-unit",
+      "component:wire"
+     ]
+    },
+    {
+     "id": "hvx-q03",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "hvx-q04",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:filter-drier",
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "hvx-q05",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "refrigerant:r-410a"
+     ]
+    },
+    {
+     "id": "hvx-q06",
+     "hit": true,
+     "manuals_searched": 2,
+     "entities": [
+      "component:heat-pump"
+     ]
+    },
+    {
+     "id": "hvx-q07",
+     "hit": true,
+     "manuals_searched": 4,
+     "entities": [
+      "component:heat-pump",
+      "component:outdoor-unit"
+     ]
+    },
+    {
+     "id": "hvx-q08",
+     "hit": true,
+     "manuals_searched": 3,
+     "entities": [
+      "component:compressor",
+      "component:heat-pump"
+     ]
+    }
+   ]
+  }
+ }
+}

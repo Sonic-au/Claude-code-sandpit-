@@ -1,0 +1,22 @@
+{"id": "pg-b01", "type": "steps", "page": 834, "category": "step_order", "steps": ["Stop the server, if it's running.", "copy the whole cluster data directory and any tablespaces to a temporary location", "Remove all existing files and subdirectories under the cluster data directory", "If you're restoring a full backup, you can restore the database files directly into the target directories", "If you're restoring an incremental backup", "Remove any files present in pg_wal/", "If you have unarchived WAL segment files that you saved in step 2, copy them into pg_wal/", "Set recovery configuration settings in postgresql.conf", "Start the server. The server will go into recovery mode"]}
+{"id": "pg-b02", "type": "order", "page": 825, "category": "order", "before": "Use compressed dumps. You can use your favorite compression program", "after": "The split command allows you to split the output into smaller files"}
+{"id": "pg-b03", "type": "present", "page": 824, "category": "safety", "text": "if you are using a customized template1, you must create the empty database from template0"}
+{"id": "pg-b04", "type": "near", "page": 824, "category": "safety", "a": "Important", "b": "The dumps produced by pg_dump are relative to template0", "window": 20}
+{"id": "pg-b05", "type": "present", "page": 833, "category": "safety", "text": "This option must be used with caution: if WAL archiving is not monitored correctly then the backup might not include all of the WAL files"}
+{"id": "pg-b06", "type": "present", "page": 829, "category": "safety", "text": "If the file system containing pg_wal/ fills up, PostgreSQL will do a PANIC shutdown"}
+{"id": "pg-b07", "type": "present", "page": 826, "category": "safety", "text": "The database server must be shut down in order to get a usable backup"}
+{"id": "pg-b08", "type": "near", "page": 825, "category": "spec", "a": "to make 2 gigabyte chunks", "b": "split -b 2G", "window": 80}
+{"id": "pg-b09", "type": "near", "page": 824, "category": "spec", "a": "ON_ERROR_STOP variable", "b": "exit status of 3", "window": 100}
+{"id": "pg-b10", "type": "near", "page": 833, "category": "spec", "a": "GNU tar versions 1.16 and later exit with 1", "b": "2 for other errors", "window": 90}
+{"id": "pg-b11", "type": "near", "page": 829, "category": "spec", "a": "exit status greater than 125", "b": "the archiver process aborts", "window": 140}
+{"id": "pg-b12", "type": "present", "page": 826, "category": "part_number", "text": "pg_dump -Fc dbname > filename"}
+{"id": "pg-b13", "type": "present", "page": 826, "category": "part_number", "text": "pg_dump -j num -F d -f out.dir dbname"}
+{"id": "pg-b14", "type": "present", "page": 824, "category": "part_number", "text": "psql -X --set ON_ERROR_STOP=on dbname < dumpfile"}
+{"id": "pg-b15", "type": "present", "page": 825, "category": "part_number", "text": "Cluster-wide data can be dumped alone using the pg_dumpall --globals-only option"}
+{"id": "pg-b16", "type": "present", "page": 833, "category": "part_number", "text": "you can use the warning options --warning=no-file-changed --warning=no-file-removed"}
+{"id": "pg-b17", "type": "present", "page": 834, "category": "part_number", "text": "The backup label file includes the label string you gave to pg_backup_start"}
+{"id": "pg-b18", "type": "present", "page": 829, "category": "part_number", "text": "test ! -f /mnt/server/archivedir/00000001000000A900000065"}
+{"id": "pg-b19", "type": "heading", "page": 823, "category": "heading", "text": "25.1. SQL Dump"}
+{"id": "pg-b20", "type": "heading", "page": 833, "category": "heading", "text": "25.3.4.1. Backing Up the Data Directory"}
+{"id": "pg-b21", "type": "absent", "page": 824, "category": "header", "text": "Backup and Restore"}
+{"id": "pg-b22", "type": "absent", "page": 834, "category": "header", "text": "Backup and Restore"}

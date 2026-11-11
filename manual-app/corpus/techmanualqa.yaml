@@ -1,0 +1,35 @@
+# External benchmark corpus: three manuals from TechManualQA-700 (Duricic et al., ECIR 2026 / CIKM 2025;
+# dataset CC BY 4.0, Zenodo record 17410809). Questions and answer snippets are theirs; the manuals are the
+# vendors' own PDFs at the URLs the dataset's README lists. Editions verified: 86 of 90 answerable snippets
+# appear on their stated page. Run with `--corpus techmanualqa`.
+#
+# Two other selected manuals (DeWalt DWE575 saw, Hilti TE 60) returned HTTP 404 at the listed vendor URLs
+# on 10 Nov 2026 and are left out.
+
+documents:
+  - id: tmqa_makita_drill
+    title: "Makita XFD12 cordless driver-drill instruction manual"
+    publisher: Makita (via TechManualQA-700)
+    kind: manual
+    category: equipment-om
+    url: https://cdn.makitatools.com/apps/cms/doc/prod/XFD/e2dc6a61-63d3-4455-b4dc-940ffa84e99d_XFD12_IM_885510-943.pdf
+    sha256: 6ad99323929ba0e201760c26419d08561b91abf7ba3886463d22fb826c1d6af6
+    pages: all
+
+  - id: tmqa_prusa_mk4
+    title: "Prusa MK4S / MK3.9S 3D printer user manual (v1.01)"
+    publisher: Prusa Research (via TechManualQA-700)
+    kind: manual
+    category: equipment-om
+    url: https://www.prusa3d.com/downloads/manual/prusa3d_manual_mk4s_mk39s_101_en.pdf
+    sha256: a3cb4a3c1b2603766d1dcc2e1f610dfa340a7115663e4ce6791b5b26ff81c6da
+    pages: all
+
+  - id: tmqa_dji_mavic_pro
+    title: "DJI Mavic Pro user manual V2.0"
+    publisher: DJI (via TechManualQA-700)
+    kind: manual
+    category: equipment-om
+    url: https://dl.djicdn.com/downloads/mavic/Mavic+Pro+User+Manual+V2.0-.pdf
+    sha256: a52d0c23df82e0daa5676e494b3c47f98e949aa0796e552fc78a5d14120a8754
+    pages: all

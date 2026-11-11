@@ -1,0 +1,11 @@
+[project]
+name = "manual-app"
+version = "0.1.0"
+description = "Manual Handling: let AI handle your manuals. Technical-manual Q&A bench, workbench and knowledge graph"
+requires-python = ">=3.11"
+
+[tool.setuptools]
+packages = ["manual_app", "manual_app.parsers", "manual_app.metrics"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,1618 @@
+[
+ {
+  "doc": "xylem_empa",
+  "kind": "manual",
+  "category": "equipment-om",
+  "parser": "docling",
+  "error": null,
+  "seconds": 108.610484079,
+  "pages": 11,
+  "sec_per_page": 9.873680370818182,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9737458115777695,
+   "teds": 0.9621655387972169,
+   "teds_struct": 0.9805555555555555,
+   "per_page": {
+    "26": 0.9332844574780059,
+    "31": 0.9912087912087912,
+    "34": 0.9967441860465116
+   },
+   "per_table": {
+    "xyl-t1": 0.8154700854700855,
+    "xyl-t2": 0.9674938922463675,
+    "xyl-t3": 1.0,
+    "xyl-t4": 0.9964395114771054,
+    "xyl-t5": 0.9935897435897436,
+    "xyl-t6": 1.0
+   }
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 21,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 24,
+    "n_pred": 28,
+    "matched": 22,
+    "precision": 0.7857142857142857,
+    "recall": 0.9166666666666666,
+    "f1": 0.8461538461538461,
+    "recall_critical": 1.0,
+    "all_critical_found": true,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 1.0,
+    "all_mandatory_found": true,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s17",
+     "xyl-s18"
+    ]
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 24,
+    "n_pred": 23,
+    "matched": 23,
+    "precision": 1.0,
+    "recall": 0.9583333333333334,
+    "f1": 0.9787234042553191,
+    "recall_critical": 1.0,
+    "all_critical_found": true,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 1.0,
+    "all_mandatory_found": true,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "xyl-s18"
+    ],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-rerank": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "grader": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+    "accuracy": 0.875,
+    "lenient_accuracy": 1.0,
+    "judged_accuracy": 1.0,
+    "judged_partial": 0.0,
+    "jev_graded": 8,
+    "escalated": 0.0,
+    "jev_claude_agreement": 1.0,
+    "jev_claude_n": 8,
+    "grades": [
+     {
+      "id": "xyl-q01",
+      "question": "What dry torque do the capscrews on a size 60 coupling get, in ft-lb?",
+      "reference": "75 Ft-lb",
+      "answer": "Capscrews on a size 60 coupling get a dry torque of 75 ft-lb (900 in-lb). Do not lubricate the capscrew threads [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "xyl-q02",
+      "question": "When bumping the motor to check rotation direction, where do I look to see which way it turns?",
+      "reference": "through the coupling guard or through the motor fan cover",
+      "answer": "First locate the arrows on the adaptor or the motor fan cover to determine the correct rotation direction. Then start the motor and quickly check the direction of rotation through the coupling guard or through the motor fan cover, and stop the motor [1].",
+      "jev": "correct",
+      "confidence": 0.97,
+      "probabilities": {
+       "correct": 0.97,
+       "partial": 0.03,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "xyl-q03",
+      "question": "The pump starts but the residual current device (RCD) trips. What should I check?",
+      "reference": "Check the insulation of the electrical system components.",
+      "answer": "The cause is a ground (earth) leakage. Check the insulation of the electrical system components [1].",
+      "jev": "correct",
+      "confidence": 0.95,
+      "probabilities": {
+       "correct": 0.95,
+       "partial": 0.04,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "xyl-q04",
+      "question": "What trip rating should the high-sensitivity differential switch have for protection against lethal shock?",
+      "reference": "30 mA",
+      "answer": "30 mA - install a high-sensitivity differential switch (30 mA) [residual current device RCD] as additional protection against lethal shock [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "xyl-q05",
+      "question": "How often do pumps with regreaseable bearings need regreasing?",
+      "reference": "4000 operating hours, at least once per year",
+      "answer": "Regrease at 4000 operating hours, but at least once per year. Clean the lubrication nipples (SN) first and use NLGI Grade 2 grease or equivalent [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "xyl-q06",
+      "question": "The pump has a star-delta starter and no automatic reset thermal protection. What do I set the thermal relay to?",
+      "reference": "58% of the nominal current or operating current",
+      "answer": "Adjust the thermal relay to 58% of the nominal current or operating current (only for three-phase motors) [1].",
+      "jev": "correct",
+      "confidence": 0.91,
+      "probabilities": {
+       "correct": 0.91,
+       "partial": 0.08,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "xyl-q07",
+      "question": "What grade of grease is specified for regreasing the pump bearings?",
+      "reference": "NLGI Grade 2",
+      "answer": "NLGI Grade 2 grease or equivalent [1].",
+      "jev": "correct",
+      "confidence": 0.95,
+      "probabilities": {
+       "correct": 0.95,
+       "partial": 0.05,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "xyl-q08",
+      "question": "In the spare parts stock table, what does 'i' stand for?",
+      "reference": "number of stages",
+      "answer": "i = number of stages [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     }
+    ],
+    "token_f1": 0.4807941413280288,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "postgresql_backup",
+  "kind": "manual",
+  "category": "software",
+  "parser": "docling",
+  "error": null,
+  "seconds": 6.597639748999995,
+  "pages": 7,
+  "sec_per_page": 0.9425199641428564,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.999775684163302,
+   "teds": null,
+   "teds_struct": null,
+   "per_page": {
+    "823": 1.0,
+    "829": 1.0,
+    "833": 0.9993270524899058
+   },
+   "per_table": {}
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "V": {
+   "pass_rate": 1.0,
+   "n": 24,
+   "by_category": {
+    "vendor_heading": 1.0,
+    "vendor_code": 1.0,
+    "vendor_notice": 1.0,
+    "vendor_order": 1.0
+   },
+   "failed": []
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 0,
+    "matched": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": null,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": null,
+    "page_accuracy": null,
+    "missed": [
+     "pg-s01"
+    ]
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.875,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-rerank": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "grader": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+    "accuracy": 1.0,
+    "lenient_accuracy": 1.0,
+    "judged_accuracy": 1.0,
+    "judged_partial": 0.0,
+    "jev_graded": 8,
+    "escalated": 0.0,
+    "jev_claude_agreement": 1.0,
+    "jev_claude_n": 8,
+    "grades": [
+     {
+      "id": "pg-q01",
+      "question": "What command dumps a database in the compressed custom format?",
+      "reference": "pg_dump -Fc dbname > filename",
+      "answer": "`pg_dump -Fc dbname > filename` dumps a database using the custom dump format, which compresses data as it is written if PostgreSQL was built with the zlib compression library. A custom-format dump must be restored with pg_restore, e.g. `pg_restore -d dbname filename` [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "pg-q02",
+      "question": "Which pg_dumpall option dumps only the cluster-wide data such as roles and tablespaces?",
+      "reference": "pg_dumpall --globals-only",
+      "answer": "The `pg_dumpall --globals-only` option dumps the cluster-wide data alone [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "pg-q03",
+      "question": "My text dump restore keeps running after SQL errors. Which psql variable makes it stop and exit with status 3?",
+      "reference": "ON_ERROR_STOP",
+      "answer": "The ON_ERROR_STOP variable: run `psql -X --set ON_ERROR_STOP=on dbname < dumpfile`, which makes psql exit with an exit status of 3 if an SQL error occurs [1].",
+      "jev": "correct",
+      "confidence": 0.95,
+      "probabilities": {
+       "correct": 0.95,
+       "partial": 0.02,
+       "incorrect": 0.03
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "pg-q04",
+      "question": "What exit code does GNU tar 1.16 or later return when a file changed during the backup?",
+      "reference": "1",
+      "answer": "GNU tar versions 1.16 and later exit with 1 if a file was changed during the backup (and 2 for other errors) [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "pg-q05",
+      "question": "If template1 has been customized, which template must the empty database be created from before restoring a pg_dump?",
+      "reference": "template0",
+      "answer": "template0 - if you are using a customized template1, you must create the empty database from template0 (e.g. `createdb -T template0 dbname`) [1][2].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "pg-q06",
+      "question": "What happens if the file system holding pg_wal/ fills up because archiving keeps failing?",
+      "reference": "PANIC shutdown",
+      "answer": "If the file system containing pg_wal/ fills up, PostgreSQL will do a PANIC shutdown. No committed transactions will be lost, but the database will remain offline until you free some space. (Until the archiving problem is resolved, pg_wal/ continues to fill with WAL segment files.) [1]",
+      "jev": "correct",
+      "confidence": 0.97,
+      "probabilities": {
+       "correct": 0.97,
+       "partial": 0.02,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "pg-q07",
+      "question": "What is the first step when recovering from a continuous archive backup?",
+      "reference": "Stop the server",
+      "answer": "Stop the server, if it's running [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "pg-q08",
+      "question": "Which file do I create in the cluster data directory to make the server start recovery?",
+      "reference": "recovery.signal",
+      "answer": "Create a file named recovery.signal in the cluster data directory (after setting the recovery configuration settings in postgresql.conf), then start the server; it will go into recovery mode and read through the archived WAL files it needs [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     }
+    ],
+    "token_f1": 0.1902651515151515,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "ti_lm317",
+  "kind": "manual",
+  "category": "specification",
+  "parser": "docling",
+  "error": null,
+  "seconds": 49.00083687799997,
+  "pages": 9,
+  "sec_per_page": 5.444537430888886,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.7314097431899557,
+   "teds": 0.8909887405014586,
+   "teds_struct": 0.9095091112379864,
+   "per_page": {
+    "5": 0.8472222222222222,
+    "6": 0.6580447172292854,
+    "8": 0.6889622901183594
+   },
+   "per_table": {
+    "ti-t1": 0.9869949494949495,
+    "ti-t2": 0.9981900452488688,
+    "ti-t3": 0.90625,
+    "ti-t4": 0.9633333333333334,
+    "ti-t5": 0.9308755760368663,
+    "ti-t6": 0.5602885388947336
+   }
+  },
+  "B": {
+   "pass_rate": 1.0,
+   "n": 21,
+   "by_category": {
+    "spec": 1.0,
+    "table": 1.0,
+    "part_number": 1.0,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": []
+  },
+  "V": {
+   "pass_rate": 0.8571428571428571,
+   "n": 7,
+   "by_category": {
+    "vendor_spec": 0.8571428571428571
+   },
+   "failed": [
+    "tiv-v005"
+   ]
+  },
+  "C": {},
+  "D": {
+   "bm25": {
+    "recall@5": 0.8,
+    "mrr": 0.5814814814814814,
+    "n": 15
+   },
+   "dense": {
+    "recall@5": 0.8,
+    "mrr": 0.6417460317460317,
+    "n": 15
+   },
+   "hybrid": {
+    "recall@5": 0.7333333333333333,
+    "mrr": 0.69,
+    "n": 15
+   },
+   "hybrid-ctx": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6077777777777779,
+    "n": 15
+   },
+   "hybrid-rerank": {
+    "recall@5": 0.8666666666666667,
+    "mrr": 0.6951851851851851,
+    "n": 15
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "grader": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+    "accuracy": 0.8,
+    "lenient_accuracy": 0.8,
+    "judged_accuracy": 0.7333333333333333,
+    "judged_partial": 0.0,
+    "jev_graded": 13,
+    "escalated": 0.23076923076923078,
+    "jev_claude_agreement": 1.0,
+    "jev_claude_n": 13,
+    "grades": [
+     {
+      "id": "ti-q01",
+      "question": "What is the maximum recommended input-to-output differential voltage for the LM317?",
+      "reference": "40 V",
+      "answer": "40 V maximum - the recommended operating conditions give the input-to-output differential voltage (VI - VO) as 3 V min, 40 V max [5].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "ti-q02",
+      "question": "What is the typical current out of the ADJUST pin?",
+      "reference": "50 \u03bcA",
+      "answer": "The extracts give the ADJUST pin current as 100\u03bcA: \"A 100\u03bcA current from the ADJUST pin represents an error term\", and the LM317 is designed to minimize IADJUST and keep it constant with line and load changes [1]. The extracts do not include a table value explicitly labelled as the typical figure.",
+      "jev": "incorrect",
+      "confidence": 0.94,
+      "probabilities": {
+       "correct": 0.0,
+       "partial": 0.06,
+       "incorrect": 0.94
+      },
+      "claude": "incorrect",
+      "final": "incorrect",
+      "by": "jev"
+     },
+     {
+      "id": "ti-q03",
+      "question": "How much load current must I draw (maximum spec) to keep the regulator in regulation with 40 V across it?",
+      "reference": "10 mA",
+      "answer": "10 mA - the minimum load current at (VIN - VOUT) = 40V over the full operating temperature range is 3.5 mA typical, 10 mA maximum [4].",
+      "jev": "correct",
+      "confidence": 0.85,
+      "probabilities": {
+       "correct": 0.85,
+       "partial": 0.08,
+       "incorrect": 0.07
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "claude"
+     },
+     {
+      "id": "ti-q04",
+      "question": "What is the package designator for the 4-pin SOT-223 version?",
+      "reference": "DCY",
+      "answer": "DCY - the 4-pin SOT-223 package is the DCY package [1][2][5].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.0,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "ti-q05",
+      "question": "The regulator sits more than six inches from the input filter capacitors. What minimum input bypass capacitor do I fit?",
+      "reference": "0.1\u03bcF",
+      "answer": "Fit an input bypass capacitor of 0.1\u03bcF or greater; any type of capacitor can be used, for stability [1].",
+      "jev": "correct",
+      "confidence": 0.64,
+      "probabilities": {
+       "correct": 0.64,
+       "partial": 0.27,
+       "incorrect": 0.09
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "claude"
+     },
+     {
+      "id": "ti-q06",
+      "question": "How do I use the PCB as a heat sink for the TO-263 or SOT-223 package?",
+      "reference": "solder the tab of the package to the plane",
+      "answer": "These packages use a copper plane on the PCB and the PCB itself as the heat sink. To optimize the heat sinking ability of the plane and PCB, solder the tab of the package to the plane [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "ti-q07",
+      "question": "In the heat sink equation, what does \u03b8CH represent?",
+      "reference": "thermal resistance of the contact area between the device case and the heat sink surface",
+      "answer": "\u03b8CH is the thermal resistance of the contact area between the device case and the heat sink surface [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "ti-q08",
+      "question": "What is the risk of running the legacy chip at its absolute maximum junction temperature of 150\u00b0C?",
+      "reference": "potentially affects reliability",
+      "answer": "Operating at the absolute maximum TJ of 150\u00b0C potentially affects reliability [1][3]. More generally, exposure to absolute-maximum-rated conditions for extended periods may affect device reliability, and stresses beyond the absolute maximum ratings may cause permanent damage to the device [2].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tiv-vq01",
+      "question": "What is the Vin (max) of the LM317?",
+      "reference": "40 V",
+      "answer": "NOT FOUND",
+      "final": "incorrect",
+      "by": "rule"
+     },
+     {
+      "id": "tiv-vq02",
+      "question": "What is the Vin (min) of the LM317?",
+      "reference": "3 V",
+      "answer": "4.25 V - the Device Comparison Table lists the LM317 input voltage range as 4.25 to 40 V (both legacy and new chip) [4]. The supply is also described as needing to be at least 1.25V greater than the output voltage [3].",
+      "jev": "incorrect",
+      "confidence": 0.95,
+      "probabilities": {
+       "correct": 0.01,
+       "partial": 0.04,
+       "incorrect": 0.95
+      },
+      "claude": "incorrect",
+      "final": "incorrect",
+      "by": "jev"
+     },
+     {
+      "id": "tiv-vq03",
+      "question": "What is the Iout (max) of the LM317?",
+      "reference": "1.5 A",
+      "answer": "1.5 A - the LM317 is listed in the 1.5A IOUT group of the Device Comparison Table [2] and is described as capable of supplying up to 1.5A [3] (more than 1.5A per the Description [4]).",
+      "jev": "correct",
+      "confidence": 0.53,
+      "probabilities": {
+       "correct": 0.53,
+       "partial": 0.25,
+       "incorrect": 0.22
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "claude"
+     },
+     {
+      "id": "tiv-vq04",
+      "question": "What is the Vout (max) of the LM317?",
+      "reference": "37 V",
+      "answer": "37 V - the LM317 output voltage range is 1.25V to 37V [2][3].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tiv-vq05",
+      "question": "What is the Vout (min) of the LM317?",
+      "reference": "1.25 V",
+      "answer": "1.25 V - the LM317 output voltage range is 1.25V to 37V [1][2].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tiv-vq10",
+      "question": "What is the Load capacitance (min) of the LM317?",
+      "reference": "0 \u00b5F",
+      "answer": "NOT FOUND",
+      "final": "incorrect",
+      "by": "rule"
+     },
+     {
+      "id": "tiv-vq13",
+      "question": "What is the Operating temperature range of the LM317?",
+      "reference": "0 to 125 \u00b0C",
+      "answer": "0 to 125 \u00b0C - the Device Comparison Table lists the recommended operating temperature of the LM317 (legacy chip and new chip) as 0 to 125 \u00b0C [1]. (Other variants in the same table: LM317A, LM317M, LM317L and LM317L-N are -40 to 125 \u00b0C [1].)",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.01,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     }
+    ],
+    "token_f1": 0.19910329068311225,
+    "citation_accuracy": 0.7333333333333333,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "faa_ac43",
+  "kind": "manual",
+  "category": "aviation",
+  "parser": "docling",
+  "error": null,
+  "seconds": 27.49421747400004,
+  "pages": 8,
+  "sec_per_page": 3.436777184250005,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9440284848298911,
+   "teds": 0.9540969877061803,
+   "teds_struct": 0.9745041283502823,
+   "per_page": {
+    "321": 0.8653846153846154,
+    "324": 0.9952972791400739,
+    "328": 0.971403559964984
+   },
+   "per_table": {
+    "faa-t1": 0.8802291652672696,
+    "faa-t2": 1.0,
+    "faa-t3": 0.9820617978512716
+   }
+  },
+  "B": {
+   "pass_rate": 0.9545454545454546,
+   "n": 22,
+   "by_category": {
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.75,
+    "part_number": 1.0,
+    "heading": 1.0,
+    "header": 1.0
+   },
+   "failed": [
+    "faa-b13"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 9,
+    "n_pred": 23,
+    "matched": 8,
+    "precision": 0.34782608695652173,
+    "recall": 0.8888888888888888,
+    "f1": 0.5,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 0.875,
+    "missed": [
+     "faa-s04"
+    ]
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 9,
+    "n_pred": 10,
+    "matched": 9,
+    "precision": 0.9,
+    "recall": 1.0,
+    "f1": 0.9473684210526316,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 0.8888888888888888,
+    "missed": [],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.84375,
+    "n": 8
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9375,
+    "n": 8
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "hybrid-rerank": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 8
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "grader": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+    "accuracy": 1.0,
+    "lenient_accuracy": 1.0,
+    "judged_accuracy": 1.0,
+    "judged_partial": 0.0,
+    "jev_graded": 8,
+    "escalated": 0.125,
+    "jev_claude_agreement": 1.0,
+    "jev_claude_n": 8,
+    "grades": [
+     {
+      "id": "faa-q01",
+      "question": "What installation torque do I use on a 1/4-28 bolt with an AN310 tension nut when the manufacturer gives no value?",
+      "reference": "50-70 inch-pounds",
+      "answer": "50-70 inch-pounds. Table 7-1 (used when a specific torque is not supplied by the manufacturer [2]) gives, for 1/4-28 fine thread with tension type nuts MS20365 and AN310 (40,000 psi in bolts), a recommended installation torque of 50-70 inch-pounds; the maximum allowable tightening torque limit for that nut type is 100 inch-pounds. The values are derived from oil free cadmium plated threads [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "faa-q02",
+      "question": "What's the minimum prevailing torque a reused 5/8-11 self-locking nut must still have?",
+      "reference": "20 inch-pounds",
+      "answer": "20 inch-pounds - Table 7-2 lists a minimum prevailing torque of 20 inch-pounds for a 5/8 - 11 (coarse thread) reused self-locking nut [1]. Nuts no longer capable of maintaining the minimum prevailing torque should be replaced [2].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "faa-q03",
+      "question": "What is the minimum breaking strength of 1/8 inch 7 x 19 MIL-W-83420 Comp A control cable?",
+      "reference": "2,000 pounds",
+      "answer": "2,000 pounds - Table 7-3 gives a minimum breaking strength of 2,000 lbs for 1/8 inch 7 x 19 cable to MIL-W-83420 Comp A [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "faa-q04",
+      "question": "What do I add to the desired torque to get the final torque reading?",
+      "reference": "friction drag torque",
+      "answer": "Add the friction drag torque to the desired torque; the sum is the \"final torque,\" which should register on the indicator or be the setting for a snap-over type torque wrench [1]. (The friction drag torque is the torque required to turn the nut, checked after running it down to near contact with the washer or bearing surface.)",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "faa-q05",
+      "question": "The wrench chatters and jerks as I reach final torque. What should I do?",
+      "reference": "back off the nut and retorque",
+      "answer": "Back off the nut and retorque, applying a smooth even pull when applying torque pressure [1].",
+      "jev": "correct",
+      "confidence": 0.99,
+      "probabilities": {
+       "correct": 0.99,
+       "partial": 0.01,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "faa-q06",
+      "question": "The castle nut slots won't line up with the cotter pin hole without going past maximum torque. What's the fix?",
+      "reference": "change washer or nut and try again",
+      "answer": "Do not exceed the maximum torque plus the friction drag. If the hole and nut castellation do not align, change the washer or nut and try again; exceeding the maximum recommended torque is not recommended. Start alignment with the cotter pin hole at the minimum recommended torque plus friction drag torque [1].",
+      "jev": "correct",
+      "confidence": 0.82,
+      "probabilities": {
+       "correct": 0.82,
+       "partial": 0.09,
+       "incorrect": 0.09
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "claude"
+     },
+     {
+      "id": "faa-q07",
+      "question": "Above what temperature must cadmium-plated nuts not be used?",
+      "reference": "450 \u00b0F",
+      "answer": "450 \u00b0F - cadmium-plated nuts are restricted for use in temperatures not to exceed 450 \u00b0F. Above 450 \u00b0F the cadmium will diffuse into the base material, causing it to become very brittle and subject to early failure [1][2].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.01,
+       "incorrect": 0.01
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "faa-q08",
+      "question": "Which MS part number supersedes the AN73-AN81 drilled head bolts for fine thread?",
+      "reference": "MS20073",
+      "answer": "MS20073 supersedes the AN73 through AN81 drilled head bolts for fine thread (MS20074 is the coarse thread replacement) [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     }
+    ],
+    "token_f1": 0.18727499323885038,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_tqg",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "docling",
+  "error": null,
+  "seconds": 14.292365165999968,
+  "pages": 11,
+  "sec_per_page": 1.2993059241818152,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9370359710688024,
+   "teds": 0.19657976129912655,
+   "teds_struct": 0.2,
+   "per_page": {
+    "55": 0.8570441988950276,
+    "69": 0.9945414847161572,
+    "78": 0.9595222295952223
+   },
+   "per_table": {
+    "tm-t1": 0.0,
+    "tm-t2": 0.0,
+    "tm-t3": 0.9828988064956328,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.8076923076923077,
+   "n": 26,
+   "by_category": {
+    "header": 0.6666666666666666,
+    "step_order": 1.0,
+    "safety": 1.0,
+    "spec": 0.6,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b03",
+    "tm-b14",
+    "tm-b16",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 14,
+    "n_pred": 22,
+    "matched": 12,
+    "precision": 0.5454545454545454,
+    "recall": 0.8571428571428571,
+    "f1": 0.6666666666666665,
+    "recall_critical": 0.8181818181818182,
+    "all_critical_found": false,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 0.8181818181818182,
+    "all_mandatory_found": false,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [
+     "tm-s06",
+     "tm-s07"
+    ]
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 14,
+    "n_pred": 14,
+    "matched": 14,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": 1.0,
+    "all_critical_found": true,
+    "label_accuracy": 1.0,
+    "recall_mandatory": 1.0,
+    "all_mandatory_found": true,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.8833333333333334,
+    "n": 10
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 10
+   },
+   "hybrid-rerank": {
+    "recall@5": 1.0,
+    "mrr": 0.95,
+    "n": 10
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "grader": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+    "accuracy": 1.0,
+    "lenient_accuracy": 1.0,
+    "judged_accuracy": 1.0,
+    "judged_partial": 0.0,
+    "jev_graded": 10,
+    "escalated": 0.0,
+    "jev_claude_agreement": 1.0,
+    "jev_claude_n": 10,
+    "grades": [
+     {
+      "id": "tm-q01",
+      "question": "How much fuel does the tank on the 3 kW TQG hold?",
+      "reference": "4.0 gallons (15.1 liters)",
+      "answer": "The fuel tank capacity is 4.0 gallons (15.1 liters) [3][5].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q02",
+      "question": "What is the engine oil capacity?",
+      "reference": "1.2 quarts (1.1 liters)",
+      "answer": "The engine oil capacity is 1.2 quarts (1.1 liters) [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q03",
+      "question": "What's the longest I can crank the engine on the starter before I have to stop and wait?",
+      "reference": "15 seconds",
+      "answer": "Do not crank the engine for more than 15 seconds (damage to the starter motor can occur). Then wait 15 seconds before attempting to crank again. If the engine does not run after the third attempt, refer to Troubleshooting [1].",
+      "jev": "correct",
+      "confidence": 0.94,
+      "probabilities": {
+       "correct": 0.94,
+       "partial": 0.06,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q04",
+      "question": "After opening the circuit interrupter for shutdown, how long should the set run before I put the switch to STOP?",
+      "reference": "3-5 minutes",
+      "answer": "Allow the unit to run with the CIRCUIT INTERRUPTER switch OPEN (load disconnected) for approximately 3-5 minutes to cool down the engine, then place the START / RUN / STOP switch in the STOP position to shut down the set (and pull out the DC CIRCUIT BREAKER) [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q05",
+      "question": "Engine won't crank and the DC circuit breaker is tripped. What do I do?",
+      "reference": "Reset by depressing pushbutton",
+      "answer": "Reset the DC CIRCUIT BREAKER by depressing its pushbutton [1]. If the engine still will not crank, continue the remaining checks in that procedure: check the malfunction indicator module for a system fault light (refer to the applicable troubleshooting procedure for the fault condition), check the battery wires for proper/secure connection and tighten connections, and then refer the trouble to unit level maintenance [1].",
+      "jev": "correct",
+      "confidence": 0.94,
+      "probabilities": {
+       "correct": 0.94,
+       "partial": 0.06,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q06",
+      "question": "The set runs but won't build up to rated voltage. What is the first thing to check?",
+      "reference": "GROUND FAULT CIRCUIT INTERRUPTER (GFCI) is not tripped",
+      "answer": "First check that the GROUND FAULT CIRCUIT INTERRUPTER (GFCI) is not tripped; reset the GFCI by depressing the button [1]. (The subsequent checks are that the VOLTAGE ADJUST rheostat is properly set, and that the voltage selector switch access door is fully closed and secured; then refer trouble to unit level maintenance [1].)",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q07",
+      "question": "Engine starts and then stops, and there is water in the fuel filter / water separator. How do I fix it?",
+      "reference": "Drain water from filter separator by turning valve",
+      "answer": "Drain the water from the filter separator by turning the valve (refer to para. 3-8) [1]. If that does not correct the trouble, refer it to unit level maintenance [1].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.02,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q08",
+      "question": "What is the reference designation of the CIRCUIT INTERRUPTER switch?",
+      "reference": "S5",
+      "answer": "The CIRCUIT INTERRUPTER switch is S5 [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q09",
+      "question": "During before-operation PMCS of the control box, how do I run the fault lamp test?",
+      "reference": "Depress FAULT RESET / PUSH TEST switch",
+      "answer": "Conduct the fault lamp test by depressing the FAULT RESET / PUSH TEST switch (refer to para. 3-6) [1]. The set is not fully mission capable if the fault indicator is defective or the lamp does not light [2].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q10",
+      "question": "What is the PREHEAT switch for?",
+      "reference": "cold weather operation",
+      "answer": "The PREHEAT switch (S18) is a two-position switch that controls the engine preheat system [3]. The ON position sends a signal to engine preheat contactor K13 to energize the engine air heater and is used during cold weather operation; the OFF position de-energizes the engine air heater, halting engine preheat operations [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     }
+    ],
+    "token_f1": 0.28794626105992727,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ },
+ {
+  "doc": "army_tm_scan",
+  "kind": "manual",
+  "category": "defence",
+  "parser": "docling",
+  "error": null,
+  "seconds": 29.749451582999995,
+  "pages": 4,
+  "sec_per_page": 7.437362895749999,
+  "cost_usd": 0.0,
+  "A": {
+   "text_similarity": 0.9228571546243063,
+   "teds": 0.3277131296499969,
+   "teds_struct": 0.3333333333333333,
+   "per_page": {
+    "55": 0.8600278551532033,
+    "69": 0.9317685589519651,
+    "78": 0.9767750497677505
+   },
+   "per_table": {
+    "tm-t3": 0.9831393889499906,
+    "tm-t4": 0.0,
+    "tm-t5": 0.0
+   }
+  },
+  "B": {
+   "pass_rate": 0.7857142857142857,
+   "n": 14,
+   "by_category": {
+    "header": 1.0,
+    "step_order": 0.5,
+    "safety": 1.0,
+    "spec": 1.0,
+    "table": 0.5,
+    "part_number": 1.0,
+    "heading": 1.0
+   },
+   "failed": [
+    "tm-b04",
+    "tm-b21",
+    "tm-b22"
+   ]
+  },
+  "C": {
+   "rules_baseline": {
+    "n_gold": 1,
+    "n_pred": 3,
+    "matched": 1,
+    "precision": 0.3333333333333333,
+    "recall": 1.0,
+    "f1": 0.5,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": []
+   },
+   "task": "safety",
+   "llm": {
+    "n_gold": 1,
+    "n_pred": 1,
+    "matched": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "recall_critical": null,
+    "all_critical_found": null,
+    "label_accuracy": 1.0,
+    "recall_mandatory": null,
+    "all_mandatory_found": null,
+    "obligation_accuracy": 1.0,
+    "page_accuracy": 1.0,
+    "missed": [],
+    "model": "session:claude-code-session (effort session)"
+   }
+  },
+  "D": {
+   "bm25": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "dense": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid-ctx": {
+    "recall@5": 1.0,
+    "mrr": 0.9166666666666666,
+    "n": 6
+   },
+   "hybrid-rerank": {
+    "recall@5": 1.0,
+    "mrr": 1.0,
+    "n": 6
+   },
+   "answers": {
+    "model": "session:claude-code-session (effort session)",
+    "retrieval": "hybrid-rerank",
+    "grader": "compare: jev (jev-1.14.0) -> claude below confidence 0.9",
+    "accuracy": 1.0,
+    "lenient_accuracy": 1.0,
+    "judged_accuracy": 1.0,
+    "judged_partial": 0.0,
+    "jev_graded": 6,
+    "escalated": 0.0,
+    "jev_claude_agreement": 1.0,
+    "jev_claude_n": 6,
+    "grades": [
+     {
+      "id": "tm-q03",
+      "question": "What's the longest I can crank the engine on the starter before I have to stop and wait?",
+      "reference": "15 seconds",
+      "answer": "Do not crank the engine for more than 15 seconds (damage to the starter motor can occur). Then wait 15 seconds before attempting to crank again. If the engine does not run after the third attempt, refer to Troubleshooting [1].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.02,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q04",
+      "question": "After opening the circuit interrupter for shutdown, how long should the set run before I put the switch to STOP?",
+      "reference": "3-5 minutes",
+      "answer": "Allow the unit to run with the CIRCUIT INTERRUPTER switch OPEN (load disconnected) for approximately 3-5 minutes to cool down the engine, then place the START / RUN / STOP switch in the STOP position to shut down the set (and pull out the DC CIRCUIT BREAKER) [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q05",
+      "question": "Engine won't crank and the DC circuit breaker is tripped. What do I do?",
+      "reference": "Reset by depressing pushbutton",
+      "answer": "Reset the DC CIRCUIT BREAKER by depressing its pushbutton [1]. If the engine still will not crank, continue the remaining checks in that procedure: check the malfunction indicator module for a system fault light (refer to the applicable troubleshooting procedure for the fault condition), check the battery wires for proper/secure connection and tighten connections, and then refer the trouble to unit level maintenance [1].",
+      "jev": "correct",
+      "confidence": 0.95,
+      "probabilities": {
+       "correct": 0.95,
+       "partial": 0.05,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q06",
+      "question": "The set runs but won't build up to rated voltage. What is the first thing to check?",
+      "reference": "GROUND FAULT CIRCUIT INTERRUPTER (GFCI) is not tripped",
+      "answer": "First check that the GROUND FAULT CIRCUIT INTERRUPTER (GFCI) is not tripped; reset the GFCI by depressing the button [1]. (The subsequent checks are that the VOLTAGE ADJUST rheostat is properly set, and that the voltage selector switch access door is fully closed and secured; then refer trouble to unit level maintenance [1].)",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q07",
+      "question": "Engine starts and then stops, and there is water in the fuel filter / water separator. How do I fix it?",
+      "reference": "Drain water from filter separator by turning valve",
+      "answer": "Drain the water from the filter separator by turning the valve (refer to para. 3-8) [1]. If that does not correct the trouble, refer it to unit level maintenance [1].",
+      "jev": "correct",
+      "confidence": 0.98,
+      "probabilities": {
+       "correct": 0.98,
+       "partial": 0.02,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     },
+     {
+      "id": "tm-q09",
+      "question": "During before-operation PMCS of the control box, how do I run the fault lamp test?",
+      "reference": "Depress FAULT RESET / PUSH TEST switch",
+      "answer": "Conduct the fault lamp test by depressing the FAULT RESET / PUSH TEST switch (refer to para. 3-6) [2]. The set is not fully mission capable if the fault indicator is defective or the lamp does not light [1].",
+      "jev": "correct",
+      "confidence": 1.0,
+      "probabilities": {
+       "correct": 1.0,
+       "partial": 0.0,
+       "incorrect": 0.0
+      },
+      "claude": "correct",
+      "final": "correct",
+      "by": "jev"
+     }
+    ],
+    "token_f1": 0.20432563977824134,
+    "citation_accuracy": 1.0,
+    "abstention_accuracy": 1.0,
+    "refused": 0
+   }
+  },
+  "corpus": "manuals"
+ }
+]

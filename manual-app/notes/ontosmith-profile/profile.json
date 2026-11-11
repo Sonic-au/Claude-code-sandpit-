@@ -1,0 +1,394 @@
+{
+ "family": "tenders",
+ "corpus_dir": "corpus",
+ "service_version": "setup-service/1.0",
+ "created_at": "2026-11-08T03:00:24.511674+00:00",
+ "status": "COMPLETE",
+ "draft_model": null,
+ "sampling": {
+  "n_sampled": 3,
+  "rule": "length-quartile strata, even spread",
+  "sample_docs": [
+   "centralina_rfp",
+   "narembeen_rft",
+   "newcastle_rft"
+  ]
+ },
+ "inventory": {
+  "n_files": 3,
+  "n_unique_content": 3,
+  "duplicate_groups": [],
+  "total_chars": 110721,
+  "mean_chars": 36907,
+  "median_chars": 36040,
+  "min_chars": 32361,
+  "max_chars": 42320
+ },
+ "document_survey": [
+  {
+   "name": "centralina_rfp",
+   "n_chars": 42320,
+   "head": "CENTRALINA REGIONAL COUNCIL\n\n## CENTRALINA REGIONAL COUNCIL\n\n## Request for Proposals Information Technology Managed Services\n\nDate of Issue: April 27, 2026\n\nSubmission Deadline: Friday, May 22, 2026 at 17:00 EST\n\nDirect all inquiries concerning this RFP to: Larry Johnson, IT Manager, 704-385-4249, ljohnson@centralina.org\n\n## Table of Contents\n\n## Contents\n\nTable of Contents ............................................ ...... 21.0 PURPOSE AND BACKGROUND .... .... 32.0 GENERAL INFORMATION ...... ..... 42.1 REQUEST FOR PROPOSALS (RFP) DOCUMENT .. . 42.2 RFP SCHEDULE ..2.3 RFP QUESTIONS . . 42.4 INSTRUCTIONS . . 42.5 DEFINITIONS, ACRONYMS AND ABBREVIATIONS . .. 52.6 NOTICE TO RESPONDENTS REGARDING TERMS AND CONDITIONS .. 53.0 METHOD OF AWARD AND PROPOSAL EVALUATION PROCESS ........ ..... 63.1 METHOD OF AWARD .. 63.2 CONFIDENTIALITY AND PROHIBITED COMMUNICATIONS DURING EVALUATION ..... 63.3 PROPOSAL EVALUATION PROCESS 63.4 PROPOSAL EVALUATION CRITERIA .. .. 73.5 INTERPRETATION OF TERMS AND PHRASES4.0 PROPOSAL REQUIREMENTS & SUBMITTAL .... ....................... ......74.1 PROPOSAL PREPARATION & SUBMITTAL .. 84.2 PROPOSAL CONTENTS .4.3 ADDITIONAL REQUIREMENTS . ... 115.0 SCOPE OF WORK EXPECTATIONS ... .... 115.1 TASK SUMMARY . .. 115.2 PROJECT TIMELINE ........... ..................................................... .... 12ATTACHMENT A: PRICING PROPOSAL ... .. 13ATTACHMENT B: REFERENCES ....... ... 14ATTACHMENT C: LOCATION OF WORKERS UTILIZED BY RESPONDENT ....... ... 15ATTACHME",
+   "tail": "ehensive remediation services</td></tr><tr><td>03 - Security &amp; Compliance</td><td>Email / Encryption</td><td>ZixCorp</td><td>Support</td></tr><tr><td>03 - Security &amp; Compliance</td><td>Identity &amp; Access Management</td><td>Active Directory + Microsoft Entra ID, synchronized with Entra Connect</td><td>Patch, Support</td></tr><tr><td>03 - Security &amp; Compliance</td><td>EDR/XDR</td><td>MS Defender</td><td>Replace, Support, Deploy</td></tr><tr><td>03 - Security &amp; Compliance</td><td>Password Management</td><td>Bitwarden</td><td>Support, User onboarding and offboarding provisioning</td></tr><tr><td>03 - Security &amp; Compliance</td><td>Security Awareness Training</td><td>MSP provided</td><td>Replace, Support, Analytics</td></tr><tr><td>04 - Software</td><td>Productivity</td><td>MS 365 Business Premium</td><td>Patch, Support, User onboarding and offboarding provisioning</td></tr><tr><td>08 - Software</td><td>VOIP Telephone</td><td>Dialpad</td><td>Support, User onboarding and offboarding provisioning</td></tr><tr><td>04 - Software</td><td>Productivity</td><td>Adobe Pro</td><td>Deploy, Patch, Support, User onboarding and offboarding provisioning</td></tr><tr><td>04 - Software</td><td>Productivity</td><td>Adobe Creative Cloud</td><td>Deploy, Patch, Support, User onboarding and offboarding provisioning</td></tr><tr><td>04 - Software</td><td>Learning and Development</td><td>LinkedIn Learning</td><td>User onboarding and offboarding provisioning</td></tr></tbody></table>",
+   "headings": [
+    "CENTRALINA REGIONAL COUNCIL",
+    "## CENTRALINA REGIONAL COUNCIL",
+    "## Request for Proposals Information Technology Managed Services",
+    "Submission Deadline: Friday, May 22, 2026 at 17:00 EST",
+    "## Table of Contents",
+    "## Contents",
+    "## 1.0 PURPOSE AND BACKGROUND",
+    "Data Backup and Disaster Recovery Solution",
+    "Security Awareness Training",
+    "Managed Network Service",
+    "MSP Account Reporting and Performance Meetings",
+    "## Organization Background & Information",
+    "## 2.1 REQUEST FOR PROPOSALS (RFP) DOCUMENT",
+    "## 2.2 RFP SCHEDULE",
+    "## RFP QUESTIONS",
+    "## 2.3 INSTRUCTIONS",
+    "## 2.4 DEFINITIONS, ACRONYMS AND ABBREVIATIONS",
+    "## 2.5 NOTICE TO RESPONDENTS REGARDING TERMS AND CONDITIONS",
+    "## 3.0 METHOD OF AWARD AND PROPOSAL EVALUATION PROCESS",
+    "## 3.1 METHOD OF AWARD",
+    "## 3.2 CONFIDENTIALITY AND PROHIBITED COMMUNICATIONS DURING EVALUATION",
+    "## 3.3 PROPOSAL EVALUATION PROCESS",
+    "## 3.4 PROPOSAL EVALUATION CRITERIA",
+    "## 3.5 INTERPRETATION OF TERMS AND PHRASES",
+    "## 4.0 PROPOSAL REQUIREMENTS & SUBMITTAL",
+    "## 4.1 PROPOSAL PREPARATION & SUBMITTAL",
+    "## 4.2 PROPOSAL CONTENTS",
+    "## Tab 1: Response to Project Goals and Scope",
+    "## Tab 2: Approach to Implementation and Continuity",
+    "## Service Implementation and Continuity Plan",
+    "## Knowledge Transfer and Documentation",
+    "## Governance and Personnel Management",
+    "## Risk Mitigation and Stabilization",
+    "## Service Improvement and Implementation",
+    "## Tab 3: Firm Information and Qualifications",
+    "## 3.1 Organization Information",
+    "## 3.2 Firm Qualifications and Experience",
+    "## 3.3 Key Personnel Experience",
+    "## Attachment A: Pricing Proposal",
+    "Project Onboarding Services"
+   ]
+  },
+  {
+   "name": "narembeen_rft",
+   "n_chars": 32361,
+   "head": "# SHIRE OF NAREMBEEN\n\n## REQUEST FOR TENDER\n\n<table><tbody><tr><td>Request for Tender (RFT)</td><td>Provision of Waste Transfer Station Operation and Management</td></tr></tbody></table>\n\n<table><tbody><tr><td>Deadline</td><td>10.00am WST Friday 7 August 2026 RFT must be received no later than the deadline</td></tr></tbody></table>\n\n<table><tbody><tr><td>Responses to Requests for Tender can be delivered to:</td><td>Shire of Narembeen 1 Longhurst Street Narembeen WA 6369 Or email tenders@narembeen.wa.gov.au</td></tr></tbody></table>\n\n<table><tbody><tr><td>Enquiries:</td><td>All enquiries to: Ken Markham Telephone 08 9064 7308 Email: kmarkham@narembeen.wa.gov.au</td></tr></tbody></table>\n\n<table><tbody><tr><td>RFT Number:</td><td>RFT2026-02</td></tr></tbody></table>\n\n<table><tbody><tr><td>Date of Issue:</td><td>13 July 2026</td></tr></tbody></table>\n\n## CONTENTS\n\nCONDITIONS OF TENDER. 31.1 INTERPRETATION 31.2 DEFINITIONS. 31.3 INVITATION PROCESS 41.4 NO RELIANCE ON INFORMATION. 41.5 RESPONDENT COST. 41.6 SUBJECT TO CONTRACT . 51.7 COMPLIANCE... 51.8 ANTI-COMPETITIVE CONDUCT AND CONFLICT OF INTEREST. 51.9 RESPONDENT CONFIDENTIAL INFORMATION.. 61.10 RESPONDENT RECORDS 71.11 EVALUATION PROCESS AND ACCEPTANCE OF TENDER. 7CONDITIONS OF CONTRACT . 82.1 THE CONTRACT.. 82.2 PAYMENT TERMS.. 82.3 TERM OF CONTRACT.. 8SCOPE OF WORKS & GENERAL CONDITIONS OF CONTRACT 93.1 SCOPE OF WORKS & GENERAL CONDITIONS OF CONTRACT 9RESPONDENT’S SUBMISSION. 124.1 RESPONSE FORM .124.2 SAFETY AND HEALTH AS",
+   "tail": "re managed; (d) Demonstrate sound judgement anddiscretion; (e) Demonstrate competency and proven track record of achieving outcomes; and (f) References from past and present clients.</td><td></td><td>☐☐☐☐☐☐</td><td>Weighting25%</td></tr><tr><td>(B) Price</td><td></td><td>☐</td><td>Weighting50%</td></tr><tr><td>(C) Local Economy Tenderers should demonstrate their ability to promote local economic development such as local employment</td><td></td><td>☐</td><td>Weighting5%</td></tr><tr><td>(D) Tenderer's Resources and Availability Tenderers should demonstrate their ability to supply and sustain the necessary:- (a)Plant, equipment and materials; and (b)Any contingency measures or back up ofresources including Personnel (where applicable)</td><td></td><td>☐☐</td><td>Weighting20%</td></tr></tbody></table>\n\n## 4.5 QUANTITATIVE CRITERIA\n\nAll pricing and payments shall be inclusive of GST. Please detail pricing according to the table below.\n\nRespondents must complete the Schedule of Rates below. All Rates Offered are to be fixed for the term of the Contract. The Respondent shall complete the Schedule of Rates in full.\n\n<table><tbody><tr><td>Item</td><td>Service Description</td><td>Unit</td><td>Rate Ex GST</td><td>GST Component</td><td>Rate Inc GST</td></tr><tr><td>1</td><td>Provision of Transfer Station Operation and Management Service</td><td></td><td></td><td></td><td></td></tr><tr><td>2</td><td>Any Other Associated Costs</td><td></td><td></td><td></td><td></td></tr></tbody></table>",
+   "headings": [
+    "# SHIRE OF NAREMBEEN",
+    "## REQUEST FOR TENDER",
+    "## CONTENTS",
+    "## CONDITIONS OF TENDER",
+    "## 1.1 INTERPRETATION",
+    "## 1.2 DEFINITIONS",
+    "Basic Order: Purchase Order",
+    "## 1.3 INVITATION PROCESS",
+    "## 1.4 NO RELIANCE ON INFORMATION",
+    "## 1.5 RESPONDENT COST",
+    "## 1.6 SUBJECT TO CONTRACT",
+    "## 1.7 COMPLIANCE",
+    "## 1.8 ANTI-COMPETITIVE CONDUCT AND CONFLICT OF INTEREST",
+    "## Conflict of Interest",
+    "## 1.9 RESPONDENT CONFIDENTIAL INFORMATION",
+    "## 1.10 RESPONDENT RECORDS",
+    "## (b) Contract Completion",
+    "## 1.11 EVALUATION PROCESS AND ACCEPTANCE OF TENDER",
+    "## CONDITIONS OF CONTRACT",
+    "## 2.1 THE CONTRACT",
+    "## 2.2 PAYMENT TERMS",
+    "## 2.3 TERM OF CONTRACT",
+    "## SCOPE OF WORKS & GENERAL CONDITIONS OF CONTRACT",
+    "## 3.1 SCOPE OF WORKS & GENERAL CONDITIONS OF CONTRACT",
+    "## RESPONDENT’S SUBMISSION",
+    "## 4.1 RESPONSE FORM",
+    "The Chief Executive Officer",
+    "Shire of Narembeen",
+    "Longhurst Street",
+    "NAREMBEEN WA",
+    "I/We (Registered Entity Name)",
+    "(BLOCK LETTERS)",
+    "(REGISTERED STREET ADDRESS)",
+    "INTENTIONALLY LEFT BLANK",
+    "## 4.2 SAFETY AND HEALTH ASSESSMENT",
+    "## 4.3 INSURANCE COVERAGE",
+    "## 4.4 QUALITATIVE CRITERIA",
+    "## 4.5 QUANTITATIVE CRITERIA"
+   ]
+  },
+  {
+   "name": "newcastle_rft",
+   "n_chars": 36040,
+   "head": "# TARRO AND JOHNSON PARK AMENITIES BUILDINGS\n\n# CONTRACT No. 2026/062T\n\n1. PURPOSE: The City of Newcastle (CN) proposes the construction of sporting amenities blocks and change rooms at both Tarro Oval and Johnson Oval. Works are to achieve compliance with the relevant Australian Standards, Codes of Practice, the National Construction Code, and any other legislative requirements.\n\n2. INVITATION: Persons willing to fulfil the requirements of the proposed contract is invited to submit a tender to the Council by the deadline, 2pm on Tuesday 31 March 2026 (at the Tender Box). Responsibility for lodgement of completed tender documents by the deadline lies solely with the Tenderer. Tender lodgement information is provided in the tender document. Council is not bound to accept the lowest tender or any tender submitted.\n\n3. INFORMATION: All enquiries relating to the Tender must be directed to the nominated Project Officer, Laura Chen, via the online forum at https://app.eprocure.com.au/ncc . Alternatively, you can contact Laura Chen on telephone: (02) 4974 2463 or e-mail lchen@ncc.nsw.gov.au. Any verbal enquiries are to be confirmed in writing.\n\n4. PRE-TENDER MEETING: A non-mandatory pre-tender meeting will be held on Wednesday 11th March 2026 at 9:30am at Johnson Oval Park, 10 Bindera Road, Lambton.\n\n5. TENDERERS TO NOTE: In the preparation and submission of the tender and without limiting the Tenderer’s obligations, the Tenderer shall:\n\nsubmit a tender which includes all Schedules ",
+   "tail": "l’s” clause.\n\nName of Insurance Required\n\nInsurance Company:\n\n<table><tr><td>Amount of</td><td>Yes</td></tr><tr><td>coverage:</td><td></td></tr></table>\n\nPolicy Number: Expiry Date:\n\nProvide a management organisation chart plus indicate below personnel who will have prime responsibility and accountability for the performance of the contract:\n\nNote: 1. A résumé (CV) for each person nominated shall be attached.\n\n2. The successful Tenderer shall ensure that the personnel named in this schedule are engaged throughout the execution of the contract.\n\n<table><tbody><tr><td>NAME 1:</td><td>Position:</td></tr><tr><td>Reporting to:</td><td>Years of relevant experience:</td></tr><tr><td>Proposed Role in</td><td></td></tr><tr><td>Tender Project:</td><td></td></tr><tr><td>NAME 2:</td><td>Position:</td></tr><tr><td>Reporting to:</td><td>Years of relevant experience:</td></tr><tr><td>Proposed Role in</td><td></td></tr><tr><td>Tender Project:</td><td></td></tr><tr><td>NAME 3:</td><td>Position:</td></tr><tr><td>Reporting to:</td><td>Years of relevant experience:</td></tr><tr><td>Proposed Role in</td><td></td></tr><tr><td>Tender Project:</td><td></td></tr></tbody></table>\n\n(Attach extra page(s) if insufficient space together with the organisation chart and résumés.)\n\nProvide details to demonstrate the understanding of the Brief. Detail the approach and methodology to be employed to deliver the outcomes described in the Brief.\n\n## SPECIFIC DETAILS:\n\n(Attach extra page(s) if insufficient space.)",
+   "headings": [
+    "# TARRO AND JOHNSON PARK AMENITIES BUILDINGS",
+    "# CONTRACT No. 2026/062T",
+    "2026/062T – Tarro and Johnson Park Amenities Buildings",
+    "The Tender Box – Newcastle City Council",
+    "Ground Floor, City Administration Centre",
+    "Stewart Avenue",
+    "NEWCASTLE WEST NSW",
+    "Tender Price",
+    "Construction Program",
+    "Methodology",
+    "Management & Staff Resources",
+    "Relevant Previous Experience",
+    "WHS Systems",
+    "Supplier Diversity",
+    "Enterprise Agreement",
+    "Intended recipients: Authorised Council staff",
+    "(c) Hunter Councils’ General Conditions of Contract",
+    "## 1. INTERPRETATION",
+    "## 2. TENDERER STATUS",
+    "## 3. TENDERER TO INFORM ITSELF",
+    "## 4. OFFER",
+    "## 5. GENERAL CONDITIONS OF CONTRACT",
+    "## 6. ACKNOWLEDGMENT BY TENDERER",
+    "## 7. CONFIDENTIALITY",
+    "## 8. COLLUSIVE TENDERING",
+    "## 9. CANVASSING SUPPORT",
+    "## 10. LEVIES & TAXES",
+    "## 11. SUBMISSION PROCEDURE",
+    "## 11.1 Requirements",
+    "## 11.2 Tender Box Lodgement",
+    "## 11.3 Tender Box Lodgement by Facsimile Machine",
+    "## 11.4 Formal Confirmations",
+    "## 12. OPENING OF TENDERS",
+    "## 13. ASSESSMENT AND ACCEPTANCE",
+    "## 14. NON-CONFORMING TENDERS",
+    "## 15. ALTERNATIVE PROPOSALS",
+    "## 16. PRE-TENDER MEETING",
+    "## 17. ECOLOGICALLY SUSTAINABLE DEVELOPMENT",
+    "## 18. INDUCTION TRAINING",
+    "## 19. LOCAL GOVERNMENT (GENERAL) REGULATION"
+   ]
+  }
+ ],
+ "excluded_meta_files": [],
+ "gold": "none found",
+ "derived_files": "none found",
+ "claims": [
+  {
+   "id": "SC-01",
+   "section": "inventory",
+   "kind": "fact",
+   "statement": "Corpus holds 3 document files, 3 unique by content, 110721 chars total.",
+   "source": "scanner",
+   "verify": {
+    "scanner": "inventory",
+    "params": {}
+   },
+   "expected": null,
+   "measured": {
+    "value": 3,
+    "detail": {
+     "n_files": 3,
+     "n_unique_content": 3,
+     "duplicate_groups": [],
+     "total_chars": 110721,
+     "mean_chars": 36907,
+     "median_chars": 36040,
+     "min_chars": 32361,
+     "max_chars": 42320
+    }
+   },
+   "verdict": "measured",
+   "decision_point": false,
+   "grade": "FULL"
+  },
+  {
+   "id": "SC-02",
+   "section": "hygiene",
+   "kind": "fact",
+   "statement": "Redaction marker [***] appears in 0 of 3 documents (0 occurrences).",
+   "source": "scanner",
+   "verify": {
+    "scanner": "pattern_prevalence",
+    "params": {
+     "regex": "\\[\\*\\*\\*\\]"
+    }
+   },
+   "expected": null,
+   "measured": {
+    "value": 0,
+    "detail": {
+     "pattern": "\\[\\*\\*\\*\\]",
+     "docs_with": 0,
+     "docs_total": 3,
+     "share": 0.0,
+     "total_matches": 0
+    }
+   },
+   "verdict": "measured",
+   "decision_point": false,
+   "grade": "FULL"
+  },
+  {
+   "id": "SC-03",
+   "section": "hygiene",
+   "kind": "fact",
+   "statement": "Spaced redaction marker [ * * * ] appears in 0 documents (0 occurrences).",
+   "source": "scanner",
+   "verify": {
+    "scanner": "pattern_prevalence",
+    "params": {
+     "regex": "\\[\\s\\*\\s\\*\\s\\*\\s\\]"
+    }
+   },
+   "expected": null,
+   "measured": {
+    "value": 0,
+    "detail": {
+     "pattern": "\\[\\s\\*\\s\\*\\s\\*\\s\\]",
+     "docs_with": 0,
+     "docs_total": 3,
+     "share": 0.0,
+     "total_matches": 0
+    }
+   },
+   "verdict": "measured",
+   "decision_point": false,
+   "grade": "FULL"
+  },
+  {
+   "id": "SC-04",
+   "section": "identity",
+   "kind": "fact",
+   "statement": "[identity] defined_terms: {\"docs_with\": 0, \"docs_total\": 3, \"total_captures\": 0}",
+   "source": "scanner",
+   "verify": {
+    "scanner": "defined_terms",
+    "params": {}
+   },
+   "expected": null,
+   "measured": {
+    "value": 0,
+    "detail": {
+     "docs_with": 0,
+     "docs_total": 3,
+     "total_captures": 0
+    }
+   },
+   "verdict": "measured",
+   "decision_point": false,
+   "grade": "FULL"
+  },
+  {
+   "id": "SC-05",
+   "section": "identity",
+   "kind": "fact",
+   "statement": "[identity] defined_term_scope: {\"terms_total\": 0, \"terms_in_ge2_docs\": 0, \"terms_with_differing_bindings\": 0, \"share_differing\": 0, \"examples\": []}",
+   "source": "scanner",
+   "verify": {
+    "scanner": "defined_term_scope",
+    "params": {}
+   },
+   "expected": null,
+   "measured": {
+    "value": 0,
+    "detail": {
+     "terms_total": 0,
+     "terms_in_ge2_docs": 0,
+     "terms_with_differing_bindings": 0,
+     "share_differing": 0,
+     "examples": []
+    }
+   },
+   "verdict": "measured",
+   "decision_point": false,
+   "grade": "FULL"
+  },
+  {
+   "id": "SC-06",
+   "section": "families",
+   "kind": "fact",
+   "statement": "[families] amendment_titles: {\"docs_with_amendment_in_title\": 0, \"examples\": []}",
+   "source": "scanner",
+   "verify": {
+    "scanner": "amendment_titles",
+    "params": {}
+   },
+   "expected": null,
+   "measured": {
+    "value": 0,
+    "detail": {
+     "docs_with_amendment_in_title": 0,
+     "examples": []
+    }
+   },
+   "verdict": "measured",
+   "decision_point": false,
+   "grade": "FULL"
+  },
+  {
+   "id": "SC-07",
+   "section": "identity",
+   "kind": "fact",
+   "statement": "Semantic census: 0 defined terms corpus-wide (0 recurring in >=2 documents), 1 recurring clause/section headings, 0 recurring binding names; the lists themselves ride this claim's measured detail into the ontology draft context.",
+   "source": "scanner",
+   "verify": {
+    "scanner": "semantic_census",
+    "params": {}
+   },
+   "expected": null,
+   "measured": {
+    "value": 1,
+    "detail": {
+     "defined_terms_total": 0,
+     "defined_terms_recurring": [],
+     "defined_terms_recurring_count": 0,
+     "binding_names_recurring": [],
+     "headings_distinct": 153,
+     "headings_recurring": [
+      {
+       "heading": "## Contents",
+       "n_docs": 2
+      }
+     ],
+     "headings_recurring_count": 1
+    }
+   },
+   "verdict": "measured",
+   "decision_point": false,
+   "grade": "FULL"
+  }
+ ],
+ "decision_points": [],
+ "spend": {
+  "draft_usd": 0.0,
+  "bounce_usd": 0.0,
+  "total_usd": 0.0
+ },
+ "profile_hash": "sha256:57ebb0a46d5997fa",
+ "setup_config": {
+  "family": "tenders",
+  "profile_hash": "sha256:57ebb0a46d5997fa",
+  "triple_threshold": 0.25,
+  "review_band": [
+   0.25,
+   0.5
+  ],
+  "er_threshold": 0.4,
+  "embed_model": "openai/text-embedding-3-large",
+  "chunk_window_chars": 1000,
+  "chunk_min_chars": 100,
+  "route_baseline": "arm_c",
+  "er_auto_merge": "form_variants_only",
+  "er_alias_sources": "text_attested_only",
+  "batch_cost_cap_usd": 10.0,
+  "provider_sort": "throughput",
+  "corpus_scope": {
+   "family": "tenders",
+   "registry_namespace": "tenders",
+   "cross_corpus_links": "reviewed_edges_only"
+  },
+  "c1_whitelist": null,
+  "c1_whitelist_note": "per-corpus: derive from the relation census of the first batch (playbook Part B #6); setup does not invent it",
+  "redaction_markers_observed": [],
+  "role_word_rules_from_profile": []
+ }
+}
