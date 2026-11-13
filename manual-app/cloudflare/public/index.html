@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Manual Handling</title>
+<meta name="description" content="Let AI handle your manuals. The right answer, on the right page.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Cloudflare build: the library, search and answers come from the Worker API (src/worker.js).
+     Layout: a field tool for one hand on a phone. One search box comes first; answers stack under it, newest on top.
+     Two other views sit behind tabs: Library (find, read or request a manual) and Graph (how parts, specs, faults
+     and manuals connect). Every answer carries its page chips; tapping one opens the page. */
+  :root {
+    --bg: #eef1f3; --panel: #ffffff; --sunk: #f4f6f8; --ink: #111a24; --muted: #566373; --line: #cfd6de;
+    --accent: #e8590c; --on-accent: #ffffff; --warning: #e8590c; --warning-soft: #fdeee4; --caution: #b98900; --caution-soft: #fbf3d6;
+    --notice: #0b5cad; --notice-soft: #e4effa; --safe: #1b7f4b; --safe-soft: #e2f3ea; --bad: #b42318; --bad-soft: #fdecea; --scrim: rgba(10, 16, 24, .62);
+    --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif; --body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #0f141a; --panel: #171e27; --sunk: #121820; --ink: #e7ecf2; --muted: #9aa7b6; --line: #2a3441;
+    --accent: #ff8a4c; --on-accent: #10161d; --warning: #ff8a4c; --warning-soft: #33200f; --caution: #e9bd3a; --caution-soft: #2d2610;
+    --notice: #6db1f5; --notice-soft: #12263b; --safe: #5ecb8f; --safe-soft: #12291e; --bad: #f07a6e; --bad-soft: #321716; --scrim: rgba(0, 0, 0, .7); color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --bg: #0f141a; --panel: #171e27; --sunk: #121820; --ink: #e7ecf2; --muted: #9aa7b6; --line: #2a3441;
+    --accent: #ff8a4c; --on-accent: #10161d; --warning: #ff8a4c; --warning-soft: #33200f; --caution: #e9bd3a; --caution-soft: #2d2610;
+    --notice: #6db1f5; --notice-soft: #12263b; --safe: #5ecb8f; --safe-soft: #12291e; --bad: #f07a6e; --bad-soft: #321716; --scrim: rgba(0, 0, 0, .7); color-scheme: dark; }
+
+  [hidden] { display: none !important; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.5; }
+  button, select, textarea, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--notice); outline-offset: 2px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 14px 60px; display: grid; gap: 16px; }
+  .wrap > * { min-width: 0; }
+  header { display: grid; gap: 10px; }
+  .brand { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 14px; }
+  .brand h1 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 28px; letter-spacing: .05em; text-transform: uppercase; line-height: 1; }
+  .brand span { color: var(--muted); font-size: 14px; }
+  .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 4px; }
+  .tabs button { min-height: 44px; border: 0; background: transparent; border-radius: 7px; cursor: pointer; font-weight: 600; color: var(--muted); }
+  .tabs button[aria-selected="true"] { background: var(--panel); color: var(--ink); box-shadow: 0 0 0 1.5px var(--accent) inset; }
+  .view { display: grid; gap: 14px; min-width: 0; } .view > * { min-width: 0; }
+  .field { width: 100%; min-height: 52px; border: 2px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 14px; }
+  .field:focus { border-color: var(--accent); outline: none; }
+  .scope { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 15px; color: var(--muted); }
+  .row { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; align-items: start; }
+  .row-b { display: grid; gap: 8px; min-width: 0; }
+  .thumb { width: 96px; aspect-ratio: 3 / 4; padding: 0; border: 1px solid var(--line); border-radius: 6px; background: #fff; overflow: hidden; cursor: pointer; display: grid; place-items: center; color: #566373; font-size: 12px; }
+  .thumb img, .thumb canvas { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .row b { font-weight: 600; overflow-wrap: anywhere; } .row .acts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .grp { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .gsvg { width: 100%; max-width: 460px; height: auto; display: block; margin: 0 auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  .gsvg text { font-family: var(--body); font-size: 10.5px; fill: var(--ink); } .gsvg line { stroke: var(--line); stroke-width: 1.2; }
+  .gsvg .n { cursor: pointer; } .gsvg .n circle.dot { fill: var(--panel); stroke: var(--tc); stroke-width: 2.5; } .gsvg .c circle.dot { fill: var(--tc); }
+  .gsvg .c text { font-size: 12px; font-weight: 600; } .gsvg .ov text { font-size: 10.5px; }
+  .ty { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--tc); border: 1.5px solid var(--tc); border-radius: 5px; padding: 0 5px; white-space: nowrap; }
+  .t-manual { --tc: var(--ink); } .t-model { --tc: var(--notice); } .t-component { --tc: var(--safe); } .t-spec { --tc: var(--caution); } .t-procedure { --tc: var(--muted); }
+  .t-fault { --tc: var(--bad); } .t-safety { --tc: var(--warning); } .t-tool { --tc: var(--muted); } .t-refrigerant { --tc: var(--notice); }
+  .nodes { display: grid; gap: 6px; }
+  .nodes button { display: flex; gap: 8px; align-items: center; text-align: left; min-height: 44px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; cursor: pointer; overflow-wrap: anywhere; }
+  .nodes button:hover { border-color: var(--accent); }
+
+  .intro { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 12px; }
+  .intro h2 { margin: 0; font-family: var(--display); font-size: 34px; font-weight: 700; text-transform: uppercase; line-height: 1; text-wrap: balance; }
+  .intro p { margin: 0; color: var(--muted); }
+  .examples { display: grid; gap: 8px; }
+  .examples button { text-align: left; background: var(--sunk); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; min-height: 44px; }
+  .examples button:hover { border-color: var(--accent); }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+  .q { font-weight: 600; font-size: 18px; overflow-wrap: anywhere; }
+  .meta { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; overflow-wrap: anywhere; }
+  .answer { font-size: 19px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .answer.wait { color: var(--muted); font-style: italic; font-size: 17px; }
+  .cite, .pg { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; border: 1.5px solid var(--notice); color: var(--notice); background: var(--notice-soft); border-radius: 6px; padding: 1px 7px; cursor: pointer; white-space: nowrap; }
+  .cite { vertical-align: 1px; margin: 0 1px; }
+  .pg { min-height: 36px; padding: 5px 12px; font-size: 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .label { border: 2px solid var(--c); border-radius: 6px; overflow: hidden; display: grid; grid-template-columns: auto minmax(0, 1fr); }
+  .label > b { background: var(--c); color: var(--on-accent); font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: .06em; text-transform: uppercase; padding: 8px 10px; display: flex; align-items: center; }
+  .label > div { background: var(--s); padding: 8px 12px; font-size: 15.5px; overflow-wrap: anywhere; }
+  .label.warning { --c: var(--warning); --s: var(--warning-soft); } .label.caution { --c: var(--caution); --s: var(--caution-soft); }
+  .label.notice { --c: var(--notice); --s: var(--notice-soft); } .label.bad { --c: var(--bad); --s: var(--bad-soft); }
+  @media (max-width: 460px) { .label { grid-template-columns: minmax(0, 1fr); } }
+  .sec { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  details summary { cursor: pointer; color: var(--muted); font-size: 15px; min-height: 32px; }
+  .src { border-left: 3px solid var(--line); padding: 4px 0 4px 10px; margin-top: 8px; display: grid; gap: 4px; font-size: 14.5px; }
+  .src.used { border-left-color: var(--notice); }
+  .src .h { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted); font-size: 13px; }
+  .src .x { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .btn { border: 1.5px solid var(--line); background: var(--panel); border-radius: 8px; padding: 8px 14px; min-height: 44px; cursor: pointer; font-weight: 500; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: .06em; text-transform: uppercase; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn[aria-pressed="true"] { border-color: var(--safe); color: var(--safe); background: var(--safe-soft); }
+  .btn.no[aria-pressed="true"] { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
+  .note { font-size: 14px; color: var(--muted); }
+  .pick-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
+  .figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .fig { margin: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; cursor: pointer; padding: 0; display: grid; text-align: left; }
+  .fig img, .fig canvas { display: block; width: 100%; max-width: 100%; height: auto; max-height: 300px; object-fit: contain; background: #fff; }
+  .fig span { font-family: var(--mono); font-size: 12px; color: var(--muted); background: var(--sunk); padding: 4px 8px; border-top: 1px solid var(--line); }
+  .req { display: grid; gap: 8px; }
+  .req input { width: 100%; min-height: 46px; border: 2px solid var(--line); border-radius: 8px; background: var(--sunk); padding: 8px 12px; }
+  .cand { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 10px; align-items: start; padding: 10px 0; border-top: 1px solid var(--line); cursor: pointer; }
+  .cand input { width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--accent); } .cand b { font-weight: 600; overflow-wrap: anywhere; } .cand small { grid-column: 2; color: var(--muted); font-size: 13.5px; overflow-wrap: anywhere; }
+  .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; border: 1.5px solid var(--c); color: var(--c); border-radius: 5px; padding: 0 5px; white-space: nowrap; }
+  .tag.vendor { --c: var(--safe); } .tag.third { --c: var(--caution); }
+  .prog { border: 1.5px solid var(--accent); border-radius: 10px; background: var(--sunk); padding: 12px; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px 12px; align-items: center; }
+  .prog.done { border-color: var(--safe); } .prog svg { width: 64px; height: 64px; display: block; }
+  .prog h3 { margin: 0; font-family: var(--display); font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.05; overflow-wrap: anywhere; }
+  .prog .msg { font-size: 16px; font-weight: 500; min-height: 1.5em; } .prog .ago { font-size: 13px; color: var(--muted); }
+  .prog .bar { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 4px; }
+  .prog .bar i { display: block; height: 100%; width: 40%; border-radius: 3px; background: var(--accent); animation: slide 1.6s ease-in-out infinite; }
+  .prog.done .bar i { width: 100%; background: var(--safe); animation: none; }
+  .prog .lines { grid-column: 1 / -1; display: grid; gap: 6px; margin-top: 6px; } .prog .line { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; font-size: 15px; align-items: start; }
+  .prog .line b { font-weight: 600; overflow-wrap: anywhere; } .prog .line small { display: block; color: var(--muted); font-size: 13.5px; }
+  .prog .dot { width: 14px; height: 14px; border-radius: 50%; margin-top: 4px; border: 2.5px solid var(--muted); } .prog .dot.go { border-color: var(--accent); border-top-color: transparent; animation: spin 1s linear infinite; }
+  .prog .dot.ok { border-color: var(--safe); background: var(--safe); } .prog .dot.no { border-color: var(--caution); background: var(--caution); }
+  .prog details { grid-column: 1 / -1; } .prog ol { margin: 6px 0 0; padding-left: 20px; font-size: 14.5px; color: var(--muted); display: grid; gap: 3px; }
+  .cog { transform-box: fill-box; transform-origin: center; animation: spin 3.2s linear infinite; } .cog.b { animation-duration: 2.4s; animation-direction: reverse; }
+  .lens { animation: sweep 2.8s ease-in-out infinite; } .sheet { animation: feed 2.4s ease-in-out infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } } @keyframes slide { 0% { margin-left: -40%; } 100% { margin-left: 100%; } }
+  @keyframes sweep { 0%, 100% { transform: translate(-7px, 3px); } 50% { transform: translate(9px, -5px); } } @keyframes feed { 0% { transform: translateY(-9px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(7px); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cog, .lens, .sheet, .prog .bar i, .prog .dot.go { animation: none; } .prog .bar i { width: 100%; opacity: .5; } }
+  .req ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); display: grid; gap: 2px; }
+  .viewer-body img.zoom, .viewer-body canvas.zoom { width: 220%; max-width: none; }
+  .viewer-bar select { min-height: 44px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--panel); padding: 4px 8px; }
+
+  .ask-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
+  .ask textarea { resize: none; max-height: 140px; display: block; }
+
+  .viewer { position: fixed; inset: 0; z-index: 30; background: var(--scrim); display: grid; grid-template-rows: auto minmax(0, 1fr); }
+  .viewer-bar { background: var(--panel); border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
+    padding: calc(8px + env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) 8px max(12px, env(safe-area-inset-left, 0px)); }
+  .viewer-bar .t { font-weight: 600; min-width: 0; overflow-wrap: anywhere; font-size: 15px; flex: 1 1 200px; }
+  .viewer-body { overflow: auto; padding: 12px max(12px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); display: grid; justify-items: center; align-content: start; gap: 12px; }
+  .viewer-body img, .viewer-body canvas { width: 100%; max-width: 900px; height: auto; background: #fff; border-radius: 4px; display: block; }
+  .viewer-body pre { width: 100%; max-width: 900px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--body); font-size: 15px; margin: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><h1>Manual Handling</h1><span>Let AI handle your manuals. <i>The right answer, on the right page.</i></span></div>
+    <div class="tabs" role="tablist" aria-label="Views">
+      <button type="button" role="tab" id="tab-ask" data-v="ask" aria-selected="true">Ask</button><button type="button" role="tab" id="tab-library" data-v="library" aria-selected="false">Library</button><button type="button" role="tab" id="tab-graph" data-v="graph" aria-selected="false">Graph</button>
+    </div>
+  </header>
+  <section class="view" id="view-ask">
+    <form class="ask" id="ask" autocomplete="off">
+      <div class="ask-row">
+        <textarea class="field" id="q" rows="1" placeholder="Ask a question…" aria-label="Your question" enterkeyhint="search"></textarea>
+        <button class="btn primary" id="go" type="submit">Ask</button>
+      </div>
+    </form>
+    <div class="scope" id="scope"></div>
+    <span class="note" id="status">Loading manuals…</span>
+    <main id="thread" aria-live="polite" style="display:grid;gap:16px"></main>
+  </section>
+
+  <section class="view" id="view-library" hidden>
+    <input class="field" id="lib-q" type="search" placeholder="Find a manual by maker or model…" aria-label="Find a manual" autocomplete="off">
+    <div id="lib-list" style="display:grid;gap:8px"></div>
+    <div class="card req">
+      <span class="sec">Find more manuals</span>
+      <p class="note" style="margin:0">Tell us what you're working on. We check the maker's own website first, list the manuals we find for that model and ones like it, and you pick which to load.</p>
+      <div class="pick-row" id="req-row"><input type="text" id="req-in" placeholder="e.g. Daikin FTXM wall mounted split" aria-label="Equipment to find manuals for"><button class="btn" id="req-go" type="button">Search</button></div>
+      <span class="note" id="req-note"></span>
+      <div id="found" style="display:grid;gap:10px"></div>
+      <ul id="req-list" hidden></ul>
+    </div>
+  </section>
+
+  <section class="view" id="view-graph" hidden>
+    <input class="field" id="g-q" type="search" placeholder="Search parts, specs, faults, tools…" aria-label="Search the knowledge graph" autocomplete="off">
+    <div id="g-out" style="display:grid;gap:14px"></div>
+  </section>
+</div>
+
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Manual page">
+  <div class="viewer-bar">
+    <span class="t" id="v-title"></span>
+    <div class="chips">
+      <button class="btn" id="v-prev" type="button" aria-label="Previous page">←</button>
+      <select id="v-jump" aria-label="Go to page"></select>
+      <button class="btn" id="v-next" type="button" aria-label="Next page">→</button>
+      <button class="btn" id="v-zoom" type="button" aria-pressed="false">Zoom</button>
+      <button class="btn" id="v-text" type="button" aria-pressed="false">Text</button>
+      <button class="btn" id="v-link" type="button">Copy link</button>
+      <button class="btn primary" id="v-close" type="button">Close</button>
+    </div>
+  </div>
+  <div class="viewer-body" id="v-body"></div>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) { if (v === null || v === undefined || v === false) continue;
+      if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? '' : v); }
+    for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : String(k)); return n; };
+  const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+  const S = { data: null, figs: {}, requests: [], searches: [], picked: {}, openLog: {}, liveCount: 0, view: 'ask', graph: null, gState: 'idle', gCenter: -1, doc: 'all', thread: [], sample: null, sampleState: 'connecting', mcp: null, db: null, userId: null, busy: false, seq: 0 };
+    const short = (m) => m.title.replace(/\s*\(.*?\)\s*/g, ' ').split(' - ')[0].trim();
+  const manual = (id) => S.data.manuals.find((m) => m.id === id);
+  const GROUPS = [['manuals', 'Equipment and reference manuals'], ['techmanualqa', 'Consumer equipment'], ['hvac', 'HVAC'], ['requested', 'Added on request']];
+
+  // ------------------------------------------------------------ server calls
+  const K = 8;   // passages the server gives Claude
+  const tok = (s) => (s.toLowerCase().match(/[a-z0-9]+(?:[.%][0-9]+)?/g) || []);   // library filter words
+  const api = async (path, opts) => { const r = await fetch(path, opts); if (!r.ok) throw new Error(r.status); return r.json(); };
+  // Page text is fetched only when needed (safety notices on cited pages, the reader's Text view) and kept here.
+  const texts = new Map(), textKey = (doc, page) => doc + '|' + page;
+  const loadTexts = async (doc, pages) => { const need = pages.filter((p) => !texts.has(textKey(doc, p))); if (!need.length) return;
+    const r = await api(`/api/pages?doc=${encodeURIComponent(doc)}&p=${need.join(',')}`); for (const p of need) texts.set(textKey(doc, p), r.pages[p] || ''); };
+  const pageText = (doc, page) => texts.get(textKey(doc, page));
+
+  // ------------------------------------------------------------ safety notices printed on the cited pages
+  const SIGNAL = /^[\s>*_#|-]*(DANGER|WARNING|CAUTION)\b[\s:!*_.|-]*(.*)$/;
+  const notices = (pages) => { const out = [], seen = new Set();
+    for (const { doc, page } of pages) { const lines = (pageText(doc, page) || '').split('\n');
+      for (let i = 0; i < lines.length && out.length < 5; i++) { const m = lines[i].match(SIGNAL); if (!m) continue;
+        let text = m[2].replace(/[*_|]/g, '').trim(); for (let j = i + 1; text.length < 12 && j < Math.min(lines.length, i + 4); j++) text = (text + ' ' + lines[j].replace(/[*_|#>]/g, '').trim()).trim();
+        text = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 320); const key = text.toLowerCase().slice(0, 60);
+        if (text.length < 12 || seen.has(key)) continue; seen.add(key); out.push({ kind: m[1].toLowerCase(), text, doc, page }); } }
+    return out; };
+
+  // ------------------------------------------------------------ manuals added on request are drawn straight from their PDF
+  let pdfLib = null; const pdfDocs = new Map();
+  const loadPdfLib = () => pdfLib || (pdfLib = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = 'vendor/pdf.min.js';
+    sc.onload = () => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdf.worker.min.js'; res(window.pdfjsLib); }; sc.onerror = () => { pdfLib = null; rej(new Error('pdf library')); }; document.head.append(sc); }));
+  const pdfDoc = (m) => { if (!pdfDocs.has(m.id)) pdfDocs.set(m.id, loadPdfLib().then((lib) => lib.getDocument(m.pdf).promise)); return pdfDocs.get(m.id); };
+  const pdfCanvas = async (m, page, width, clip) => { const pg = await (await pdfDoc(m)).getPage(page), base = pg.getViewport({ scale: 1 }), scale = width / (clip ? clip[2] - clip[0] : base.width), vp = pg.getViewport({ scale });
+    const c = document.createElement('canvas'); c.width = Math.ceil(vp.width); c.height = Math.ceil(vp.height); await pg.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise; if (!clip) return c;
+    const o = document.createElement('canvas'); o.width = Math.ceil((clip[2] - clip[0]) * scale); o.height = Math.ceil((clip[3] - clip[1]) * scale); o.getContext('2d').drawImage(c, -clip[0] * scale, -clip[1] * scale); return o; };
+
+  // ------------------------------------------------------------ page viewer
+  const V = { doc: null, page: null, text: false, zoom: false };
+  const slug = (id) => id.replace(/_/g, '-');
+  const fromHash = () => { const h = location.hash.slice(1), m = h.match(/^(.+)-p(\d+)$/), find = (x) => S.data.manuals.find((mm) => slug(mm.id) === x || mm.id === x);
+    if (h === 'library' || h === 'graph') return { view: h }; if (m && find(m[1])) return { doc: find(m[1]).id, page: +m[2] }; if (h === 'all') return { doc: 'all' }; return find(h) ? { doc: find(h).id } : null; };
+  const setHash = (h) => { if (location.hash.slice(1) === h) return; try { location.replace('#' + h); } catch { location.hash = h; } };
+  const showPage = () => { const m = manual(V.doc), i = m.pages.indexOf(V.page);
+    $('v-title').textContent = short(m); $('v-prev').disabled = i <= 0; $('v-next').disabled = i >= m.pages.length - 1;
+    $('v-text').setAttribute('aria-pressed', String(V.text)); $('v-zoom').setAttribute('aria-pressed', String(V.zoom)); $('v-zoom').disabled = V.text;
+    const jump = $('v-jump'); if (jump.dataset.doc !== V.doc) { jump.replaceChildren(...m.pages.map((pg) => el('option', { value: pg, text: 'Page ' + pg }))); jump.dataset.doc = V.doc; } jump.value = String(V.page);
+    const img = m.pdf ? null : el('img', { src: `files/pages/${V.doc}/${V.page}.jpg`, alt: `Page ${V.page} of ${m.title}`, class: V.zoom ? 'zoom' : null });
+    if (img) img.addEventListener('error', () => img.replaceWith(el('p', { class: 'note', text: 'The page image did not load. Use Text to read the parsed page.' })));
+    if (img) img.addEventListener('click', () => { V.zoom = !V.zoom; showPage(); });
+    const tx = pageText(V.doc, V.page); if (V.text && tx === undefined) loadTexts(V.doc, [V.page]).then(() => { if (V.text && !$('viewer').hidden) showPage(); }).catch(() => {});
+    $('v-body').replaceChildren(V.text ? el('pre', { text: tx === undefined ? 'Loading the page text…' : (tx.replace(/<[^>]+>/g, ' ') || 'No text was parsed for this page.') }) : m.pdf ? el('p', { class: 'note', text: 'Opening the page…' }) : img); $('v-body').scrollTop = 0; $('v-body').scrollLeft = 0;
+    if (m.pdf && !V.text) { const want = `${V.doc}|${V.page}|${V.zoom}`; V.want = want;
+      pdfCanvas(m, V.page, V.zoom ? 2000 : 1100).then((c) => { if (V.want !== want || V.text || $('viewer').hidden) return; c.className = V.zoom ? 'zoom' : ''; c.setAttribute('role', 'img'); c.setAttribute('aria-label', `Page ${V.page} of ${m.title}`);
+        c.addEventListener('click', () => { V.zoom = !V.zoom; showPage(); }); $('v-body').replaceChildren(c); })
+        .catch(() => { if (V.want === want) $('v-body').replaceChildren(el('p', { class: 'note', text: 'The page did not open. Use Text to read the parsed page.' })); }); }
+    setHash(`${slug(V.doc)}-p${V.page}`); };
+  const openPage = (doc, page) => { const m = manual(doc); V.doc = doc; V.page = m.pages.includes(page) ? page : m.pages[0]; V.text = false; V.zoom = false; $('viewer').hidden = false; showPage(); $('v-close').focus(); };
+  const viewHash = () => S.view !== 'ask' ? S.view : S.doc === 'all' ? 'all' : slug(S.doc);
+  const closePage = () => { $('viewer').hidden = true; setHash(viewHash()); };
+  const step = (d) => { const m = manual(V.doc), n = m.pages[m.pages.indexOf(V.page) + d]; if (n !== undefined) { V.page = n; showPage(); } };
+  $('v-close').addEventListener('click', closePage); $('v-text').addEventListener('click', () => { V.text = !V.text; showPage(); }); $('v-zoom').addEventListener('click', () => { V.zoom = !V.zoom; showPage(); });
+  $('v-prev').addEventListener('click', () => step(-1)); $('v-next').addEventListener('click', () => step(1)); $('v-jump').addEventListener('change', (e) => { V.page = +e.target.value; showPage(); });
+  $('v-link').addEventListener('click', async () => { const b = $('v-link'), url = location.href; try { await navigator.clipboard.writeText(url); b.textContent = 'Copied'; } catch { b.textContent = 'Link is in the address bar'; } setTimeout(() => { b.textContent = 'Copy link'; }, 1800); });
+  $('viewer').addEventListener('click', (e) => { if (e.target === $('viewer')) closePage(); });
+  document.addEventListener('keydown', (e) => { if ($('viewer').hidden) return; if (e.key === 'Escape') closePage(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+  let tx = null; $('v-body').addEventListener('touchstart', (e) => { tx = e.touches.length === 1 && !V.zoom ? e.touches[0].clientX : null; }, { passive: true });
+  $('v-body').addEventListener('touchend', (e) => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 70) step(dx < 0 ? 1 : -1); }, { passive: true });
+  const figures = (pages) => { const out = []; for (const { doc, page } of pages) { const m = manual(doc); for (const f of (m.pdf ? ((m.figs || {})[String(page)] || []).map((clip) => ({ clip })) : ((S.figs[doc] || {})[String(page)] || []))) { if (out.length < 4) out.push({ doc, page, ...f }); } } return out; };
+  const figNode = (f) => { if (!f.clip) return el('img', { src: `files/figures/${f.doc}/${f.file}`, alt: `Figure from page ${f.page} of ${short(manual(f.doc))}`, loading: 'lazy', width: f.w, height: f.h });
+    const hold = el('span', { text: 'Drawing the figure…' }); pdfCanvas(manual(f.doc), f.page, 640, f.clip).then((c) => { c.setAttribute('role', 'img'); c.setAttribute('aria-label', `Figure from page ${f.page} of ${short(manual(f.doc))}`); hold.replaceWith(c); }).catch(() => { hold.textContent = 'Figure did not load'; }); return hold; };
+  const pageBtn = (doc, page, withName) => el('button', { class: 'pg', type: 'button', onclick: () => openPage(doc, page), text: (withName ? short(manual(doc)).split(' ').slice(0, 2).join(' ') + ' · ' : '') + 'p. ' + page });
+
+  // ------------------------------------------------------------ rendering
+  const answerNodes = (t) => { const parts = t.answer.split(/(\[\d+\])/g);
+    return parts.map((p) => { const m = p.match(/^\[(\d+)\]$/), x = m && t.extracts[+m[1] - 1];
+      return x ? el('button', { class: 'cite', type: 'button', title: `Open page ${x.page}`, onclick: () => openPage(x.doc, x.page), text: 'p. ' + x.page }) : p; }); };
+  const card = (t) => {
+    const all = t.doc === 'all', nf = t.status === 'done' && t.answer.trim().toUpperCase().startsWith('NOT FOUND');
+    const body = [];
+    if (t.status === 'nomatch') body.push(el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', {}, 'No passage in the library matches those words. Try the terms the manual would use. ', getIt())));
+    else if (t.status === 'asking' && !t.answer) body.push(el('div', { class: 'answer wait', id: 'ans-' + t.id, text: 'Reading the manual…' }));
+    else if (nf) body.push(el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', {}, 'The loaded pages do not answer that. The closest passages are below. ', getIt())));
+    else if (t.answer) body.push(el('div', { class: 'answer', id: 'ans-' + t.id }, t.status === 'done' ? answerNodes(t) : t.answer));
+    if (t.error) body.push(el('div', { class: 'label bad' }, el('b', { text: 'Problem' }), el('div', { text: t.error })));
+    if (t.status === 'done' && !nf && t.cited.length) {
+      body.push(el('div', { class: 'chips' }, el('span', { class: 'sec', text: 'Check it on' }), t.cited.map((c) => pageBtn(c.doc, c.page, all))));
+      const fg = figures(t.cited);
+      if (fg.length) body.push(el('div', { style: 'display:grid;gap:8px' }, el('span', { class: 'sec', text: fg.length > 1 ? 'Figures from those pages' : 'Figure from that page' }),
+        el('div', { class: 'figs' }, fg.map((f) => el('button', { class: 'fig', type: 'button', title: `Open page ${f.page}`, onclick: () => openPage(f.doc, f.page) },
+          figNode(f), el('span', { text: (all ? short(manual(f.doc)).split(' ').slice(0, 2).join(' ') + ' · ' : '') + 'p. ' + f.page }))))));
+      if (t.cited.some((c) => manual(c.doc).trust === 'third-party')) body.push(el('div', { class: 'label caution' }, el('b', { text: 'Caution' }), el('div', { text: 'A cited manual came from a third-party site, not the maker. Check it against the unit\'s own documentation before acting.' })));
+      const ns = notices(t.cited);
+      if (ns.length) body.push(el('div', { style: 'display:grid;gap:8px' }, el('span', { class: 'sec', text: 'Safety notices printed on those pages' }),
+        ns.map((n) => el('div', { class: 'label ' + (n.kind === 'caution' ? 'caution' : 'warning') }, el('b', { text: n.kind }), el('div', {}, n.text + ' ', pageBtn(n.doc, n.page))))));
+    }
+    if (t.status === 'done' && !nf && !t.cited.length && t.answer) body.push(el('p', { class: 'note', style: 'margin:0', text: 'This answer cites no page, so treat it with care and check the passages below.' }));
+    if (t.extracts.length && t.status !== 'asking') { const used = new Set(t.citedIdx || []);
+      body.push(el('details', { open: (nf || t.error) || null }, el('summary', { text: `Passages searched (${t.extracts.length})` }),
+        t.extracts.map((x, i) => el('div', { class: 'src' + (used.has(i) ? ' used' : '') }, el('div', { class: 'h' }, el('b', { text: `[${i + 1}]` }), pageBtn(x.doc, x.page, all), x.heading ? el('span', { text: x.heading }) : null), el('div', { class: 'x', text: x.text }))))); }
+    if (t.status === 'done' && t.answer) { const note = el('span', { class: 'note', text: t.fb ? 'Thanks, saved.' : '' });
+      const vote = (v) => async () => { t.fb = v; t.fbError = false; render();
+        try { await api('/api/feedback', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question: t.q, doc: t.doc, answer: t.answer, cited: t.cited, retrieved: t.extracts.map((x) => ({ doc: x.doc, page: x.page })), verdict: v }) }); } catch { t.fbError = true; render(); } };
+      body.push(el('div', { class: 'chips' }, el('span', { class: 'sec', text: 'Was this right?' }),
+        el('button', { class: 'btn', type: 'button', 'aria-pressed': String(t.fb === 'right'), onclick: vote('right'), text: 'Yes' }), el('button', { class: 'btn no', type: 'button', 'aria-pressed': String(t.fb === 'wrong'), onclick: vote('wrong'), text: 'No' }),
+        t.fb ? el('span', { class: 'note', text: t.fbError ? 'Not saved. Check your connection and tap again.' : 'Thanks, saved for review.' }) : null)); }
+    return el('article', { class: 'card', id: 'card-' + t.id }, el('div', { class: 'meta', text: all ? 'All manuals' : short(manual(t.doc)) }), el('div', { class: 'q', text: t.q }), body);
+  };
+  const getIt = () => el('button', { class: 'pg', type: 'button', onclick: () => { setView('library'); $('req-in').focus(); }, text: FIND ? 'Manual missing? Find it on the web' : 'Browse the library' });
+  const intro = () => { const ex = S.doc === 'all' ? S.data.manuals.flatMap((x) => x.examples.slice(0, 1)).slice(0, 3) : manual(S.doc).examples.slice(0, 3);
+    return el('section', { class: 'intro' },
+      ex.length ? el('div', { class: 'examples' }, el('span', { class: 'sec', text: 'Try one' }), ex.map((q) => el('button', { type: 'button', onclick: () => ask(q), text: q }))) : null,
+      el('div', { class: 'label caution' }, el('b', { text: 'Caution' }), el('div', { text: 'This is a test build on public manuals. Always check the cited page before you act on an answer.' }))); };
+  const scope = () => S.doc === 'all' ? [`Searching all ${S.data.manuals.length} manuals.`, el('button', { class: 'pg', type: 'button', onclick: () => setView('library'), text: 'Pick one' })]
+    : ['Searching ', el('b', { style: 'color:var(--ink)', text: short(manual(S.doc)) }), el('button', { class: 'pg', type: 'button', onclick: () => openPage(S.doc, manual(S.doc).pages[0]), text: 'Read it' }),
+      el('button', { class: 'pg', type: 'button', onclick: () => { S.doc = 'all'; setHash('all'); render(); }, text: 'Search all instead' })];
+
+  // ------------------------------------------------------------ library: find, read, ask about, or request a manual
+  // Finding manuals is two steps, both done by an agent started through the viewer's Claude Code connector: a web search
+  // that writes its candidates back to the database, then ingestion of the ones the viewer ticks. If the connector is
+  // missing or not allowed, the saved search or request is still picked up by the task's own scheduled check.
+  const FIND = false;   // finding and loading manuals from the web is not built for this server yet
+  const FETCH_TASK = 'trig_01QuwDJjccWATPoF9j2uhdNF', REMOTE = 'Claude Code Remote';
+  const startAgent = async (doing) => { if (!S.mcp) return `Saved. This view cannot start the ${doing} itself, so it waits for the next scheduled check.`;
+    try { await S.mcp.callTool(REMOTE, 'fire_trigger', { trigger_id: FETCH_TASK }, { cache: false }); return ''; }
+    catch (e) { const code = e && e.code;
+      if (code === 'server_not_connected' || code === 'selection_required' || code === 'needs_reauth') return `Saved. To start the ${doing} straight away, connect Claude Code in claude.ai Settings, Connectors. Otherwise it waits for the next scheduled check.`;
+      if (code === 'not_in_manifest' || code === 'approval_required' || code === 'not_granted' || code === 'consent_required') return `Saved, but starting the ${doing} was not allowed for this page. It waits for the next scheduled check.`;
+      if (code === 'blocked_by_policy') return `Saved. Your organisation does not let this page start the ${doing}, so it waits for the next scheduled check.`;
+      if (code === 'server_unavailable' || code === 'upstream_error') return `Saved. The ${doing} may not have started; if not, the next scheduled check picks it up.`;
+      return `Saved. The ${doing} could not be started from here, so it waits for the next scheduled check.`; } };
+  const qKey = (q) => String(q || '').toLowerCase().replace(/\s+/g, ' ').trim(), ageMin = (x) => (Date.now() - Date.parse(x.at || 0)) / 60000;
+  const pending = (x) => (x.status === 'searching' || x.status === 'looking') && ageMin(x) < 12;
+  const waited = (x) => { const m = ageMin(x); return m < 1 ? 'started just now' : `started ${Math.floor(m)} min ago`; };
+  const sendSearch = async (text) => { const v = text.trim().slice(0, 200), note = $('req-note'); if (!v) { note.textContent = 'Describe the equipment first.'; return; }
+    if (S.sending) return; if (!S.db) { note.textContent = 'Searching needs you signed in with edit access to this page.'; return; }
+    if (S.searches.some((x) => pending(x) && qKey(x.query) === qKey(v))) { note.textContent = 'Already looking for that. Your list will show up below on its own.'; $('found').scrollIntoView({ block: 'nearest' }); return; }
+    S.sending = true; note.textContent = 'Saving the search…';
+    try { await S.db.collection('searches').add({ query: v, status: 'searching', by: S.userId || '', at: new Date().toISOString() }); $('req-in').value = ''; }
+    catch { note.textContent = 'The search was not saved. Try again.'; S.sending = false; return; }
+    note.textContent = ''; renderFound(); $('found').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); note.textContent = await startAgent('search'); S.sending = false; };
+  const candKey = (c) => String(c.url || '').trim().toLowerCase().replace(/[#?].*$/, '').replace(/^https?:\/\/(www\.)?/, '');
+  const candidates = (sr) => { const seen = new Set(), out = []; for (const c of (Array.isArray(sr.candidates) ? sr.candidates.slice() : []).sort((x, y) => ((y && y.trust === 'vendor') ? 1 : 0) - ((x && x.trust === 'vendor') ? 1 : 0))) { if (!c || typeof c.url !== 'string' || !/^https:\/\//i.test(c.url) || !c.title) continue; const k = candKey(c), t = String(c.title).toLowerCase().replace(/\s+/g, ' ').trim(); if (seen.has(k) || seen.has(t)) continue; seen.add(k); seen.add(t); out.push(c); } return out.slice(0, 20); };
+  const taken = (c) => S.data.manuals.some((m) => m.source && candKey({ url: m.source }) === candKey(c)) || S.requests.some((r) => r.url && candKey(r) === candKey(c) && !/not found|could not|held/.test(r.status || ''));
+  const addCandidates = async (sr, list) => { const note = $('req-note'); if (S.sending || !list.length) { if (!list.length) note.textContent = 'Tick at least one manual first.'; return; }
+    if (!S.db) { note.textContent = 'Adding needs you signed in with edit access to this page.'; return; }
+    S.sending = true; note.textContent = 'Sending…'; let ok = 0;
+    for (const c of list) { try { await S.db.collection('requests').add({ wanted: String(c.title).slice(0, 200), url: c.url, host: String(c.host || ''), trust: c.trust === 'vendor' ? 'vendor' : 'third-party', search: sr.id, status: 'requested', by: S.userId || '', at: new Date().toISOString() }); ok++; delete S.picked[candKey(c)]; } catch {} }
+    if (!ok) { note.textContent = 'Nothing was saved. Try again.'; S.sending = false; return; }
+    delete S.openLog['list:' + sr.id]; renderFound(); $('found').scrollIntoView({ block: 'start', behavior: 'smooth' }); const msg = await startAgent('download'); note.textContent = msg; S.sending = false; renderFound(); };
+  // ---- progress: a small moving picture, one plain-English line that changes as time passes (or as the agent reports in),
+  // and a "watch progress" list for anyone who wants every step. Wording is for people who fix equipment, not computers.
+  const SAY = { search: [[0, 'On it. Starting the search.'], [12, 'Checking the maker\'s own website first.'], [32, 'Going through their manuals shelf.'], [55, 'Pulling out the installation and service manuals.'], [80, 'Checking related models too, in case yours is covered there.'],
+      [105, 'Making sure each one is the real document.'], [135, 'Clearing out doubles so you only see each manual once.'], [165, 'Nearly there. Putting your list together.'], [240, 'This one is taking longer than usual. Still on the job.']],
+    load: [[0, 'Got it. Fetching your manual.'], [15, 'Downloading it from the source.'], [45, 'Checking it over. Nothing gets loaded unless it looks right.'], [80, 'Reading every page.'], [120, 'Picking out the diagrams and tables.'], [165, 'Filing it in your library.'], [230, 'Big manual. Still going.'], [420, 'Taking longer than usual. Still on the job.']] };
+  const secsSince = (at) => Math.max(0, (Date.now() - Date.parse(at || 0)) / 1000);
+  const sayNow = (kind, at) => { let m = SAY[kind][0][1]; for (const [t, text] of SAY[kind]) if (secsSince(at) >= t) m = text; return m; };
+  const agoText = (at) => { const x = secsSince(at); return x < 50 ? 'Started just now' : x < 100 ? 'About a minute in' : `About ${Math.round(x / 60)} minutes in`; };
+  const notesOf = (d) => (Array.isArray(d.progress) ? d.progress : []).map((n) => typeof n === 'string' ? { m: n } : n).filter((n) => n && typeof n.m === 'string' && n.m.trim()).map((n) => ({ m: n.m.trim().slice(0, 140), t: n.t })).slice(-12);
+  const COG = 'M0,-17 L3,-17 L4.5,-12.5 L8.5,-10.5 L12.5,-13 L15,-10.5 L12.5,-6.5 L14,-2.5 L18.5,-1.5 L18.5,1.5 L14,2.5 L12.5,6.5 L15,10.5 L12.5,13 L8.5,10.5 L4.5,12.5 L3,17 L-3,17 L-4.5,12.5 L-8.5,10.5 L-12.5,13 L-15,10.5 L-12.5,6.5 L-14,2.5 L-18.5,1.5 L-18.5,-1.5 L-14,-2.5 L-12.5,-6.5 L-15,-10.5 L-12.5,-13 L-8.5,-10.5 L-4.5,-12.5 L-3,-17 Z';
+  const picture = (kind, done) => { const v = SVG('svg', { viewBox: '0 0 64 64', 'aria-hidden': 'true' });
+    if (done) { v.append(SVG('circle', { cx: 32, cy: 32, r: 24, fill: 'var(--safe)' }), SVG('path', { d: 'M21 33 l8 8 l15 -17', fill: 'none', stroke: '#fff', 'stroke-width': 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })); return v; }
+    if (kind === 'search') { for (const [x, y] of [[12, 12], [16, 16], [20, 20]]) v.append(SVG('rect', { x, y, width: 30, height: 38, rx: 3, fill: 'var(--panel)', stroke: 'var(--muted)', 'stroke-width': 2 }));
+      for (const y of [30, 37, 44]) v.append(SVG('line', { x1: 25, y1: y, x2: 45, y2: y, stroke: 'var(--line)', 'stroke-width': 3, 'stroke-linecap': 'round' }));
+      v.append(SVG('g', { class: 'lens' }, SVG('circle', { cx: 36, cy: 34, r: 11, fill: 'rgba(255,255,255,.35)', stroke: 'var(--accent)', 'stroke-width': 4 }), SVG('line', { x1: 44, y1: 42, x2: 54, y2: 52, stroke: 'var(--accent)', 'stroke-width': 5, 'stroke-linecap': 'round' }))); return v; }
+    v.append(SVG('g', { transform: 'translate(23 39)' }, SVG('g', { class: 'cog' }, SVG('path', { d: COG, fill: 'var(--accent)' }), SVG('circle', { r: 6, fill: 'var(--sunk)' }))),
+      SVG('g', { transform: 'translate(47 20) scale(.62)' }, SVG('g', { class: 'cog b' }, SVG('path', { d: COG, fill: 'var(--muted)' }), SVG('circle', { r: 6, fill: 'var(--sunk)' }))),
+      SVG('g', { class: 'sheet' }, SVG('rect', { x: 40, y: 38, width: 16, height: 20, rx: 2, fill: 'var(--panel)', stroke: 'var(--muted)', 'stroke-width': 2 }), SVG('line', { x1: 44, y1: 45, x2: 52, y2: 45, stroke: 'var(--line)', 'stroke-width': 2 }), SVG('line', { x1: 44, y1: 50, x2: 52, y2: 50, stroke: 'var(--line)', 'stroke-width': 2 }))); return v; };
+  const progCard = (o) => { const last = o.notes[o.notes.length - 1], msg = el('div', { class: 'msg', 'aria-live': 'polite', text: o.done ? o.doneText : last ? last.m : sayNow(o.kind, o.at) }), ago = el('div', { class: 'ago', text: o.done ? '' : agoText(o.at) });
+    if (!o.done) { msg.dataset.kind = o.kind; msg.dataset.at = o.at; if (last) msg.dataset.note = '1'; ago.dataset.ago = o.at; }
+    const key = 'steps:' + o.key, log = el('details', { open: S.openLog[key] || null }, el('summary', { text: 'Watch progress' }), el('ol', {}, (o.notes.length ? o.notes.map((n) => n.m) : SAY[o.kind].filter(([t]) => o.done || secsSince(o.at) >= t).slice(0, o.done ? 3 : 99).map(([, t]) => t)).map((t) => el('li', { text: t }))));
+    log.addEventListener('toggle', () => { S.openLog[key] = log.open; });
+    return el('div', { class: 'prog' + (o.done ? ' done' : '') }, picture(o.kind, o.done), el('div', {}, el('h3', { text: o.title }), msg, ago), el('div', { class: 'bar' }, el('i')), o.lines && o.lines.length ? el('div', { class: 'lines' }, o.lines) : null, log); };
+  const PLAIN = { requested: ['go', 'Waiting its turn'], looking: ['go', 'Fetching and reading it'], added: ['ok', 'Ready to use'], 'already in the library': ['ok', 'Already in your library'], 'not found': ['no', 'Couldn\'t find it'], 'library full': ['no', 'Library is full, so this one wasn\'t loaded'],
+    'could not be read': ['no', 'Couldn\'t read this one. It may be a scanned copy.'], 'held: suspicious content': ['no', 'Set aside. Something in it didn\'t look right, so it wasn\'t loaded.'] };
+  const active = (r) => (r.status === 'requested' || r.status === 'looking') && ageMin(r) < 25;
+  const loadCard = () => { const recent = S.requests.filter((r) => ageMin(r) < 45 && (active(r) || ageMin(r) < 45)); if (!recent.length) return null;
+    const live = recent.filter(active), ok = recent.filter((r) => r.status === 'added').length, first = recent.reduce((a, r) => (Date.parse(r.at) < Date.parse(a.at) ? r : a), recent[0]);
+    const lines = recent.map((r) => { const [dot, text] = PLAIN[r.status] || (active(r) ? PLAIN.looking : ['no', String(r.status || 'Stopped').slice(0, 80)]), stale = !active(r) && (r.status === 'requested' || r.status === 'looking');
+      return el('div', { class: 'line' }, el('span', { class: 'dot ' + (stale ? 'no' : dot) }), el('div', {}, el('b', { text: String(r.wanted || 'Manual').slice(0, 120) }), el('small', { text: stale ? 'This one didn\'t finish. Try adding it again.' : text }))); });
+    const notes = live.length ? live.flatMap(notesOf) : [];   // kept in the order written; the times on notes are not reliable
+    return progCard({ kind: 'load', key: 'load', at: (live[0] || first).at, notes, done: !live.length, lines,
+      title: live.length ? `Loading ${live.length} manual${live.length > 1 ? 's' : ''}` : ok ? `${ok} manual${ok > 1 ? 's' : ''} ready` : 'Nothing was loaded',
+      doneText: ok ? 'All done. Find them in the library above, under "Added on request".' : 'None of these could be loaded. The reasons are below.' }); };
+  const renderFound = () => { const box = $('found'); if (!S.data) return; const out = [], lc = loadCard(); if (lc) out.push(lc);
+    const latest = new Map(); for (const x of S.searches) { if (x.status === 'duplicate') continue; const k = qKey(x.query), old = latest.get(k); if (!old || (candidates(x).length >= candidates(old).length)) latest.set(k, x); }
+    for (const sr of [...latest.values()].slice(-3).reverse()) { const cs = candidates(sr), busy = pending(sr), stuck = !busy && (sr.status === 'searching' || sr.status === 'looking');
+      if (busy) out.push(progCard({ kind: 'search', key: 'search:' + sr.id, at: sr.at, notes: notesOf(sr), done: false, title: `Looking for: ${String(sr.query).slice(0, 60)}` }));
+      if (!cs.length) { if (!busy) out.push(el('div', {}, el('div', { class: 'scope' }, el('b', { style: 'color:var(--ink)', text: sr.query })), el('p', { class: 'note', style: 'margin:4px 0 0', text: stuck ? 'That search didn\'t finish. Tap Search to try again.' : sr.status === 'ready' ? 'No manuals turned up for that. Try the maker\'s name and the model or series.' : `Search stopped: ${String(sr.status || 'unknown').slice(0, 80)}` }))); continue; }
+      const open = cs.filter((c) => !taken(c)), loading = S.requests.some((r) => r.search === sr.id && active(r)), key = 'list:' + sr.id;
+      const rows = cs.map((c) => { const k = candKey(c), tk = taken(c), box2 = el('input', { type: 'checkbox', checked: (!tk && S.picked[k]) || null, disabled: tk || null, 'aria-label': 'Load ' + c.title });
+        box2.addEventListener('change', () => { if (box2.checked) S.picked[k] = true; else delete S.picked[k]; });
+        return el('label', { class: 'cand' }, box2, el('b', { text: String(c.title).slice(0, 160) }),
+          el('small', {}, el('span', { class: 'tag ' + (c.trust === 'vendor' ? 'vendor' : 'third'), text: c.trust === 'vendor' ? 'maker site' : 'third party' }), ' ', String(c.host || '').slice(0, 60), c.models ? ' · ' + String(Array.isArray(c.models) ? c.models.join(', ') : c.models).slice(0, 120) : '', tk ? ' · already added or on its way' : '')); });
+      const isOpen = key in S.openLog ? S.openLog[key] : !loading, list = el('details', { open: isOpen || null }, el('summary', {}, el('b', { style: 'color:var(--ink)', text: String(sr.query).slice(0, 60) }), busy ? ` · ${cs.length} found so far` : ` · ${cs.length} manual${cs.length > 1 ? 's' : ''} found`),
+        el('p', { class: 'note', style: 'margin:6px 0 0', text: busy ? 'More may still turn up. You can start adding now.' : 'Each manual is listed once. Tick the ones you want.' }), rows,
+        el('div', { class: 'acts', style: 'display:flex;flex-wrap:wrap;gap:8px;margin-top:8px' }, el('button', { class: 'btn', type: 'button', disabled: !open.length || null, onclick: () => addCandidates(sr, open.filter((c) => S.picked[candKey(c)])), text: 'Load selected' }),
+          el('button', { class: 'btn', type: 'button', disabled: !open.length || null, onclick: () => addCandidates(sr, open), text: `Load all ${open.length}` })));
+      list.addEventListener('toggle', () => { S.openLog[key] = list.open; }); out.push(list); }
+    box.replaceChildren(...out); S.liveCount = S.searches.filter(pending).length + S.requests.filter(active).length; };
+  // every few seconds: move the messages on, and redraw when something starts or stops
+  setInterval(() => { if (!S.data) return; const live = S.searches.filter(pending).length + S.requests.filter(active).length; if (live !== S.liveCount) { renderFound(); return; }
+    for (const n of document.querySelectorAll('#found [data-kind]')) if (!n.dataset.note) { const t = sayNow(n.dataset.kind, n.dataset.at); if (n.textContent !== t) n.textContent = t; }
+    for (const n of document.querySelectorAll('#found [data-ago]')) n.textContent = agoText(n.dataset.ago); }, 4000);
+  const renderRequests = () => { const added = S.requests.filter((r) => r.status === 'added').length; if (S.addedSeen !== undefined && added > S.addedSeen) refreshData(); S.addedSeen = added;
+    const old = S.requests.filter((r) => ageMin(r) >= 45).slice(-8), ul = $('req-list'); ul.hidden = !old.length; ul.replaceChildren(...old.map((r) => el('li', { text: `${String(r.wanted).slice(0, 100)}: ${(PLAIN[r.status] || [0, String(r.status || '').slice(0, 60)])[1]}` }))); };
+  const refreshData = async () => { try { const d = await api('/api/manuals', { cache: 'no-store' }); if (d.manuals.length > S.data.manuals.length) { S.data = d; renderLibrary(); if (S.view === 'ask') render(); } else $('req-note').textContent = 'A requested manual has been added. Reload the page to see it.'; } catch {} };
+  // First page of each manual as a thumbnail: a stored page image, or drawn from the PDF once the card scrolls into view.
+  const thumbWatch = 'IntersectionObserver' in window ? new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) { thumbWatch.unobserve(e.target); drawThumb(e.target); } }, { rootMargin: '200px' }) : null;
+  const drawThumb = (b) => { const m = manual(b.dataset.doc); if (!m) return; pdfCanvas(m, m.pages[0], 240).then((c) => { c.setAttribute('aria-hidden', 'true'); b.replaceChildren(c); }).catch(() => { b.textContent = 'No preview'; }); };
+  const thumb = (m) => { const b = el('button', { class: 'thumb', type: 'button', 'aria-label': `Read ${short(m)}`, 'data-doc': m.id, onclick: () => openPage(m.id, m.pages[0]) });
+    if (m.pdf) { b.textContent = 'Preview…'; if (thumbWatch) thumbWatch.observe(b); else drawThumb(b); }
+    else { const img = el('img', { src: `files/pages/${m.id}/${m.pages[0]}.jpg`, alt: '', loading: 'lazy' }); img.addEventListener('error', () => { b.textContent = 'No preview'; }); b.append(img); }
+    return b; };
+  const renderLibrary = () => { if (!S.data) return; const raw = $('lib-q').value.trim(), qt = tok(raw), out = [];
+    const hit = (m) => { const t = m.title.toLowerCase(); return qt.every((w) => t.includes(w)); };
+    for (const [c, name] of GROUPS) { const ms = S.data.manuals.filter((m) => m.corpus === c && hit(m)); if (!ms.length) continue; out.push(el('span', { class: 'grp', text: name }));
+      for (const m of ms) out.push(el('div', { class: 'row' }, thumb(m), el('div', { class: 'row-b' }, el('b', { text: m.title }), m.trust === 'third-party' ? el('span', {}, el('span', { class: 'tag third', text: 'third-party source' })) : null, el('span', { class: 'note' }, `${m.pages.length} pages loaded`, m.total_pages > m.pages.length ? ` of ${m.total_pages}` : '', m.source ? [' · ', el('a', { href: m.source, target: '_blank', rel: 'noopener noreferrer', style: 'color:var(--notice)', text: 'source' })] : null),
+        el('div', { class: 'acts' }, el('button', { class: 'btn', type: 'button', onclick: () => openPage(m.id, m.pages[0]), text: 'Read' }),
+          el('button', { class: 'btn', type: 'button', onclick: () => { S.doc = m.id; setView('ask'); $('q').focus(); }, text: 'Ask about it' }))))); }
+    if (!out.length) out.push(el('div', { class: 'label notice' }, el('b', { text: 'Not here' }), el('div', {}, `No manual in the library matches "${raw}". Press Enter or tap to search the web. `,
+      el('button', { class: 'pg', type: 'button', onclick: () => sendSearch(raw), text: 'Search the web for it' }))));
+    $('lib-list').replaceChildren(...out); };
+  $('lib-q').addEventListener('input', renderLibrary);
+  $('lib-q').addEventListener('keydown', (e) => { if (e.key !== 'Enter') return; e.preventDefault(); const raw = $('lib-q').value.trim(); if (raw && !$('lib-list').querySelector('.row')) sendSearch(raw); });
+  $('req-go').addEventListener('click', () => sendSearch($('req-in').value));
+  $('req-in').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendSearch($('req-in').value); } });
+
+  // ------------------------------------------------------------ knowledge graph: one node, what it connects to, and the pages that say so
+  const TYPES = { manual: 'Manuals', model: 'Models', component: 'Parts', spec: 'Specs', procedure: 'Procedures', fault: 'Faults', safety: 'Safety notices', tool: 'Tools', refrigerant: 'Refrigerants' };
+  const SVG = (tag, attrs = {}, ...kids) => { const n = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const [k, v] of Object.entries(attrs)) if (v != null) n.setAttribute(k, v); for (const k of kids.flat()) if (k != null) n.append(k); return n; };
+  const loadGraph = async () => { if (S.gState !== 'idle') return; S.gState = 'loading'; renderGraph();
+    try { const r = await fetch('graph.json'); if (!r.ok) throw new Error(r.status); const g = await r.json();
+      g.adj = g.nodes.map(() => []); for (const [a, b] of g.edges) { g.adj[a].push(b); g.adj[b].push(a); }
+      g.nodes.forEach((n, i) => { n.i = i; n.key = (n.l + ' ' + n.a.join(' ')).toLowerCase(); n.docs = new Set(n.s.map((x) => x[0])).size; });
+      S.graph = g; S.gState = 'ready'; S.gCenter = -1;
+    } catch { S.gState = 'failed'; } renderGraph(); };
+  const wrapLabel = (s, w = 14) => { const words = s.split(' '), lines = ['']; for (const x of words) { if ((lines[lines.length - 1] + ' ' + x).trim().length <= w) lines[lines.length - 1] = (lines[lines.length - 1] + ' ' + x).trim(); else if (lines.length < 2) lines.push(x.slice(0, w)); else { lines[1] = lines[1].slice(0, w - 1) + '…'; break; } } if (lines[0].length > w) lines[0] = lines[0].slice(0, w - 1) + '…'; return lines.filter(Boolean); };
+  const center = (i) => { S.gCenter = i; $('g-q').value = ''; renderGraph(); window.scrollTo({ top: 0 }); };
+  const nodeBtn = (n) => el('button', { type: 'button', class: 't-' + n.t, onclick: () => center(n.i) }, el('span', { class: 'ty', text: n.t }), el('span', { text: n.l }));
+  const egoSvg = (c, near) => { const W = 470, H = 380, cx = W / 2, cy = H / 2, R = 112, svg = SVG('svg', { class: 'gsvg', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': `${c.l} and ${near.length} things connected to it` });
+    const pts = near.map((n, k) => { const a = -Math.PI / 2 + (k + .5) / near.length * Math.PI * 2; return { n, a, x: cx + Math.cos(a) * R, y: cy + Math.sin(a) * R * .92 }; });
+    for (const p of pts) svg.append(SVG('line', { x1: cx, y1: cy, x2: p.x, y2: p.y }));
+    for (const p of pts) { const cos = Math.cos(p.a), sin = Math.sin(p.a), anchor = cos > .35 ? 'start' : cos < -.35 ? 'end' : 'middle', lines = wrapLabel(p.n.l);
+      const tx = p.x + (anchor === 'start' ? 13 : anchor === 'end' ? -13 : 0), ty = p.y + (anchor === 'middle' ? (sin < 0 ? -14 - (lines.length - 1) * 12 : 22) : 4 - (lines.length - 1) * 6);
+      const g = SVG('g', { class: 'n t-' + p.n.t, tabindex: 0, role: 'button', 'aria-label': `${p.n.t}: ${p.n.l}` }, SVG('circle', { cx: p.x, cy: p.y, r: 24, fill: 'transparent' }), SVG('circle', { class: 'dot', cx: p.x, cy: p.y, r: 8 }),
+        SVG('text', { x: tx, y: ty, 'text-anchor': anchor }, lines.map((ln, k) => { const t = SVG('tspan', { x: tx, dy: k ? 12 : 0 }); t.textContent = ln; return t; })));
+      g.addEventListener('click', () => center(p.n.i)); g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); center(p.n.i); } }); svg.append(g); }
+    const cl = wrapLabel(c.l, 20), ct = SVG('text', { x: cx, y: cy + 28, 'text-anchor': 'middle' }, cl.map((ln, k) => { const t = SVG('tspan', { x: cx, dy: k ? 14 : 0 }); t.textContent = ln; return t; }));
+    svg.append(SVG('g', { class: 'c t-' + c.t }, SVG('circle', { class: 'dot', cx, cy, r: 13 }), ct)); return svg; };
+  // Overview: every manual in the library grouped by equipment type, then by maker.
+  const META = { xylem_empa: ['Xylem', 'Pumps'], postgresql_backup: ['PostgreSQL', 'Software'], ti_lm317: ['Texas Instruments', 'Electronics'], faa_ac43: ['FAA', 'Aircraft maintenance'], army_tm_tqg: ['US Army', 'Generators'],
+    tmqa_makita_drill: ['Makita', 'Power tools'], tmqa_prusa_mk4: ['Prusa', '3D printers'], tmqa_dji_mavic_pro: ['DJI', 'Drones'], hvac_daikin_ftxs_indoor: ['Daikin', 'HVAC'], hvac_daikin_rxs_outdoor: ['Daikin', 'HVAC'], hvac_bard_wallmount: ['Bard', 'HVAC'], hvac_rheem_heatpump: ['Rheem', 'HVAC'] };
+  const guessKind = (t) => /air.?condition|heat pump|split|hvac|furnace|chiller|boiler|ventilat/i.test(t) ? 'HVAC' : /pump/i.test(t) ? 'Pumps' : /generator/i.test(t) ? 'Generators' : /drill|saw|grinder|driver/i.test(t) ? 'Power tools' : /printer/i.test(t) ? 'Printers' : 'Other equipment';
+  const makerOf = (m) => String(m.maker || (META[m.id] || [])[0] || m.title.trim().split(/\s+/)[0]).slice(0, 40), kindOf = (m) => String(m.equipment || (META[m.id] || [])[1] || guessKind(m.title)).slice(0, 40);
+  const groups = () => { const t = new Map(); for (const m of S.data.manuals) { const k = kindOf(m), v = makerOf(m); if (!t.has(k)) t.set(k, new Map()); if (!t.get(k).has(v)) t.get(k).set(v, []); t.get(k).get(v).push(m); }
+    return [...t].sort((a, b) => a[0].localeCompare(b[0])).map(([k, vs]) => [k, [...vs].sort((a, b) => a[0].localeCompare(b[0]))]); };
+  const graphNodeOf = (m) => { const n = S.graph && S.graph.nodes.find((x) => x.t === 'manual' && (x.d === m.id || x.l === m.title)); return n ? n.i : -1; };
+  const goManual = (m) => { const i = graphNodeOf(m); if (i >= 0) center(i); else openPage(m.id, m.pages[0]); };
+  const overviewSvg = (gs) => { const XT = 52, XV = 196, XM = 306, W = 470; let y = 30; const rows = [];
+    for (const [k, vs] of gs) { const vr = []; for (const [v, ms] of vs) { const mr = ms.map((m) => { const r = { m, y }; y += 28; return r; }); vr.push({ v, mr, y: (mr[0].y + mr[mr.length - 1].y) / 2 }); } rows.push({ k, vr, y: (vr[0].y + vr[vr.length - 1].y) / 2 }); y += 14; }
+    const svg = SVG('svg', { class: 'gsvg', viewBox: `0 0 ${W} ${y}`, role: 'img', 'aria-label': 'Manuals grouped by equipment type and maker' }), link = (x1, y1, x2, y2) => SVG('path', { d: `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`, fill: 'none', stroke: 'var(--line)', 'stroke-width': 1.4 });
+    for (const t of rows) for (const v of t.vr) { svg.append(link(XT, t.y, XV, v.y)); for (const r of v.mr) svg.append(link(XV, v.y, XM, r.y)); }
+    const label = (x, yy, lines, anchor, cls) => { const tx = SVG('text', { x, y: yy, 'text-anchor': anchor, class: cls || null }, lines.map((ln, i) => { const ts = SVG('tspan', { x, dy: i ? 12 : 0 }); ts.textContent = ln; return ts; })); return tx; };
+    for (const t of rows) { const ls = wrapLabel(t.k, 13); svg.append(SVG('g', { class: 'c t-model' }, SVG('circle', { class: 'dot', cx: XT, cy: t.y, r: 9 }), label(XT, t.y - 14 - (ls.length - 1) * 12, ls, 'middle')));
+      for (const v of t.vr) { svg.append(SVG('g', { class: 'n t-component' }, SVG('circle', { class: 'dot', cx: XV, cy: v.y, r: 7 }), label(XV, v.y - 11, [v.v.length > 20 ? v.v.slice(0, 19) + '…' : v.v], 'middle')));
+        for (const r of v.mr) { const has = graphNodeOf(r.m) >= 0, nm = short(r.m), g2 = SVG('g', { class: (has ? 'c' : 'n') + ' n ov t-manual', tabindex: 0, role: 'button', 'aria-label': `${nm}: ${has ? 'open its connections' : 'read it'}` }, SVG('rect', { x: XM - 14, y: r.y - 14, width: W - XM + 14, height: 28, fill: 'transparent' }), SVG('circle', { class: 'dot', cx: XM, cy: r.y, r: 6 }), label(XM + 12, r.y + 4, [nm.length > 24 ? nm.slice(0, 23) + '…' : nm], 'start'));
+          g2.addEventListener('click', () => goManual(r.m)); g2.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goManual(r.m); } }); svg.append(g2); } } }
+    return svg; };
+  const renderOverview = () => { const gs = groups(), kids = [el('div', { class: 'scope' }, el('b', { style: 'color:var(--ink);font-size:18px', text: 'Equipment type, then maker, then manual' })), overviewSvg(gs),
+      el('p', { class: 'note', style: 'margin:0', text: 'Filled dots have their parts, specs, faults and procedures mapped: tap one to explore its connections. The others open in the reader.' })];
+    for (const [k, vs] of gs) kids.push(el('details', { open: true }, el('summary', { text: `${k} (${vs.reduce((a, [, ms]) => a + ms.length, 0)})` }),
+      vs.map(([v, ms]) => el('div', { class: 'nodes', style: 'margin-top:8px' }, el('span', { class: 'grp', text: v }), ms.map((m) => el('button', { type: 'button', class: 't-manual', onclick: () => goManual(m) }, el('span', { class: 'ty', text: graphNodeOf(m) >= 0 ? 'mapped' : 'read' }), el('span', { text: short(m) })))))));
+    $('g-out').replaceChildren(...kids); };
+  const renderGraph = () => { const out = $('g-out'), g = S.graph;
+    if (S.gState !== 'ready') { out.replaceChildren(el('p', { class: 'note', text: S.gState === 'failed' ? 'The graph did not load. Reload the page to try again.' : 'Loading the graph…' })); return; }
+    const raw = $('g-q').value.trim().toLowerCase(), qt = raw.split(/\s+/).filter(Boolean);
+    if (qt.length) { const hits = g.nodes.filter((n) => qt.every((w) => n.key.includes(w))).sort((a, b) => (b.docs - a.docs) || (g.adj[b.i].length - g.adj[a.i].length)).slice(0, 14);
+      out.replaceChildren(hits.length ? el('div', { class: 'nodes' }, hits.map(nodeBtn)) : el('div', { class: 'label notice' }, el('b', { text: 'Not found' }), el('div', { text: 'Nothing in the graph matches those words. The graph covers the four HVAC manuals so far.' }))); return; }
+    if (S.gCenter < 0) { if (S.data) renderOverview(); return; }
+    const c = g.nodes[S.gCenter], all = [...new Set(g.adj[c.i])].map((i) => g.nodes[i]).sort((a, b) => (b.docs - a.docs) || (g.adj[b.i].length - g.adj[a.i].length)), near = all.slice(0, 10);
+    const book = c.t === 'manual' ? S.data && S.data.manuals.find((m) => m.id === c.d || m.title === c.l) : null, kids = [];
+    kids.push(el('div', { class: 'scope t-' + c.t }, el('span', { class: 'ty', text: c.t }), el('b', { style: 'color:var(--ink);font-size:18px', text: c.l }), c.docs > 1 ? el('span', { text: `in ${c.docs} manuals` }) : null, el('button', { class: 'pg', type: 'button', onclick: () => center(-1), text: '‹ All equipment' })));
+    if (near.length) kids.push(egoSvg(c, near));
+    if (c.q) kids.push(el('p', { class: 'note', style: 'margin:0;font-style:italic', text: `"${c.q}"` }));
+    const acts = [];
+    if (book) acts.push(el('button', { class: 'pg', type: 'button', onclick: () => openPage(book.id, book.pages[0]), text: 'Read this manual' }));
+    for (const [doc, page] of c.s) if (S.data && S.data.manuals.some((m) => m.id === doc)) acts.push(pageBtn(doc, page, true));
+    acts.push(el('button', { class: 'pg', type: 'button', onclick: () => { if (book) S.doc = book.id; setView('ask'); if (!book) { $('q').value = c.l; } $('q').focus(); }, text: 'Ask about this' }));
+    kids.push(el('div', { class: 'chips' }, c.s.length ? el('span', { class: 'sec', text: 'Printed on' }) : null, acts));
+    for (const [t, name] of Object.entries(TYPES)) { const ns = all.filter((n) => n.t === t); if (!ns.length) continue;
+      kids.push(el('details', { open: ns.length <= 6 || null }, el('summary', { text: `${name} connected (${ns.length})` }), el('div', { class: 'nodes', style: 'margin-top:8px' }, ns.slice(0, 40).map(nodeBtn)))); }
+    kids.push(el('p', { class: 'note', style: 'margin:0', text: `The graph links ${g.nodes.length} parts, specs, faults, procedures and notices across the four HVAC manuals. Tap anything to move there.` }));
+    out.replaceChildren(...kids); };
+  $('g-q').addEventListener('input', renderGraph);
+
+  // ------------------------------------------------------------ views
+  const setView = (v) => { S.view = v; for (const n of ['ask', 'library', 'graph']) { $('view-' + n).hidden = n !== v; $('tab-' + n).setAttribute('aria-selected', String(n === v)); }
+    setHash(viewHash()); if (v === 'graph') { if (S.gState === 'idle') loadGraph(); else renderGraph(); } if (v === 'library') renderLibrary(); if (v === 'ask' && S.data) render(); window.scrollTo({ top: 0 }); };
+  for (const n of ['ask', 'library', 'graph']) $('tab-' + n).addEventListener('click', () => setView(n));
+  const render = () => { $('thread').replaceChildren(...(S.thread.length ? S.thread.slice().reverse().map(card) : [intro()])); $('go').disabled = S.busy; $('scope').replaceChildren(...scope());
+    $('q').placeholder = S.doc === 'all' ? 'Ask a question…' : 'Ask about this manual…';
+    $('status').textContent = S.busy ? 'Answering…' : `Claude answers from the ${K} best-matching passages and cites pages.`; };
+
+  // ------------------------------------------------------------ asking
+  const finish = (t) => { t.citedIdx = [...new Set([...t.answer.matchAll(/\[(\d+)\]/g)].map((m) => +m[1] - 1).filter((i) => i >= 0 && i < t.extracts.length))];
+    const seen = new Set(); t.cited = t.citedIdx.map((i) => t.extracts[i]).filter((x) => { const k = x.doc + '|' + x.page; if (seen.has(k)) return false; seen.add(k); return true; }).map((x) => ({ doc: x.doc, page: x.page }));
+    // safety notices need the text of the cited pages
+    const byDoc = new Map(); for (const c of t.cited) byDoc.set(c.doc, [...(byDoc.get(c.doc) || []), c.page]);
+    Promise.all([...byDoc].map(([doc, ps]) => loadTexts(doc, ps).catch(() => {}))).then(() => render()); };
+  const ask = async (question) => {
+    const q = (question || $('q').value).trim(); if (!q || S.busy || !S.data) return;
+    $('q').value = ''; $('q').style.height = '';
+    const t = { id: ++S.seq, q, doc: S.doc, extracts: [], answer: '', cited: [], status: 'asking', error: '' };
+    S.thread.push(t); S.busy = true; render();
+    const show = () => { const n = $('ans-' + t.id); if (n) { n.textContent = t.answer; n.classList.remove('wait'); } };
+    try {
+      const r = await fetch('/api/ask', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ q, doc: t.doc }) });
+      if (!r.ok || !r.body) throw new Error(r.status);
+      const reader = r.body.getReader(), dec = new TextDecoder(); let buf = '', stop = '';
+      const handle = (m) => {
+        if (m.extracts) { t.extracts = m.extracts; render(); }
+        else if (typeof m.t === 'string') { t.answer += m.t; show(); }
+        else if (m.error) { t.error = m.error; }
+        else if (m.done) stop = m.stop || 'end_turn'; };
+      for (;;) { const { value, done } = await reader.read(); if (done) break; buf += dec.decode(value, { stream: true });
+        let k; while ((k = buf.indexOf('\n')) >= 0) { const line = buf.slice(0, k).trim(); buf = buf.slice(k + 1); if (line) { try { handle(JSON.parse(line)); } catch {} } } }
+      t.answer = t.answer.trim();
+      if (stop === 'nomatch' || (!t.extracts.length && !t.error)) t.status = 'nomatch';
+      else { t.status = 'done'; if (stop === 'refusal') t.error = 'Claude declined this question. Rephrase it and try again.'; else if (stop === 'max_tokens') t.error = 'The answer was cut short. Ask a narrower question.'; else if (!t.answer && !t.error) t.error = 'Claude did not finish answering. Ask again.'; }
+      if (t.answer) finish(t);
+    } catch { t.status = 'done'; t.error = t.error || 'Could not reach the server. Check your connection and ask again.'; }
+    S.busy = false; render();
+  };
+  $('ask').addEventListener('submit', (e) => { e.preventDefault(); ask(); });
+  $('q').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(); } });
+  $('q').addEventListener('input', () => { const q = $('q'); q.style.height = 'auto'; q.style.height = Math.min(140, q.scrollHeight + 4) + 'px'; });
+
+  // ------------------------------------------------------------ start
+  (async () => {
+    try { S.data = await api('/api/manuals'); }
+    catch { $('status').textContent = 'The manuals did not load. Reload the page to try again.'; return; }
+    try { const f = await fetch('figures.json'); if (f.ok) S.figs = await f.json(); } catch {}
+    if (!FIND) { $('req-row').hidden = true; $('req-in').closest('.req').querySelector('p').textContent = 'Finding and loading new manuals from the web is coming to this version soon. Everything already in the library is here to read and ask about.'; }
+    const h = fromHash(); S.doc = h && h.doc ? h.doc : 'all';
+    render(); renderLibrary(); renderFound(); if (h && h.view) setView(h.view);
+    if (h && h.page) openPage(h.doc, h.page);
+  })();
+})();
+</script>
+</body>
+</html>

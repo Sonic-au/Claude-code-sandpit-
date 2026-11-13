@@ -1,0 +1,29 @@
+<title>Manual Handling Film</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  :root { --bg: #0b1119; --panel: #121b27; --ink: #eef3f8; --muted: #9db0c4; --line: #26384c; --accent: #ff7a2f; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.5; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 40px; display: grid; gap: 18px; }
+  h1 { margin: 0; font-size: 22px; font-weight: 600; }
+  p { margin: 0; color: var(--muted); max-width: 70ch; }
+  video { width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--line); border-radius: 8px; display: block; }
+  ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px; }
+  ol button { width: 100%; text-align: left; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; font: inherit; cursor: pointer; display: flex; gap: 10px; align-items: baseline; }
+  ol button:hover, ol button[aria-current="true"] { border-color: var(--accent); }
+  ol button span { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; min-width: 34px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+<div class="wrap">
+  <h1>Manual Handling: the film</h1>
+  <video id="v" controls playsinline preload="metadata" poster="poster.jpg" src="../landing/manual-handling.mp4"></video>
+  <p>A 2 minute 26 second tour: the problem, the research, the seven steps from manuals to knowledge, a worked example, the app, the results and what comes next. Select a chapter to jump to it.</p>
+  <ol id="ch"></ol>
+</div>
+<script>
+  const CH = [[1, 'The problem at the pump'], [13.9, 'Why manuals are hard'], [25.7, 'What the research said'], [41.9, 'Seven steps: manuals to knowledge'], [61.9, 'One real question'], [80.2, 'The app'], [98.8, 'What the bench found'], [116.2, 'Who it is for, and the knowledge graph'], [134.2, 'Close']];
+  const v = document.getElementById('v'), ol = document.getElementById('ch');
+  const fmt = (s) => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+  CH.forEach(([t, name]) => { const li = document.createElement('li'), b = document.createElement('button'), sp = document.createElement('span'); b.type = 'button'; sp.textContent = fmt(t); b.append(sp, name);
+    b.addEventListener('click', () => { v.currentTime = t; v.play().catch(() => {}); }); li.append(b); ol.append(li); });
+  v.addEventListener('timeupdate', () => { let k = 0; CH.forEach(([t], i) => { if (v.currentTime >= t - 0.3) k = i; }); [...ol.querySelectorAll('button')].forEach((b, i) => b.setAttribute('aria-current', String(i === k))); });
+</script>

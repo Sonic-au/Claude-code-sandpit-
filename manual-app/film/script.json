@@ -1,0 +1,34 @@
+[
+ {
+  "id": "s1",
+  "text": "A technician is standing at a pump, torque wrench in hand, and needs one number from a three-hundred-page manual. This is Manual Handling. Let A.I. handle your manuals."
+ },
+ {
+  "id": "s2",
+  "text": "Manuals hide their most important facts in tables, numbered steps and warning boxes. Exactly where software reads worst. And a wrong torque value is worse than no answer at all."
+ },
+ {
+  "id": "s3",
+  "text": "So we went to the research. It told us that parsing decides everything, that search works best in combination, and that grading needs a second opinion. What it couldn't tell us was how any of it performs on our own manuals. So we built a bench to find out."
+ },
+ {
+  "id": "s4",
+  "text": "Seven steps take a PDF to a graded answer. Parse the page. Cut it into passages that remember their page number. Search, then rerank. Claude answers from five passages, and cites the page. Jev grades it, and hands anything uncertain back to Claude. And people keep adding harder questions."
+ },
+ {
+  "id": "s5",
+  "text": "Watch one real question go through. What dry torque do the capscrews on a size sixty coupling get? Search lands on page twenty-six. Claude answers: seventy-five foot-pounds, and keeps the caution about not lubricating the threads. Graded correct."
+ },
+ {
+  "id": "s6",
+  "text": "Across twelve manuals, one hundred and sixty-nine of one hundred and seventy-nine answers were graded correct. Docling parsed manuals best. All twenty-nine questions the manuals could not answer got, not found, instead of a guess. And two independent graders agreed on all but one answer."
+ },
+ {
+  "id": "s7",
+  "text": "It's built for the technician who needs an answer they can check, the engineer choosing a parser on evidence, and the safety lead who can't afford to lose a warning. Next, a knowledge graph will link related manuals, so search knows which unit, which part and which page, before it reads a word."
+ },
+ {
+  "id": "s8",
+  "text": "These results come from twelve public manuals. Yours come next. Manual Handling. Let A.I. handle your manuals."
+ }
+]
