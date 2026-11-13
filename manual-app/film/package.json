@@ -1,0 +1,11 @@
+{
+  "name": "manual-handling-film",
+  "private": true,
+  "description": "Renders the Manual Handling film frame by frame in headless Chromium.",
+  "dependencies": {
+    "three": "0.128.0",
+    "@fontsource/barlow": "5.0.13",
+    "@fontsource/barlow-condensed": "5.0.13",
+    "@fontsource/jetbrains-mono": "5.0.20"
+  }
+}
