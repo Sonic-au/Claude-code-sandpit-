@@ -2,15 +2,58 @@
 
 **Let AI handle your manuals.** *The right answer, on the right page.*
 
+Manual Handling answers technicians' questions from equipment manuals, on a phone. Ask "what torque for the
+coupling capscrews?" and you get an answer written only from the manual, a link to the printed page that proves it,
+the diagram from that page and any safety warning printed there. When the manual doesn't say, it says "not found".
+On 208 test questions it answered 94.4% correctly with the manual picked, and said "not found" for all 29 questions
+the manuals can't answer.
+
+This folder holds three things:
+
+- **The app** technicians use: Ask, a Library of manuals with a page reader, and a Graph of how parts, specs and
+  faults connect. It runs as a published page on claude.ai today; a Cloudflare version is built and ready to deploy.
+- **The test bench** (`python -m manual_app`), which chose how the app reads manuals by scoring PDF parsers, search
+  methods and answer prompts against hand-checked questions. Most of this README describes it.
+- **The library tools**, which turn bench output into the app's library and find and load new manuals from makers'
+  websites.
+
+**Start here:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (how it fits together) and
+[docs/TECHNICAL_DESIGN.md](docs/TECHNICAL_DESIGN.md) (search, prompts, data model, API, safety).
+
+## Folders
+
+| Folder | What's in it |
+|---|---|
+| [`manual_app/`](manual_app/) | The bench: parsers, passages and search, Claude client, graders, knowledge graph, metrics, reports |
+| [`scripts/`](scripts/) | Setup and run scripts; exports that build the app and workbench data; `add_manual.py` for loading a manual; the app accuracy test |
+| [`corpus/`](corpus/) | Which public manuals to download (URL, checksum, pages used) |
+| [`gold/`](gold/) | Hand-checked transcriptions, tables, rule checks, safety notices and test questions ([how they were made](gold/ANNOTATION.md)) |
+| [`results/`](results/) | One folder per bench run, each with `report.md` |
+| [`graph/`](graph/) | The HVAC knowledge graph |
+| [`web/`](web/) | Pages published on claude.ai: `app/` (the app), `workbench/`, `landing/`, `film/` |
+| [`cloudflare/`](cloudflare/) | The Cloudflare version: Worker, D1 database, library and files ([deploy](cloudflare/DEPLOY.md)) |
+| [`film/`](film/) | Source of the 2½-minute film ([rebuild](film/README.md)) |
+| [`tests/`](tests/) | Metric unit tests and [browser checks](tests/browser/README.md) |
+| [`docs/`](docs/) | Architecture and technical design |
+| [`notes/`](notes/) | Research notes |
+| `data/` | Downloaded PDFs and parser output; not in git, re-created by `fetch` and `run` |
+
+## Live pages
+
+[App](https://claude.ai/artifact/UqdGdemFnqzJKH11KSRZbn) ·
+[Landing site](https://claude.ai/artifact/7es1xaThKN1kSoaw7mkEnu) ·
+[Film](https://claude.ai/artifact/NstU82VVfc9Fq3DhCpMLF8) ·
+[Workbench](https://claude.ai/artifact/QbUbwe44Vzcismk1YhUnLk) ·
+[Bench dashboard](https://claude.ai/artifact/A5oyCHSE74MgyTpduyiA5B) (private on claude.ai until shared)
+
+## The bench
+
 Run it with `python -m manual_app`.
 
 An evaluation harness for choosing how to ingest **technical manuals** into a knowledge base that answers
 **technician questions** with page citations. It scores document parsers, and the extraction and retrieval steps
 built on them, on what a technician relies on: procedure steps in order, warnings kept with their step, spec and
 torque tables, values with their units, exact part numbers and commands, and answers that cite the right page.
-
-Alongside the bench: a workbench for inspecting pages, reviewing answers and adding labelled questions, and a
-knowledge graph that links related manuals.
 
 ## Why another benchmark
 
@@ -312,8 +355,10 @@ phone. Pick a manual (or all of them), ask in plain words, and get:
 
 It is also a reader: "Read it" opens the picked manual page by page, with swipe, page jump, zoom and the parsed text.
 Every page has its own link (for example `#hvac-bard-wallmount-p14`), so a page can be bookmarked or sent to someone.
-A "Manual not in the list?" box saves a request for a new manual; requests are filled by finding the manual on the
-maker's website and running it through the bench pipeline, which is not automatic yet.
+The Library's "Find more manuals" box starts an agent that searches makers' websites, lists the manuals it finds
+(maker copies first, duplicates removed) and loads the ones you tick, with a progress card while it works; see
+[docs/TECHNICAL_DESIGN.md](docs/TECHNICAL_DESIGN.md#6-adding-manuals-from-the-web-claudeai-version). The Library
+shows each manual's first page, and the Graph view groups manuals by equipment type and maker.
 
 It runs as a published page on the viewer's Claude plan, so it needs no server and no API key. Search is keyword
 (BM25) in the browser over the same passages the bench uses, and Claude gets the top 8 passages instead of the
@@ -340,7 +385,7 @@ test questions in all three corpora; Claude answered in a session and Jev graded
   with 8 passages is enough at this scale. The grader is the same model family as the answerer; no person has checked
   these grades. Results: [`results/2026-11-11-app-eval/`](results/2026-11-11-app-eval/).
 
-Page sources live in `web/` (`app`, `workbench`, `landing`). To rebuild the app's data after a bench run:
+Page sources live in `web/` (`app`, `workbench`, `landing`, `film`); the Cloudflare version is in `cloudflare/`. To rebuild the app's data after a bench run:
 
 ```bash
 python scripts/export_workbench.py <workbench_dir>      # parsed pages, passages, questions, page images
