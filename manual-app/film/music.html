@@ -1,0 +1,32 @@
+<!doctype html><meta charset="utf8"><script>
+window.renderMusic = async (TOTAL, START) => {
+  const SR = 44100, c = new OfflineAudioContext(2, Math.ceil(TOTAL * SR), SR), M = {};
+  const hz = (m) => 440 * Math.pow(2, (m - 69) / 12), STEP = 60 / 96 / 4;
+  const PROG = [{ root: 38, tri: [62, 65, 69] }, { root: 34, tri: [62, 65, 70] }, { root: 41, tri: [60, 65, 69] }, { root: 36, tri: [60, 64, 67] }];
+  const LEVEL = [1, 1, 2, 2, 3, 2, 3, 2, 1], ARP = [0, 1, 2, 1, 0, 2, 1, 2], BASS = [0, 3, 6, 8, 11, 14], BELL = { 0: 81, 6: 77, 12: 74 };
+  M.master = c.createGain(); const comp = c.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 3.5; M.master.connect(comp).connect(c.destination);
+  M.master.gain.setValueAtTime(0.0001, 0); M.master.gain.exponentialRampToValueAtTime(0.85, 2.5); M.master.gain.setValueAtTime(0.85, TOTAL - 4); M.master.gain.exponentialRampToValueAtTime(0.0001, TOTAL - 0.1);
+  M.delay = c.createDelay(1); M.delay.delayTime.value = STEP * 3; const fb = c.createGain(); fb.gain.value = 0.34; const dw = c.createGain(); dw.gain.value = 0.5; M.delay.connect(fb).connect(M.delay); M.delay.connect(dw).connect(M.master);
+  const len = SR * 2.6, imp = c.createBuffer(2, len, SR); for (let ch = 0; ch < 2; ch++) { const d = imp.getChannelData(ch); for (let k = 0; k < len; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / len, 2.6); }
+  M.verb = c.createConvolver(); M.verb.buffer = imp; const vw = c.createGain(); vw.gain.value = 0.55; M.verb.connect(vw).connect(M.master);
+  M.noise = c.createBuffer(1, SR, SR); const nd = M.noise.getChannelData(0); for (let k = 0; k < nd.length; k++) nd[k] = Math.random() * 2 - 1;
+  const env = (g, t, peak, a, d) => { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); };
+  const osc = (type, f, t, dur, peak, a, dest, cutoff, detune) => { const o = c.createOscillator(), g = c.createGain(); o.type = type; o.frequency.value = f; if (detune) o.detune.value = detune; env(g, t, peak, a, dur - a); let out = o;
+    if (cutoff) { const fl = c.createBiquadFilter(); fl.type = 'lowpass'; fl.frequency.value = cutoff; o.connect(fl); out = fl; } out.connect(g); for (const d of dest) g.connect(d); o.start(t); o.stop(t + dur + 0.05); return o; };
+  const noise = (t, dur, peak, type, freq, dest) => { const n = c.createBufferSource(), g = c.createGain(), f = c.createBiquadFilter(); n.buffer = M.noise; f.type = type; f.frequency.value = freq; env(g, t, peak, 0.004, dur); n.connect(f).connect(g); for (const d of dest) g.connect(d); n.start(t); n.stop(t + dur + 0.05); };
+  const sceneAt = (t) => { let s = 0; for (let i = 0; i < START.length; i++) if (t >= START[i] - 0.75) s = i; return s; };
+  for (let n = 0, t = 0.3; t < TOTAL - 3.5; n++, t += STEP) {
+    const lvl = LEVEL[sceneAt(t)], st = n % 16, bar = Math.floor(n / 16), ch = PROG[Math.floor(bar / 2) % 4], dry = [M.master], wet = [M.master, M.verb];
+    if (st === 0 && bar % 2 === 0) for (const m of [ch.root + 12, ...ch.tri]) { osc('sawtooth', hz(m), t, STEP * 34, 0.028, 1.1, wet, 750, -7); osc('sawtooth', hz(m), t, STEP * 34, 0.028, 1.1, wet, 750, 7); }
+    if (lvl >= 2 || st % 2 === 0) { const m = ch.tri[ARP[Math.floor(lvl >= 2 ? n : n / 2) % 8]] + 12; osc('triangle', hz(m), t, 0.32, st % 4 === 0 ? 0.06 : 0.038, 0.006, [M.master, M.delay, M.verb], 2600); }
+    if (BASS.includes(st)) { osc('sine', hz(ch.root), t, 0.3, 0.2, 0.01, dry); osc('sawtooth', hz(ch.root), t, 0.26, 0.05, 0.01, dry, 260); }
+    if (bar % 4 === 2 && BELL[st]) osc('sine', hz(BELL[st]), t, 2.4, 0.05, 0.01, [M.verb, M.master]);
+    if (lvl >= 2 && (st === 0 || st === 8 || (lvl >= 3 && st === 10))) { const o = osc('sine', 120, t, 0.24, 0.5, 0.004, dry); o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(44, t + 0.16); }
+    if (lvl >= 2 && (lvl >= 3 ? st % 2 === 0 : st % 4 === 2)) noise(t, 0.045, st % 4 === 2 ? 0.05 : 0.025, 'highpass', 7500, dry);
+    if (lvl >= 3 && (st === 4 || st === 12)) noise(t, 0.16, 0.11, 'bandpass', 1900, wet);
+  }
+  const buf = await c.startRendering(), L = buf.getChannelData(0), R = buf.getChannelData(1), pcm = new Int16Array(L.length * 2);
+  for (let i = 0; i < L.length; i++) { pcm[i * 2] = Math.max(-1, Math.min(1, L[i])) * 32767; pcm[i * 2 + 1] = Math.max(-1, Math.min(1, R[i])) * 32767; }
+  let bin = ''; const u8 = new Uint8Array(pcm.buffer); for (let i = 0; i < u8.length; i += 0x8000) bin += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000)); return btoa(bin);
+};
+</script>

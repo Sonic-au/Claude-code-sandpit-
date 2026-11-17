@@ -1,0 +1,11 @@
+const { chromium } = require('playwright');
+(async () => { const b = await chromium.launch(); const out = process.argv[2]; const errs = []; const U = 'http://127.0.0.1:8833/addtest/_local.html';
+  const p = await b.newPage({ viewport: { width: 390, height: 800 }, colorScheme: 'light' }); p.on('pageerror', e => errs.push(e.message));
+  await p.goto(U + '#library'); await p.waitForTimeout(1500); await p.screenshot({ path: out + '/a6-lib.png' });
+  await p.locator('.thumb').last().scrollIntoViewIfNeeded(); await p.waitForSelector('.thumb canvas', { timeout: 20000 }); await p.waitForTimeout(300); await p.screenshot({ path: out + '/a6-lib2.png' });
+  console.log('thumbs', await p.locator('.thumb').count(), 'imgs ok', await p.evaluate(() => [...document.querySelectorAll('.thumb img')].filter(i => i.complete && i.naturalWidth).length), 'canvas', await p.locator('.thumb canvas').count(), 'sw', await p.evaluate(() => document.documentElement.scrollWidth));
+  await p.click('#tab-graph'); await p.waitForTimeout(1200); await p.screenshot({ path: out + '/a6-graph.png', fullPage: true }); console.log('overview manuals', await p.locator('.gsvg g[role=button]').count(), 'sw', await p.evaluate(() => document.documentElement.scrollWidth));
+  await p.locator('.gsvg g[role=button]', { hasText: 'Rheem' }).first().click(); await p.waitForTimeout(300); console.log('centered:', (await p.textContent('#g-out .scope')).slice(0, 70));
+  await p.getByRole('button', { name: '‹ All equipment' }).click(); await p.waitForTimeout(200); console.log('back to overview', await p.locator('.gsvg g[role=button]').count());
+  await p.locator('.gsvg g[role=button]', { hasText: 'Makita' }).click(); await p.waitForTimeout(400); console.log('reader open', await p.evaluate(() => !document.getElementById('viewer').hidden));
+  console.log('errors', JSON.stringify(errs)); await b.close(); })();

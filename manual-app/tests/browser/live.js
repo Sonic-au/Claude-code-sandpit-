@@ -1,0 +1,14 @@
+const { chromium } = require('playwright');
+(async () => { const b = await chromium.launch(); const out = process.argv[2]; const errs = []; const U = 'http://127.0.0.1:8833/live/_local.html';
+  const p = await b.newPage({ viewport: { width: 390, height: 800 }, colorScheme: 'light' }); p.on('pageerror', e => errs.push(e.message));
+  await p.goto(U + '#library'); await p.waitForTimeout(1500);
+  console.log('library rows', await p.locator('#lib-list .row').count(), '| groups:', (await p.locator('#lib-list .grp').allTextContents()).join(', '));
+  await p.fill('#lib-q', 'grundfos'); await p.waitForTimeout(300); console.log('grundfos rows', await p.locator('#lib-list .row').count(), (await p.textContent('#lib-list .row')).slice(0, 110));
+  await p.waitForSelector('#lib-list .thumb canvas', { timeout: 20000 }); await p.screenshot({ path: out + '/live-lib.png' });
+  await p.locator('#lib-list .row button', { hasText: 'Read' }).click(); await p.waitForSelector('#v-body canvas', { timeout: 20000 }); await p.selectOption('#v-jump', '8'); await p.waitForTimeout(1500); await p.screenshot({ path: out + '/live-read.png' });
+  console.log('reader hash', await p.evaluate(() => location.hash)); await p.click('#v-close');
+  await p.locator('#lib-list .row button', { hasText: 'Ask about it' }).click(); await p.fill('#q', 'What torque for the staybolts on a CR 10?'); await p.click('#go'); await p.waitForTimeout(600);
+  console.log('ask scope:', (await p.textContent('#scope')).slice(0, 60), '| passages', await p.locator('.card .src').count(), '| first:', (await p.locator('.card .src .x').first().textContent()).slice(0, 140));
+  await p.screenshot({ path: out + '/live-ask.png' });
+  await p.click('#tab-graph'); await p.waitForTimeout(1200); await p.screenshot({ path: out + '/live-graph.png' }); console.log('graph manuals', await p.locator('.gsvg g[role=button]').count(), '| groups:', (await p.locator('#g-out details summary').allTextContents()).join(' ; '));
+  console.log('sw', await p.evaluate(() => document.documentElement.scrollWidth), 'errors', JSON.stringify(errs)); await b.close(); })();

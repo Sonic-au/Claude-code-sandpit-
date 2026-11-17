@@ -1,0 +1,263 @@
+<!doctype html>
+<html><head><meta charset="utf8">
+<style>
+  @font-face { font-family: "BC"; font-weight: 600; src: url("node_modules/@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2"); }
+  @font-face { font-family: "BC"; font-weight: 700; src: url("node_modules/@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2"); }
+  @font-face { font-family: "B"; font-weight: 400; src: url("node_modules/@fontsource/barlow/files/barlow-latin-400-normal.woff2"); }
+  @font-face { font-family: "B"; font-weight: 500; src: url("node_modules/@fontsource/barlow/files/barlow-latin-500-normal.woff2"); }
+  @font-face { font-family: "JM"; font-weight: 500; src: url("node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2"); }
+  :root { --ink: #eef3f8; --muted: #9db0c4; --warning: #ff7a2f; --caution: #ffc933; --notice: #5fb0ff; --safe: #5fe0a0; --bg: #0b1119; }
+  html, body { margin: 0; background: var(--bg); overflow: hidden; }
+  #frame { position: relative; width: 1280px; height: 720px; overflow: hidden; font-family: "B", sans-serif; color: var(--ink); }
+  canvas { position: absolute; inset: 0; }
+  #ui { position: absolute; inset: 0; }
+  #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(4, 8, 13, .72) 100%); }
+  .el { position: absolute; will-change: transform, opacity; opacity: 0; }
+  .disp, .cap, .el > div { text-shadow: 0 2px 18px rgba(4, 8, 13, .85); }
+  .disp { font-family: "BC", sans-serif; font-weight: 700; text-transform: uppercase; line-height: .95; letter-spacing: .01em; }
+  .kick { font-family: "JM", monospace; font-size: 15px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .label { display: inline-grid; grid-template-columns: auto auto; border: 3px solid var(--c); border-radius: 5px; overflow: hidden; background: rgba(11, 17, 25, .82); }
+  .label b { background: var(--c); color: #0b1119; font-family: "BC"; font-weight: 700; font-size: 30px; letter-spacing: .06em; padding: 10px 16px; }
+  .label span { padding: 10px 18px; font-size: 26px; font-weight: 500; align-self: center; }
+  .card { background: rgba(14, 22, 33, .86); border: 1px solid rgba(160, 185, 215, .28); border-radius: 8px; padding: 18px 22px; }
+  .chip { display: inline-block; font-family: "JM"; font-size: 17px; border: 2px solid var(--c, var(--muted)); color: var(--c, var(--ink)); border-radius: 4px; padding: 3px 10px; margin-right: 8px; background: rgba(11, 17, 25, .7); }
+  .num { font-family: "BC"; font-weight: 700; font-size: 104px; line-height: .9; font-variant-numeric: tabular-nums; }
+  .num small { font-size: 46px; color: var(--muted); font-weight: 600; }
+  .cap { font-size: 20px; color: var(--muted); max-width: 330px; line-height: 1.3; margin-top: 6px; }
+  .tag { font-family: "BC"; font-weight: 600; font-size: 22px; text-transform: uppercase; letter-spacing: .06em; text-align: center; transform-origin: center; white-space: nowrap; }
+  .tag small { display: block; font-family: "JM"; font-size: 12px; color: var(--muted); letter-spacing: .1em; }
+</style></head>
+<body><div id="frame"><canvas id="c" width="1280" height="720"></canvas><div id="vig"></div><div id="ui"></div></div>
+<script src="node_modules/three/build/three.min.js"></script>
+<script src="node_modules/three/examples/js/shaders/CopyShader.js"></script>
+<script src="node_modules/three/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="node_modules/three/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="node_modules/three/examples/js/postprocessing/RenderPass.js"></script>
+<script src="node_modules/three/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="node_modules/three/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script>
+const T = THREE, W = 1280, H = 720;
+// ------------------------------------------------------------------ timeline (set from narration clip lengths)
+const DUR = (window.VO || [11.36, 10.34, 14.71, 18.52, 16.74, 17.14, 15.91, 16.43, 8.96]), LEAD = 1.0, GAP = 1.5;
+const START = []; { let t = LEAD; for (const d of DUR) { START.push(t); t += d + GAP; } }
+const TOTAL = START[8] + DUR[8] + 3.2;
+window.TIMELINE = { START, DUR, TOTAL };
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const ease = (x) => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const out = (x) => 1 - Math.pow(1 - clamp(x), 3);
+const mix = (a, b, k) => a + (b - a) * k;
+const rnd = (i, k) => { const v = Math.sin(i * 127.1 + k * 311.7) * 43758.5453; return v - Math.floor(v); };
+const sceneAt = (t) => { let s = 0; for (let i = 0; i < DUR.length; i++) if (t >= START[i] - GAP * .5) s = i; return s; };
+
+// ------------------------------------------------------------------ renderer
+const renderer = new T.WebGLRenderer({ canvas: document.getElementById('c'), antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H, false); renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap; renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+const scene = new T.Scene(); scene.background = new T.Color(0x0b1119); scene.fog = new T.Fog(0x0b1119, 11, 26);
+const cam = new T.PerspectiveCamera(38, W / H, 0.1, 80);
+scene.add(new T.HemisphereLight(0xbfd6ff, 0x1a2230, 0.55));
+const key = new T.DirectionalLight(0xfff1e0, 1.05); key.position.set(4, 8, 6); key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
+Object.assign(key.shadow.camera, { left: -8, right: 8, top: 8, bottom: -8, near: 1, far: 30 }); key.shadow.bias = -0.0006; scene.add(key);
+const rim = new T.PointLight(0x5fb0ff, 1.3, 30); rim.position.set(-6, 3, -4); scene.add(rim);
+const warm = new T.PointLight(0xff7a2f, 0.9, 22); warm.position.set(5, 1, 4); scene.add(warm);
+const floor = new T.Mesh(new T.PlaneGeometry(80, 80), new T.MeshStandardMaterial({ color: 0x0e1622, roughness: 0.55, metalness: 0.35 }));
+floor.rotation.x = -Math.PI / 2; floor.position.y = -2.2; floor.receiveShadow = true; scene.add(floor);
+const grid = new T.GridHelper(80, 80, 0x26405c, 0x162536); grid.position.y = -2.19; grid.material.transparent = true; grid.material.opacity = 0.55; scene.add(grid);
+const world = new T.Group(); scene.add(world);
+
+// ------------------------------------------------------------------ pages
+const N = 72;
+const tex = (hero) => {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 706; const x = c.getContext('2d');
+  x.fillStyle = '#e9edf2'; x.fillRect(0, 0, 512, 706); x.fillStyle = '#18222e'; x.fillRect(40, 44, hero ? 300 : 220, 16); x.fillStyle = '#b4bfcc';
+  if (!hero) { for (let y = 96; y < 640; y += 26) x.fillRect(40, y, 300 + ((y * 37) % 130), 8); x.fillStyle = '#ff7a2f'; x.fillRect(40, 300, 432, 7); }
+  else { for (let y = 90; y < 220; y += 24) x.fillRect(40, y, 340 + ((y * 31) % 90), 8);
+    x.strokeStyle = '#5b6b7d'; x.lineWidth = 3; for (let r = 0; r < 5; r++) for (let k = 0; k < 3; k++) x.strokeRect(40 + k * 144, 260 + r * 70, 144, 70);
+    x.fillStyle = '#18222e'; x.font = '600 46px sans-serif'; x.textAlign = 'center'; x.fillText('75', 400, 592);
+    x.font = '26px sans-serif'; x.fillStyle = '#5b6b7d'; x.fillText('60', 112, 586); x.fillText('900', 256, 586); x.fillText('ft-lb', 400, 306); x.fillText('in-lb', 256, 306); x.fillText('size', 112, 306); }
+  const t = new T.CanvasTexture(c); t.anisotropy = 8; return t;
+};
+const geo = new T.BoxGeometry(1, 1.38, 0.014);
+const mk = (hero) => { const side = new T.MeshStandardMaterial({ color: 0x9aa8b8, roughness: .9 }), face = new T.MeshStandardMaterial({ map: tex(hero), roughness: .8, color: 0xcfd6de }); return [side, side, side, side, face, face]; };
+const inst = new T.InstancedMesh(geo, mk(false), N - 1); inst.castShadow = true; inst.receiveShadow = true; world.add(inst);
+const hero = new T.Mesh(geo, mk(true)); hero.castShadow = true; world.add(hero);
+const cell = new T.Mesh(new T.PlaneGeometry(0.281, 0.137), new T.MeshBasicMaterial({ color: 0xffc933, transparent: true, opacity: 0 })); cell.position.set(0.281, -0.417, 0.0085); hero.add(cell);
+const cellText = (() => { const c = document.createElement('canvas'); c.width = 144; c.height = 70; const x = c.getContext('2d'); x.fillStyle = '#10161d'; x.font = '700 50px sans-serif'; x.textAlign = 'center'; x.fillText('75', 72, 53);
+  const m = new T.Mesh(new T.PlaneGeometry(0.281, 0.137), new T.MeshBasicMaterial({ map: new T.CanvasTexture(c), transparent: true, opacity: 0 })); m.position.set(0.281, -0.417, 0.009); hero.add(m); return m; })();
+const beam = new T.Mesh(new T.PlaneGeometry(1.02, 0.09), new T.MeshBasicMaterial({ color: 0x5fb0ff, transparent: true, opacity: 0, blending: T.AdditiveBlending })); beam.position.z = 0.012; hero.add(beam);
+
+// particles
+const PN = 420, pg = new T.BufferGeometry(), pp = new Float32Array(PN * 3); pg.setAttribute('position', new T.BufferAttribute(pp, 3));
+const pm = new T.PointsMaterial({ color: 0x8cc8ff, size: 0.07, transparent: true, opacity: 0.9, blending: T.AdditiveBlending, depthWrite: false }); world.add(new T.Points(pg, pm));
+
+// pipeline nodes (scene 4) and knowledge-graph (scene 7)
+const NODE_X = (c) => (c - 3) * 1.25;
+const nodes = []; for (let c = 0; c < 7; c++) { const m = new T.Mesh(new T.CylinderGeometry(0.46, 0.5, 0.08, 40), new T.MeshStandardMaterial({ color: 0x1b2a3c, emissive: 0xff7a2f, emissiveIntensity: 0, roughness: .4, metalness: .5 })); m.position.set(NODE_X(c), -1.05, 0); m.receiveShadow = true; world.add(m); nodes.push(m); }
+const KG = []; { const types = [0xff7a2f, 0x5fb0ff, 0xffc933, 0x5fe0a0];
+  for (let i = 0; i < 26; i++) { const hub = i < 4; const a = hub ? i / 4 * Math.PI * 2 + .5 : rnd(i, 21) * Math.PI * 2, r = hub ? 2.1 : 0.6 + rnd(i, 22) * 3.2;
+    KG.push({ p: new T.Vector3(Math.cos(a) * r, (rnd(i, 23) - .5) * 2.6, Math.sin(a) * r * .7), hub, col: hub ? 0xffffff : types[i % 4] }); } }
+const kgEdges = []; for (let i = 4; i < 26; i++) { let a = i % 4, b = (i * 7) % 4; kgEdges.push([i, a]); if (i % 3 === 0 && a !== b) kgEdges.push([i, b]); if (i % 5 === 0) kgEdges.push([i, 4 + (i * 3) % 22]); }
+const kgGroup = new T.Group(); world.add(kgGroup);
+const kgSph = KG.map((n) => { const m = new T.Mesh(new T.SphereGeometry(n.hub ? 0.2 : 0.11, 20, 20), new T.MeshBasicMaterial({ color: n.col, transparent: true, opacity: 0 })); m.position.copy(n.p); kgGroup.add(m); return m; });
+const kgLineGeo = new T.BufferGeometry(); const kgPos = new Float32Array(kgEdges.length * 6); kgLineGeo.setAttribute('position', new T.BufferAttribute(kgPos, 3));
+const kgLines = new T.LineSegments(kgLineGeo, new T.LineBasicMaterial({ color: 0x7fb8f0, transparent: true, opacity: 0 })); kgGroup.add(kgLines);
+
+// app screens (scene 5): real screenshots of the workbench on floating panels
+const loader = new T.TextureLoader(); const texReady = [];
+const screens = ['ux1.png', 'ux2.png', 'ux3.png'].map((f) => { const g = new T.Group();
+  const tx = new Promise((res) => { const t = loader.load(f, () => res(true), undefined, () => res(false)); t.anisotropy = 8; g.userData.t = t; }); texReady.push(tx);
+  const face = new T.Mesh(new T.PlaneGeometry(4.8, 3.0), new T.MeshBasicMaterial({ map: g.userData.t, transparent: true, toneMapped: false, color: 0xb4b4b4 }));
+  const frame = new T.Mesh(new T.PlaneGeometry(4.92, 3.12), new T.MeshBasicMaterial({ color: 0x35506e, transparent: true })); frame.position.z = -0.01;
+  g.add(frame, face); g.userData.face = face; g.userData.frame = frame; g.visible = false; world.add(g); return g; });
+const UX_AT = [1.4, 7.6, 12.0];
+// ------------------------------------------------------------------ layouts (closed-form in time)
+const FLAT = -Math.PI / 2, SCORES = [79.9, 77.5, 76.3, 69.6, 54.9, 48.9], NAMES = ['Docling', 'PyMuPDF4LLM', 'MinerU', 'LiteParse MD', 'pypdf text', 'LiteParse'];
+const barOf = []; { const tot = SCORES.reduce((a, b) => a + b, 0); SCORES.forEach((v, c) => { const n = Math.round(v / tot * (N - 1)); for (let k = 0; k < n; k++) barOf.push([c, k]); }); }
+const BAR_X = (c) => (c - 2.5) * 0.92 + 2.1;
+let LIT = -1, F = 0;   // set per frame
+const L = [
+  (i, t) => i === 0 ? { p: [2.5, 0.35 + Math.sin(t * .8) * .05, 1.6], r: [-0.18, -0.3 + Math.sin(t * .5) * .06, 0.02], s: 1.9 } : { p: [2.3, -2.15 + i * 0.024, 0], r: [FLAT, 0, (rnd(i, 1) - .5) * 0.6], s: 1.35 },
+  (i, t) => ({ p: [(rnd(i, 2) - .5) * 11, (rnd(i, 3) - .5) * 5 + .6 + Math.sin(t * .6 + i) * .15, (rnd(i, 4) - .5) * 7 - 1], r: [rnd(i, 5) * 6 + t * (0.2 + rnd(i, 8) * 0.3), rnd(i, 6) * 6 + t * 0.25, rnd(i, 7) * 6], s: 0.9 }),
+  (i, t) => { const a = i * 0.42 + t * 0.22; return { p: [Math.cos(a) * 3.0 + 2.2, (i - N / 2) * 0.07 + .3, Math.sin(a) * 3.0 - 1], r: [0, -a + Math.PI / 2, 0], s: 0.95 }; },
+  (i) => { const c = i % 7, k = Math.floor(i / 7), up = c === LIT; return { p: [NODE_X(c), -1.0 + k * 0.04 + (up ? 0.5 : 0), 0], r: [FLAT + 0.42, 0, (rnd(i, 9) - .5) * .3], s: up ? 0.78 : 0.62, hot: up }; },
+  (i, t) => i === 0 ? { p: [2.35, 0.25, 2.4], r: [0, -0.32 + Math.sin(t * .5) * .05, 0], s: 2.5 } : { p: [((i % 12) - 5.5) * 1.05 + 3, (Math.floor(i / 12) - 2.2) * 1.5 + 1, -8], r: [0, 0, 0], s: 0.9 },
+  (i) => ({ p: [((i % 12) - 5.5) * 1.05, (Math.floor(i / 12) - 2.2) * 1.5 + 6, -12], r: [0, 0, 0], s: 0.9 }),
+  (i) => { if (i === 0) return { p: [BAR_X(0), -2.15 + 17 * 0.2 * out(F * 3) + 1.0, 0], r: [-0.25, -0.3, 0], s: 0.8 }; const [c, k] = barOf[i - 1] || [5, 0]; const g = out(F * 3.2 - c * 0.12);
+    return { p: [BAR_X(c), -2.15 + k * 0.2 * g, 0], r: [FLAT, 0, 0], s: 0.6, hot: c === 0 }; },
+  (i, t) => { const g = ease((F - 0.47) * 6);
+    const c = i % 3, k = Math.floor(i / 3), a = c / 3 * Math.PI * 2 + t * 0.15 + 2.4, A = { p: [Math.cos(a) * 2.9 + (k - 12) * 0.03, -0.3 + Math.sin(k * 0.5 + c) * 0.3, Math.sin(a) * 2.2 - .5], r: [0, -a + Math.PI / 2 + (k - 12) * 0.05, 0], s: 0.85 };
+    const n = KG[i % 26], B = { p: [n.p.x + (rnd(i, 30) - .5) * .5, n.p.y + (rnd(i, 31) - .5) * .5 + .4, n.p.z + (rnd(i, 32) - .5) * .5], r: [0, t * .3 + i, 0], s: 0.16 };
+    return { p: A.p.map((v, j) => mix(v, B.p[j], g)), r: A.r.map((v, j) => mix(v, B.r[j], g)), s: mix(A.s, B.s, g) }; },
+  (i, t) => i === 0 ? { p: [0, -1.55, 1.6], r: [-0.5, 0.25 + Math.sin(t * .4) * .1, 0], s: 1.15 } : { p: [(i - N / 2) * 0.055, -1.75, -1.4], r: [0, Math.PI / 2 - 0.22, 0], s: 0.8 }
+];
+const CAM = [
+  { p: [2.6, 1.3, 8.2], l: [0.3, -0.3, 0] }, { p: [-1.5, 1.2, 9.5], l: [0, 0.4, 0] }, { p: [-2.2, 1.6, 9.4], l: [0.8, 0.2, 0] }, { p: [0, 3.0, 8.4], l: [0, -0.6, 0] },
+  { p: [0.4, 0.5, 8.6], l: [0.5, 0.2, 0] }, { p: [0, 0.5, 9.0], l: [0.3, 0.2, 0] }, { p: [-2.4, 1.5, 8.6], l: [0.4, -0.7, 0] }, { p: [-1.6, 1.0, 8.8], l: [0.6, 0.2, 0] }, { p: [0, 1.6, 8.6], l: [0, 0.5, 0] }
+];
+const qA = new T.Quaternion(), qB = new T.Quaternion(), eu = new T.Euler(), m4 = new T.Matrix4(), v3 = new T.Vector3(), sv = new T.Vector3(), col = new T.Color(), cWhite = new T.Color(1, 1, 1), cHot = new T.Color(0xff7a2f);
+const pose = (s, i, t) => L[s](i, t);
+const TRANS = 1.9;
+
+// ------------------------------------------------------------------ overlay elements
+const ui = document.getElementById('ui');
+const E = (html, style, cls = '') => { const d = document.createElement('div'); d.className = 'el ' + cls; d.innerHTML = html; d.style.cssText = style; ui.appendChild(d); return d; };
+const show = (el, a, dy = 0, sc = 1) => { el.style.opacity = a.toFixed(3); el.style.transform = `translateY(${dy.toFixed(1)}px) scale(${sc.toFixed(3)})`; };
+const inOut = (lt, a, b, fade = 0.5) => clamp((lt - a) / fade) * clamp((b - lt) / fade);
+const el = {
+  t1k: E('<span class="kick">A guided tour</span>', 'left:80px;top:150px'),
+  t1: E('<div class="disp" style="font-size:132px">Manual<br>Handling</div>', 'left:76px;top:180px'),
+  t1b: E('<div style="font-size:44px;font-weight:500">Let AI handle your manuals.</div>', 'left:80px;top:452px'),
+  t1c: E('<div style="font-size:26px;color:var(--muted);font-style:italic">The right answer, on the right page.</div>', 'left:80px;top:516px'),
+  w1: E('<div class="disp" style="font-size:96px">Tables.</div>', 'left:90px;top:150px'), w2: E('<div class="disp" style="font-size:96px">Steps.</div>', 'left:90px;top:250px'), w3: E('<div class="disp" style="font-size:96px;color:var(--warning)">Warnings.</div>', 'left:90px;top:350px'),
+  w4: E('<div class="label" style="--c:var(--warning)"><b>WARNING</b><span>A wrong value is worse than no answer.</span></div>', 'left:90px;top:520px'),
+  r0: E('<span class="kick">What the research said</span>', 'left:80px;top:120px'),
+  rA: E('<div class="disp" style="font-size:54px"><span style="color:var(--notice)">A</span> &nbsp;Parsing decides everything</div>', 'left:80px;top:170px'),
+  rB: E('<div class="disp" style="font-size:54px"><span style="color:var(--notice)">B</span> &nbsp;Search works best combined</div>', 'left:80px;top:250px'),
+  rC: E('<div class="disp" style="font-size:54px"><span style="color:var(--notice)">C</span> &nbsp;Grading needs a second opinion</div>', 'left:80px;top:330px'),
+  rD: E('<div class="label" style="--c:var(--caution)"><b>GAP</b><span>No benchmark covers your own manuals.</span></div>', 'left:80px;top:440px'),
+  rE: E('<div class="disp" style="font-size:72px;color:var(--warning)">So we built a bench.</div>', 'left:80px;top:540px'),
+  a0: E('<div class="disp" style="font-size:70px">From manuals to knowledge: seven steps</div>', 'left:80px;top:70px'),
+  a1: E('<div class="card" style="font-size:26px;min-width:520px"><span class="kick" id="a1k"></span><div id="a1t" style="margin-top:6px;font-weight:500"></div></div>', 'left:80px;top:170px'),
+  x0: E('<span class="kick">One real question, end to end</span>', 'left:80px;top:90px'),
+  x1: E('<div class="card" style="width:560px;font-size:30px;font-weight:500;line-height:1.25" id="x1t"></div>', 'left:80px;top:130px'),
+  x2: E('<div><span class="chip" style="--c:var(--safe)">p. 26 ✓</span><span class="chip">p. 32</span><span class="chip">p. 32</span><span class="chip">p. 19</span><span class="chip" style="--c:var(--safe)">p. 26 ✓</span></div>', 'left:80px;top:300px'),
+  x3: E('<div class="card" style="width:560px;font-size:26px;line-height:1.3"><span class="kick">Claude answers</span><div id="x3t" style="margin-top:6px"></div></div>', 'left:80px;top:360px'),
+  x4: E('<div class="disp" style="font-size:64px;color:var(--safe);border:5px solid var(--safe);padding:6px 22px 2px;border-radius:8px;transform-origin:left center">Graded correct</div>', 'left:80px;top:560px'),
+  n1: E('<div class="num"><span id="n1v">0</span><small> / 179</small></div><div class="cap">answers graded correct across twelve manuals</div>', 'left:80px;top:110px'),
+  n2: E('<div class="num"><span id="n2v">0</span><small> / 29</small></div><div class="cap">unanswerable questions met with "not found"</div>', 'left:80px;top:310px'),
+  n3: E('<div class="num"><span id="n3v">0</span><small> / 141</small></div><div class="cap">grades where Jev and Claude agree</div>', 'left:80px;top:510px'),
+  n0: E('<span class="kick">Parser score on manuals</span>', 'left:700px;top:90px'),
+  ux0: E('<span class="kick">The app · workbench</span>', 'left:80px;top:150px'),
+  uxA: E('<div class="disp" style="font-size:76px">See what the<br>machine saw</div><div style="font-size:26px;color:var(--muted);margin-top:10px;max-width:420px">Each printed page beside the parsed text.</div>', 'left:80px;top:190px'),
+  uxB: E('<div class="disp" style="font-size:76px">Check every<br>answer</div><div style="font-size:26px;color:var(--muted);margin-top:10px;max-width:420px">Expected answer, Claude\'s answer, grade and pages searched.</div>', 'left:80px;top:190px'),
+  uxC: E('<div class="disp" style="font-size:76px">Ask, correct,<br>save</div><div style="font-size:26px;color:var(--muted);margin-top:10px;max-width:420px">New questions become new tests.</div>', 'left:80px;top:190px'),
+  u1: E('<div class="disp" style="font-size:64px">The technician</div><div style="font-size:26px;color:var(--muted)">an answer they can check</div>', 'left:80px;top:130px'),
+  u2: E('<div class="disp" style="font-size:64px">The engineer</div><div style="font-size:26px;color:var(--muted)">a parser chosen on evidence</div>', 'left:80px;top:270px'),
+  u3: E('<div class="disp" style="font-size:64px">The safety lead</div><div style="font-size:26px;color:var(--muted)">no warning ever lost</div>', 'left:80px;top:410px'),
+  g0: E('<span class="kick">Next</span><div class="disp" style="font-size:88px">A knowledge graph</div><div style="font-size:28px;color:var(--muted);margin-top:8px">linking related manuals</div>', 'left:80px;top:120px'),
+  g1: E('<div class="disp" style="font-size:50px;color:var(--warning)">Which unit.</div>', 'left:80px;top:400px'), g2: E('<div class="disp" style="font-size:50px;color:var(--notice)">Which part.</div>', 'left:80px;top:465px'), g3: E('<div class="disp" style="font-size:50px;color:var(--caution)">Which page.</div>', 'left:80px;top:530px'),
+  e0: E('<div class="disp" style="font-size:60px;text-align:center;width:1280px">Yours come next.</div>', 'left:0;top:120px'),
+  e1: E('<div class="disp" style="font-size:124px;text-align:center;width:1280px">Manual Handling</div>', 'left:0;top:130px'),
+  e2: E('<div style="font-size:46px;font-weight:500;text-align:center;width:1280px">Let AI handle your manuals.</div>', 'left:0;top:268px'),
+  e2b: E('<div style="font-size:26px;color:var(--muted);font-style:italic;text-align:center;width:1280px">The right answer, on the right page.</div>', 'left:0;top:332px'),
+  e3: E('<div class="kick" style="text-align:center;width:1280px">12 manuals · 293 pages · 208 test questions · 7 parsers</div>', 'left:0;top:392px')
+};
+const tags = NAMES.map((n, c) => E(`${n}<small>${SCORES[c].toFixed(1)}</small>`, 'left:0;top:0', 'tag'));
+const stepTags = ['Parse', 'Chunk', 'Search', 'Rerank', 'Answer', 'Grade', 'Label'].map((n, c) => E(`${n}<small>0${c + 1}</small>`, 'left:0;top:0', 'tag'));
+const STEP_INFO = ['Docling turns each page into text and tables', 'Passages that keep their page number and heading', 'Keyword and embedding search, fused', 'A cross-encoder re-reads the top 30', 'Claude answers from five passages and cites the page', 'Jev grades; uncertain ones go to Claude', 'People add harder questions in the workbench'];
+const STEP_AT = [2.6, 4.2, 7.4, 8.5, 9.4, 12.9, 16.2];
+const QUESTION = 'What dry torque do the capscrews on a size 60 coupling get, in ft-lb?', ANSWER = 'Capscrews on a size 60 coupling get a dry torque of 75 ft-lb (900 in-lb). Do not lubricate the capscrew threads [1].';
+const project = (x, y, z) => { v3.set(x, y, z).applyMatrix4(world.matrixWorld).project(cam); return [(v3.x * .5 + .5) * W, (-v3.y * .5 + .5) * H]; };
+
+// ------------------------------------------------------------------ post
+const composer = new T.EffectComposer(renderer); composer.addPass(new T.RenderPass(scene, cam));
+const bloom = new T.UnrealBloomPass(new T.Vector2(W, H), 0.55, 0.6, 0.86); composer.addPass(bloom);
+
+// ------------------------------------------------------------------ one frame
+window.renderAt = (t) => {
+  const s = sceneAt(t), st = START[s] - GAP * .5, local = t - st, lt = t - START[s]; F = clamp(lt / DUR[s]);
+  LIT = -1; if (s === 3) for (let k = 0; k < 7; k++) if (lt >= STEP_AT[k]) LIT = k;
+  // pages
+  for (let i = 0; i < N; i++) {
+    const b = pose(s, i, t); let p = b.p, r = b.r, sc = b.s, hot = b.hot ? 1 : 0;
+    const k = s === 0 ? 1 : ease((local - rnd(i, 40) * 0.55) / (TRANS - 0.55));
+    eu.set(...r); qB.setFromEuler(eu);
+    if (k < 1) { const a = pose(s - 1, i, t), prevF = F, prevLit = LIT; eu.set(...a.r); qA.setFromEuler(eu); qA.slerp(qB, k); qB.copy(qA); p = a.p.map((v, j) => mix(v, b.p[j], k)); sc = mix(a.s, b.s, k); hot *= k; }
+    v3.set(...p);
+    if (s === 0 && i > 0) { const drop = out((t - 0.2 - i * 0.035) / 1.3); v3.y += (1 - drop) * 9; }
+    if (i === 0) { hero.position.copy(v3); hero.quaternion.copy(qB); hero.scale.setScalar(sc); }
+    else { sv.setScalar(sc); m4.compose(v3, qB, sv); inst.setMatrixAt(i - 1, m4); inst.setColorAt(i - 1, col.copy(cWhite).lerp(cHot, hot * .9)); }
+  }
+  inst.instanceMatrix.needsUpdate = true; inst.instanceColor.needsUpdate = true;
+  // hero highlight and scan beam
+  const glow = s === 0 ? clamp((lt - 3.2) / 1.2) : s === 4 ? clamp((lt - 6.8) / .8) : s === 8 ? 1 : 0;
+  cell.material.opacity = glow * (0.85 + Math.sin(t * 5) * 0.1); cellText.material.opacity = glow;
+  const bt = s === 4 ? clamp((lt - 5.6) / 1.6) : s === 0 ? clamp((lt - 1.6) / 1.8) : -1;
+  beam.material.opacity = bt > 0 && bt < 1 ? 0.8 * Math.sin(bt * Math.PI) : 0; beam.position.y = mix(0.66, -0.42, ease(bt));
+  // pipeline nodes
+  const nodeVis = s === 3 ? clamp(local / 1.5) * clamp((DUR[3] + GAP - local) / .8) : 0;
+  nodes.forEach((n, c) => { n.visible = nodeVis > 0.01; n.scale.setScalar(Math.max(0.001, nodeVis)); n.material.emissiveIntensity = c === LIT ? 1.6 : c < LIT ? 0.35 : 0; });
+  // particles
+  for (let i = 0; i < PN; i++) { const b3 = i * 3, a = rnd(i, 50), bb = rnd(i, 51), c = rnd(i, 52);
+    if (s === 3) { const reach = LIT < 0 ? -4.4 : NODE_X(LIT) + 0.3, x = -4.6 + ((t * (0.9 + a) + bb * 9) % 9.4); pp[b3] = Math.min(x, reach + (x > reach ? (c - .5) * .5 : 0)); pp[b3 + 1] = -0.55 + Math.sin(x * 2.2 + a * 6 + t) * 0.2 + (x > reach ? c * 1.2 : 0); pp[b3 + 2] = (c - .5) * 0.9; }
+    else { pp[b3] = (a - .5) * 16; pp[b3 + 1] = -2.2 + ((bb * 8 + t * (0.12 + c * 0.2)) % 8); pp[b3 + 2] = (c - .5) * 10 - 1; } }
+  pg.attributes.position.needsUpdate = true; pm.color.setHex(s === 3 ? 0xffa25e : 0x8cc8ff); pm.size = s === 3 ? 0.085 : 0.05;
+  // knowledge graph
+  const kg = s === 7 ? ease((F - 0.5) * 5) * clamp((DUR[7] + GAP * .5 - lt) / .7) : 0; kgGroup.visible = kg > 0.01; kgGroup.position.set(2.3, 0.4, 0); kgGroup.rotation.y = t * 0.22;
+  kgSph.forEach((m, i) => { const a = clamp(kg * 2 - rnd(i, 60) * .8); m.material.opacity = a; m.scale.setScalar(.6 + a * .4 + (KG[i].hub ? Math.sin(t * 3 + i) * .08 : 0)); });
+  kgEdges.forEach(([a, b2], i) => { const g = clamp(kg * 2.4 - 0.5 - rnd(i, 61) * .9), A = KG[a].p, B = KG[b2].p; kgPos.set([A.x, A.y, A.z, mix(A.x, B.x, g), mix(A.y, B.y, g), mix(A.z, B.z, g)], i * 6); });
+  kgLineGeo.attributes.position.needsUpdate = true; kgLines.material.opacity = kg * 0.75;
+  // app screens
+  const uxVis = s === 5 ? clamp(local / 1.4) * clamp((DUR[5] + GAP * .5 - lt) / .7) : 0; let focus = 0; if (s === 5) for (let k = 0; k < 3; k++) if (lt >= UX_AT[k]) focus = k;
+  screens.forEach((g, k) => { g.visible = uxVis > 0.01; if (!g.visible) return; const since = lt - UX_AT[k], f = k === focus ? ease(since / .9) : k < focus ? 1 - ease((lt - UX_AT[k + 1]) / .9) : 0, slot = k - focus;
+    const rest = [4.6 + (k > focus ? (k - focus - 1) * .25 : 0), k > focus ? -1.5 - (k - focus - 1) * .15 : 2.1, -1.2 - Math.abs(slot) * .6];
+    g.position.set(mix(rest[0], 2.2, f), mix(rest[1], 0.25 + Math.sin(t * .7) * .03, f), mix(rest[2], 2.2, f)); g.rotation.set(0, mix(-0.55, -0.2, f), 0); g.scale.setScalar(mix(0.38, 1, f) * (0.6 + 0.4 * out(local / 1.4)));
+    g.userData.face.material.opacity = uxVis * mix(0.55, 1, f); g.userData.frame.material.opacity = uxVis; g.renderOrder = k === focus ? 5 : 1; });
+  // camera
+  const ck = s === 0 ? 1 : ease(local / (TRANS + .6)), ca = CAM[Math.max(0, s - 1)], cb = CAM[s], dr = Math.sin(t * 0.21) * 0.35, push = s === 0 ? (1 - out(t / 6)) * 3 : 0;
+  cam.position.set(mix(ca.p[0], cb.p[0], ck) + dr, mix(ca.p[1], cb.p[1], ck) + Math.sin(t * .17) * .12, mix(ca.p[2], cb.p[2], ck) + push - F * 0.5);
+  cam.lookAt(mix(ca.l[0], cb.l[0], ck), mix(ca.l[1], cb.l[1], ck), 0); cam.updateMatrixWorld(); world.updateMatrixWorld(true);
+  warm.intensity = 0.9 + (s === 3 || s === 6 ? 0.6 : 0); bloom.strength = 0.5 + (s === 7 ? kg * 0.35 : 0);
+  // overlays
+  for (const k in el) show(el[k], 0);
+  tags.forEach((x) => show(x, 0)); stepTags.forEach((x) => show(x, 0));
+  const up = (e, at, end = DUR[s] + GAP * .4, dy = 26) => { const a = inOut(lt, at, end, .45); show(e, a, (1 - out((lt - at) / .7)) * dy); };
+  if (s === 0) { up(el.t1k, 6.2); up(el.t1, 6.5, undefined, 40); up(el.t1b, 8.6); up(el.t1c, 9.6); }
+  if (s === 1) { up(el.w1, 1.4); up(el.w2, 2.2); up(el.w3, 3.0); const a = inOut(lt, 6.2, DUR[1] + GAP * .4, .3); show(el.w4, a, 0, 0.9 + out((lt - 6.2) / .4) * .1); }
+  if (s === 2) { up(el.r0, 0.4); up(el.rA, 2.4); up(el.rB, 5.0); up(el.rC, 7.0); up(el.rD, 9.4); up(el.rE, 12.6); }
+  if (s === 3) { up(el.a0, 0.2); if (LIT >= 0) { document.getElementById('a1k').textContent = `Step ${LIT + 1} · ${stepTags[LIT].firstChild.textContent}`; document.getElementById('a1t').textContent = STEP_INFO[LIT]; show(el.a1, inOut(lt, STEP_AT[0], DUR[3] + GAP * .4, .3), (1 - out((lt - STEP_AT[LIT]) / .35)) * 10); }
+    stepTags.forEach((x, c) => { const [px, py] = project(NODE_X(c), -1.35, 0.9); x.style.left = (px - 60) + 'px'; x.style.top = py + 'px'; x.style.width = '120px'; x.style.color = c === LIT ? 'var(--warning)' : c < LIT ? 'var(--ink)' : 'var(--muted)'; show(x, nodeVis, 0, c === LIT ? 1.18 : 1); }); }
+  if (s === 4) { up(el.x0, 0.3); up(el.x1, 1.9); document.getElementById('x1t').textContent = QUESTION.slice(0, Math.round(QUESTION.length * clamp((lt - 2.1) / 3.6)));
+    up(el.x2, 6.6); up(el.x3, 8.6); const n = Math.round(ANSWER.length * clamp((lt - 8.9) / 4.6)); document.getElementById('x3t').textContent = ANSWER.slice(0, n);
+    const a = inOut(lt, 14.6, DUR[4] + GAP * .4, .18); show(el.x4, a, 0, 1 + (1 - out((lt - 14.6) / .3)) * .5); }
+  if (s === 5) { up(el.ux0, 0.5); up(el.uxA, UX_AT[0], UX_AT[1]); up(el.uxB, UX_AT[1], UX_AT[2]); up(el.uxC, UX_AT[2]); }
+  if (s === 6) { up(el.n1, 0.3); up(el.n2, 7.4); up(el.n3, 12.2); up(el.n0, 4.6);
+    document.getElementById('n1v').textContent = Math.round(169 * out((lt - .4) / 2.4)); document.getElementById('n2v').textContent = Math.round(29 * out((lt - 7.6) / 2)); document.getElementById('n3v').textContent = Math.round(140 * out((lt - 12.3) / 2));
+    tags.forEach((x, c) => { const [px, py] = project(BAR_X(c), -2.15, 0.75); x.style.left = (px - 70) + 'px'; x.style.top = (py + 4) + 'px'; x.style.width = '140px'; x.style.fontSize = '18px'; x.style.color = c === 0 ? 'var(--warning)' : 'var(--ink)'; show(x, inOut(lt, 1.2 + c * .15, DUR[6] + GAP * .4, .4)); }); }
+  if (s === 7) { const end = DUR[7] * 0.47; up(el.u1, 1.0, end); up(el.u2, 3.5, end); up(el.u3, 5.6, end); up(el.g0, 8.3); up(el.g1, 12.0); up(el.g2, 12.9); up(el.g3, 13.8); }
+  if (s === 8) { const a = inOut(lt, 2.1, 3.9, .4); show(el.e0, a, (1 - out((lt - 2.1) / .6)) * 20); show(el.e1, clamp((lt - 4.0) / .6), (1 - out((lt - 4.0) / .8)) * 30); show(el.e2, clamp((lt - 5.3) / .6)); show(el.e2b, clamp((lt - 6.5) / .6)); show(el.e3, clamp((lt - 7.4) / .6)); }
+  composer.render();
+  const fade = Math.min(clamp(t / 0.8), clamp((TOTAL - t) / 1.2)); document.getElementById('frame').style.opacity = fade;
+  return s;
+};
+window.ready = Promise.all([document.fonts.ready, ...texReady]).then(() => true);
+</script></body></html>

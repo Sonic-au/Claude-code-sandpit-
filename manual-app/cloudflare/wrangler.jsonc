@@ -1,0 +1,34 @@
+// Manual Handling on Cloudflare: one Worker serves the app (static assets), the API (src/worker.js),
+// manual files (R2, falling back to the files shipped with the app) and the library database (D1).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "manual-handling",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-10-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "none"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "manual-handling",
+      // Replace with the id printed by `npx wrangler d1 create manual-handling` (see DEPLOY.md).
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    { "binding": "FILES", "bucket_name": "manual-handling-files" }
+  ],
+  "vars": {
+    "MH_MODEL": "claude-opus-5-5",
+    "MH_EFFORT": "medium",
+    "MH_ASKS_PER_CLIENT_PER_HOUR": "30",
+    "MH_ASKS_PER_DAY": "500"
+  },
+  "observability": { "enabled": true }
+  // Secret, set with `npx wrangler secret put ANTHROPIC_API_KEY` (never in this file).
+}
